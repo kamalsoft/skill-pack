@@ -1,0 +1,29 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor and local settings
+.vscode/
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+.claude/settings.local.json
+
+# Dependencies and build output
+node_modules/
+out/
+dist/
+coverage/
+.vscode-test/
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# Agent memory
+.agent-memory/
