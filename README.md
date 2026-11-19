@@ -27,7 +27,7 @@ Links in this guide point to the documentation in the `docs/` folder:
 - Full installation and troubleshooting guide: [docs/DOCUMENTATION.md](docs/DOCUMENTATION.md)
 - Package repository: [github.com/kamalsoft/skill-pack](https://github.com/kamalsoft/skill-pack).
 
-Version 1.0.0 · License MIT ([LICENSE.MD](LICENSE.MD))
+Version 2.1.0 · License MIT ([LICENSE.MD](LICENSE.MD))
 
 ## What you need
 
@@ -46,10 +46,10 @@ Installing is two steps: install the extension once, then install the skills int
 
 ### Step 1: Install the extension
 
-The extension is not on the VS Code Marketplace yet. Install it from the `skill-pack-1.0.0.vsix` file, either from a terminal:
+The extension is not on the VS Code Marketplace yet. Download [`skill-pack-2.1.0.vsix`](https://github.com/kamalsoft/skill-pack/raw/main/binary/skill-pack-2.1.0.vsix) from the `binary/` folder, then install it, either from a terminal:
 
 ```bash
-code --install-extension skill-pack-1.0.0.vsix
+code --install-extension skill-pack-2.1.0.vsix
 ```
 
 or from VS Code: open the Extensions view (`⇧⌘X`), click the `…` menu at the top, choose **Install from VSIX…**, select the file, and reload VS Code if asked.
@@ -195,4 +195,4 @@ The compliance skills report evidence that is present or missing. They do not ce
 
 RLM Agent Skills is released under the MIT licence. Copyright (c) 2026 kamalsoft. The full text is in [LICENSE.MD](LICENSE.MD).
 
-Version 1.0.0.
+Version 2.1.0.
