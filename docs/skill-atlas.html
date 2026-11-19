@@ -383,7 +383,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "docLabel": "report",
      "note": "Report. The agent checks the serious findings against the source and writes the report with file and line."
     }
-   ]
+   ],
+   "example": "Run: rlm-security-audit on src/\n3 chunks reviewed. 1 chunk failed and was re-run.\n2 findings, each with path:line, severity and a fix.\nNot checked: files over the size limit (listed by scan)."
   },
   {
    "id": "rlm-security-audit",
@@ -481,7 +482,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "docLabel": "findings",
      "note": "Report. Confirmed findings are written with path, line, severity and a fix. Secret values appear as <redacted>."
     }
-   ]
+   ],
+   "example": "Summary: 4 findings in 8 files (1 high, 2 medium, 1 low).\n[high] auth.py:42  Token compared with == and logged at line 57 as <redacted>.\n       Fix: hmac.compare_digest; delete the log line.\n[medium] api.ts:118  User input joined into a SQL string.\n       Fix: parameterised query.\nDismissed: crypto.py:9, md5 used only as a cache key.\nNot checked: runtime configuration, dependencies (see dependency-audit)."
   },
   {
    "id": "rlm-refactor-planner",
@@ -580,6 +582,19 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "Classify. Each file is placed by its coupling: stable, move to another module, or split because it mixes unrelated code."
     },
     {
+     "layout": "gate",
+     "pass": [
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true
+     ],
+     "note": "Verify. Each cycle and each high-impact recommendation is checked in the source before it is proposed. Unconfirmed couplings move down."
+    },
+    {
      "layout": "timeline",
      "at": [
       0.55,
@@ -597,7 +612,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "docLabel": "plan",
      "note": "Report. The phased plan lists the stable zones, so reviewers know what must not change."
     }
-   ]
+   ],
+   "example": "Cycle: billing/ -> invoice.py -> pay.py -> billing/ (3 files).\nPhase 1 (small, tested): move the report helpers out of pay.py into utils.py.\n        Test: report_test. Stable zone: db.py, utils.py.\nPhase 2: split billing/ into rates and charges, keeping the public API.\nNot checked: dynamic imports, dependency-injection wiring."
   },
   {
    "id": "rlm-doc-generator",
@@ -665,7 +681,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "docLabel": "module pages",
      "note": "Pages. One page per module, plus an overview of how the modules connect."
     }
-   ]
+   ],
+   "example": "billing/invoice.md\nPurpose: builds and totals invoices.\nPublic: create_invoice(order) -> Invoice (signature checked against source).\nUndocumented: _legacy_export, listed rather than described.\nDepends on: pay, tax (see overview).\nNot checked: behaviour in other services."
   },
   {
    "id": "rlm-test-gap-analysis",
@@ -742,7 +759,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "docLabel": "gaps",
      "note": "Report. Each gap comes with an example test to add."
     }
-   ]
+   ],
+   "example": "Gaps, ranked by risk:\n1. High: auth.py, token expiry branch is untested.\n   Test: token with expires_at in the past -> expect 401.\n2. High: tax.py, rounding of negative amounts is untested.\n   Test: round_tax(-0.005) -> expect -0.01.\nWeak test: test_pay.py::test_refund checks no exception, not the balance.\nNot checked: files the coverage report excludes."
   },
   {
    "id": "rlm-migration-planner",
@@ -826,7 +844,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
      ],
      "note": "Phases. Confirmed changes are grouped into phases. Each phase ships alone and has a rollback step."
     }
-   ]
+   ],
+   "example": "Inventory: 6 uses in web/. 4 have a direct replacement, 2 need a decision\n(findDOMNode, Legacy Context).\nPhase 1: ReactDOM.render -> createRoot in index.tsx.\n        Rollback: keep the old call behind a flag for one release.\nPhase 2: Legacy Context -> new Context API, after the decision.\nNot checked: React 18 compatibility of third-party libraries."
   },
   {
    "id": "rlm-log-triage",
@@ -918,7 +937,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "docLabel": "likely causes",
      "note": "Rank. Likely causes are ranked. Each one cites the log lines that support it."
     }
-   ]
+   ],
+   "example": "Window: 14:00-14:30 UTC. Files read: 4. Skipped: 1 (.gz, not decompressed).\nCluster 'db timeout': 4 lines, first 14:05:12, last 14:21:40, payments-api.\nLikely root cause (ranked):\n1. Connection pool exhausted after the 14:05 deploy. Evidence: lines 212, 230.\n   Confirm: pool metrics. Mitigate: raise the pool size and the timeout.\nNot checked: compressed files, time outside the window."
   },
   {
    "id": "rlm-privacy-review",
@@ -1013,7 +1033,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "docLabel": "inventory",
      "note": "Report. An inventory of fields, flows and retention gaps. No personal values are copied."
     }
-   ]
+   ],
+   "example": "Inventory: email (signup form -> users table; log line 88).\n           card number (payments -> analytics).\nFlow: email sent to a third-party analytics service (services/track.py:31).\nRetention gap: ip address logged with no expiry (services/log.py:12).\nFinding (high): card number in the analytics payload.\n         Control that closes it: remove the field before sending.\nNot checked: database backups, third-party consoles."
   },
   {
    "id": "code-review",
@@ -1090,7 +1111,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "docLabel": "verdict",
      "note": "Verdict. The report gives a verdict, the ranked findings and the tests to run."
     }
-   ]
+   ],
+   "example": "Verdict: request changes.\nblocker  auth.py:42  A token still works after logout.\n         Sequence: log in, log out, call the API with the old token -> accepted.\n         Fix: check the revocation list in the token check.\nmajor    db.py:88  Missing index on the new query. Fix: add it in the migration.\nTests to run: test_api.py::test_logout_token_rejected.\nNot checked: runtime behaviour in production."
   },
   {
    "id": "dependency-audit",
@@ -1179,7 +1201,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
      ],
      "note": "Plan. Patch upgrades come first, then minor, then major with breaking changes listed. The skill changes nothing itself."
     }
-   ]
+   ],
+   "example": "Summary: 2 high, 1 medium. Top actions: upgrade lodash, upgrade axios, replace left-pad.\nlodash 4.17.15 | prototype pollution | high | fixed in 4.17.21 | direct | patch\nUpgrade plan: patch updates first, then minor, then major with breaking changes listed.\nNot checked: private registries."
   },
   {
    "id": "release-notes",
@@ -1258,7 +1281,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "docLabel": "release notes",
      "note": "Notes. Each entry traces to a commit. Breaking changes state the step users must take."
     }
-   ]
+   ],
+   "example": "Highlights: CSV export and dark mode are new. The v1 API is removed.\nBreaking: The v1 API was removed. Use /v2/ instead (see upgrade steps).\nFeatures: Added CSV export (#812). Added dark mode (#813).\nFixes: Fixed the login loop (#811).\nEach entry is one line, past tense, with a link to its pull request."
   },
   {
    "id": "api-contract-review",
@@ -1352,7 +1376,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "docLabel": "change table",
      "note": "Table. Each change lists its rule and the consumers that may break."
     }
-   ]
+   ],
+   "example": "Verdict: breaking. A version plan is needed.\nDELETE /orders/{id}  breaking  api/openapi.yaml:88  mobile app\n  Migration: POST /orders/{id}/cancel.\nPOST /users: email now required  breaking.\nGET /orders: page parameter added (optional)  non-breaking.\nNot checked: consumers outside this repository."
   },
   {
    "id": "threat-model",
@@ -1474,7 +1499,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "docLabel": "threat register",
      "note": "Register. Each threat, its control and any gap are listed for review."
     }
-   ]
+   ],
+   "example": "T-03  Spoofing  Payments webhook accepts unsigned requests.\n     Control: signature check (webhook.py:20).\n     Gap: the check is not applied to the /v1 route.\n     Likelihood: medium. Impact: high. Owner: payments lead.\nTop action: apply the signature check to /v1.\nNot checked: cloud IAM, network rules."
   },
   {
    "id": "cicd-pipeline-review",
@@ -1553,7 +1579,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "docLabel": "findings",
      "note": "Report. Findings are listed with the trigger that makes each one exploitable."
     }
-   ]
+   ],
+   "example": "Verdict: block.\n[critical] .github/workflows/deploy.yml:12  A pull_request_target job checks out\n           fork code and reads secrets.PROD_KEY.\n           Trigger: a pull request from a fork. Fix: use pull_request.\n[high] setup-node@v3 is pinned by tag, not by commit SHA.\nNot checked: branch protection, environment reviewers."
   },
   {
    "id": "stack-auditor",
@@ -1630,7 +1657,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "docLabel": "findings",
      "note": "Report. Each finding names the file, the line and the fix."
     }
-   ]
+   ],
+   "example": "Verdict: pass with findings.\n[high] docker-compose.yml:14  Database password in plain text.\n       Fix: read it from an env file or a secret.\n[medium] nginx.conf:3  Port 8080 is also used by app.\nTools run: hadolint not installed, not run.\nNot checked: runtime behaviour, cloud settings."
   },
   {
    "id": "trust-layer-validator",
@@ -1712,7 +1740,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "docLabel": "findings",
      "note": "Report. Findings name the file, the rule and the fix. No key values are copied."
     }
-   ]
+   ],
+   "example": "Verdict: block.\n[high] keys.env:2  A private key is committed. Fix: remove it and rotate the key.\n[medium] credential.jsonld:4  The @context is fetched over http.\n         Input that breaks it: an attacker swaps the remote context.\nNot checked: runtime key storage, deployment configuration."
   },
   {
    "id": "incident-postmortem",
@@ -1806,7 +1835,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
      ],
      "note": "Actions. Each action gets an owner role, a date and a type: prevent, detect or mitigate."
     }
-   ]
+   ],
+   "example": "Summary: 40 minutes of failed checkouts.\nTimeline (sourced): 14:05 deploy -> 14:12 errors up -> 14:31 rollback -> 14:40 recovered.\nRoot cause: connection pool exhausted (triage report, cluster 1).\nContributing: the alert fired 8 minutes late.\nAction [prevent]: raise the pool size. Owner: platform lead. Due: 2026-12-05.\nOpen question: who was paged, and when?\nNot checked: chat history was not provided."
   },
   {
    "id": "compliance-control-check",
@@ -1890,7 +1920,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "docLabel": "control matrix",
      "note": "Matrix. Present, partial and absent controls are listed. Controls that need evidence from outside the repository are marked."
     }
-   ]
+   ],
+   "example": "Framework: internal policy docs/controls.md, version 1.\nAC-2 Access reviews  partial  review job in ci.yml:40\n  Gap: no record of a completed review. Closing artefact: signed quarterly review.\n  Owner: security lead.\nIR-4 Incident handling  absent  no runbook in the repository. Owner: operations.\nOutside the repository: staff training records."
   },
   {
    "id": "audit-evidence-collector",
@@ -1954,7 +1985,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "docLabel": "evidence index",
      "note": "Index. The index lists each item with its hash. The review approval needs the hosting CLI, so it is not collected and is left out here."
     }
-   ]
+   ],
+   "example": "Evidence index: 6 items, each with a SHA-256 hash.\nCoverage: AC-2 supported by 2 items. IR-4 has none.\nGaps: review approvals not collected (hosting CLI unavailable).\nCollection record: date, commands and tool versions are recorded.\nNot checked: approvals, anything after the collection date."
   },
   {
    "id": "license-attribution",
@@ -2023,7 +2055,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "docLabel": "NOTICE",
      "note": "NOTICE. The attribution text lists each kept package with its licence. Violations need a decision from legal."
     }
-   ]
+   ],
+   "example": "Policy used: permissive, plus LGPL with dynamic linking (from the user).\nSummary: 4 permissive, 2 copyleft, 1 unknown. Violations: 1.\nViolation: gpl-lib 3.0, GPL-3.0, copyleft, not allowed. Action: replace or approve.\nNOTICE draft, grouped by licence: MIT (react, lodash).\nNot checked: distributed binaries, anything needing a legal decision."
   },
   {
    "id": "memory-manager",
@@ -2086,7 +2119,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "storeLabel": "memory",
      "note": "Record. The new answer is stored with the files it used and the symbols it names. Secret-looking values are removed first."
     }
-   ]
+   ],
+   "example": "Recalled for 'invoice tax':\n  tax rules: fresh.\n  billing notes: stale. billing/invoice.py changed since the answer was written.\nRecorded: the answer, with 3 files and 2 symbols. Secret-looking values removed."
   },
   {
    "id": "token-saver",
@@ -2145,7 +2179,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "docLabel": "short reply",
      "note": "Output. The short reply. Verdicts, findings and tests to run are kept whenever another skill needs them."
     }
-   ]
+   ],
+   "example": "Before: 212 words, with a lead-in, a repeated code block and a closing summary.\nAfter:  'Fixed rounding in tax.py:31. Test added.'\n        plus the changed lines only. Verdicts and tests to run are kept."
   }
  ]
 }
@@ -2341,6 +2376,8 @@ function renderInfo() {
       <dt>Output</dt><dd>${esc(skill.output)}</dd>
       <dt>Items</dt><dd>${skill.items.map((x) => esc(x)).join(', ')}</dd>
     </dl>
+    <h4>What you get (illustrative, not real output)</h4>
+    <pre><code>${esc(skill.example || "")}</code></pre>
     <h4>Example prompt</h4>
     <pre><code>${esc(skill.prompt)}</code></pre>
     <div class="pc">
