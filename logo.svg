@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 64" width="420" height="64" role="img" aria-label="RLM Agent Skills">
+<title>RLM Agent Skills</title>
+<style>.i{fill:#1b2430}.a{fill:#1c6d75}.w{fill:#1b2430;font:700 30px 'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif}.s{fill:#55606d;font:500 15px 'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif;letter-spacing:.08em}</style>
+<rect x="4" y="4" width="26" height="26" rx="6" class="i"/><rect x="34" y="4" width="26" height="26" rx="6" class="i" opacity=".78"/><rect x="4" y="34" width="26" height="26" rx="6" class="i" opacity=".78"/><rect x="34" y="34" width="11.5" height="11.5" rx="3" class="i" opacity=".55"/><rect x="48.5" y="34" width="11.5" height="11.5" rx="3" class="i" opacity=".55"/><rect x="34" y="48.5" width="11.5" height="11.5" rx="3" class="i" opacity=".55"/><rect x="48.5" y="48.5" width="11.5" height="11.5" rx="3" class="a"/>
+<text x="80" y="34" class="w">RLM Agent Skills</text>
+<text x="81" y="56" class="s">SPLIT · REVIEW · MERGE</text>
+</svg>
