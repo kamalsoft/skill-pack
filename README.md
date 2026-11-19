@@ -15,8 +15,10 @@ The extension makes no model calls and needs no API key. It writes skill files i
 
 Links in this guide point to the documentation in the `docs/` folder:
 
+- Visual guide, with a 3D view of each skill and install steps: [kamalsoft.github.io/skillpack](https://kamalsoft.github.io/skillpack/). The source is [docs/skill-atlas.html](docs/skill-atlas.html).
 - Skill-by-skill reference, with examples and pros and cons: [docs/SKILLS.md](docs/SKILLS.md)
 - Full installation and troubleshooting guide: [docs/DOCUMENTATION.md](docs/DOCUMENTATION.md)
+- Package repository: [github.com/kamalsoft/skill-pack](https://github.com/kamalsoft/skill-pack). Source code: [github.com/kamalsoft/vscode-rlm](https://github.com/kamalsoft/vscode-rlm).
 
 Version 1.0.0 · License MIT ([LICENSE.MD](LICENSE.MD))
 
