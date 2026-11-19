@@ -42,6 +42,8 @@ Version 1.0.0 · License MIT ([LICENSE.MD](LICENSE.MD))
 
 Installing is two steps: install the extension once, then install the skills into each project that uses them.
 
+![Download the .vsix from kamalsoft.github.io/skillpack, install it with Install from VSIX…, then run RLM: Install Agent Skills and keep the defaults. The extension installs the 14 default skills in .github/skills/ and reports 23 files written.](docs/install.gif)
+
 ### Step 1: Install the extension
 
 The extension is not on the VS Code Marketplace yet. Install it from the `skill-pack-1.0.0.vsix` file, either from a terminal:
