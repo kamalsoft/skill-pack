@@ -28,6 +28,7 @@
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 body {
   margin: 0; background: var(--bg); color: var(--ink);
   font: 15px/1.5 "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -149,6 +150,39 @@ details p { margin: 6px 0 0; color: var(--muted); }
 .note p { margin: 0; }
 .note #note { font-size: 15px; }
 .counts { margin-top: 6px !important; color: var(--muted); font-size: 13px; }
+.howto { margin-top: 8px !important; font-size: 14px; }
+.howto { color: var(--ink); }
+.outcome-wrap { margin-top: 18px; }
+.oc-head { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.oc-tag { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.verdict { font-size: 17px; font-weight: 700; color: #fff; border-radius: 8px; padding: 6px 12px; }
+.v-block { background: #b4233f; } .v-warn { background: #b7791f; } .v-pass { background: #1f9d6b; } .v-info { background: #2f6fd6; }
+.t-critical { background: #b4233f; } .t-high { background: #d6456a; } .t-medium { background: #b7791f; }
+.t-low { background: #2f6fd6; } .t-info { background: #64748b; } .t-ok { background: #1f9d6b; }
+.bar { display: flex; height: 16px; border-radius: 8px; overflow: hidden; background: var(--chip); }
+.seg { transform-origin: left center; }
+.bar-key { display: flex; flex-wrap: wrap; gap: 6px 16px; list-style: none; padding: 0; margin: 8px 0 14px; font-size: 13px; color: var(--muted); }
+.bar-key li { display: inline-flex; align-items: center; gap: 6px; }
+.bar-key b { color: var(--ink); }
+.findings { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+.finding { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--bg); min-width: 0; display: grid; gap: 4px; }
+.finding.focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+.finding p { margin: 0; }
+.finding code { font: 13px "IBM Plex Mono", ui-monospace, monospace; color: var(--muted); overflow-wrap: anywhere; }
+.sev { justify-self: start; color: #fff; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; border-radius: 999px; padding: 2px 9px; }
+.fix { color: var(--muted); font-size: 14px; }
+.nc { margin: 14px 0 0; font-size: 14px; color: var(--muted); }
+@keyframes oc-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes oc-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.outcome.play .finding { animation: oc-in .45s ease-out both; animation-delay: calc(var(--i) * 140ms + 250ms); }
+.outcome.play .seg { animation: oc-grow .8s ease-out both; }
+.outcome.play .verdict { animation: oc-in .4s ease-out both; }
+.ba { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 6px 12px; margin-bottom: 6px; }
+.ba-h { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.ba .cell { font: 13px/1.45 "IBM Plex Mono", ui-monospace, monospace; background: var(--chip); border-radius: 6px; padding: 6px 9px; overflow-wrap: anywhere; min-width: 0; border-left: 4px solid transparent; }
+.ba .a-ok { border-left-color: #1f9d6b; } .ba .a-medium { border-left-color: #b7791f; } .ba .a-high { border-left-color: #d6456a; }
+.ba-key { font-size: 13px; color: var(--muted); margin: 6px 0 14px; }
+.outcome.play .ba .cell { animation: oc-in .4s ease-out both; animation-delay: calc(var(--i) * 90ms + 150ms); }
 </style>
 </head>
 <body>
@@ -191,19 +225,26 @@ details p { margin: 6px 0 0; color: var(--muted); }
       <div class="note" aria-live="polite">
         <p id="note"></p>
         <p class="counts" id="counts"></p>
+        <p class="howto" id="howto"></p>
       </div>
       <ul class="legend">
-        <li><span class="sw" style="background:#64748b"></span>Item</li>
-        <li><span class="sw" style="background:#1f9d6b"></span>Passed or matched</li>
-        <li><span class="sw" style="background:#d6456a"></span>Failed or risk</li>
-        <li><span class="sw" style="background:#d9962b"></span>Flagged</li>
-        <li><span class="sw" style="background:#2f6fd6"></span>First or recalled</li>
-        <li><span class="sw" style="background:#7c5ce0"></span>Class (named under the group)</li>
-        <li><span class="sw" style="background:#e0702a"></span>Circular link</li>
+        <li><span class="sw" style="background:#64748b"></span>Grey block: an item</li>
+        <li><span class="sw" style="background:#1f9d6b"></span>Green: passed or matched</li>
+        <li><span class="sw" style="background:#d6456a"></span>Red: failed, or a risk</li>
+        <li><span class="sw" style="background:#d9962b"></span>Amber: flagged for a look</li>
+        <li><span class="sw" style="background:#2f6fd6"></span>Blue: the first or a recalled item</li>
+        <li><span class="sw" style="background:#7c5ce0"></span>Coloured block: its group</li>
+        <li><span class="sw" style="background:#e0702a"></span>Orange loop: a cycle</li>
+        <li><span class="sw" style="background:#13a3a3"></span>Teal cylinder: memory</li>
+        <li><span class="sw" style="background:#55606d"></span>Frame: one chunk</li>
       </ul>
       <p class="hint">Drag to turn the view. Click a step to jump to it. The blocks are the items. They move and change colour at each step, so you can follow one item through the skill. The dashed line marks a boundary, and a frame marks a chunk.</p>
     </div>
     <aside class="card info" id="info" aria-live="polite"></aside>
+  </section>
+
+  <section class="outcome-wrap" aria-label="Outcome">
+    <div class="card outcome" id="outcome" aria-live="polite"></div>
   </section>
 
   <section class="doc" id="install" aria-labelledby="install-title">
@@ -383,7 +424,38 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "Report. The agent checks the serious findings against the source and writes the report with file and line."
     }
    ],
-   "example": "Run: rlm-security-audit on src/\n3 chunks reviewed. 1 chunk failed and was re-run.\n2 findings, each with path:line, severity and a fix.\nNot checked: files over the size limit (listed by scan)."
+   "example": "Run: rlm-security-audit on src/\n3 chunks reviewed. 1 chunk failed and was re-run.\n2 findings, each with path:line, severity and a fix.\nNot checked: files over the size limit (listed by scan).",
+   "outcome": {
+    "verdict": "Report ready: 2 findings",
+    "tone": "warn",
+    "bars": [
+     [
+      "high",
+      1,
+      "high"
+     ],
+     [
+      "medium",
+      1,
+      "medium"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "auth.py:42",
+      "title": "Token logged in plain text",
+      "fix": "Remove the log line"
+     },
+     {
+      "sev": "medium",
+      "where": "api.ts:118",
+      "title": "User input joined into SQL",
+      "fix": "Use a parameterised query"
+     }
+    ],
+    "notChecked": "Files over the size limit, listed by scan."
+   }
   },
   {
    "id": "rlm-security-audit",
@@ -482,7 +554,55 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "Report. Confirmed findings are written with path, line, severity and a fix. Secret values appear as <redacted>."
     }
    ],
-   "example": "Summary: 4 findings in 8 files (1 high, 2 medium, 1 low).\n[high] auth.py:42  Token compared with == and logged at line 57 as <redacted>.\n       Fix: hmac.compare_digest; delete the log line.\n[medium] api.ts:118  User input joined into a SQL string.\n       Fix: parameterised query.\nDismissed: crypto.py:9, md5 used only as a cache key.\nNot checked: runtime configuration, dependencies (see dependency-audit)."
+   "example": "Summary: 4 findings in 8 files (1 high, 2 medium, 1 low).\n[high] auth.py:42  Token compared with == and logged at line 57 as <redacted>.\n       Fix: hmac.compare_digest; delete the log line.\n[medium] api.ts:118  User input joined into a SQL string.\n       Fix: parameterised query.\nDismissed: crypto.py:9, md5 used only as a cache key.\nNot checked: runtime configuration, dependencies (see dependency-audit).",
+   "outcome": {
+    "verdict": "4 findings: fix before release",
+    "tone": "block",
+    "bars": [
+     [
+      "high",
+      1,
+      "high"
+     ],
+     [
+      "medium",
+      2,
+      "medium"
+     ],
+     [
+      "low",
+      1,
+      "low"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "auth.py:42",
+      "title": "Token compared with == and logged at line 57",
+      "fix": "hmac.compare_digest; delete the log line"
+     },
+     {
+      "sev": "medium",
+      "where": "api.ts:118",
+      "title": "User input joined into a SQL string",
+      "fix": "Parameterised query"
+     },
+     {
+      "sev": "medium",
+      "where": "upload.ts:23",
+      "title": "Upload path not normalised",
+      "fix": "Resolve it and check it against the upload root"
+     },
+     {
+      "sev": "low",
+      "where": "logger.py:12",
+      "title": "Request body logged at debug level",
+      "fix": "Drop the body from the debug log"
+     }
+    ],
+    "notChecked": "Runtime configuration; dependencies (see dependency-audit)."
+   }
   },
   {
    "id": "rlm-refactor-planner",
@@ -612,7 +732,73 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "Report. The phased plan lists the stable zones, so reviewers know what must not change."
     }
    ],
-   "example": "Cycle: billing/ -> invoice.py -> pay.py -> billing/ (3 files).\nPhase 1 (small, tested): move the report helpers out of pay.py into utils.py.\n        Test: report_test. Stable zone: db.py, utils.py.\nPhase 2: split billing/ into rates and charges, keeping the public API.\nNot checked: dynamic imports, dependency-injection wiring."
+   "example": "Cycle: billing/ -> invoice.py -> pay.py -> billing/ (3 files).\nPhase 1 (small, tested): move the report helpers out of pay.py into utils.py.\n        Test: report_test. Stable zone: db.py, utils.py.\nPhase 2: split billing/ into rates and charges, keeping the public API.\nNot checked: dynamic imports, dependency-injection wiring.",
+   "outcome": {
+    "verdict": "Plan ready: 2 phases",
+    "tone": "info",
+    "bars": [
+     [
+      "cycle",
+      1,
+      "high"
+     ],
+     [
+      "to move",
+      2,
+      "medium"
+     ],
+     [
+      "stable",
+      2,
+      "ok"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "billing/ > invoice > pay",
+      "title": "Import cycle across 3 files",
+      "fix": "Phase 2: split billing into rates and charges"
+     },
+     {
+      "sev": "medium",
+      "where": "pay.py",
+      "title": "Report helpers mixed into payments",
+      "fix": "Phase 1: move them to utils.py, test with report_test"
+     }
+    ],
+    "notChecked": "Dynamic imports, dependency-injection wiring.",
+    "beforeAfter": {
+     "title": "billing module, today against after phase 2",
+     "rows": [
+      [
+       "billing/__init__.py imports invoice",
+       "billing/rates.py",
+       "ok"
+      ],
+      [
+       "invoice.py imports pay",
+       "billing/charges.py imports invoice",
+       "ok"
+      ],
+      [
+       "pay.py imports billing (cycle)",
+       "pay.py imports charges (no cycle)",
+       "ok"
+      ],
+      [
+       "pay.py holds report helpers",
+       "utils.py holds report helpers",
+       "medium"
+      ],
+      [
+       "db.py, utils.py",
+       "db.py, utils.py (stable)",
+       "same"
+      ]
+     ]
+    }
+   }
   },
   {
    "id": "rlm-doc-generator",
@@ -681,7 +867,38 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "Pages. One page per module, plus an overview of how the modules connect."
     }
    ],
-   "example": "billing/invoice.md\nPurpose: builds and totals invoices.\nPublic: create_invoice(order) -> Invoice (signature checked against source).\nUndocumented: _legacy_export, listed rather than described.\nDepends on: pay, tax (see overview).\nNot checked: behaviour in other services."
+   "example": "billing/invoice.md\nPurpose: builds and totals invoices.\nPublic: create_invoice(order) -> Invoice (signature checked against source).\nUndocumented: _legacy_export, listed rather than described.\nDepends on: pay, tax (see overview).\nNot checked: behaviour in other services.",
+   "outcome": {
+    "verdict": "6 module pages written",
+    "tone": "pass",
+    "bars": [
+     [
+      "documented",
+      5,
+      "ok"
+     ],
+     [
+      "mismatch",
+      1,
+      "medium"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "medium",
+      "where": "utils.py",
+      "title": "A quoted signature did not match the source",
+      "fix": "Left out; re-run after the code settles"
+     },
+     {
+      "sev": "low",
+      "where": "invoice.py",
+      "title": "_legacy_export has no docstring",
+      "fix": "Listed as undocumented, not described"
+     }
+    ],
+    "notChecked": "Behaviour in other services."
+   }
   },
   {
    "id": "rlm-test-gap-analysis",
@@ -759,7 +976,49 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "Report. Each gap comes with an example test to add."
     }
    ],
-   "example": "Gaps, ranked by risk:\n1. High: auth.py, token expiry branch is untested.\n   Test: token with expires_at in the past -> expect 401.\n2. High: tax.py, rounding of negative amounts is untested.\n   Test: round_tax(-0.005) -> expect -0.01.\nWeak test: test_pay.py::test_refund checks no exception, not the balance.\nNot checked: files the coverage report excludes."
+   "example": "Gaps, ranked by risk:\n1. High: auth.py, token expiry branch is untested.\n   Test: token with expires_at in the past -> expect 401.\n2. High: tax.py, rounding of negative amounts is untested.\n   Test: round_tax(-0.005) -> expect -0.01.\nWeak test: test_pay.py::test_refund checks no exception, not the balance.\nNot checked: files the coverage report excludes.",
+   "outcome": {
+    "verdict": "2 high-risk gaps",
+    "tone": "warn",
+    "bars": [
+     [
+      "high risk",
+      2,
+      "high"
+     ],
+     [
+      "weak test",
+      1,
+      "medium"
+     ],
+     [
+      "covered",
+      2,
+      "ok"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "auth.py",
+      "title": "Token expiry branch is untested",
+      "fix": "Test: expired token, expect 401"
+     },
+     {
+      "sev": "high",
+      "where": "tax.py",
+      "title": "Rounding of negative amounts is untested",
+      "fix": "Test: round_tax(-0.005), expect -0.01"
+     },
+     {
+      "sev": "medium",
+      "where": "test_pay.py::test_refund",
+      "title": "Checks no exception, not the balance",
+      "fix": "Assert the balance after the refund"
+     }
+    ],
+    "notChecked": "Files the coverage report excludes."
+   }
   },
   {
    "id": "rlm-migration-planner",
@@ -844,7 +1103,79 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "Phases. Confirmed changes are grouped into phases. Each phase ships alone and has a rollback step."
     }
    ],
-   "example": "Inventory: 6 uses in web/. 4 have a direct replacement, 2 need a decision\n(findDOMNode, Legacy Context).\nPhase 1: ReactDOM.render -> createRoot in index.tsx.\n        Rollback: keep the old call behind a flag for one release.\nPhase 2: Legacy Context -> new Context API, after the decision.\nNot checked: React 18 compatibility of third-party libraries."
+   "example": "Inventory: 6 uses in web/. 4 have a direct replacement, 2 need a decision\n(findDOMNode, Legacy Context).\nPhase 1: ReactDOM.render -> createRoot in index.tsx.\n        Rollback: keep the old call behind a flag for one release.\nPhase 2: Legacy Context -> new Context API, after the decision.\nNot checked: React 18 compatibility of third-party libraries.",
+   "outcome": {
+    "verdict": "2 phases, 2 decisions open",
+    "tone": "warn",
+    "bars": [
+     [
+      "direct",
+      4,
+      "ok"
+     ],
+     [
+      "decision",
+      2,
+      "medium"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "medium",
+      "where": "findDOMNode",
+      "title": "No direct equivalent in React 18",
+      "fix": "Use a ref callback, after review"
+     },
+     {
+      "sev": "medium",
+      "where": "Legacy Context",
+      "title": "Needs the new Context API",
+      "fix": "Phase 2, after the decision"
+     },
+     {
+      "sev": "info",
+      "where": "index.tsx",
+      "title": "ReactDOM.render to createRoot",
+      "fix": "Phase 1; keep the old call behind a flag"
+     }
+    ],
+    "notChecked": "React 18 support in third-party libraries.",
+    "beforeAfter": {
+     "title": "React 17 to React 18, in web/",
+     "rows": [
+      [
+       "componentWillMount() { load(); }",
+       "useEffect(() => { load(); }, [])",
+       "ok"
+      ],
+      [
+       "ReactDOM.render(<App />, root)",
+       "createRoot(root).render(<App />)",
+       "ok"
+      ],
+      [
+       "findDOMNode(this)",
+       "ref callback (decision needed)",
+       "medium"
+      ],
+      [
+       "createClass({ ... })",
+       "class Widget extends Component",
+       "ok"
+      ],
+      [
+       "contextTypes: { theme }",
+       "createContext() (decision needed)",
+       "medium"
+      ],
+      [
+       "Widget.propTypes = { ... }",
+       "removed: use TypeScript types",
+       "high"
+      ]
+     ]
+    }
+   }
   },
   {
    "id": "rlm-log-triage",
@@ -937,7 +1268,48 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "Rank. Likely causes are ranked. Each one cites the log lines that support it."
     }
    ],
-   "example": "Window: 14:00-14:30 UTC. Files read: 4. Skipped: 1 (.gz, not decompressed).\nCluster 'db timeout': 4 lines, first 14:05:12, last 14:21:40, payments-api.\nLikely root cause (ranked):\n1. Connection pool exhausted after the 14:05 deploy. Evidence: lines 212, 230.\n   Confirm: pool metrics. Mitigate: raise the pool size and the timeout.\nNot checked: compressed files, time outside the window."
+   "example": "Window: 14:00-14:30 UTC. Files read: 4. Skipped: 1 (.gz, not decompressed).\nCluster 'db timeout': 4 lines, first 14:05:12, last 14:21:40, payments-api.\nLikely root cause (ranked):\n1. Connection pool exhausted after the 14:05 deploy. Evidence: lines 212, 230.\n   Confirm: pool metrics. Mitigate: raise the pool size and the timeout.\nNot checked: compressed files, time outside the window.",
+   "outcome": {
+    "verdict": "Likely cause: connection pool exhausted",
+    "tone": "warn",
+    "bars": [
+     [
+      "db timeout",
+      4,
+      "high"
+     ],
+     [
+      "auth expired",
+      2,
+      "medium"
+     ],
+     [
+      "retry",
+      2,
+      "low"
+     ],
+     [
+      "other",
+      2,
+      "info"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "lines 212, 230",
+      "title": "Pool exhausted after the 14:05 deploy",
+      "fix": "Raise the pool size and timeout; confirm with pool metrics"
+     },
+     {
+      "sev": "medium",
+      "where": "lines 301-305",
+      "title": "Auth tokens expire during retries",
+      "fix": "Refresh the token before retrying"
+     }
+    ],
+    "notChecked": "Compressed files; time outside 14:00-14:30."
+   }
   },
   {
    "id": "rlm-privacy-review",
@@ -1033,7 +1405,54 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "Report. An inventory of fields, flows and retention gaps. No personal values are copied."
     }
    ],
-   "example": "Inventory: email (signup form -> users table; log line 88).\n           card number (payments -> analytics).\nFlow: email sent to a third-party analytics service (services/track.py:31).\nRetention gap: ip address logged with no expiry (services/log.py:12).\nFinding (high): card number in the analytics payload.\n         Control that closes it: remove the field before sending.\nNot checked: database backups, third-party consoles."
+   "example": "Inventory: email (signup form -> users table; log line 88).\n           card number (payments -> analytics).\nFlow: email sent to a third-party analytics service (services/track.py:31).\nRetention gap: ip address logged with no expiry (services/log.py:12).\nFinding (high): card number in the analytics payload.\n         Control that closes it: remove the field before sending.\nNot checked: database backups, third-party consoles.",
+   "outcome": {
+    "verdict": "1 high finding, 2 retention gaps",
+    "tone": "block",
+    "bars": [
+     [
+      "high",
+      1,
+      "high"
+     ],
+     [
+      "medium",
+      1,
+      "medium"
+     ],
+     [
+      "low",
+      1,
+      "low"
+     ],
+     [
+      "fine",
+      3,
+      "ok"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "services/track.py:31",
+      "title": "Card number in the analytics payload",
+      "fix": "Remove the field before sending"
+     },
+     {
+      "sev": "medium",
+      "where": "services/log.py:12",
+      "title": "IP address logged with no expiry",
+      "fix": "Add a 30-day retention"
+     },
+     {
+      "sev": "low",
+      "where": "users table",
+      "title": "Email kept with no delete path",
+      "fix": "Add delete on request"
+     }
+    ],
+    "notChecked": "Database backups, third-party consoles."
+   }
   },
   {
    "id": "code-review",
@@ -1111,7 +1530,60 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "Verdict. The report gives a verdict, the ranked findings and the tests to run."
     }
    ],
-   "example": "Verdict: request changes.\nblocker  auth.py:42  A token still works after logout.\n         Sequence: log in, log out, call the API with the old token -> accepted.\n         Fix: check the revocation list in the token check.\nmajor    db.py:88  Missing index on the new query. Fix: add it in the migration.\nTests to run: test_api.py::test_logout_token_rejected.\nNot checked: runtime behaviour in production."
+   "example": "Verdict: request changes.\nblocker  auth.py:42  A token still works after logout.\n         Sequence: log in, log out, call the API with the old token -> accepted.\n         Fix: check the revocation list in the token check.\nmajor    db.py:88  Missing index on the new query. Fix: add it in the migration.\nTests to run: test_api.py::test_logout_token_rejected.\nNot checked: runtime behaviour in production.",
+   "outcome": {
+    "verdict": "Request changes",
+    "tone": "block",
+    "bars": [
+     [
+      "blocker",
+      1,
+      "critical"
+     ],
+     [
+      "major",
+      1,
+      "high"
+     ],
+     [
+      "minor",
+      1,
+      "medium"
+     ],
+     [
+      "nit",
+      1,
+      "low"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "critical",
+      "where": "auth.py:42",
+      "title": "A token still works after logout",
+      "fix": "Check the revocation list"
+     },
+     {
+      "sev": "high",
+      "where": "db.py:88",
+      "title": "Missing index on the new query",
+      "fix": "Add it in the migration"
+     },
+     {
+      "sev": "medium",
+      "where": "api.ts:61",
+      "title": "Error message leaks the user id",
+      "fix": "Return a generic message"
+     },
+     {
+      "sev": "low",
+      "where": "models.py:12",
+      "title": "Unused import",
+      "fix": "Remove it"
+     }
+    ],
+    "notChecked": "Runtime behaviour in production."
+   }
   },
   {
    "id": "dependency-audit",
@@ -1201,7 +1673,49 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "Plan. Patch upgrades come first, then minor, then major with breaking changes listed. The skill changes nothing itself."
     }
    ],
-   "example": "Summary: 2 high, 1 medium. Top actions: upgrade lodash, upgrade axios, replace left-pad.\nlodash 4.17.15 | prototype pollution | high | fixed in 4.17.21 | direct | patch\nUpgrade plan: patch updates first, then minor, then major with breaking changes listed.\nNot checked: private registries."
+   "example": "Summary: 2 high, 1 medium. Top actions: upgrade lodash, upgrade axios, replace left-pad.\nlodash 4.17.15 | prototype pollution | high | fixed in 4.17.21 | direct | patch\nUpgrade plan: patch updates first, then minor, then major with breaking changes listed.\nNot checked: private registries.",
+   "outcome": {
+    "verdict": "2 high: patch before release",
+    "tone": "block",
+    "bars": [
+     [
+      "high",
+      2,
+      "high"
+     ],
+     [
+      "medium",
+      1,
+      "medium"
+     ],
+     [
+      "no issue",
+      3,
+      "ok"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "lodash 4.17.15",
+      "title": "Prototype pollution",
+      "fix": "Upgrade to 4.17.21 (patch)"
+     },
+     {
+      "sev": "high",
+      "where": "axios 0.19.0",
+      "title": "Server-side request forgery",
+      "fix": "Upgrade to 0.21.1"
+     },
+     {
+      "sev": "medium",
+      "where": "left-pad 1.3",
+      "title": "Unmaintained",
+      "fix": "Replace with String.padStart"
+     }
+    ],
+    "notChecked": "Private registries."
+   }
   },
   {
    "id": "release-notes",
@@ -1281,7 +1795,54 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "Notes. Each entry traces to a commit. Breaking changes state the step users must take."
     }
    ],
-   "example": "Highlights: CSV export and dark mode are new. The v1 API is removed.\nBreaking: The v1 API was removed. Use /v2/ instead (see upgrade steps).\nFeatures: Added CSV export (#812). Added dark mode (#813).\nFixes: Fixed the login loop (#811).\nEach entry is one line, past tense, with a link to its pull request."
+   "example": "Highlights: CSV export and dark mode are new. The v1 API is removed.\nBreaking: The v1 API was removed. Use /v2/ instead (see upgrade steps).\nFeatures: Added CSV export (#812). Added dark mode (#813).\nFixes: Fixed the login loop (#811).\nEach entry is one line, past tense, with a link to its pull request.",
+   "outcome": {
+    "verdict": "Notes ready: 1 breaking change",
+    "tone": "warn",
+    "bars": [
+     [
+      "breaking",
+      1,
+      "high"
+     ],
+     [
+      "features",
+      2,
+      "ok"
+     ],
+     [
+      "fixes",
+      1,
+      "low"
+     ],
+     [
+      "left out",
+      3,
+      "info"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "#814",
+      "title": "The v1 API was removed",
+      "fix": "Upgrade step: call the /v2/ endpoints"
+     },
+     {
+      "sev": "info",
+      "where": "#812",
+      "title": "Added CSV export",
+      "fix": "-"
+     },
+     {
+      "sev": "info",
+      "where": "#811",
+      "title": "Fixed the login loop",
+      "fix": "-"
+     }
+    ],
+    "notChecked": "Pull request text that is not in the git history."
+   }
   },
   {
    "id": "api-contract-review",
@@ -1376,7 +1937,74 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "Table. Each change lists its rule and the consumers that may break."
     }
    ],
-   "example": "Verdict: breaking. A version plan is needed.\nDELETE /orders/{id}  breaking  api/openapi.yaml:88  mobile app\n  Migration: POST /orders/{id}/cancel.\nPOST /users: email now required  breaking.\nGET /orders: page parameter added (optional)  non-breaking.\nNot checked: consumers outside this repository."
+   "example": "Verdict: breaking. A version plan is needed.\nDELETE /orders/{id}  breaking  api/openapi.yaml:88  mobile app\n  Migration: POST /orders/{id}/cancel.\nPOST /users: email now required  breaking.\nGET /orders: page parameter added (optional)  non-breaking.\nNot checked: consumers outside this repository.",
+   "outcome": {
+    "verdict": "Breaking: a version plan is needed",
+    "tone": "block",
+    "bars": [
+     [
+      "breaking",
+      2,
+      "high"
+     ],
+     [
+      "compatible",
+      3,
+      "ok"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "openapi.yaml:88",
+      "title": "DELETE /orders/{id} was removed",
+      "fix": "Migrate to POST /orders/{id}/cancel"
+     },
+     {
+      "sev": "high",
+      "where": "openapi.yaml:40",
+      "title": "POST /users now requires email",
+      "fix": "Make it optional, or ship it as v2"
+     },
+     {
+      "sev": "medium",
+      "where": "handlers/orders.ts:20",
+      "title": "Handler still serves the removed route",
+      "fix": "Remove it, or document the drift"
+     }
+    ],
+    "notChecked": "Consumers outside this repository.",
+    "beforeAfter": {
+     "title": "api/openapi.yaml, main against this branch",
+     "rows": [
+      [
+       "GET /users",
+       "GET /users",
+       "same"
+      ],
+      [
+       "POST /users { name }",
+       "POST /users { name, email (required) }",
+       "high"
+      ],
+      [
+       "GET /orders",
+       "GET /orders ?page (optional)",
+       "ok"
+      ],
+      [
+       "DELETE /orders/{id}",
+       "removed",
+       "high"
+      ],
+      [
+       "GET /health",
+       "GET /health",
+       "same"
+      ]
+     ]
+    }
+   }
   },
   {
    "id": "threat-model",
@@ -1499,7 +2127,38 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "Register. Each threat, its control and any gap are listed for review."
     }
    ],
-   "example": "T-03  Spoofing  Payments webhook accepts unsigned requests.\n     Control: signature check (webhook.py:20).\n     Gap: the check is not applied to the /v1 route.\n     Likelihood: medium. Impact: high. Owner: payments lead.\nTop action: apply the signature check to /v1.\nNot checked: cloud IAM, network rules."
+   "example": "T-03  Spoofing  Payments webhook accepts unsigned requests.\n     Control: signature check (webhook.py:20).\n     Gap: the check is not applied to the /v1 route.\n     Likelihood: medium. Impact: high. Owner: payments lead.\nTop action: apply the signature check to /v1.\nNot checked: cloud IAM, network rules.",
+   "outcome": {
+    "verdict": "6 threats, 1 gap",
+    "tone": "warn",
+    "bars": [
+     [
+      "controlled",
+      5,
+      "ok"
+     ],
+     [
+      "gap",
+      1,
+      "high"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "admin/router.ts",
+      "title": "T-06 Elevation: no role check found",
+      "fix": "Add an RBAC check at the admin router"
+     },
+     {
+      "sev": "info",
+      "where": "webhook.py:20",
+      "title": "T-03 Spoofing: signature check present",
+      "fix": "Keep it, and add a test"
+     }
+    ],
+    "notChecked": "Cloud IAM, network rules."
+   }
   },
   {
    "id": "cicd-pipeline-review",
@@ -1579,7 +2238,60 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "Report. Findings are listed with the trigger that makes each one exploitable."
     }
    ],
-   "example": "Verdict: block.\n[critical] .github/workflows/deploy.yml:12  A pull_request_target job checks out\n           fork code and reads secrets.PROD_KEY.\n           Trigger: a pull request from a fork. Fix: use pull_request.\n[high] setup-node@v3 is pinned by tag, not by commit SHA.\nNot checked: branch protection, environment reviewers."
+   "example": "Verdict: block.\n[critical] .github/workflows/deploy.yml:12  A pull_request_target job checks out\n           fork code and reads secrets.PROD_KEY.\n           Trigger: a pull request from a fork. Fix: use pull_request.\n[high] setup-node@v3 is pinned by tag, not by commit SHA.\nNot checked: branch protection, environment reviewers.",
+   "outcome": {
+    "verdict": "Block",
+    "tone": "block",
+    "bars": [
+     [
+      "critical",
+      1,
+      "critical"
+     ],
+     [
+      "high",
+      2,
+      "high"
+     ],
+     [
+      "medium",
+      1,
+      "medium"
+     ],
+     [
+      "pass",
+      2,
+      "ok"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "critical",
+      "where": "deploy.yml:12",
+      "title": "pull_request_target checks out fork code with secrets",
+      "fix": "Use pull_request; give forks no secrets"
+     },
+     {
+      "sev": "high",
+      "where": "deploy.yml:5",
+      "title": "permissions: write-all",
+      "fix": "Grant contents: read only"
+     },
+     {
+      "sev": "high",
+      "where": "ci.yml:18",
+      "title": "setup-node@v3 pinned by tag",
+      "fix": "Pin it to a commit SHA"
+     },
+     {
+      "sev": "medium",
+      "where": "deploy.yml:30",
+      "title": "PROD_KEY used without environment protection",
+      "fix": "Move it to a protected environment"
+     }
+    ],
+    "notChecked": "Branch protection, environment reviewers."
+   }
   },
   {
    "id": "stack-auditor",
@@ -1657,7 +2369,54 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "Report. Each finding names the file, the line and the fix."
     }
    ],
-   "example": "Verdict: pass with findings.\n[high] docker-compose.yml:14  Database password in plain text.\n       Fix: read it from an env file or a secret.\n[medium] nginx.conf:3  Port 8080 is also used by app.\nTools run: hadolint not installed, not run.\nNot checked: runtime behaviour, cloud settings."
+   "example": "Verdict: pass with findings.\n[high] docker-compose.yml:14  Database password in plain text.\n       Fix: read it from an env file or a secret.\n[medium] nginx.conf:3  Port 8080 is also used by app.\nTools run: hadolint not installed, not run.\nNot checked: runtime behaviour, cloud settings.",
+   "outcome": {
+    "verdict": "Pass with findings",
+    "tone": "warn",
+    "bars": [
+     [
+      "high",
+      1,
+      "high"
+     ],
+     [
+      "medium",
+      1,
+      "medium"
+     ],
+     [
+      "low",
+      1,
+      "low"
+     ],
+     [
+      "fine",
+      3,
+      "ok"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": ".env:3",
+      "title": "Database password committed",
+      "fix": "Move it to a secret store and rotate it"
+     },
+     {
+      "sev": "medium",
+      "where": "nginx.conf:3",
+      "title": "Port 8080 is also used by app",
+      "fix": "Move one service to another port"
+     },
+     {
+      "sev": "low",
+      "where": "nginx.conf:10",
+      "title": "Missing semicolon",
+      "fix": "Add it"
+     }
+    ],
+    "notChecked": "Runtime behaviour, cloud settings."
+   }
   },
   {
    "id": "trust-layer-validator",
@@ -1740,7 +2499,49 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "Report. Findings name the file, the rule and the fix. No key values are copied."
     }
    ],
-   "example": "Verdict: block.\n[high] keys.env:2  A private key is committed. Fix: remove it and rotate the key.\n[medium] credential.jsonld:4  The @context is fetched over http.\n         Input that breaks it: an attacker swaps the remote context.\nNot checked: runtime key storage, deployment configuration."
+   "example": "Verdict: block.\n[high] keys.env:2  A private key is committed. Fix: remove it and rotate the key.\n[medium] credential.jsonld:4  The @context is fetched over http.\n         Input that breaks it: an attacker swaps the remote context.\nNot checked: runtime key storage, deployment configuration.",
+   "outcome": {
+    "verdict": "Block",
+    "tone": "block",
+    "bars": [
+     [
+      "high",
+      1,
+      "high"
+     ],
+     [
+      "medium",
+      2,
+      "medium"
+     ],
+     [
+      "pass",
+      3,
+      "ok"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "keys.env:2",
+      "title": "Private key committed",
+      "fix": "Remove it and rotate the key"
+     },
+     {
+      "sev": "medium",
+      "where": "credential.jsonld:4",
+      "title": "@context fetched over http",
+      "fix": "Pin it and serve it over https"
+     },
+     {
+      "sev": "medium",
+      "where": "agent-msg.json",
+      "title": "Message hop over plain HTTP",
+      "fix": "Require TLS between agents"
+     }
+    ],
+    "notChecked": "Runtime key storage, deployment configuration."
+   }
   },
   {
    "id": "incident-postmortem",
@@ -1835,7 +2636,54 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "Actions. Each action gets an owner role, a date and a type: prevent, detect or mitigate."
     }
    ],
-   "example": "Summary: 40 minutes of failed checkouts.\nTimeline (sourced): 14:05 deploy -> 14:12 errors up -> 14:31 rollback -> 14:40 recovered.\nRoot cause: connection pool exhausted (triage report, cluster 1).\nContributing: the alert fired 8 minutes late.\nAction [prevent]: raise the pool size. Owner: platform lead. Due: 2026-12-05.\nOpen question: who was paged, and when?\nNot checked: chat history was not provided."
+   "example": "Summary: 40 minutes of failed checkouts.\nTimeline (sourced): 14:05 deploy -> 14:12 errors up -> 14:31 rollback -> 14:40 recovered.\nRoot cause: connection pool exhausted (triage report, cluster 1).\nContributing: the alert fired 8 minutes late.\nAction [prevent]: raise the pool size. Owner: platform lead. Due: 2026-12-05.\nOpen question: who was paged, and when?\nNot checked: chat history was not provided.",
+   "outcome": {
+    "verdict": "Postmortem ready: 1 open question",
+    "tone": "info",
+    "bars": [
+     [
+      "prevent",
+      2,
+      "ok"
+     ],
+     [
+      "detect",
+      1,
+      "low"
+     ],
+     [
+      "mitigate",
+      2,
+      "medium"
+     ],
+     [
+      "unknown",
+      1,
+      "high"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "info",
+      "where": "14:05 deploy",
+      "title": "Root cause: connection pool exhausted",
+      "fix": "Raise the pool size (platform lead, 2026-12-05)"
+     },
+     {
+      "sev": "medium",
+      "where": "14:20 alert",
+      "title": "The alert fired 8 minutes late",
+      "fix": "Lower the alert threshold (on-call lead)"
+     },
+     {
+      "sev": "high",
+      "where": "paging",
+      "title": "Who was paged is unknown",
+      "fix": "Open question for the team"
+     }
+    ],
+    "notChecked": "Chat history was not provided."
+   }
   },
   {
    "id": "compliance-control-check",
@@ -1920,7 +2768,49 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "Matrix. Present, partial and absent controls are listed. Controls that need evidence from outside the repository are marked."
     }
    ],
-   "example": "Framework: internal policy docs/controls.md, version 1.\nAC-2 Access reviews  partial  review job in ci.yml:40\n  Gap: no record of a completed review. Closing artefact: signed quarterly review.\n  Owner: security lead.\nIR-4 Incident handling  absent  no runbook in the repository. Owner: operations.\nOutside the repository: staff training records."
+   "example": "Framework: internal policy docs/controls.md, version 1.\nAC-2 Access reviews  partial  review job in ci.yml:40\n  Gap: no record of a completed review. Closing artefact: signed quarterly review.\n  Owner: security lead.\nIR-4 Incident handling  absent  no runbook in the repository. Owner: operations.\nOutside the repository: staff training records.",
+   "outcome": {
+    "verdict": "3 present, 1 partial, 1 absent",
+    "tone": "warn",
+    "bars": [
+     [
+      "present",
+      3,
+      "ok"
+     ],
+     [
+      "partial",
+      1,
+      "medium"
+     ],
+     [
+      "absent",
+      1,
+      "high"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "IR-4",
+      "title": "No incident runbook in the repository",
+      "fix": "Add a runbook (owner: operations)"
+     },
+     {
+      "sev": "medium",
+      "where": "AC-2",
+      "title": "Review job exists, but no completed review is recorded",
+      "fix": "Signed quarterly review (owner: security lead)"
+     },
+     {
+      "sev": "info",
+      "where": "SC-8",
+      "title": "TLS config in deploy/tls.yaml:4",
+      "fix": "Evidence recorded"
+     }
+    ],
+    "notChecked": "Staff training, policies, vendor contracts."
+   }
   },
   {
    "id": "audit-evidence-collector",
@@ -1985,7 +2875,44 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "Index. The index lists each item with its hash. The review approval needs the hosting CLI, so it is not collected and is left out here."
     }
    ],
-   "example": "Evidence index: 6 items, each with a SHA-256 hash.\nCoverage: AC-2 supported by 2 items. IR-4 has none.\nGaps: review approvals not collected (hosting CLI unavailable).\nCollection record: date, commands and tool versions are recorded.\nNot checked: approvals, anything after the collection date."
+   "example": "Evidence index: 6 items, each with a SHA-256 hash.\nCoverage: AC-2 supported by 2 items. IR-4 has none.\nGaps: review approvals not collected (hosting CLI unavailable).\nCollection record: date, commands and tool versions are recorded.\nNot checked: approvals, anything after the collection date.",
+   "outcome": {
+    "verdict": "5 of 6 items collected",
+    "tone": "warn",
+    "bars": [
+     [
+      "collected",
+      5,
+      "ok"
+     ],
+     [
+      "gap",
+      1,
+      "high"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "review approval",
+      "title": "Not collected: hosting CLI unavailable",
+      "fix": "Collect it with gh, or record the gap"
+     },
+     {
+      "sev": "info",
+      "where": "merge #812",
+      "title": "SHA-256 recorded",
+      "fix": "Re-hash later to verify"
+     },
+     {
+      "sev": "info",
+      "where": "pipeline run 4410",
+      "title": "Logs and tool versions recorded",
+      "fix": "-"
+     }
+    ],
+    "notChecked": "Approvals; anything after the collection date."
+   }
   },
   {
    "id": "license-attribution",
@@ -2055,7 +2982,54 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "NOTICE. The attribution text lists each kept package with its licence. Violations need a decision from legal."
     }
    ],
-   "example": "Policy used: permissive, plus LGPL with dynamic linking (from the user).\nSummary: 4 permissive, 2 copyleft, 1 unknown. Violations: 1.\nViolation: gpl-lib 3.0, GPL-3.0, copyleft, not allowed. Action: replace or approve.\nNOTICE draft, grouped by licence: MIT (react, lodash).\nNot checked: distributed binaries, anything needing a legal decision."
+   "example": "Policy used: permissive, plus LGPL with dynamic linking (from the user).\nSummary: 4 permissive, 2 copyleft, 1 unknown. Violations: 1.\nViolation: gpl-lib 3.0, GPL-3.0, copyleft, not allowed. Action: replace or approve.\nNOTICE draft, grouped by licence: MIT (react, lodash).\nNot checked: distributed binaries, anything needing a legal decision.",
+   "outcome": {
+    "verdict": "1 violation, 1 unknown",
+    "tone": "block",
+    "bars": [
+     [
+      "permissive",
+      3,
+      "ok"
+     ],
+     [
+      "allowed copyleft",
+      1,
+      "low"
+     ],
+     [
+      "violation",
+      1,
+      "high"
+     ],
+     [
+      "unknown",
+      1,
+      "medium"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "gpl-lib 3.0",
+      "title": "GPL-3.0 is not allowed by the policy",
+      "fix": "Replace it, or approve an exception"
+     },
+     {
+      "sev": "medium",
+      "where": "unknown-pkg",
+      "title": "No licence in the metadata",
+      "fix": "Confirm with the author"
+     },
+     {
+      "sev": "info",
+      "where": "NOTICE",
+      "title": "Draft grouped by licence",
+      "fix": "Review it before shipping"
+     }
+    ],
+    "notChecked": "Distributed binaries; legal decisions."
+   }
   },
   {
    "id": "memory-manager",
@@ -2119,7 +3093,49 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "Record. The new answer is stored with the files it used and the symbols it names. Secret-looking values are removed first."
     }
    ],
-   "example": "Recalled for 'invoice tax':\n  tax rules: fresh.\n  billing notes: stale. billing/invoice.py changed since the answer was written.\nRecorded: the answer, with 3 files and 2 symbols. Secret-looking values removed."
+   "example": "Recalled for 'invoice tax':\n  tax rules: fresh.\n  billing notes: stale. billing/invoice.py changed since the answer was written.\nRecorded: the answer, with 3 files and 2 symbols. Secret-looking values removed.",
+   "outcome": {
+    "verdict": "2 recalled, 1 stale",
+    "tone": "warn",
+    "bars": [
+     [
+      "fresh",
+      1,
+      "ok"
+     ],
+     [
+      "stale",
+      1,
+      "medium"
+     ],
+     [
+      "not relevant",
+      2,
+      "info"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "medium",
+      "where": "billing notes",
+      "title": "Stale: billing/invoice.py changed",
+      "fix": "Check it again before reuse"
+     },
+     {
+      "sev": "info",
+      "where": "tax rules",
+      "title": "Fresh, reused",
+      "fix": "-"
+     },
+     {
+      "sev": "info",
+      "where": ".agent-memory/graph.json",
+      "title": "Answer recorded with 3 files and 2 symbols",
+      "fix": "Secrets removed first"
+     }
+    ],
+    "notChecked": "Code that is not linked to an entry."
+   }
   },
   {
    "id": "token-saver",
@@ -2179,7 +3195,44 @@ details p { margin: 6px 0 0; color: var(--muted); }
      "note": "Output. The short reply. Verdicts, findings and tests to run are kept whenever another skill needs them."
     }
    ],
-   "example": "Before: 212 words, with a lead-in, a repeated code block and a closing summary.\nAfter:  'Fixed rounding in tax.py:31. Test added.'\n        plus the changed lines only. Verdicts and tests to run are kept."
+   "example": "Before: 212 words, with a lead-in, a repeated code block and a closing summary.\nAfter:  'Fixed rounding in tax.py:31. Test added.'\n        plus the changed lines only. Verdicts and tests to run are kept.",
+   "outcome": {
+    "verdict": "Reply cut from 212 to 18 words",
+    "tone": "pass",
+    "bars": [
+     [
+      "kept",
+      2,
+      "ok"
+     ],
+     [
+      "removed",
+      4,
+      "info"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "info",
+      "where": "lead-in",
+      "title": "Removed",
+      "fix": "-"
+     },
+     {
+      "sev": "info",
+      "where": "repeated code",
+      "title": "Removed",
+      "fix": "-"
+     },
+     {
+      "sev": "ok",
+      "where": "answer and diff",
+      "title": "Kept",
+      "fix": "-"
+     }
+    ],
+    "notChecked": "Sections other skills require are never removed."
+   }
   }
  ]
 }
@@ -2192,6 +3245,21 @@ const COL = { todo: 0x64748b, ok: 0x1f9d6b, bad: 0xd6456a, warn: 0xd9962b, hit: 
 const BINS = [0x7c5ce0, 0x13a3a3, 0xe0702a, 0x2f6fd6, 0xd9962b, 0x1f9d6b];
 const CATS = ['All', 'Overview', 'Analysis', 'Engineering', 'Security', 'Domain', 'Operations', 'Compliance', 'Memory', 'Efficiency'];
 const $ = (s) => document.querySelector(s);
+const HOWTO = {
+  row: 'the items sit in a line, one per entry.',
+  stack: 'the items form a stack, one above the other.',
+  chunks: 'each frame is one chunk of the input. Items inside a frame are read together.',
+  parallel: 'each frame is one chunk. The lit frame is the chunk being read now.',
+  funnel: 'the items are combined into one result, shown by the funnel.',
+  gate: 'the upper lane passed the check. The lower lane failed it.',
+  match: 'each item on the left is compared with a target on the right. A green line is a match, a red line is a gap.',
+  graph: 'circles are components, lines are links between them. An orange loop is a cycle.',
+  bins: 'each column is a group. Every item sits in the group it belongs to.',
+  timeline: 'items are placed along a time line, earliest on the left.',
+  store: 'the cylinder is the memory store. Items are written into it.',
+  doc: 'the page is the report. Each item becomes a line in it.',
+  shrink: 'items shrink as filler is removed. Only the kept ones stay full size.'
+};
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 // The skills are input data: they come from the JSON block, or from ?data=<url>.
@@ -2215,7 +3283,7 @@ let L = null;
 
 // 3D state, filled once the module loads
 let T = null, renderer = null, scene = null, camera = null, world = null;
-let tokens = [], decor = [], pulses = [];
+let tokens = [], decor = [], pulses = [], gems = [], gemStart = 0;
 let rotX = 0.12, rotY = 0.35, camDist = 12, camDistT = 12;
 let off = { x: 0, y: 0 }, offT = { x: 0, y: 0 };
 let drag = null;
@@ -2423,21 +3491,21 @@ function roundRect(ctx, x, y, w, h, r) {
 function makeLabel(text) {
   const c = document.createElement('canvas');
   const ctx = c.getContext('2d');
-  const font = '600 34px "IBM Plex Sans", system-ui, sans-serif';
+  const font = '700 44px "IBM Plex Sans", system-ui, sans-serif';
   ctx.font = font;
-  const w = Math.ceil(ctx.measureText(text).width) + 40;
-  c.width = w; c.height = 64;
+  const w = Math.ceil(ctx.measureText(text).width) + 48;
+  c.width = w; c.height = 84;
   ctx.font = font;
   ctx.fillStyle = 'rgba(255,255,255,0.94)';
-  roundRect(ctx, 0, 0, w, 64, 32);
+  roundRect(ctx, 0, 0, w, 84, 42);
   ctx.fill();
   ctx.fillStyle = '#1b2430';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText(text, w / 2, 33);
+  ctx.fillText(text, w / 2, 43);
   const sp = new T.Sprite(new T.SpriteMaterial({ map: new T.CanvasTexture(c), transparent: true, depthTest: false }));
-  const h = 0.3;
-  sp.scale.set(h * w / 64, h, 1);
+  const h = 0.42;
+  sp.scale.set(h * w / 84, h, 1);
   sp.renderOrder = 2;
   return sp;
 }
@@ -2456,9 +3524,9 @@ function buildTokens(items) {
   tokens.forEach((tk) => { world.remove(tk.mesh); disposeObj(tk.mesh); });
   tokens = items.map((text) => {
     const mat = new T.MeshStandardMaterial({ color: COL.todo, emissive: COL.todo, emissiveIntensity: 0.05, roughness: 0.4, metalness: 0.1 });
-    const mesh = new T.Mesh(new T.BoxGeometry(1.5, 0.5, 0.35), mat);
+    const mesh = new T.Mesh(new T.BoxGeometry(1.9, 0.7, 0.4), mat);
     const sp = makeLabel(text);
-    sp.position.set(0, 0.5, 0.2);
+    sp.position.set(0, 0.7, 0.25);
     mesh.add(sp);
     world.add(mesh);
     return { mesh, cur: { x: 0, y: 0, z: 0, s: 0.001 }, tgt: { x: 0, y: 0, z: 0, s: 0.001 }, tcol: new T.Color(COL.todo) };
@@ -2469,6 +3537,7 @@ function clearDecor() {
   decor.forEach((o) => { world.remove(o); disposeObj(o); });
   decor = [];
   pulses = [];
+  gems = [];
 }
 
 function buildDecor(o) {
@@ -2491,10 +3560,10 @@ function buildDecor(o) {
   };
   const text = (s, x, y, z = 0.4) => { const sp = makeLabel(s); sp.position.set(x, y, z); return add(sp); };
   const box = (s, x, y, color) => {
-    const mesh = new T.Mesh(new T.BoxGeometry(1.8, 0.5, 0.35), new T.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.2 }));
+    const mesh = new T.Mesh(new T.BoxGeometry(2.1, 0.7, 0.4), new T.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.2 }));
     mesh.position.set(x, y, 0.1);
     const sp = makeLabel(s);
-    sp.position.set(0, 0.5, 0.2);
+    sp.position.set(0, 0.7, 0.25);
     mesh.add(sp);
     return add(mesh);
   };
@@ -2512,7 +3581,7 @@ function buildDecor(o) {
   });
   o.lines.forEach(({ a, b, ok }) => segs([[P(a), o.targets[b]]], ok ? COL.ok : COL.bad, 0.85));
   if (o.targets) o.targets.forEach((t) => box(t.label, t.x, t.y, COL[t.state] ?? COL.todo));
-  if (o.bins) o.bins.forEach((b) => text(`${b.label} · ${b.count}`, b.x, b.y));
+  if (o.bins) o.bins.forEach((b) => text(`${b.label}: ${b.count} item${b.count === 1 ? '' : 's'}`, b.x, b.y));
   if (o.texts) o.texts.forEach((t) => text(t.label, t.x, t.y));
   if (o.boundary) {
     const b = o.boundary;
@@ -2543,6 +3612,91 @@ function buildDecor(o) {
   }
 }
 
+// ---------- Outcome: verdict card (HTML) and findings (3D) ----------
+const TONE = { critical: 0xb4233f, high: 0xd6456a, medium: 0xd9962b, low: 0x2f6fd6, info: 0x64748b, ok: 0x1f9d6b };
+
+function renderOutcome() {
+  const o = skill.outcome, el = $('#outcome');
+  if (!o) { el.hidden = true; return; }
+  el.hidden = false;
+  el.classList.remove('play');
+  el.innerHTML = `
+    <div class="oc-head">
+      <span class="oc-tag">Outcome of ${esc(skill.id)} · illustrative example</span>
+      <span class="verdict v-${esc(o.tone)}">${esc(o.verdict)}</span>
+    </div>
+    <div class="bar" role="img" aria-label="${esc(o.bars.map((b) => b[0] + ': ' + b[1]).join(', '))}">
+      ${o.bars.filter((b) => b[1] > 0).map((b) => `<span class="seg t-${esc(b[2])}" style="flex:${b[1]}"></span>`).join('')}
+    </div>
+    <ul class="bar-key">${o.bars.map((b) => `<li><span class="sw t-${esc(b[2])}"></span>${esc(b[0])} <b>${b[1]}</b></li>`).join('')}</ul>
+    ${o.beforeAfter ? `
+    <h4>Before and after: ${esc(o.beforeAfter.title)}</h4>
+    <div class="ba">
+      <span class="ba-h">Before</span><span class="ba-h">After</span>
+      ${o.beforeAfter.rows.map((r, k) => `<code class="cell" style="--i:${k}">${esc(r[0])}</code><code class="cell after a-${esc(r[2])}" style="--i:${k}">${esc(r[1])}</code>`).join('')}
+    </div>
+    <p class="ba-key">Green: changed as planned. Amber: needs a decision. Red: breaking or removed. Plain: unchanged.</p>` : ''}
+    <ol class="findings">${o.findings.map((f, k) => `
+      <li class="finding" data-k="${k}" style="--i:${k}">
+        <span class="sev t-${esc(f.sev)}">${esc(f.sev)}</span>
+        <code>${esc(f.where)}</code>
+        <p>${esc(f.title)}</p>
+        ${f.fix && f.fix !== '-' ? `<p class="fix">Fix: ${esc(f.fix)}</p>` : ''}
+      </li>`).join('')}</ol>
+    <p class="nc"><b>Not checked:</b> ${esc(o.notChecked)}</p>`;
+}
+
+// Replays the card's entrance when the last step is reached.
+function playOutcome() {
+  const el = $('#outcome');
+  if (!skill.outcome || REDUCED) return;
+  el.classList.remove('play');
+  void el.offsetWidth;
+  el.classList.add('play');
+}
+
+function focusFinding(k) {
+  document.querySelectorAll('#outcome .finding').forEach((el) => el.classList.toggle('focus', Number(el.dataset.k) === k));
+  const el = document.querySelector(`#outcome .finding[data-k="${k}"]`);
+  if (el) el.scrollIntoView({ block: 'nearest', behavior: REDUCED ? 'auto' : 'smooth' });
+}
+
+// Each finding drops in as a gem beside the result; click one to open its card.
+function addGems(o) {
+  const f = (skill.outcome && skill.outcome.findings) || [];
+  if (!f.length) return;
+  const x = Math.max(...boundsPoints(o).map((p) => p.x)) + 2.2;
+  const n = f.length, sp = 1.15;
+  gemStart = performance.now() / 1000;
+  f.forEach((fd, k) => {
+    const color = TONE[fd.sev] ?? TONE.info;
+    const g = new T.Group();
+    const gem = new T.Mesh(new T.OctahedronGeometry(0.4, 0), new T.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.35, roughness: 0.25, metalness: 0.3 }));
+    g.add(gem);
+    const lab = makeLabel(`${fd.sev} · ${fd.where}`);
+    lab.position.set(0.6 + lab.scale.x / 2, 0, 0.2);
+    g.add(lab);
+    const y = ((n - 1) / 2 - k) * sp;
+    g.position.set(x, REDUCED ? y : y + 5, 0.3);
+    g.userData = { finding: k, ty: y, delay: k * 0.35 };
+    world.add(g); decor.push(g); gems.push(g);
+    o.ext.push({ x: x + 0.7 + lab.scale.x, y }, { x: x - 0.5, y: y + 0.6 }, { x: x - 0.5, y: y - 0.6 });
+  });
+}
+
+function pickGem(e) {
+  if (!gems.length) return;
+  const r = cv.getBoundingClientRect();
+  const v = new T.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+  const ray = new T.Raycaster();
+  ray.setFromCamera(v, camera);
+  const hit = ray.intersectObjects(gems, true)[0];
+  if (!hit) return;
+  let o = hit.object;
+  while (o && o.userData.finding === undefined) o = o.parent;
+  if (o) focusFinding(o.userData.finding);
+}
+
 function applyStep(k) {
   if (!skill) return;
   stepIdx = k;
@@ -2558,11 +3712,14 @@ function applyStep(k) {
       tk.tcol = new T.Color(c);
     });
     buildDecor(L);
+    if (k === skill.steps.length - 1) addGems(L);
     fit();
   }
   $('#note').textContent = st.note;
+  $('#howto').textContent = 'How to read this step: ' + (HOWTO[st.layout] || '');
   $('#counts').textContent = countsText(st, L);
   markStep(k);
+  if (k === skill.steps.length - 1) playOutcome();
 }
 
 function goTo(k, pause) {
@@ -2587,6 +3744,7 @@ function select(id) {
   document.querySelectorAll('#tabs .tab').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.id === id)));
   renderInfo();
   renderSteps();
+  renderOutcome();
   if (T) buildTokens(skill.items);
   applyStep(0);
 }
@@ -2631,6 +3789,15 @@ function tick() {
     m.emissive.copy(m.color);
     const hot = (activeG >= 0 && L.gOf && L.gOf[i] === activeG) || i === activeI;
     m.emissiveIntensity += ((hot ? 0.75 : 0.06) - m.emissiveIntensity) * 0.2;
+  });
+  const nowS = performance.now() / 1000;
+  gems.forEach((g) => {
+    const u = g.userData;
+    const t = nowS - gemStart - u.delay;
+    g.visible = REDUCED || t > 0;
+    if (t > 0) g.position.y += (u.ty - g.position.y) * 0.12;
+    g.children[0].rotation.y += 0.03;
+    g.children[0].rotation.x += 0.012;
   });
   pulses.forEach((m) => { m.opacity = 0.5 + 0.4 * Math.sin(time * 4); });
   off.x += (offT.x - off.x) * 0.08; off.y += (offT.y - off.y) * 0.08;
@@ -2682,14 +3849,18 @@ async function init3D() {
   new ResizeObserver(resize).observe(stage);
   resize();
 
-  cv.addEventListener('pointerdown', (e) => { drag = { x: e.clientX, y: e.clientY }; cv.setPointerCapture(e.pointerId); });
+  cv.addEventListener('pointerdown', (e) => { drag = { x: e.clientX, y: e.clientY, sx: e.clientX, sy: e.clientY }; cv.setPointerCapture(e.pointerId); });
   cv.addEventListener('pointermove', (e) => {
     if (!drag) return;
     rotY += (e.clientX - drag.x) * 0.008;
     rotX = Math.max(-0.6, Math.min(0.6, rotX + (e.clientY - drag.y) * 0.005));
-    drag = { x: e.clientX, y: e.clientY };
+    drag.x = e.clientX; drag.y = e.clientY;
   });
-  cv.addEventListener('pointerup', () => { drag = null; });
+  cv.addEventListener('pointerup', (e) => {
+    const tap = drag && Math.hypot(e.clientX - drag.sx, e.clientY - drag.sy) < 6;
+    drag = null;
+    if (tap) pickGem(e);
+  });
 
   buildTokens(skill.items);
   applyStep(Math.max(stepIdx, 0));
