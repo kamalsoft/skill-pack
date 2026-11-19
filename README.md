@@ -4,7 +4,7 @@
     <img src="logo.svg" alt="RLM Agent Skills" width="400">
   </picture>
 </p>
-
+ 
 # Skill Pack: consumer guide
 
 The skill pack is a VS Code extension, **RLM Agent Skills** (package `skill-pack`). It installs agent skills into your project, so that GitHub Copilot or Claude Code can review, analyze and document large codebases in pieces, remember past answers, and keep its replies short.
