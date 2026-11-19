@@ -145,6 +145,10 @@ details { border-bottom: 1px solid var(--line); padding: 10px 0; }
 summary { cursor: pointer; font-weight: 600; }
 details p { margin: 6px 0 0; color: var(--muted); }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+.note { background: var(--chip); border-radius: 10px; padding: 12px 14px; margin: 10px 0; }
+.note p { margin: 0; }
+.note #note { font-size: 15px; }
+.counts { margin-top: 6px !important; color: var(--muted); font-size: 13px; }
 </style>
 </head>
 <body>
@@ -174,8 +178,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
         <span id="sbadges" class="mono"></span>
       </div>
       <div class="stage" id="stage">
-        <canvas id="cv" aria-label="3D pipeline of the selected skill"></canvas>
-        <div class="fallback" id="fb" hidden>The 3D view could not load. The steps and details still work below.</div>
+        <canvas id="cv" aria-label="Animated data flow for the selected skill"></canvas>
+        <div class="fallback" id="fb" hidden>The 3D view could not load. The steps and the details still work.</div>
       </div>
       <div class="controls">
         <button type="button" id="prev">◀ Previous</button>
@@ -184,8 +188,20 @@ details p { margin: 6px 0 0; color: var(--muted); }
         <span class="caption" id="cap" aria-live="polite"></span>
       </div>
       <ol class="steps" id="steps"></ol>
-      <ul class="legend" id="legend"></ul>
-      <p class="hint">Drag to turn the view. Click a block to jump to its step. A bright block is the active step. The white dot shows data moving to the next step. The amber cluster means the same work runs on many chunks at once.</p>
+      <div class="note" aria-live="polite">
+        <p id="note"></p>
+        <p class="counts" id="counts"></p>
+      </div>
+      <ul class="legend">
+        <li><span class="sw" style="background:#64748b"></span>Item</li>
+        <li><span class="sw" style="background:#1f9d6b"></span>Passed or matched</li>
+        <li><span class="sw" style="background:#d6456a"></span>Failed or risk</li>
+        <li><span class="sw" style="background:#d9962b"></span>Flagged</li>
+        <li><span class="sw" style="background:#2f6fd6"></span>First or recalled</li>
+        <li><span class="sw" style="background:#7c5ce0"></span>Class (named under the group)</li>
+        <li><span class="sw" style="background:#e0702a"></span>Circular link</li>
+      </ul>
+      <p class="hint">Drag to turn the view. Click a step to jump to it. The blocks are the items. They move and change colour at each step, so you can follow one item through the skill. The dashed line marks a boundary, and a frame marks a chunk.</p>
     </div>
     <aside class="card info" id="info" aria-live="polite"></aside>
   </section>
@@ -300,197 +316,2004 @@ details p { margin: 6px 0 0; color: var(--muted); }
   </footer>
 </div>
 
+<script type="application/json" id="skill-data">
+{
+ "skills": [
+  {
+   "id": "pack-overview",
+   "goal": "How the skill pack works",
+   "cat": "Overview",
+   "on": true,
+   "use": "The pattern the analysis skills share: scan, split into pieces, review each piece, merge, verify and report.",
+   "prompt": "Use the rlm-security-audit skill on src/. Report findings with file and line.",
+   "input": "Your request and a folder",
+   "output": "A report with file and line references",
+   "pros": [
+    "The agent sees every file in scope, one piece at a time.",
+    "Results are merged and checked, not guessed."
+   ],
+   "cons": [
+    "The judgement is still the model's. Check every finding.",
+    "Needs an agent that reads skill folders."
+   ],
+   "items": [
+    "auth.py",
+    "db.py",
+    "api.ts",
+    "utils.ts",
+    "config.yml",
+    "tests"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Ask. You name a skill and a folder in plain words. The agent loads that skill's instructions from its skills folder."
+    },
+    {
+     "layout": "chunks",
+     "groups": [
+      0,
+      0,
+      1,
+      1,
+      2,
+      2
+     ],
+     "note": "Split. The helper scans the folder and cuts it into pieces of at most 800 lines, so no single read holds the whole project."
+    },
+    {
+     "layout": "parallel",
+     "groups": [
+      0,
+      0,
+      1,
+      1,
+      2,
+      2
+     ],
+     "sweep": true,
+     "note": "Review. The agent reviews one piece at a time, and each piece is judged on its own."
+    },
+    {
+     "layout": "funnel",
+     "note": "Merge. The helper combines the results and removes duplicates. A piece that failed is reported, never counted as clean."
+    },
+    {
+     "layout": "doc",
+     "docLabel": "report",
+     "note": "Report. The agent checks the serious findings against the source and writes the report with file and line."
+    }
+   ]
+  },
+  {
+   "id": "rlm-security-audit",
+   "goal": "Find security problems",
+   "cat": "Analysis",
+   "on": true,
+   "use": "Security review of code too large to read in one pass.",
+   "prompt": "Use the rlm-security-audit skill to audit this repository. Scope it to src/ first.",
+   "input": "Repository or folder",
+   "output": "Findings with path:line, severity and fix. Secrets shown as <redacted>.",
+   "pros": [
+    "Covers every file in scope, not only the files the agent opened.",
+    "Serious findings are checked against the source."
+   ],
+   "cons": [
+    "Depends on model judgement: expect some false positives and misses.",
+    "Not a static analyser."
+   ],
+   "items": [
+    "auth.py",
+    "db.py",
+    "api.ts",
+    "upload.ts",
+    "config.yml",
+    "utils.py",
+    "crypto.py",
+    "logger.py"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Scan. The helper lists the files in scope. Binary files and files over the size limit are skipped and reported."
+    },
+    {
+     "layout": "chunks",
+     "groups": [
+      0,
+      0,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2
+     ],
+     "note": "Split. Files are cut into chunks of at most 800 lines, at function boundaries where possible."
+    },
+    {
+     "layout": "parallel",
+     "groups": [
+      0,
+      0,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2
+     ],
+     "sweep": true,
+     "state": [
+      "bad",
+      "ok",
+      "bad",
+      "bad",
+      "ok",
+      "warn",
+      "bad",
+      "ok"
+     ],
+     "note": "Review. Each chunk is read on its own for hardcoded secrets, injection, unsafe deserialization and weak crypto. Flagged items turn red or amber."
+    },
+    {
+     "layout": "gate",
+     "pass": [
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      false
+     ],
+     "note": "Verify. Each serious finding is checked against the source. Findings that do not hold move down and are dropped."
+    },
+    {
+     "layout": "doc",
+     "drop": [
+      1,
+      4,
+      5,
+      7
+     ],
+     "docLabel": "findings",
+     "note": "Report. Confirmed findings are written with path, line, severity and a fix. Secret values appear as <redacted>."
+    }
+   ]
+  },
+  {
+   "id": "rlm-refactor-planner",
+   "goal": "Plan a refactor",
+   "cat": "Analysis",
+   "on": true,
+   "use": "Dependencies, import cycles, coupling and the order of the work.",
+   "prompt": "Use the rlm-refactor-planner skill to plan splitting the billing module. Start from the import graph.",
+   "input": "Repository or module",
+   "output": "Phased plan with a list of stable zones.",
+   "pros": [
+    "Starts from measured structure, not impressions.",
+    "Each phase is small and testable."
+   ],
+   "cons": [
+    "Misses dynamic imports, reflection and DI containers.",
+    "A plan is not a change; each phase still needs tests."
+   ],
+   "items": [
+    "billing/",
+    "invoice.py",
+    "pay.py",
+    "tax.py",
+    "report.py",
+    "db.py",
+    "utils.py"
+   ],
+   "steps": [
+    {
+     "layout": "graph",
+     "edges": [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       3
+      ],
+      [
+       3,
+       0
+      ],
+      [
+       4,
+       1
+      ],
+      [
+       1,
+       5
+      ],
+      [
+       5,
+       6
+      ]
+     ],
+     "cycles": [
+      [
+       0,
+       1,
+       2,
+       3
+      ]
+     ],
+     "state": [
+      "warn",
+      "warn",
+      "warn",
+      "warn",
+      "todo",
+      "todo",
+      "todo"
+     ],
+     "note": "Map. The import graph links each file to the files it imports. The loop billing, invoice, pay and tax is circular and is drawn in orange."
+    },
+    {
+     "layout": "bins",
+     "bins": [
+      "Stable",
+      "Move",
+      "Split"
+     ],
+     "binOf": [
+      2,
+      1,
+      2,
+      1,
+      0,
+      0,
+      0
+     ],
+     "note": "Classify. Each file is placed by its coupling: stable, move to another module, or split because it mixes unrelated code."
+    },
+    {
+     "layout": "timeline",
+     "at": [
+      0.55,
+      0.3,
+      0.45,
+      0.25,
+      0.05,
+      0.9,
+      0.7
+     ],
+     "note": "Plan. Changes run along the timeline in order. Each phase is small, has its own test, and leaves the code working."
+    },
+    {
+     "layout": "doc",
+     "docLabel": "plan",
+     "note": "Report. The phased plan lists the stable zones, so reviewers know what must not change."
+    }
+   ]
+  },
+  {
+   "id": "rlm-doc-generator",
+   "goal": "Write module docs",
+   "cat": "Analysis",
+   "on": true,
+   "use": "Module and public API documentation, with an overview of how modules connect.",
+   "prompt": "Use the rlm-doc-generator skill to document the packages/core folder. One page per package.",
+   "input": "Package or folder",
+   "output": "One page per module, plus an overview.",
+   "pros": [
+    "Consistent pages. Undocumented items are listed, not guessed.",
+    "Signatures are checked against the source."
+   ],
+   "cons": [
+    "The prose is a draft to read and edit.",
+    "Code examples are not compiled or run."
+   ],
+   "items": [
+    "api.py",
+    "models.py",
+    "auth.py",
+    "utils.py",
+    "cache.py",
+    "jobs.py"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Scan. The package is listed. Generated files and tests are left out of the documentation scope."
+    },
+    {
+     "layout": "chunks",
+     "groups": [
+      0,
+      0,
+      1,
+      1,
+      2,
+      2
+     ],
+     "note": "Facts. Each chunk yields its purpose, its public signatures and its undocumented items."
+    },
+    {
+     "layout": "funnel",
+     "note": "Merge. Facts for each module are combined. Duplicate entries are removed."
+    },
+    {
+     "layout": "gate",
+     "pass": [
+      true,
+      true,
+      true,
+      false,
+      true,
+      true
+     ],
+     "note": "Check. Each quoted signature is compared with the source. A mismatch moves down and is left out, not guessed."
+    },
+    {
+     "layout": "doc",
+     "drop": [
+      3
+     ],
+     "docLabel": "module pages",
+     "note": "Pages. One page per module, plus an overview of how the modules connect."
+    }
+   ]
+  },
+  {
+   "id": "rlm-test-gap-analysis",
+   "goal": "Find untested code",
+   "cat": "Analysis",
+   "on": true,
+   "use": "Untested behaviour and weak assertions, with a test to add for each gap.",
+   "prompt": "Use the rlm-test-gap-analysis skill on src/ against tests/. Use the coverage report if one exists.",
+   "input": "Source and test folders",
+   "output": "Gaps ranked by risk, each with an example test.",
+   "pros": [
+    "Points at risky paths: validation, authorization, money, errors.",
+    "Each gap has a concrete test."
+   ],
+   "cons": [
+    "Without coverage data, gaps come from names and can be wrong.",
+    "Quality of fixtures and mocks is not judged."
+   ],
+   "items": [
+    "pay.py",
+    "auth.py",
+    "invoice.py",
+    "tax.py"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Inventory. The source files are listed. Test files are matched against them in the next step."
+    },
+    {
+     "layout": "match",
+     "targets": [
+      "test_pay.py",
+      "none found",
+      "test_invoice.py",
+      "none found"
+     ],
+     "pairs": [
+      0,
+      -1,
+      2,
+      -1
+     ],
+     "targetState": [
+      "ok",
+      "bad",
+      "ok",
+      "bad"
+     ],
+     "state": [
+      "ok",
+      "bad",
+      "ok",
+      "bad"
+     ],
+     "note": "Match. Each source file is paired with a test that exercises it. Files with no test are red."
+    },
+    {
+     "layout": "bins",
+     "bins": [
+      "High risk",
+      "Low risk"
+     ],
+     "binOf": [
+      1,
+      0,
+      1,
+      0
+     ],
+     "note": "Rank. Untested code that handles validation, authorization or money is ranked first."
+    },
+    {
+     "layout": "doc",
+     "docLabel": "gaps",
+     "note": "Report. Each gap comes with an example test to add."
+    }
+   ]
+  },
+  {
+   "id": "rlm-migration-planner",
+   "goal": "Plan a framework upgrade",
+   "cat": "Analysis",
+   "on": true,
+   "use": "Framework, runtime or major-version migration, with phases and rollback.",
+   "prompt": "Use the rlm-migration-planner skill to plan React 17 to 18 for the web/ folder.",
+   "input": "Repository, source and target versions",
+   "output": "Inventory, risks, phases and rollback steps.",
+   "pros": [
+    "The size of the migration is known before work starts.",
+    "Each phase can ship and be reverted alone."
+   ],
+   "cons": [
+    "May suggest an equivalent that does not exist. Check each one.",
+    "Behaviour changes that are not visible in the code are missed."
+   ],
+   "items": [
+    "componentWillMount",
+    "ReactDOM.render",
+    "findDOMNode",
+    "createClass",
+    "Legacy Context",
+    "propTypes"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Inventory. Every use of the old version is listed with its file and line."
+    },
+    {
+     "layout": "match",
+     "targets": [
+      "useEffect",
+      "createRoot()",
+      "ref callback",
+      "class component",
+      "new Context API",
+      "removed"
+     ],
+     "pairs": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "targetState": [
+      "ok",
+      "ok",
+      "warn",
+      "warn",
+      "ok",
+      "bad"
+     ],
+     "note": "Match. Each use is matched with its replacement. Items with no direct equivalent are amber or red and need a decision."
+    },
+    {
+     "layout": "gate",
+     "pass": [
+      true,
+      true,
+      false,
+      true,
+      false,
+      false
+     ],
+     "note": "Confirm. Each replacement is checked against the target version's documentation. Unconfirmed items move down and wait for a decision."
+    },
+    {
+     "layout": "timeline",
+     "at": [
+      0.1,
+      0.2,
+      0.4,
+      0.6,
+      0.7,
+      0.9
+     ],
+     "note": "Phases. Confirmed changes are grouped into phases. Each phase ships alone and has a rollback step."
+    }
+   ]
+  },
+  {
+   "id": "rlm-log-triage",
+   "goal": "Investigate an incident",
+   "cat": "Analysis",
+   "on": true,
+   "use": "Many log lines: what failed first, and why.",
+   "prompt": "Use the rlm-log-triage skill on incident-2026-11-18/. The outage started around 14:05 UTC.",
+   "input": "Folder of decompressed logs",
+   "output": "Error clusters with counts, first error and ranked causes.",
+   "pros": [
+    "Thousands of lines become a few clusters with counts.",
+    "Each cause cites log lines you can check."
+   ],
+   "cons": [
+    "Compressed .gz files are not read. Decompress first.",
+    "Counts are approximate. You apply the time window by hand."
+   ],
+   "items": [
+    "db timeout",
+    "db timeout",
+    "retry 2",
+    "auth expired",
+    "db timeout",
+    "start",
+    "auth expired",
+    "cache miss",
+    "retry 3",
+    "db timeout"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Read. Log lines are read in chunks, in time order. Repeated lines are grouped, not counted as new problems."
+    },
+    {
+     "layout": "bins",
+     "bins": [
+      "db timeout",
+      "auth expired",
+      "retry",
+      "cache miss",
+      "start"
+     ],
+     "binOf": [
+      0,
+      0,
+      2,
+      1,
+      0,
+      4,
+      1,
+      3,
+      2,
+      0
+     ],
+     "note": "Cluster. Lines with the same signature are grouped. The number under each group is how often it appears."
+    },
+    {
+     "layout": "timeline",
+     "at": [
+      0.05,
+      0.12,
+      0.2,
+      0.22,
+      0.35,
+      0.4,
+      0.55,
+      0.6,
+      0.7,
+      0.9
+     ],
+     "state": [
+      "hit",
+      "todo",
+      "todo",
+      "todo",
+      "todo",
+      "todo",
+      "todo",
+      "todo",
+      "todo",
+      "todo"
+     ],
+     "note": "Order. Lines are placed on the time axis. The first error of the chain is found, not only the most frequent one."
+    },
+    {
+     "layout": "doc",
+     "docLabel": "likely causes",
+     "note": "Rank. Likely causes are ranked. Each one cites the log lines that support it."
+    }
+   ]
+  },
+  {
+   "id": "rlm-privacy-review",
+   "goal": "Check where personal data goes",
+   "cat": "Analysis",
+   "on": true,
+   "use": "Where personal data is collected, stored, logged, shared and deleted.",
+   "prompt": "Use the rlm-privacy-review skill on services/ for a data-protection assessment.",
+   "input": "Repository or folder",
+   "output": "Data inventory, flows and retention gaps.",
+   "pros": [
+    "The inventory is built from the code, with paths.",
+    "Logging and third-party transfers are reported."
+   ],
+   "cons": [
+    "Unusually named fields can be missed.",
+    "Databases and backups are not in the repository."
+   ],
+   "items": [
+    "email",
+    "phone",
+    "ip address",
+    "card number",
+    "name",
+    "order id"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Find. Fields that hold personal data are found by name and by how the code uses them."
+    },
+    {
+     "layout": "match",
+     "boundary": {
+      "label": "this service",
+      "inside": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5
+      ]
+     },
+     "targets": [
+      "third-party analytics",
+      "database",
+      "log file"
+     ],
+     "pairs": [
+      0,
+      1,
+      2,
+      1,
+      1,
+      -1
+     ],
+     "targetState": [
+      "bad",
+      "ok",
+      "warn"
+     ],
+     "state": [
+      "bad",
+      "ok",
+      "warn",
+      "ok",
+      "ok",
+      "ok"
+     ],
+     "note": "Flow. Each personal field is traced to where it is stored, logged or shared. Flows that leave the service are red."
+    },
+    {
+     "layout": "bins",
+     "bins": [
+      "Kept, no limit",
+      "Kept 30 days",
+      "Deleted on request"
+     ],
+     "binOf": [
+      0,
+      1,
+      2,
+      1,
+      0,
+      2
+     ],
+     "note": "Retain. Each field's retention is checked. Fields with no delete path are flagged."
+    },
+    {
+     "layout": "doc",
+     "docLabel": "inventory",
+     "note": "Report. An inventory of fields, flows and retention gaps. No personal values are copied."
+    }
+   ]
+  },
+  {
+   "id": "code-review",
+   "goal": "Review a change before merge",
+   "cat": "Engineering",
+   "on": true,
+   "use": "A branch, pull request or diff, reviewed before merge, with a verdict.",
+   "prompt": "Use the code-review skill on the changes between origin/main and this branch.",
+   "input": "Branch or diff",
+   "output": "Verdict, ranked findings and tests to run.",
+   "pros": [
+    "A consistent checklist: correctness, security, data, tests.",
+    "Needs only git."
+   ],
+   "cons": [
+    "Reads the code. It does not run tests or analysers.",
+    "Cross-file effects are missed unless callers are read."
+   ],
+   "items": [
+    "auth.py",
+    "api.ts",
+    "db.py",
+    "models.py",
+    "test_api.py"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "sweep": true,
+     "note": "Read. Each changed file is read in full, one at a time."
+    },
+    {
+     "layout": "graph",
+     "edges": [
+      [
+       0,
+       1
+      ],
+      [
+       2,
+       0
+      ],
+      [
+       3,
+       2
+      ],
+      [
+       1,
+       4
+      ]
+     ],
+     "state": [
+      "warn",
+      "todo",
+      "todo",
+      "todo",
+      "todo"
+     ],
+     "note": "Callers. For each changed function, the code that calls it is read. Impact spreads along these links."
+    },
+    {
+     "layout": "gate",
+     "pass": [
+      false,
+      true,
+      true,
+      true,
+      true
+     ],
+     "note": "Judge. Each finding is ranked blocker, major, minor or nit. Failing items move down, and a blocker stops the merge."
+    },
+    {
+     "layout": "doc",
+     "docLabel": "verdict",
+     "note": "Verdict. The report gives a verdict, the ranked findings and the tests to run."
+    }
+   ]
+  },
+  {
+   "id": "dependency-audit",
+   "goal": "Check dependencies before a release",
+   "cat": "Engineering",
+   "on": true,
+   "use": "Known vulnerabilities, unmaintained packages, licences and duplicate versions.",
+   "prompt": "Use the dependency-audit skill before the next release.",
+   "input": "Manifests and lock files",
+   "output": "Prioritised upgrade plan. Changes nothing.",
+   "pros": [
+    "Matches the versions you actually have, including indirect ones.",
+    "Read-only. No fix commands run without approval."
+   ],
+   "cons": [
+    "Coverage depends on which audit tools are installed.",
+    "Vulnerability lookups need network access."
+   ],
+   "items": [
+    "lodash 4.17.15",
+    "axios 0.19.0",
+    "express 4.16",
+    "react 16.8",
+    "left-pad 1.3",
+    "moment 2.29"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Read. Manifests and lock files list every installed version, including indirect ones."
+    },
+    {
+     "layout": "match",
+     "targets": [
+      "advisory: prototype pollution",
+      "advisory: SSRF",
+      "no advisory",
+      "no advisory",
+      "unmaintained",
+      "no advisory"
+     ],
+     "pairs": [
+      0,
+      1,
+      -1,
+      -1,
+      4,
+      -1
+     ],
+     "targetState": [
+      "bad",
+      "bad",
+      "ok",
+      "ok",
+      "warn",
+      "ok"
+     ],
+     "note": "Match. Each installed version is checked against advisory data. Matches are red, and unmaintained packages are amber."
+    },
+    {
+     "layout": "bins",
+     "bins": [
+      "Patch now",
+      "Plan upgrade",
+      "Watch"
+     ],
+     "binOf": [
+      0,
+      0,
+      1,
+      2,
+      1,
+      2
+     ],
+     "note": "Rank. Findings are grouped by the action they need: patch now, plan an upgrade, or watch."
+    },
+    {
+     "layout": "timeline",
+     "at": [
+      0.1,
+      0.15,
+      0.5,
+      0.7,
+      0.5,
+      0.9
+     ],
+     "note": "Plan. Patch upgrades come first, then minor, then major with breaking changes listed. The skill changes nothing itself."
+    }
+   ]
+  },
+  {
+   "id": "release-notes",
+   "goal": "Write release notes",
+   "cat": "Engineering",
+   "on": false,
+   "use": "Release notes and changelog entries from commits and merged pull requests.",
+   "prompt": "Use the release-notes skill for everything since tag v2.0.0.",
+   "input": "Git history and tags",
+   "output": "Notes grouped by impact, with upgrade steps.",
+   "pros": [
+    "Reads the substance of each change, not only its title.",
+    "Each note traces to a commit."
+   ],
+   "cons": [
+    "Needs tags and clear commit messages.",
+    "The impact grouping needs a read-through before publishing."
+   ],
+   "items": [
+    "feat: export csv",
+    "fix: login loop",
+    "chore: bump deps",
+    "feat: dark mode",
+    "docs: readme",
+    "BREAKING: drop v1",
+    "fix: typo"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Collect. Every commit and merged pull request since the last tag is listed."
+    },
+    {
+     "layout": "gate",
+     "pass": [
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      false
+     ],
+     "note": "Filter. Changes users cannot see, such as chores, docs and typos, are set aside. The rest are read for their effect."
+    },
+    {
+     "layout": "bins",
+     "drop": [
+      2,
+      4,
+      6
+     ],
+     "bins": [
+      "Breaking",
+      "Features",
+      "Fixes"
+     ],
+     "binOf": [
+      1,
+      2,
+      0,
+      1,
+      0,
+      0,
+      0
+     ],
+     "note": "Group. Each change is placed by its impact: breaking, a new feature, or a fix."
+    },
+    {
+     "layout": "doc",
+     "drop": [
+      2,
+      4,
+      6
+     ],
+     "docLabel": "release notes",
+     "note": "Notes. Each entry traces to a commit. Breaking changes state the step users must take."
+    }
+   ]
+  },
+  {
+   "id": "api-contract-review",
+   "goal": "Check API contract changes",
+   "cat": "Engineering",
+   "on": true,
+   "use": "Breaking changes in OpenAPI, protobuf or GraphQL contracts.",
+   "prompt": "Use the api-contract-review skill on the changes to api/openapi.yaml since main.",
+   "input": "Contract and route changes",
+   "output": "Breaking-change table, with the rule for each change.",
+   "pros": [
+    "Breaking changes are found by named rules.",
+    "Schema drift between contract and code is reported."
+   ],
+   "cons": [
+    "Consumers outside the repository are not visible.",
+    "Without a compatibility tool, it is a reading, not a check."
+   ],
+   "items": [
+    "GET /users",
+    "POST /users",
+    "GET /orders",
+    "DELETE /orders/{id}",
+    "GET /health"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Old contract. The operations of the previous version are listed."
+    },
+    {
+     "layout": "match",
+     "targets": [
+      "GET /users",
+      "POST /users (email required)",
+      "GET /orders (page optional)",
+      "not present",
+      "GET /health"
+     ],
+     "pairs": [
+      0,
+      1,
+      2,
+      -1,
+      4
+     ],
+     "targetState": [
+      "ok",
+      "bad",
+      "ok",
+      "bad",
+      "ok"
+     ],
+     "state": [
+      "ok",
+      "bad",
+      "ok",
+      "bad",
+      "ok"
+     ],
+     "note": "Diff. Each old operation is matched with the new one. A removed or changed operation is red."
+    },
+    {
+     "layout": "bins",
+     "bins": [
+      "Breaking",
+      "Compatible"
+     ],
+     "binOf": [
+      1,
+      0,
+      1,
+      0,
+      1
+     ],
+     "note": "Classify. Each change is marked breaking or compatible by a written rule."
+    },
+    {
+     "layout": "gate",
+     "pass": [
+      true,
+      true,
+      true,
+      false,
+      true
+     ],
+     "note": "Check handlers. Route handlers are compared with the schema. A mismatch is reported as drift."
+    },
+    {
+     "layout": "doc",
+     "docLabel": "change table",
+     "note": "Table. Each change lists its rule and the consumers that may break."
+    }
+   ]
+  },
+  {
+   "id": "threat-model",
+   "goal": "Model threats for a design",
+   "cat": "Security",
+   "on": true,
+   "use": "Threats to a system or change, using STRIDE, with each control checked in the code.",
+   "prompt": "Use the threat-model skill on the new payments webhook. Assets are card tokens and order status.",
+   "input": "System or change design",
+   "output": "Data-flow diagram and threat register.",
+   "pros": [
+    "Gives architecture and threat context a diff cannot.",
+    "Each control has file:line, or is listed as a gap."
+   ],
+   "cons": [
+    "Quality depends on the documents and code it can read.",
+    "Cloud IAM and network rules are not visible."
+   ],
+   "items": [
+    "Browser",
+    "API gateway",
+    "Payments",
+    "Token store",
+    "Webhook in",
+    "Admin panel"
+   ],
+   "steps": [
+    {
+     "layout": "graph",
+     "edges": [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       3
+      ],
+      [
+       4,
+       2
+      ],
+      [
+       5,
+       1
+      ]
+     ],
+     "boundary": {
+      "label": "your network",
+      "inside": [
+       1,
+       2,
+       3
+      ]
+     },
+     "note": "Diagram. Components and data flows are drawn. A boundary marks where data changes owner."
+    },
+    {
+     "layout": "bins",
+     "bins": [
+      "Spoofing",
+      "Tampering",
+      "Info disclosure",
+      "Denial of service",
+      "Elevation"
+     ],
+     "binOf": [
+      0,
+      1,
+      2,
+      3,
+      1,
+      4
+     ],
+     "note": "Threats. Each component is checked against STRIDE. Threats are listed per element."
+    },
+    {
+     "layout": "match",
+     "targets": [
+      "signature check",
+      "auth middleware",
+      "encryption at rest",
+      "rate limit",
+      "RBAC check",
+      "none found"
+     ],
+     "pairs": [
+      1,
+      1,
+      4,
+      2,
+      0,
+      5
+     ],
+     "targetState": [
+      "ok",
+      "ok",
+      "ok",
+      "ok",
+      "ok",
+      "bad"
+     ],
+     "state": [
+      "ok",
+      "ok",
+      "ok",
+      "ok",
+      "ok",
+      "bad"
+     ],
+     "note": "Controls. Each threat is matched with a control found in the code, with its file and line. A threat with no control is a gap."
+    },
+    {
+     "layout": "doc",
+     "docLabel": "threat register",
+     "note": "Register. Each threat, its control and any gap are listed for review."
+    }
+   ]
+  },
+  {
+   "id": "cicd-pipeline-review",
+   "goal": "Check CI/CD pipelines",
+   "cat": "Domain",
+   "on": true,
+   "use": "Pipeline secrets, permissions, untrusted input and deployment protection.",
+   "prompt": "Use the cicd-pipeline-review skill on .github/workflows/.",
+   "input": "Pipeline files",
+   "output": "Findings, each naming the trigger that exploits it.",
+   "pros": [
+    "Finds the paths to secrets or to production.",
+    "Read-only."
+   ],
+   "cons": [
+    "Branch protection and reviewers are not in the files.",
+    "Without linters, it relies on reading the YAML."
+   ],
+   "items": [
+    "checkout",
+    "setup-node@v3",
+    "deploy (prod)",
+    "secrets.PROD_KEY",
+    "permissions: write-all",
+    "pull_request_target"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Read. Each job, step and trigger in the workflow file is listed."
+    },
+    {
+     "layout": "gate",
+     "pass": [
+      true,
+      false,
+      true,
+      false,
+      false,
+      false
+     ],
+     "note": "Check. Permissions, secrets, action pinning and untrusted triggers are checked. Failing items move down."
+    },
+    {
+     "layout": "graph",
+     "edges": [
+      [
+       5,
+       3
+      ],
+      [
+       5,
+       4
+      ],
+      [
+       3,
+       2
+      ]
+     ],
+     "state": [
+      "todo",
+      "todo",
+      "todo",
+      "bad",
+      "bad",
+      "bad"
+     ],
+     "note": "Path. A pull request from a fork can reach the secrets and the production deploy through these links. Each finding names its trigger."
+    },
+    {
+     "layout": "doc",
+     "drop": [
+      0,
+      2
+     ],
+     "docLabel": "findings",
+     "note": "Report. Findings are listed with the trigger that makes each one exploitable."
+    }
+   ]
+  },
+  {
+   "id": "stack-auditor",
+   "goal": "Check config and Docker files",
+   "cat": "Domain",
+   "on": false,
+   "use": "Configuration, Docker and environment-variable checks.",
+   "prompt": "Use the stack-auditor skill on the docker/ folder and the compose files.",
+   "input": "Config, Docker and compose files",
+   "output": "Findings on syntax, secrets, ports and environment.",
+   "pros": [
+    "Catches mistakes before deployment.",
+    "Small, so it adds little to the agent's context."
+   ],
+   "cons": [
+    "Generic checks. It does not run hadolint or a schema validator.",
+    "Only useful where such files exist."
+   ],
+   "items": [
+    "docker-compose.yml",
+    "Dockerfile",
+    "nginx.conf",
+    ".env",
+    "app :8080",
+    "db :5432"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Read. Configuration, Docker and compose files are read. Secret-looking values are never printed."
+    },
+    {
+     "layout": "bins",
+     "bins": [
+      "Secret leak",
+      "Port clash",
+      "Syntax",
+      "Fine"
+     ],
+     "binOf": [
+      3,
+      3,
+      2,
+      0,
+      1,
+      3
+     ],
+     "note": "Check. Each file and setting is placed by what was found."
+    },
+    {
+     "layout": "graph",
+     "edges": [
+      [
+       2,
+       4
+      ],
+      [
+       4,
+       5
+      ]
+     ],
+     "state": [
+      "todo",
+      "todo",
+      "todo",
+      "todo",
+      "warn",
+      "todo"
+     ],
+     "note": "Ports. Service ports and links are checked. Two services that claim the same port are flagged."
+    },
+    {
+     "layout": "doc",
+     "docLabel": "findings",
+     "note": "Report. Each finding names the file, the line and the fix."
+    }
+   ]
+  },
+  {
+   "id": "trust-layer-validator",
+   "goal": "Check credential code",
+   "cat": "Domain",
+   "on": false,
+   "use": "Decentralized identity, credential schemas and protocol handlers.",
+   "prompt": "Use the trust-layer-validator skill on the credential schema changes in this branch.",
+   "input": "Identity and credential files",
+   "output": "Findings on schemas, keys and transport.",
+   "pros": [
+    "Covers failure modes that a general review can miss."
+   ],
+   "cons": [
+    "Very narrow. Most projects should leave it off.",
+    "Schema validity is checked by reading, not by a validator."
+   ],
+   "items": [
+    "credential.jsonld",
+    "schema.json",
+    "@context link",
+    "agent-msg.json",
+    "handler.ts",
+    "keys.env"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Read. Credential files, schemas and protocol handlers are read."
+    },
+    {
+     "layout": "gate",
+     "pass": [
+      true,
+      true,
+      false,
+      true,
+      true,
+      false
+     ],
+     "state": [
+      "todo",
+      "todo",
+      "warn",
+      "todo",
+      "todo",
+      "bad"
+     ],
+     "note": "Check. The JSON-LD context and the schema are validated by reading. Unpinned remote contexts and hardcoded keys fail."
+    },
+    {
+     "layout": "graph",
+     "edges": [
+      [
+       3,
+       4
+      ],
+      [
+       4,
+       0
+      ]
+     ],
+     "state": [
+      "todo",
+      "todo",
+      "todo",
+      "warn",
+      "todo",
+      "todo"
+     ],
+     "note": "Transport. Messages are traced between agents. Any plain-HTTP hop is flagged."
+    },
+    {
+     "layout": "doc",
+     "drop": [
+      2,
+      5
+     ],
+     "docLabel": "findings",
+     "note": "Report. Findings name the file, the rule and the fix. No key values are copied."
+    }
+   ]
+  },
+  {
+   "id": "incident-postmortem",
+   "goal": "Write an incident postmortem",
+   "cat": "Operations",
+   "on": false,
+   "use": "A blameless postmortem built from logs, alerts, chat and notes.",
+   "prompt": "Use the incident-postmortem skill. Inputs are the log triage report, the alert export and the incident channel notes.",
+   "input": "Triage report, alerts and notes",
+   "output": "Sourced timeline, causes and owned actions.",
+   "pros": [
+    "Blameless by rule: roles and decisions, not people.",
+    "Unknowns are marked as unknown."
+   ],
+   "cons": [
+    "Only as complete as the inputs.",
+    "The root cause can only be as firm as the evidence."
+   ],
+   "items": [
+    "14:05 deploy",
+    "14:12 errors up",
+    "14:20 alert",
+    "14:31 rollback",
+    "14:40 recovered",
+    "no owner paged"
+   ],
+   "steps": [
+    {
+     "layout": "timeline",
+     "at": [
+      0.02,
+      0.2,
+      0.35,
+      0.6,
+      0.85,
+      0.5
+     ],
+     "note": "Timeline. Every event from the logs, alerts and notes is placed in time order, with its source."
+    },
+    {
+     "layout": "graph",
+     "edges": [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       3
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     "note": "Chain. The trigger is separated from the root cause and the contributing factors."
+    },
+    {
+     "layout": "gate",
+     "pass": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      false
+     ],
+     "note": "Judge. Anything the evidence does not show is marked unknown, not filled in."
+    },
+    {
+     "layout": "bins",
+     "drop": [
+      5
+     ],
+     "bins": [
+      "Prevent",
+      "Detect",
+      "Mitigate"
+     ],
+     "binOf": [
+      0,
+      1,
+      2,
+      0,
+      2,
+      1
+     ],
+     "note": "Actions. Each action gets an owner role, a date and a type: prevent, detect or mitigate."
+    }
+   ]
+  },
+  {
+   "id": "compliance-control-check",
+   "goal": "Check controls for an audit",
+   "cat": "Compliance",
+   "on": false,
+   "use": "Which controls of your framework have evidence in the repository.",
+   "prompt": "Use the compliance-control-check skill with our internal policy file docs/controls.md.",
+   "input": "Your control list and the repository",
+   "output": "Control matrix: present, partial or absent.",
+   "pros": [
+    "Shows gaps before the auditor does.",
+    "The control list is yours, not invented."
+   ],
+   "cons": [
+    "Code being present does not prove a control works.",
+    "Reports evidence. It never certifies."
+   ],
+   "items": [
+    "AC-2 Access reviews",
+    "AU-2 Audit events",
+    "CM-3 Change control",
+    "IR-4 Incident handling",
+    "SC-8 Transport encryption"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Controls. The control list you supply is read one control at a time."
+    },
+    {
+     "layout": "match",
+     "targets": [
+      "review job in CI",
+      "audit logger in src",
+      "PR approval rule",
+      "none in repo",
+      "TLS config in deploy"
+     ],
+     "pairs": [
+      0,
+      1,
+      2,
+      -1,
+      4
+     ],
+     "targetState": [
+      "ok",
+      "ok",
+      "ok",
+      "bad",
+      "ok"
+     ],
+     "state": [
+      "warn",
+      "ok",
+      "ok",
+      "bad",
+      "ok"
+     ],
+     "note": "Evidence. Each control is searched for code or configuration that shows it. The file and line are recorded."
+    },
+    {
+     "layout": "bins",
+     "bins": [
+      "Present",
+      "Partly",
+      "Absent"
+     ],
+     "binOf": [
+      1,
+      0,
+      0,
+      2,
+      0
+     ],
+     "note": "Status. Each control is marked present, partly present or absent."
+    },
+    {
+     "layout": "doc",
+     "docLabel": "control matrix",
+     "note": "Matrix. Present, partial and absent controls are listed. Controls that need evidence from outside the repository are marked."
+    }
+   ]
+  },
+  {
+   "id": "audit-evidence-collector",
+   "goal": "Collect audit evidence",
+   "cat": "Compliance",
+   "on": false,
+   "use": "Change, review, pipeline and scan evidence for a fixed audit period.",
+   "prompt": "Use the audit-evidence-collector skill for 2026-07-01 to 2026-09-30 on this repository.",
+   "input": "Audit period, CI and repository history",
+   "output": "Evidence index with a SHA-256 hash for each item.",
+   "pros": [
+    "Read-only. Each item has a source and a hash."
+   ],
+   "cons": [
+    "Review approvals need the hosting CLI and access.",
+    "A snapshot. Later changes need a new collection."
+   ],
+   "items": [
+    "merge #812",
+    "merge #813",
+    "pipeline run 4410",
+    "review approval",
+    "config change",
+    "scan report"
+   ],
+   "steps": [
+    {
+     "layout": "timeline",
+     "at": [
+      0.05,
+      0.25,
+      0.4,
+      0.55,
+      0.7,
+      0.9
+     ],
+     "note": "Period. Only items dated inside the audit period are collected."
+    },
+    {
+     "layout": "row",
+     "sweep": true,
+     "state": [
+      "todo",
+      "todo",
+      "todo",
+      "warn",
+      "todo",
+      "todo"
+     ],
+     "note": "Collect. Each item is copied with the command that produced it and the tool version."
+    },
+    {
+     "layout": "stack",
+     "note": "Hash. Each item gets a SHA-256 hash, so the copy can be checked again later."
+    },
+    {
+     "layout": "doc",
+     "drop": [
+      3
+     ],
+     "docLabel": "evidence index",
+     "note": "Index. The index lists each item with its hash. The review approval needs the hosting CLI, so it is not collected and is left out here."
+    }
+   ]
+  },
+  {
+   "id": "license-attribution",
+   "goal": "Check licences before shipping",
+   "cat": "Compliance",
+   "on": false,
+   "use": "Dependency licences against a policy, and the NOTICE text.",
+   "prompt": "Use the license-attribution skill before we ship the desktop build. Policy: permissive only, plus LGPL with dynamic linking.",
+   "input": "Manifests, lock files and a policy",
+   "output": "Violations, unknown licences and a NOTICE draft.",
+   "pros": [
+    "Finds copyleft and unknown licences before they ship."
+   ],
+   "cons": [
+    "Not legal advice. Exceptions belong to your legal team.",
+    "Without licence tools, it relies on the lock file alone."
+   ],
+   "items": [
+    "react MIT",
+    "lodash MIT",
+    "gpl-lib GPL-3.0",
+    "jq CC0",
+    "lgpl-lib LGPL-2.1",
+    "unknown-pkg"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Inventory. Direct and indirect dependencies are listed with the licence in their package metadata."
+    },
+    {
+     "layout": "bins",
+     "bins": [
+      "Permissive",
+      "Copyleft",
+      "Unknown"
+     ],
+     "binOf": [
+      0,
+      0,
+      1,
+      0,
+      1,
+      2
+     ],
+     "note": "Classify. Each licence is placed in a class."
+    },
+    {
+     "layout": "gate",
+     "pass": [
+      true,
+      true,
+      false,
+      true,
+      true,
+      false
+     ],
+     "note": "Policy. The policy allows permissive licences and LGPL with dynamic linking. GPL-3.0 and unknown licences fail and move down."
+    },
+    {
+     "layout": "doc",
+     "drop": [
+      2,
+      5
+     ],
+     "docLabel": "NOTICE",
+     "note": "NOTICE. The attribution text lists each kept package with its licence. Violations need a decision from legal."
+    }
+   ]
+  },
+  {
+   "id": "memory-manager",
+   "goal": "Remember past answers",
+   "cat": "Memory",
+   "on": true,
+   "use": "Records requests and answers, so follow-ups start from earlier conclusions.",
+   "prompt": "Ask normally. The skill recalls related answers before answering, and records the new one afterwards.",
+   "input": "Your requests and answers",
+   "output": "Recalled answers, flagged when they are stale.",
+   "pros": [
+    "Follow-ups are answered from recorded conclusions.",
+    "Answers that depend on changed code are flagged."
+   ],
+   "cons": [
+    "Not a code index.",
+    "Only as good as what was recorded. The store needs pruning."
+   ],
+   "items": [
+    "tax rules",
+    "db schema",
+    "auth flow",
+    "billing notes"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Ask. Your question arrives. The skill looks for earlier answers before it writes a new one."
+    },
+    {
+     "layout": "gate",
+     "pass": [
+      true,
+      false,
+      false,
+      true
+     ],
+     "note": "Recall. Earlier answers that match the question are picked up. The others stay in the store."
+    },
+    {
+     "layout": "bins",
+     "drop": [
+      1,
+      2
+     ],
+     "bins": [
+      "Fresh",
+      "Stale: file changed"
+     ],
+     "binOf": [
+      0,
+      0,
+      0,
+      1
+     ],
+     "note": "Stale check. An answer is flagged stale if a file it depends on changed, was deleted or appeared since."
+    },
+    {
+     "layout": "store",
+     "storeLabel": "memory",
+     "note": "Record. The new answer is stored with the files it used and the symbols it names. Secret-looking values are removed first."
+    }
+   ]
+  },
+  {
+   "id": "token-saver",
+   "goal": "Get shorter answers",
+   "cat": "Efficiency",
+   "on": true,
+   "use": "No filler, no repeated code, and edits shown as changed lines only.",
+   "prompt": "No prompt needed. It applies to replies once installed.",
+   "input": "Any question",
+   "output": "A shorter reply, and changed lines only for edits.",
+   "pros": [
+    "Less to read, and cheaper output.",
+    "No setup, and nothing is stored."
+   ],
+   "cons": [
+    "Brevity can drop context you need, such as reasons.",
+    "The savings have not been measured."
+   ],
+   "items": [
+    "Long intro",
+    "Filler line",
+    "Repeated code",
+    "Closing summary",
+    "The answer",
+    "Changed lines"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Read. The draft reply is read part by part."
+    },
+    {
+     "layout": "gate",
+     "pass": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      true
+     ],
+     "note": "Strip. Filler, repeated code and closing summaries fail and move down. The answer and the changed lines stay."
+    },
+    {
+     "layout": "shrink",
+     "drop": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "note": "Shrink. Only the answer and the changed lines remain, with no lead-in."
+    },
+    {
+     "layout": "doc",
+     "docLabel": "short reply",
+     "note": "Output. The short reply. Verdicts, findings and tests to run are kept whenever another skill needs them."
+    }
+   ]
+  }
+ ]
+}
+</script>
 <script type="module">
-const T_URL = 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+const THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const STEP = 1.6; // seconds per step in the animation
-
-// Block kinds: colour and the meaning shown in the legend.
-const KIND = {
-  in:    { c: 0x2f6fd6, label: 'Input' },
-  proc:  { c: 0x64748b, label: 'Step' },
-  map:   { c: 0xd9962b, label: 'Parallel chunks' },
-  merge: { c: 0x7c5ce0, label: 'Merge' },
-  check: { c: 0x1f9d6b, label: 'Verify' },
-  out:   { c: 0xd6456a, label: 'Output' },
-  mem:   { c: 0x13a3a3, label: 'Memory' },
-  gate:  { c: 0xe0702a, label: 'Decision' },
-};
-const CATS = ['All', 'Analysis', 'Engineering', 'Security', 'Domain', 'Operations', 'Compliance', 'Memory', 'Efficiency'];
-
-// One entry per skill. steps: [kind, label]. Text comes from each skill's SKILL.md and docs/SKILLS.md.
-const SKILLS = [
-  { id: 'rlm-security-audit', goal: 'Find security problems', cat: 'Analysis', on: true,
-    use: 'Security review of code too large to read in one pass.',
-    prompt: 'Use the rlm-security-audit skill to audit this repository. Scope it to src/ first.',
-    input: 'Repository or folder', output: 'Findings with path:line, severity and fix. Secrets shown as <redacted>.',
-    steps: [['in', 'Repository'], ['proc', 'Scan files'], ['map', 'Review each chunk'], ['merge', 'Merge and dedupe'], ['check', 'Verify high severity'], ['out', 'Findings report']],
-    pros: ['Covers every file in scope, not only the files the agent opened.', 'Serious findings are checked against the source.'],
-    cons: ['Depends on model judgement: expect some false positives and misses.', 'Not a static analyser.'] },
-  { id: 'rlm-refactor-planner', goal: 'Plan a refactor', cat: 'Analysis', on: true,
-    use: 'Dependencies, import cycles, coupling and the order of the work.',
-    prompt: 'Use the rlm-refactor-planner skill to plan splitting the billing module. Start from the import graph.',
-    input: 'Repository or module', output: 'Phased plan with a list of stable zones.',
-    steps: [['in', 'Repository'], ['proc', 'Import graph'], ['map', 'Coupling per chunk'], ['merge', 'Merge'], ['out', 'Phased plan']],
-    pros: ['Starts from measured structure, not impressions.', 'Each phase is small and testable.'],
-    cons: ['Misses dynamic imports, reflection and DI containers.', 'A plan is not a change; each phase still needs tests.'] },
-  { id: 'rlm-doc-generator', goal: 'Write module docs', cat: 'Analysis', on: true,
-    use: 'Module and public API documentation, with an overview of how modules connect.',
-    prompt: 'Use the rlm-doc-generator skill to document the packages/core folder. One page per package.',
-    input: 'Package or folder', output: 'One page per module, plus an overview.',
-    steps: [['in', 'Package'], ['proc', 'Scan'], ['map', 'Facts per chunk'], ['merge', 'Merge'], ['check', 'Check signatures'], ['out', 'Module pages']],
-    pros: ['Consistent pages. Undocumented items are listed, not guessed.', 'Signatures are checked against the source.'],
-    cons: ['The prose is a draft to read and edit.', 'Code examples are not compiled or run.'] },
-  { id: 'rlm-test-gap-analysis', goal: 'Find untested code', cat: 'Analysis', on: true,
-    use: 'Untested behaviour and weak assertions, with a test to add for each gap.',
-    prompt: 'Use the rlm-test-gap-analysis skill on src/ against tests/. Use the coverage report if one exists.',
-    input: 'Source and test folders', output: 'Gaps ranked by risk, each with an example test.',
-    steps: [['in', 'Source and tests'], ['proc', 'Coverage report'], ['map', 'Chunks vs tests'], ['merge', 'Merge and rank'], ['out', 'Gaps and tests']],
-    pros: ['Points at risky paths: validation, authorization, money, errors.', 'Each gap has a concrete test.'],
-    cons: ['Without coverage data, gaps come from names and can be wrong.', 'Quality of fixtures and mocks is not judged.'] },
-  { id: 'rlm-migration-planner', goal: 'Plan a framework upgrade', cat: 'Analysis', on: true,
-    use: 'Framework, runtime or major-version migration, with phases and rollback.',
-    prompt: 'Use the rlm-migration-planner skill to plan React 17 to 18 for the web/ folder.',
-    input: 'Repository, source and target versions', output: 'Inventory, risks, phases and rollback steps.',
-    steps: [['in', 'Source and target'], ['proc', 'Scan'], ['map', 'Old-version uses'], ['merge', 'Merge'], ['check', 'Confirm equivalents'], ['out', 'Phases and rollback']],
-    pros: ['The size of the migration is known before work starts.', 'Each phase can ship and be reverted alone.'],
-    cons: ['May suggest an equivalent that does not exist. Check each one.', 'Behaviour changes that are not visible in the code are missed.'] },
-  { id: 'rlm-log-triage', goal: 'Investigate an incident', cat: 'Analysis', on: true,
-    use: 'Many log lines: what failed first, and why.',
-    prompt: 'Use the rlm-log-triage skill on incident-2026-11-18/. The outage started around 14:05 UTC.',
-    input: 'Folder of decompressed logs', output: 'Error clusters with counts, first error and ranked causes.',
-    steps: [['in', 'Log files'], ['proc', 'Scan'], ['map', 'Cluster errors'], ['merge', 'Count by signature'], ['check', 'Trace first error'], ['out', 'Ranked causes']],
-    pros: ['Thousands of lines become a few clusters with counts.', 'Each cause cites log lines you can check.'],
-    cons: ['Compressed .gz files are not read. Decompress first.', 'Counts are approximate. You apply the time window by hand.'] },
-  { id: 'rlm-privacy-review', goal: 'Check where personal data goes', cat: 'Analysis', on: true,
-    use: 'Where personal data is collected, stored, logged, shared and deleted.',
-    prompt: 'Use the rlm-privacy-review skill on services/ for a data-protection assessment.',
-    input: 'Repository or folder', output: 'Data inventory, flows and retention gaps.',
-    steps: [['in', 'Repository'], ['proc', 'Scan'], ['map', 'Personal-data fields'], ['merge', 'Merge'], ['check', 'Verify flows'], ['out', 'Data inventory']],
-    pros: ['The inventory is built from the code, with paths.', 'Logging and third-party transfers are reported.'],
-    cons: ['Unusually named fields can be missed.', 'Databases and backups are not in the repository.'] },
-  { id: 'code-review', goal: 'Review a change before merge', cat: 'Engineering', on: true,
-    use: 'A branch, pull request or diff, reviewed before merge, with a verdict.',
-    prompt: 'Use the code-review skill on the changes between origin/main and this branch.',
-    input: 'Branch or diff', output: 'Verdict, ranked findings and tests to run.',
-    steps: [['in', 'Branch or diff'], ['proc', 'Read diff file by file'], ['proc', 'Check callers'], ['gate', 'Blocker?'], ['out', 'Verdict and findings']],
-    pros: ['A consistent checklist: correctness, security, data, tests.', 'Needs only git.'],
-    cons: ['Reads the code. It does not run tests or analysers.', 'Cross-file effects are missed unless callers are read.'] },
-  { id: 'dependency-audit', goal: 'Check dependencies before a release', cat: 'Engineering', on: true,
-    use: 'Known vulnerabilities, unmaintained packages, licences and duplicate versions.',
-    prompt: 'Use the dependency-audit skill before the next release.',
-    input: 'Manifests and lock files', output: 'Prioritised upgrade plan. Changes nothing.',
-    steps: [['in', 'Manifests and locks'], ['proc', 'Run audit tools'], ['check', 'Check installed versions'], ['out', 'Upgrade plan']],
-    pros: ['Matches the versions you actually have, including indirect ones.', 'Read-only. No fix commands run without approval.'],
-    cons: ['Coverage depends on which audit tools are installed.', 'Vulnerability lookups need network access.'] },
-  { id: 'release-notes', goal: 'Write release notes', cat: 'Engineering', on: false,
-    use: 'Release notes and changelog entries from commits and merged pull requests.',
-    prompt: 'Use the release-notes skill for everything since tag v2.0.0.',
-    input: 'Git history and tags', output: 'Notes grouped by impact, with upgrade steps.',
-    steps: [['in', 'Git history'], ['proc', 'List commits and PRs'], ['proc', 'Read user-visible diffs'], ['merge', 'Group by impact'], ['out', 'Release notes']],
-    pros: ['Reads the substance of each change, not only its title.', 'Each note traces to a commit.'],
-    cons: ['Needs tags and clear commit messages.', 'The impact grouping needs a read-through before publishing.'] },
-  { id: 'api-contract-review', goal: 'Check API contract changes', cat: 'Engineering', on: true,
-    use: 'Breaking changes in OpenAPI, protobuf or GraphQL contracts.',
-    prompt: 'Use the api-contract-review skill on the changes to api/openapi.yaml since main.',
-    input: 'Contract and route changes', output: 'Breaking-change table, with the rule for each change.',
-    steps: [['in', 'Contract diff'], ['proc', 'Classify each change'], ['check', 'Check handlers'], ['out', 'Breaking-change table']],
-    pros: ['Breaking changes are found by named rules.', 'Schema drift between contract and code is reported.'],
-    cons: ['Consumers outside the repository are not visible.', 'Without a compatibility tool, it is a reading, not a check.'] },
-  { id: 'threat-model', goal: 'Model threats for a design', cat: 'Security', on: true,
-    use: 'Threats to a system or change, using STRIDE, with each control checked in the code.',
-    prompt: 'Use the threat-model skill on the new payments webhook. Assets are card tokens and order status.',
-    input: 'System or change design', output: 'Data-flow diagram and threat register.',
-    steps: [['in', 'System design'], ['proc', 'Routes and config'], ['proc', 'Data-flow diagram'], ['map', 'STRIDE per element'], ['check', 'Find each control'], ['out', 'Threat register']],
-    pros: ['Gives architecture and threat context a diff cannot.', 'Each control has file:line, or is listed as a gap.'],
-    cons: ['Quality depends on the documents and code it can read.', 'Cloud IAM and network rules are not visible.'] },
-  { id: 'cicd-pipeline-review', goal: 'Check CI/CD pipelines', cat: 'Domain', on: true,
-    use: 'Pipeline secrets, permissions, untrusted input and deployment protection.',
-    prompt: 'Use the cicd-pipeline-review skill on .github/workflows/.',
-    input: 'Pipeline files', output: 'Findings, each naming the trigger that exploits it.',
-    steps: [['in', 'Pipeline files'], ['proc', 'Permissions and secrets'], ['check', 'Run linters if present'], ['out', 'Findings']],
-    pros: ['Finds the paths to secrets or to production.', 'Read-only.'],
-    cons: ['Branch protection and reviewers are not in the files.', 'Without linters, it relies on reading the YAML.'] },
-  { id: 'stack-auditor', goal: 'Check config and Docker files', cat: 'Domain', on: false,
-    use: 'Configuration, Docker and environment-variable checks.',
-    prompt: 'Use the stack-auditor skill on the docker/ folder and the compose files.',
-    input: 'Config, Docker and compose files', output: 'Findings on syntax, secrets, ports and environment.',
-    steps: [['in', 'Config and Docker'], ['proc', 'Syntax and secrets'], ['proc', 'Ports and env'], ['check', 'Service boundaries'], ['out', 'Findings']],
-    pros: ['Catches mistakes before deployment.', 'Small, so it adds little to the agent’s context.'],
-    cons: ['Generic checks. It does not run hadolint or a schema validator.', 'Only useful where such files exist.'] },
-  { id: 'trust-layer-validator', goal: 'Check credential code', cat: 'Domain', on: false,
-    use: 'Decentralized identity, credential schemas and protocol handlers.',
-    prompt: 'Use the trust-layer-validator skill on the credential schema changes in this branch.',
-    input: 'Identity and credential files', output: 'Findings on schemas, keys and transport.',
-    steps: [['in', 'Credential files'], ['proc', 'JSON-LD and schemas'], ['proc', 'Agent messages'], ['check', 'Keys and transport'], ['out', 'Findings']],
-    pros: ['Covers failure modes that a general review can miss.'],
-    cons: ['Very narrow. Most projects should leave it off.', 'Schema validity is checked by reading, not by a validator.'] },
-  { id: 'incident-postmortem', goal: 'Write an incident postmortem', cat: 'Operations', on: false,
-    use: 'A blameless postmortem built from logs, alerts, chat and notes.',
-    prompt: 'Use the incident-postmortem skill. Inputs are the log triage report, the alert export and the incident channel notes.',
-    input: 'Triage report, alerts and notes', output: 'Sourced timeline, causes and owned actions.',
-    steps: [['in', 'Triage, alerts, notes'], ['proc', 'Sourced timeline'], ['gate', 'Trigger or root cause?'], ['proc', 'Detection and response'], ['out', 'Postmortem']],
-    pros: ['Blameless by rule: roles and decisions, not people.', 'Unknowns are marked as unknown.'],
-    cons: ['Only as complete as the inputs.', 'The root cause can only be as firm as the evidence.'] },
-  { id: 'compliance-control-check', goal: 'Check controls for an audit', cat: 'Compliance', on: false,
-    use: 'Which controls of your framework have evidence in the repository.',
-    prompt: 'Use the compliance-control-check skill with our internal policy file docs/controls.md.',
-    input: 'Your control list and the repository', output: 'Control matrix: present, partial or absent.',
-    steps: [['in', 'Control list and repo'], ['map', 'Map controls to evidence'], ['check', 'Search repository'], ['out', 'Control matrix']],
-    pros: ['Shows gaps before the auditor does.', 'The control list is yours, not invented.'],
-    cons: ['Code being present does not prove a control works.', 'Reports evidence. It never certifies.'] },
-  { id: 'audit-evidence-collector', goal: 'Collect audit evidence', cat: 'Compliance', on: false,
-    use: 'Change, review, pipeline and scan evidence for a fixed audit period.',
-    prompt: 'Use the audit-evidence-collector skill for 2026-07-01 to 2026-09-30 on this repository.',
-    input: 'Audit period, CI and repository history', output: 'Evidence index with a SHA-256 hash for each item.',
-    steps: [['in', 'Audit period'], ['proc', 'Merges and pipeline runs'], ['proc', 'Review records'], ['proc', 'Hash each item'], ['out', 'Evidence index']],
-    pros: ['Read-only. Each item has a source and a hash.'],
-    cons: ['Review approvals need the hosting CLI and access.', 'A snapshot. Later changes need a new collection.'] },
-  { id: 'license-attribution', goal: 'Check licences before shipping', cat: 'Compliance', on: false,
-    use: 'Dependency licences against a policy, and the NOTICE text.',
-    prompt: 'Use the license-attribution skill before we ship the desktop build. Policy: permissive only, plus LGPL with dynamic linking.',
-    input: 'Manifests, lock files and a policy', output: 'Violations, unknown licences and a NOTICE draft.',
-    steps: [['in', 'Manifests and policy'], ['proc', 'Licence inventory'], ['gate', 'Policy violation?'], ['out', 'NOTICE draft']],
-    pros: ['Finds copyleft and unknown licences before they ship.'],
-    cons: ['Not legal advice. Exceptions belong to your legal team.', 'Without licence tools, it relies on the lock file alone.'] },
-  { id: 'memory-manager', goal: 'Remember past answers', cat: 'Memory', on: true,
-    use: 'Records requests and answers, so follow-ups start from earlier conclusions.',
-    prompt: 'Ask normally. The skill recalls related answers before answering, and records the new one afterwards.',
-    input: 'Your requests and answers', output: 'Recalled answers, flagged when they are stale.',
-    steps: [['in', 'Your question'], ['mem', 'Recall earlier answers'], ['proc', 'Answer'], ['mem', 'Record the answer'], ['check', 'Flag stale entries'], ['out', 'Answer']],
-    pros: ['Follow-ups are answered from recorded conclusions.', 'Answers that depend on changed code are flagged.'],
-    cons: ['Not a code index.', 'Only as good as what was recorded. The store needs pruning.'] },
-  { id: 'token-saver', goal: 'Get shorter answers', cat: 'Efficiency', on: true,
-    use: 'No filler, no repeated code, and edits shown as changed lines only.',
-    prompt: 'No prompt needed. It applies to replies once installed.',
-    input: 'Any question', output: 'A shorter reply, and changed lines only for edits.',
-    steps: [['in', 'Question'], ['proc', 'Strip filler'], ['proc', 'Changed lines only'], ['out', 'Short answer']],
-    pros: ['Less to read, and cheaper output.', 'No setup, and nothing is stored.'],
-    cons: ['Brevity can drop context you need, such as reasons.', 'The savings have not been measured.'] },
-];
-
+const STEP_SEC = 5; // seconds per step
+const COL = { todo: 0x64748b, ok: 0x1f9d6b, bad: 0xd6456a, warn: 0xd9962b, hit: 0x2f6fd6 };
+const BINS = [0x7c5ce0, 0x13a3a3, 0xe0702a, 0x2f6fd6, 0xd9962b, 0x1f9d6b];
+const CATS = ['All', 'Overview', 'Analysis', 'Engineering', 'Security', 'Domain', 'Operations', 'Compliance', 'Memory', 'Efficiency'];
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const hex = (c) => '#' + c.toString(16).padStart(6, '0');
 
-let current = SKILLS[0].id;
-let skill = SKILLS[0];
+// The skills are input data: they come from the JSON block, or from ?data=<url>.
+const params = new URLSearchParams(location.search);
+const EMBEDDED = JSON.parse(document.getElementById('skill-data').textContent);
+let DATA = EMBEDDED;
+if (params.get('data')) {
+  try { DATA = await (await fetch(params.get('data'))).json(); } catch (e) { DATA = EMBEDDED; }
+}
+const SKILLS = DATA.skills;
+
+let current = (SKILLS.find((s) => s.id === params.get('skill')) || SKILLS[0]).id;
+let skill = SKILLS.find((s) => s.id === current);
 let filter = 'All';
 let query = '';
 let time = 0;
 let playing = !REDUCED;
-let lastActive = -1;
+let stepIdx = -1;
 let lastFrame = 0;
-let rotX = 0.12, rotY = 0.35;
+let L = null;
 
-// 3D state (filled once the module loads)
+// 3D state, filled once the module loads
 let T = null, renderer = null, scene = null, camera = null, world = null;
-let nodes = [], packets = [], positions = [];
+let tokens = [], decor = [], pulses = [];
+let rotX = 0.12, rotY = 0.35, camDist = 12, camDistT = 12;
+let off = { x: 0, y: 0 }, offT = { x: 0, y: 0 };
 let drag = null;
-
 const cv = $('#cv'), stage = $('#stage');
 
+// ---------- Layouts: each step places the items (and any extras) ----------
+function layoutStep(st, N) {
+  const drop = new Set(st.drop || []);
+  const keep = [...Array(N).keys()].filter((i) => !drop.has(i));
+  const n = Math.max(keep.length, 1);
+  const jit = (i) => ((i * 37) % 7 - 3) * 0.1;
+  const pos = Array.from({ length: N }, (_, i) => ({ x: 0, y: 0, z: jit(i), s: 0.001, vis: false }));
+  const out = { pos, ext: [], frames: [], bins: null, binOf: st.binOf || null, targets: null, lines: [], edges: st.edges || null, cycles: st.cycles || null, boundary: null, axis: null, store: null, doc: null, funnel: null, texts: [], gOf: null, G: 0 };
+  const place = (i, x, y, s = 1) => { pos[i] = { x, y, z: jit(i), s, vis: true }; out.ext.push({ x, y }); };
+
+  switch (st.layout) {
+    case 'stack':
+      keep.forEach((i, k) => place(i, -6, ((n - 1) / 2 - k) * 1.0));
+      break;
+    case 'row':
+      keep.forEach((i, k) => place(i, (k - (n - 1) / 2) * Math.min(2.6, 15 / n), k % 2 ? 0.9 : -0.9));
+      break;
+    case 'shrink':
+      keep.forEach((i, k) => place(i, (k - (n - 1) / 2) * 1.7, 0, 0.75));
+      break;
+    case 'chunks':
+    case 'parallel': {
+      const gOf = [];
+      if (Array.isArray(st.groups)) st.groups.forEach((g, i) => { gOf[i] = g; });
+      else keep.forEach((i, k) => { gOf[i] = Math.floor(k * st.groups / n); });
+      const G = Math.max(...keep.map((i) => gOf[i])) + 1;
+      out.gOf = gOf; out.G = G;
+      for (let g = 0; g < G; g++) {
+        const mem = keep.filter((i) => gOf[i] === g);
+        const rows = Math.ceil(mem.length / 2);
+        const cx = (g - (G - 1) / 2) * 6.4;
+        mem.forEach((i, kk) => place(i, cx + ((kk % 2) - 0.5) * 2.6, ((rows - 1) / 2 - Math.floor(kk / 2)) * 1.15));
+        if (mem.length) {
+          const xs = mem.map((i) => pos[i].x), ys = mem.map((i) => pos[i].y);
+          out.frames.push({ x0: Math.min(...xs) - 1.1, x1: Math.max(...xs) + 1.1, y0: Math.min(...ys) - 0.8, y1: Math.max(...ys) + 1.0, label: 'chunk ' + (g + 1) });
+        }
+      }
+      break;
+    }
+    case 'funnel':
+      keep.forEach((i, k) => place(i, (k % 3 - 1) * 0.55, 1.9 + (k % 2) * 0.3));
+      out.funnel = { x: 0, y: 0.2 };
+      break;
+    case 'bins': {
+      const K = st.bins.length;
+      const count = new Array(K).fill(0);
+      keep.forEach((i) => {
+        const b = st.binOf ? st.binOf[i] : 0;
+        const kk = count[b]++;
+        place(i, (b - (K - 1) / 2) * 4.4 + ((kk % 2) - 0.5) * 1.9, 1.7 - Math.floor(kk / 2) * 1.1);
+      });
+      out.bins = st.bins.map((label, b) => ({ x: (b - (K - 1) / 2) * 4.4, y: -2.6, label, count: count[b] }));
+      out.bins.forEach((b) => out.ext.push({ x: b.x, y: b.y }));
+      break;
+    }
+    case 'gate': {
+      const passK = keep.filter((i) => !st.pass || st.pass[i]);
+      const failK = keep.filter((i) => st.pass && !st.pass[i]);
+      const sp = (m) => Math.min(2.6, 14 / Math.max(m, 1));
+      passK.forEach((i, k) => place(i, (k - (passK.length - 1) / 2) * sp(passK.length), 1.9));
+      failK.forEach((i, k) => place(i, (k - (failK.length - 1) / 2) * sp(failK.length), -2.1));
+      out.texts = [{ x: 7.4, y: 1.9, label: 'passed' }, { x: 7.4, y: -2.1, label: 'failed' }];
+      out.texts.forEach((t) => out.ext.push({ x: t.x, y: t.y }));
+      break;
+    }
+    case 'match': {
+      const Tn = (st.targets || []).length;
+      const rows = Math.max(N, Tn);
+      const yOf = (k) => ((rows - 1) / 2 - k) * 1.2;
+      keep.forEach((i) => place(i, -4.6, yOf(i)));
+      out.targets = (st.targets || []).map((label, j) => ({ x: 4.6, y: yOf(j), label, state: st.targetState ? st.targetState[j] : 'todo' }));
+      out.targets.forEach((t) => out.ext.push({ x: t.x, y: t.y }));
+      keep.forEach((i) => { const j = st.pairs[i]; if (j >= 0) out.lines.push({ a: i, b: j, ok: out.targets[j].state !== 'bad' }); });
+      break;
+    }
+    case 'graph': {
+      const R = N > 6 ? 4.6 : 4.0;
+      for (let i = 0; i < N; i++) {
+        const a = -Math.PI / 2 + (2 * Math.PI * i) / N;
+        place(i, R * Math.cos(a), R * 0.7 * Math.sin(a));
+      }
+      break;
+    }
+    case 'timeline':
+      out.axis = { x0: -6.6, x1: 6.6, y: -2.3 };
+      keep.forEach((i, k) => {
+        const at = st.at ? st.at[i] : k / Math.max(n - 1, 1);
+        place(i, -6 + at * 12, k % 2 ? 1.0 : -0.6);
+      });
+      break;
+    case 'store':
+      out.store = { x: 5.6, y: 0.3, h: 3.4, label: st.storeLabel || 'memory' };
+      keep.forEach((i, k) => place(i, 5.6 + jit(i) * 3, -1.0 + k * 0.5, 0.9));
+      out.ext.push({ x: 5.6, y: 2.1 }, { x: 5.6, y: -2.0 });
+      break;
+    case 'doc': {
+      const rows = Math.ceil(n / 2);
+      out.doc = { x: 4.8, y: 0, w: 5.4, h: Math.max(3.6, rows * 1.25 + 1.4), label: st.docLabel || 'report' };
+      keep.forEach((i, k) => place(i, 3.6 + (k % 2) * 2.2, ((rows - 1) / 2 - Math.floor(k / 2)) * 1.25, 0.9));
+      out.ext.push({ x: 1.9, y: out.doc.h / 2 }, { x: 7.7, y: -out.doc.h / 2 });
+      break;
+    }
+    default:
+      keep.forEach((i, k) => place(i, (k - (n - 1) / 2) * 2.0, 0));
+  }
+
+  if (st.boundary) {
+    const xs = st.boundary.inside.map((i) => pos[i].x), ys = st.boundary.inside.map((i) => pos[i].y);
+    out.boundary = { x0: Math.min(...xs) - 1.0, x1: Math.max(...xs) + 1.0, y0: Math.min(...ys) - 0.8, y1: Math.max(...ys) + 0.8, label: st.boundary.label };
+  }
+  return out;
+}
+
+// Every point the camera must frame.
+function boundsPoints(o) {
+  const p = [...o.ext];
+  o.frames.forEach((f) => p.push({ x: f.x0, y: f.y0 }, { x: f.x1, y: f.y1 }));
+  if (o.boundary) p.push({ x: o.boundary.x0, y: o.boundary.y0 }, { x: o.boundary.x1, y: o.boundary.y1 });
+  if (o.doc) p.push({ x: o.doc.x - o.doc.w / 2, y: o.doc.y - o.doc.h / 2 }, { x: o.doc.x + o.doc.w / 2, y: o.doc.y + o.doc.h / 2 });
+  if (o.targets) o.targets.forEach((t) => p.push({ x: t.x + 1.0, y: t.y }));
+  p.push(...o.pos.filter((q) => q.vis));
+  return p;
+}
+
 // ---------- Panel ----------
+const stepTitle = (st) => st.note.split('.')[0];
+
 function renderTabs() {
   const q = query.trim().toLowerCase();
   const list = SKILLS.filter((s) => (filter === 'All' || s.cat === filter) &&
@@ -499,36 +2322,24 @@ function renderTabs() {
     <button type="button" class="tab" data-id="${esc(s.id)}" aria-pressed="${s.id === current}">
       <span class="g">${esc(s.goal)}</span>
       <span class="i">${esc(s.id)}</span>
-      <span class="m">${esc(s.cat)} · ${s.on ? 'On by default' : 'Off by default'}</span>
+      <span class="m">${esc(s.cat)}${s.cat === 'Overview' ? '' : ' · ' + (s.on ? 'On by default' : 'Off by default')}</span>
     </button>`).join('') || '<p class="none">No skill matches. Clear the search.</p>';
 }
 
 function renderCats() {
-  $('#cats').innerHTML = CATS.map((c) =>
-    `<button type="button" data-cat="${c}" aria-pressed="${c === filter}">${c}</button>`).join('');
-}
-
-function renderLegend() {
-  $('#legend').innerHTML = Object.entries(KIND).map(([, k]) =>
-    `<li><span class="sw" style="background:${hex(k.c)}"></span>${esc(k.label)}</li>`).join('');
-}
-
-function renderSteps() {
-  $('#steps').innerHTML = skill.steps.map(([k, l], i) =>
-    `<li><button type="button" data-step="${i}"><span class="sw" style="background:${hex(KIND[k].c)}"></span>${i + 1}. ${esc(l)}</button></li>`).join('');
-  lastActive = -1;
+  $('#cats').innerHTML = CATS.map((c) => `<button type="button" data-cat="${c}" aria-pressed="${c === filter}">${c}</button>`).join('');
 }
 
 function renderInfo() {
   $('#sname').textContent = skill.goal;
-  $('#sbadges').innerHTML = `${esc(skill.id)} · ${esc(skill.cat)} · <span class="badge">${skill.on ? 'On by default' : 'Off by default'}</span>`;
+  $('#sbadges').innerHTML = `${esc(skill.id)} · ${esc(skill.cat)}` + (skill.cat === 'Overview' ? '' : ` · <span class="badge">${skill.on ? 'On by default' : 'Off by default'}</span>`);
   $('#info').innerHTML = `
     <h3>${esc(skill.goal)}</h3>
     <p>${esc(skill.use)}</p>
     <dl>
       <dt>Input</dt><dd>${esc(skill.input)}</dd>
       <dt>Output</dt><dd>${esc(skill.output)}</dd>
-      <dt>Default</dt><dd>${skill.on ? 'On. Selected in the install picker.' : 'Off. Select it in the install picker.'}</dd>
+      <dt>Items</dt><dd>${skill.items.map((x) => esc(x)).join(', ')}</dd>
     </dl>
     <h4>Example prompt</h4>
     <pre><code>${esc(skill.prompt)}</code></pre>
@@ -538,37 +2349,27 @@ function renderInfo() {
     </div>`;
 }
 
-function markStep(idx) {
-  document.querySelectorAll('#steps button').forEach((b, i) => b.classList.toggle('on', i === idx));
-  const [k, l] = skill.steps[idx];
-  $('#cap').textContent = `Step ${idx + 1} of ${skill.steps.length}: ${l} (${KIND[k].label.toLowerCase()})`;
+function renderSteps() {
+  $('#steps').innerHTML = skill.steps.map((st, i) =>
+    `<li><button type="button" data-step="${i}">${i + 1}. ${esc(stepTitle(st))}</button></li>`).join('');
 }
 
-function activeIdx() {
-  return Math.floor(time / STEP) % skill.steps.length;
+function markStep(k) {
+  document.querySelectorAll('#steps button').forEach((b, i) => b.classList.toggle('on', i === k));
+  const st = skill.steps[k];
+  $('#cap').textContent = `Step ${k + 1} of ${skill.steps.length}: ${stepTitle(st)}`;
 }
 
-function goTo(i, pause) {
-  const n = skill.steps.length;
-  time = (((i % n) + n) % n) * STEP + 0.001;
-  if (pause) setPlaying(false);
-  lastActive = -1;
-}
-
-function setPlaying(v) {
-  playing = v;
-  $('#play').textContent = playing ? 'Pause' : 'Play';
-}
-
-function select(id) {
-  current = id;
-  skill = SKILLS.find((s) => s.id === id);
-  time = 0;
-  setPlaying(!REDUCED);
-  document.querySelectorAll('#tabs .tab').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.id === id)));
-  renderInfo();
-  renderSteps();
-  if (T && renderer) build(skill);
+function countsText(st, o) {
+  const N = skill.items.length;
+  const vis = o.pos.filter((p) => p.vis).length;
+  const parts = [`${vis} of ${N} items in this step`];
+  if (st.pass) parts.push(`passed ${st.pass.filter((p, i) => p && o.pos[i].vis).length}, failed ${st.pass.filter((p, i) => !p && o.pos[i].vis).length}`);
+  if (o.bins) parts.push(o.bins.map((b) => `${b.label}: ${b.count}`).join(' · '));
+  if (o.targets) parts.push(`matched ${o.lines.length}, unmatched ${o.targets.length ? Math.max(vis - o.lines.length, 0) : 0}`);
+  if (o.G) parts.push(`${o.G} chunks`);
+  if (st.drop && st.drop.length) parts.push(`${st.drop.length} set aside`);
+  return parts.join(' · ');
 }
 
 // ---------- 3D scene ----------
@@ -586,65 +2387,183 @@ function roundRect(ctx, x, y, w, h, r) {
 function makeLabel(text) {
   const c = document.createElement('canvas');
   const ctx = c.getContext('2d');
-  const font = '600 40px "IBM Plex Sans", system-ui, sans-serif';
+  const font = '600 34px "IBM Plex Sans", system-ui, sans-serif';
   ctx.font = font;
-  const w = Math.ceil(ctx.measureText(text).width) + 48;
-  c.width = w; c.height = 76;
+  const w = Math.ceil(ctx.measureText(text).width) + 40;
+  c.width = w; c.height = 64;
   ctx.font = font;
   ctx.fillStyle = 'rgba(255,255,255,0.94)';
-  roundRect(ctx, 0, 0, w, 76, 38);
+  roundRect(ctx, 0, 0, w, 64, 32);
   ctx.fill();
   ctx.fillStyle = '#1b2430';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText(text, w / 2, 40);
+  ctx.fillText(text, w / 2, 33);
   const sp = new T.Sprite(new T.SpriteMaterial({ map: new T.CanvasTexture(c), transparent: true, depthTest: false }));
-  const h = 0.36;
-  sp.scale.set(h * w / 76, h, 1);
+  const h = 0.3;
+  sp.scale.set(h * w / 64, h, 1);
   sp.renderOrder = 2;
   return sp;
 }
 
-function makeNode(kind, label) {
-  const k = KIND[kind];
-  const g = new T.Group();
-  const mats = [];
-  const mk = (color) => {
-    const m = new T.MeshStandardMaterial({ color, roughness: 0.4, metalness: 0.1, emissive: color, emissiveIntensity: 0.05 });
-    mats.push(m);
-    return m;
-  };
-  let body;
-  switch (kind) {
-    case 'in': body = new T.Mesh(new T.BoxGeometry(0.95, 0.95, 0.95), mk(k.c)); break;
-    case 'proc': body = new T.Mesh(new T.BoxGeometry(1.2, 0.7, 0.7), mk(k.c)); break;
-    case 'map':
-      body = new T.Group();
-      for (let j = 0; j < 6; j++) {
-        const cube = new T.Mesh(new T.BoxGeometry(0.34, 0.34, 0.34), mk(k.c));
-        cube.position.set((j % 3 - 1) * 0.42, j < 3 ? 0.2 : -0.2, 0);
-        cube.userData.j = j;
-        body.add(cube);
-      }
-      break;
-    case 'merge': body = new T.Mesh(new T.ConeGeometry(0.62, 1.1, 24), mk(k.c)); body.rotation.z = Math.PI; break;
-    case 'check': body = new T.Mesh(new T.IcosahedronGeometry(0.62, 0), mk(k.c)); break;
-    case 'out': body = new T.Mesh(new T.BoxGeometry(0.85, 1.1, 0.12), mk(k.c)); break;
-    case 'mem': body = new T.Mesh(new T.CylinderGeometry(0.45, 0.45, 0.9, 32), mk(k.c)); break;
-    case 'gate': body = new T.Mesh(new T.OctahedronGeometry(0.72, 0), mk(k.c)); break;
-  }
-  g.add(body);
-  const lab = makeLabel(label);
-  lab.position.y = -1.2;
-  g.add(lab);
-  return { group: g, body, mats, kind, spin: ['check', 'gate', 'mem'].includes(kind), base: new T.Vector3() };
+function disposeObj(o) {
+  o.traverse((c) => {
+    if (c.geometry) c.geometry.dispose();
+    if (c.material) {
+      if (c.material.map) c.material.map.dispose();
+      c.material.dispose();
+    }
+  });
 }
 
-function fit(n) {
-  const width = (n - 1) * 2.3 + 2.6;
-  const hFov = 2 * Math.atan(Math.tan(camera.fov * Math.PI / 360) * camera.aspect);
-  camera.position.set(0, 1.1, Math.max(5.5, (width / 2) / Math.tan(hFov / 2) + 2.2));
-  camera.lookAt(0, 0, 0);
+function buildTokens(items) {
+  tokens.forEach((tk) => { world.remove(tk.mesh); disposeObj(tk.mesh); });
+  tokens = items.map((text) => {
+    const mat = new T.MeshStandardMaterial({ color: COL.todo, emissive: COL.todo, emissiveIntensity: 0.05, roughness: 0.4, metalness: 0.1 });
+    const mesh = new T.Mesh(new T.BoxGeometry(1.5, 0.5, 0.35), mat);
+    const sp = makeLabel(text);
+    sp.position.set(0, 0.5, 0.2);
+    mesh.add(sp);
+    world.add(mesh);
+    return { mesh, cur: { x: 0, y: 0, z: 0, s: 0.001 }, tgt: { x: 0, y: 0, z: 0, s: 0.001 }, tcol: new T.Color(COL.todo) };
+  });
+}
+
+function clearDecor() {
+  decor.forEach((o) => { world.remove(o); disposeObj(o); });
+  decor = [];
+  pulses = [];
+}
+
+function buildDecor(o) {
+  clearDecor();
+  const add = (x) => { world.add(x); decor.push(x); return x; };
+  const P = (i) => o.pos[i];
+  const segs = (pairs, color, op) => {
+    const pts = [];
+    pairs.forEach(([a, b]) => pts.push(new T.Vector3(a.x, a.y, 0.12), new T.Vector3(b.x, b.y, 0.12)));
+    return add(new T.LineSegments(new T.BufferGeometry().setFromPoints(pts), new T.LineBasicMaterial({ color, transparent: true, opacity: op })));
+  };
+  const loop = (pts, color, op, dashed) => {
+    const g = new T.BufferGeometry().setFromPoints(pts.map((p) => new T.Vector3(p.x, p.y, 0.1)));
+    const m = dashed
+      ? new T.LineDashedMaterial({ color, dashSize: 0.3, gapSize: 0.2, transparent: true, opacity: op })
+      : new T.LineBasicMaterial({ color, transparent: true, opacity: op });
+    const line = new T.LineLoop(g, m);
+    if (dashed) line.computeLineDistances();
+    return add(line);
+  };
+  const text = (s, x, y, z = 0.4) => { const sp = makeLabel(s); sp.position.set(x, y, z); return add(sp); };
+  const box = (s, x, y, color) => {
+    const mesh = new T.Mesh(new T.BoxGeometry(1.8, 0.5, 0.35), new T.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.2 }));
+    mesh.position.set(x, y, 0.1);
+    const sp = makeLabel(s);
+    sp.position.set(0, 0.5, 0.2);
+    mesh.add(sp);
+    return add(mesh);
+  };
+
+  o.frames.forEach((f) => {
+    loop([{ x: f.x0, y: f.y0 }, { x: f.x1, y: f.y0 }, { x: f.x1, y: f.y1 }, { x: f.x0, y: f.y1 }], 0x55606d, 0.7, false);
+    text(f.label, f.x0 + 1.0, f.y1 - 0.25);
+  });
+  if (o.edges) segs(o.edges.map(([i, j]) => [P(i), P(j)]), 0x8a96a8, 0.8);
+  if (o.cycles) o.cycles.forEach((c) => {
+    const pts = c.map((i) => P(i));
+    const a = loop(pts, 0xe0702a, 0.9, false);
+    const b = loop(pts.map((p) => ({ x: p.x + 0.04, y: p.y + 0.04 })), 0xe0702a, 0.9, false);
+    pulses.push(a.material, b.material);
+  });
+  o.lines.forEach(({ a, b, ok }) => segs([[P(a), o.targets[b]]], ok ? COL.ok : COL.bad, 0.85));
+  if (o.targets) o.targets.forEach((t) => box(t.label, t.x, t.y, COL[t.state] ?? COL.todo));
+  if (o.bins) o.bins.forEach((b) => text(`${b.label} · ${b.count}`, b.x, b.y));
+  if (o.texts) o.texts.forEach((t) => text(t.label, t.x, t.y));
+  if (o.boundary) {
+    const b = o.boundary;
+    loop([{ x: b.x0, y: b.y0 }, { x: b.x1, y: b.y0 }, { x: b.x1, y: b.y1 }, { x: b.x0, y: b.y1 }], 0x8a96a8, 0.9, true);
+    text(b.label, b.x0 + 1.0, b.y1 - 0.25);
+  }
+  if (o.axis) segs([[{ x: o.axis.x0, y: o.axis.y }, { x: o.axis.x1, y: o.axis.y }]], 0x8a96a8, 0.8);
+  if (o.store) {
+    const s = o.store;
+    const cyl = new T.Mesh(new T.CylinderGeometry(1.1, 1.1, s.h, 32), new T.MeshStandardMaterial({ color: 0x13a3a3, transparent: true, opacity: 0.22 }));
+    cyl.position.set(s.x, s.y, -0.3);
+    add(cyl);
+    text(s.label, s.x, s.y + s.h / 2 + 0.3, 0.2);
+  }
+  if (o.doc) {
+    const d = o.doc;
+    const page = new T.Mesh(new T.PlaneGeometry(d.w, d.h), new T.MeshStandardMaterial({ color: 0x8a96a8, transparent: true, opacity: 0.18 }));
+    page.position.set(d.x, d.y, -0.6);
+    add(page);
+    text(d.label, d.x - d.w / 2 + 1.0, d.y + d.h / 2 - 0.3, 0.2);
+  }
+  if (o.funnel) {
+    const f = o.funnel;
+    const cone = new T.Mesh(new T.ConeGeometry(2.4, 3.0, 32, 1, true), new T.MeshStandardMaterial({ color: 0x8a96a8, transparent: true, opacity: 0.16, side: T.DoubleSide }));
+    cone.rotation.z = Math.PI;
+    cone.position.set(f.x, f.y, -0.4);
+    add(cone);
+  }
+}
+
+function applyStep(k) {
+  if (!skill) return;
+  stepIdx = k;
+  const st = skill.steps[k];
+  L = layoutStep(st, skill.items.length);
+  if (T && tokens.length) {
+    tokens.forEach((tk, i) => {
+      tk.tgt = L.pos[i];
+      let c = COL.todo;
+      if (st.pass) c = st.pass[i] ? COL.ok : COL.bad;
+      else if (st.state && st.state[i]) c = COL[st.state[i]];
+      else if (L.binOf) c = BINS[L.binOf[i] % BINS.length];
+      tk.tcol = new T.Color(c);
+    });
+    buildDecor(L);
+    fit();
+  }
+  $('#note').textContent = st.note;
+  $('#counts').textContent = countsText(st, L);
+  markStep(k);
+}
+
+function goTo(k, pause) {
+  const n = skill.steps.length;
+  const i = ((k % n) + n) % n;
+  time = i * STEP_SEC + 0.001;
+  if (pause) setPlaying(false);
+  applyStep(i);
+}
+
+function setPlaying(v) {
+  playing = v;
+  $('#play').textContent = playing ? 'Pause' : 'Play';
+}
+
+function select(id) {
+  current = id;
+  skill = SKILLS.find((s) => s.id === id);
+  time = 0;
+  stepIdx = -1;
+  setPlaying(!REDUCED);
+  document.querySelectorAll('#tabs .tab').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.id === id)));
+  renderInfo();
+  renderSteps();
+  if (T) buildTokens(skill.items);
+  applyStep(0);
+}
+
+function fit() {
+  const pts = boundsPoints(L);
+  const xs = pts.map((p) => p.x), ys = pts.map((p) => p.y);
+  const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys);
+  const vf = Math.tan(camera.fov * Math.PI / 360);
+  const hf = vf * camera.aspect;
+  const halfW = (maxX - minX) / 2 + 1.6, halfH = (maxY - minY) / 2 + 1.6;
+  camDistT = Math.max(halfW / hf, halfH / vf) + 1.5;
+  offT = { x: -(minX + maxX) / 2, y: -(minY + maxY) / 2 };
 }
 
 function resize() {
@@ -653,80 +2572,37 @@ function resize() {
   renderer.setSize(w, h, false);
   camera.aspect = w / h;
   camera.updateProjectionMatrix();
-  fit(skill.steps.length);
+  if (L) fit();
 }
 
-function build(sk) {
-  world.traverse((o) => {
-    if (o.geometry) o.geometry.dispose();
-    if (o.material) { if (o.material.map) o.material.map.dispose(); o.material.dispose(); }
-  });
-  while (world.children.length) world.remove(world.children[0]);
-  nodes = []; packets = []; positions = [];
-  const n = sk.steps.length;
-  sk.steps.forEach(([kind, label], i) => {
-    const p = new T.Vector3((i - (n - 1) / 2) * 2.3, Math.sin(i * 1.3) * 0.6, Math.cos(i * 0.9) * 0.9);
-    positions.push(p);
-    const nd = makeNode(kind, label);
-    nd.base.copy(p);
-    nd.group.position.copy(p);
-    nd.group.userData.step = i;
-    world.add(nd.group);
-    nodes.push(nd);
-  });
-  for (let i = 0; i < n - 1; i++) {
-    const a = positions[i], b = positions[i + 1];
-    const dir = b.clone().sub(a);
-    const link = new T.Mesh(new T.CylinderGeometry(0.035, 0.035, dir.length(), 8),
-      new T.MeshBasicMaterial({ color: 0x8a96a8, transparent: true, opacity: 0.55 }));
-    link.position.copy(a).add(b).multiplyScalar(0.5);
-    link.quaternion.setFromUnitVectors(new T.Vector3(0, 1, 0), dir.clone().normalize());
-    world.add(link);
-    const pk = new T.Mesh(new T.SphereGeometry(0.11, 16, 12), new T.MeshBasicMaterial({ color: KIND[sk.steps[i][0]].c }));
-    pk.visible = false;
-    world.add(pk);
-    packets.push(pk);
+function tick() {
+  const st = skill.steps[stepIdx];
+  const p = (time % STEP_SEC) / STEP_SEC;
+  const N = tokens.length;
+  let activeG = -1, activeI = -1;
+  if (st.sweep && L) {
+    if (L.G) activeG = Math.floor(p * L.G);
+    else activeI = Math.floor(p * N);
   }
-  fit(n);
-}
-
-function pick(e) {
-  const r = cv.getBoundingClientRect();
-  const ndc = new T.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
-  const ray = new T.Raycaster();
-  ray.setFromCamera(ndc, camera);
-  const hits = ray.intersectObjects(nodes.map((n) => n.group), true);
-  if (!hits.length) return;
-  let o = hits[0].object;
-  while (o && o.userData.step === undefined) o = o.parent;
-  if (o) goTo(o.userData.step, true);
-}
-
-function update3D(dt) {
-  const n = nodes.length;
-  const idx = activeIdx();
-  const frac = (time % STEP) / STEP;
-  nodes.forEach((nd, i) => {
-    const act = i === idx, done = i < idx;
-    const sc = act ? 1.22 : 1;
-    nd.group.scale.setScalar(nd.group.scale.x + (sc - nd.group.scale.x) * 0.18);
-    nd.group.position.y = nd.base.y + (act ? Math.sin(time * 5) * 0.08 : 0);
-    if (nd.spin) nd.body.rotation.y += dt * (act ? 1.8 : 0.4);
-    if (nd.kind === 'map') {
-      nd.body.children.forEach((c) => {
-        c.material.emissiveIntensity = act ? 0.2 + 0.6 * (0.5 + 0.5 * Math.sin(time * 7 - c.userData.j * 1.1)) : (done ? 0.14 : 0.05);
-      });
-    } else {
-      const e = act ? 0.55 : (done ? 0.14 : 0.05);
-      nd.mats.forEach((m) => { m.emissiveIntensity += (e - m.emissiveIntensity) * 0.18; });
-    }
+  tokens.forEach((tk, i) => {
+    const t = tk.tgt, c = tk.cur, k = 0.09;
+    c.x += (t.x - c.x) * k; c.y += (t.y - c.y) * k; c.z += (t.z - c.z) * k; c.s += (t.s - c.s) * k;
+    tk.mesh.position.set(c.x, c.y, c.z);
+    tk.mesh.scale.setScalar(Math.max(c.s, 0.001));
+    tk.mesh.visible = c.s > 0.03;
+    const m = tk.mesh.material;
+    m.color.lerp(tk.tcol, 0.12);
+    m.emissive.copy(m.color);
+    const hot = (activeG >= 0 && L.gOf && L.gOf[i] === activeG) || i === activeI;
+    m.emissiveIntensity += ((hot ? 0.75 : 0.06) - m.emissiveIntensity) * 0.2;
   });
-  packets.forEach((pk, i) => {
-    const show = i === idx && idx < n - 1;
-    pk.visible = show;
-    if (show) pk.position.lerpVectors(positions[i], positions[i + 1], frac);
-  });
-  world.rotation.set(rotX, rotY + (playing ? Math.sin(time * 0.35) * 0.22 : 0), 0);
+  pulses.forEach((m) => { m.opacity = 0.5 + 0.4 * Math.sin(time * 4); });
+  off.x += (offT.x - off.x) * 0.08; off.y += (offT.y - off.y) * 0.08;
+  camDist += (camDistT - camDist) * 0.08;
+  world.position.set(off.x, off.y, 0);
+  world.rotation.set(rotX, rotY + (playing ? Math.sin(time * 0.35) * 0.18 : 0), 0);
+  camera.position.set(0, 0, camDist);
+  camera.lookAt(0, 0, 0);
   renderer.render(scene, camera);
 }
 
@@ -734,15 +2610,17 @@ function frame(now) {
   const dt = lastFrame ? Math.min(0.05, (now - lastFrame) / 1000) : 0;
   lastFrame = now;
   if (playing) time += dt;
-  const idx = activeIdx();
-  if (idx !== lastActive) { lastActive = idx; markStep(idx); }
-  if (T && renderer) update3D(dt);
+  if (skill && skill.steps.length) {
+    const k = Math.floor(time / STEP_SEC) % skill.steps.length;
+    if (k !== stepIdx) applyStep(k);
+    if (T && renderer && L) tick();
+  }
   requestAnimationFrame(frame);
 }
 
 async function init3D() {
   try {
-    T = await import(T_URL);
+    T = await import(THREE_URL);
     renderer = new T.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
   } catch (e) {
     T = null;
@@ -766,25 +2644,17 @@ async function init3D() {
   new ResizeObserver(resize).observe(stage);
   resize();
 
-  cv.addEventListener('pointerdown', (e) => {
-    drag = { x: e.clientX, y: e.clientY, moved: 0 };
-    cv.setPointerCapture(e.pointerId);
-  });
+  cv.addEventListener('pointerdown', (e) => { drag = { x: e.clientX, y: e.clientY }; cv.setPointerCapture(e.pointerId); });
   cv.addEventListener('pointermove', (e) => {
     if (!drag) return;
-    const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
-    drag.moved += Math.abs(dx) + Math.abs(dy);
-    rotY += dx * 0.008;
-    rotX = Math.max(-0.6, Math.min(0.6, rotX + dy * 0.005));
-    drag.x = e.clientX; drag.y = e.clientY;
+    rotY += (e.clientX - drag.x) * 0.008;
+    rotX = Math.max(-0.6, Math.min(0.6, rotX + (e.clientY - drag.y) * 0.005));
+    drag = { x: e.clientX, y: e.clientY };
   });
-  cv.addEventListener('pointerup', (e) => {
-    const tap = drag && drag.moved < 6;
-    drag = null;
-    if (tap) pick(e);
-  });
+  cv.addEventListener('pointerup', () => { drag = null; });
 
-  build(skill);
+  buildTokens(skill.items);
+  applyStep(Math.max(stepIdx, 0));
 }
 
 // ---------- Controls ----------
@@ -804,8 +2674,8 @@ $('#steps').addEventListener('click', (e) => {
   const b = e.target.closest('button[data-step]');
   if (b) goTo(Number(b.dataset.step), true);
 });
-$('#prev').addEventListener('click', () => goTo(activeIdx() - 1, true));
-$('#next').addEventListener('click', () => goTo(activeIdx() + 1, true));
+$('#prev').addEventListener('click', () => goTo(stepIdx - 1, true));
+$('#next').addEventListener('click', () => goTo(stepIdx + 1, true));
 $('#play').addEventListener('click', () => setPlaying(!playing));
 
 document.querySelectorAll('button.copy').forEach((b) => b.addEventListener('click', async () => {
@@ -821,13 +2691,13 @@ document.querySelectorAll('button.copy').forEach((b) => b.addEventListener('clic
 
 // ---------- Start ----------
 renderCats();
-renderLegend();
 renderTabs();
 renderInfo();
 renderSteps();
-markStep(0);
+select(current);
 requestAnimationFrame(frame);
 init3D();
+
 </script>
 </body>
 </html>
