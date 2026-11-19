@@ -132,6 +132,8 @@ table.t th { color: var(--muted); font-weight: 600; }
   background: var(--chip); border-radius: 8px; padding: 10px 12px; margin: 8px 0 14px;
 }
 .cmd code { font: 13px/1.5 "IBM Plex Mono", ui-monospace, monospace; background: none; padding: 0; min-width: 0; }
+.cmd.note { display: block; font-size: 14px; color: var(--muted); }
+.cmd.note code { font-size: 13px; color: var(--ink); }
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; margin: 12px 0 20px; }
 .card-link {
   display: grid; gap: 4px; text-decoration: none; color: var(--ink);
@@ -211,11 +213,12 @@ details p { margin: 6px 0 0; color: var(--muted); }
     <table class="t">
       <thead><tr><th>Question</th><th>Default</th><th>What to choose</th></tr></thead>
       <tbody>
-        <tr><td>How should the helper scripts run?</td><td>1. Python</td><td>1 if Python 3 is installed. 2 if only Node.js is installed. 4 if programs may not run. Option 3 needs a build with the portable runtime.</td></tr>
+        <tr><td>How should the helper scripts run?</td><td>1. Python</td><td>1 if Python 3 is installed. 2 if only Node.js is installed. 4 if programs may not run. Option 3 is listed, but it does not work in the standard package (see the note below).</td></tr>
         <tr><td>Where should the skills go?</td><td>GitHub Copilot</td><td>Every agent you use. You can pick more than one.</td></tr>
         <tr><td>Which skills should be installed?</td><td>Fourteen selected</td><td>Keep the defaults, or tick the off ones you need (the three compliance skills, release-notes, stack-auditor, trust-layer-validator, incident-postmortem).</td></tr>
       </tbody>
     </table>
+    <div class="cmd note"><span><strong>About option 3, Portable Python.</strong> The portable Python interpreter adds about 22 MB, so the standard <code>.vsix</code> leaves it out. Choosing option 3 stops the install with the message “the portable Python runtime is not bundled in this build”. Choose option 1, 2 or 4 instead. Developers can bundle it by running <code>node scripts/fetch-portable-python.mjs</code> in the source repository and rebuilding the package. It has been prepared for Windows, but not tested there.</span></div>
     <ol start="4">
       <li>Wait for the message <em>RLM: wrote N file(s).</em> If it says some files were left unchanged, those were files you had edited.</li>
     </ol>
@@ -274,8 +277,8 @@ details p { margin: 6px 0 0; color: var(--muted); }
       <p>In <code>.agent-memory/graph.json</code> in the project. Add <code>.agent-memory/</code> to <code>.gitignore</code> if the project uses git.</p>
     </details>
     <details>
-      <summary>Why is portable Python not offered?</summary>
-      <p>The standard build does not include it. Choose Python, Node.js, or instructions only.</p>
+      <summary>Why is Portable Python listed but not working?</summary>
+      <p>It is listed in the install picker, but the standard package does not include the interpreter, because it adds about 22 MB. Choose Python 3, Node.js, or instructions only. See the note in the install section.</p>
     </details>
     <details>
       <summary>Is it on the Marketplace?</summary>
