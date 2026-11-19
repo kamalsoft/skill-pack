@@ -183,6 +183,36 @@ details p { margin: 6px 0 0; color: var(--muted); }
 .ba .a-ok { border-left-color: #1f9d6b; } .ba .a-medium { border-left-color: #b7791f; } .ba .a-high { border-left-color: #d6456a; }
 .ba-key { font-size: 13px; color: var(--muted); margin: 6px 0 14px; }
 .outcome.play .ba .cell { animation: oc-in .4s ease-out both; animation-delay: calc(var(--i) * 90ms + 150ms); }
+.viewsw { display: inline-flex; gap: 2px; background: var(--chip); border-radius: 999px; padding: 3px; }
+.viewsw button { font: inherit; font-size: 13px; border: 0; background: transparent; color: var(--ink); padding: 5px 12px; border-radius: 999px; cursor: pointer; }
+.viewsw button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.idea { margin: 0 0 12px; font-size: 15px; line-height: 1.55; max-width: 80ch; }
+.idea b { color: var(--accent); }
+.like { margin-top: 8px !important; font-size: 14px; }
+.flat { position: absolute; inset: 0; overflow: hidden; }
+.flat-lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.flat-lines line { stroke: var(--muted); stroke-width: 1.5; opacity: .7; }
+.flat-lines line.ln-ok { stroke: #1f9d6b; stroke-width: 2; opacity: .9; }
+.flat-lines line.ln-bad { stroke: #d6456a; stroke-width: 2; stroke-dasharray: 5 4; opacity: .9; }
+.flat-lines polygon.cyc { fill: none; stroke: #e0702a; stroke-width: 3; opacity: .85; }
+.chip { position: absolute; left: 0; top: 0; height: 28px; padding: 0 10px; display: flex; align-items: center; justify-content: center; border-radius: 7px; color: #fff; font: 600 12px/1 "IBM Plex Sans", system-ui, sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; box-shadow: 0 1px 3px rgba(0,0,0,.18); transition: transform .8s cubic-bezier(.2,.7,.2,1), background-color .5s, opacity .5s, box-shadow .25s; background: #64748b; }
+.chip.noanim { transition: none; }
+.chip.gone { opacity: 0; }
+.chip.hot { box-shadow: 0 0 0 3px var(--accent), 0 2px 8px rgba(0,0,0,.25); }
+.chip[data-s="ok"] { background: #1f9d6b; } .chip[data-s="bad"] { background: #d6456a; } .chip[data-s="warn"] { background: #b7791f; }
+.chip[data-s="hit"] { background: #2f6fd6; } .chip[data-s="b0"] { background: #7c5ce0; } .chip[data-s="b1"] { background: #13a3a3; }
+.chip[data-s="b2"] { background: #e0702a; } .chip[data-s="b3"] { background: #2f6fd6; } .chip[data-s="b4"] { background: #b7791f; } .chip[data-s="b5"] { background: #1f9d6b; }
+.chip.target { background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-left: 5px solid #64748b; }
+.chip.target.a-ok { border-left-color: #1f9d6b; } .chip.target.a-bad { border-left-color: #d6456a; } .chip.target.a-warn { border-left-color: #b7791f; }
+.fl-frame, .fl-boundary, .fl-panel, .fl-funnel { position: absolute; border-radius: 10px; }
+.fl-frame { border: 1.5px solid var(--line); background: var(--surface); }
+.fl-boundary { border: 2px dashed var(--accent); }
+.fl-panel { border: 1px solid var(--line); background: var(--surface); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+.fl-store { border-radius: 40px / 18px; border-color: #13a3a3; }
+.fl-funnel { background: var(--line); opacity: .55; clip-path: polygon(0 0, 100% 0, 62% 100%, 38% 100%); border-radius: 0; }
+.fl-frame span, .fl-boundary span, .fl-panel span { position: absolute; top: -10px; left: 10px; background: var(--bg); padding: 0 6px; font: 600 11px/20px "IBM Plex Sans", system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); border-radius: 4px; }
+.fl-label { position: absolute; transform: translate(-50%, -50%); white-space: nowrap; font: 600 12px "IBM Plex Sans", system-ui, sans-serif; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); background: var(--bg); padding: 2px 8px; border-radius: 4px; }
+@media (prefers-reduced-motion: reduce) { .chip { transition: none; } }
 </style>
 </head>
 <body>
@@ -210,9 +240,15 @@ details p { margin: 6px 0 0; color: var(--muted); }
       <div class="stage-head">
         <h2 id="sname"></h2>
         <span id="sbadges" class="mono"></span>
+        <div class="viewsw" id="viewsw" role="group" aria-label="Choose a view">
+          <button type="button" data-view="simple" aria-pressed="true">Simple view</button>
+          <button type="button" data-view="3d" aria-pressed="false">3D view</button>
+        </div>
       </div>
+      <p class="idea" id="idea"></p>
       <div class="stage" id="stage">
         <canvas id="cv" aria-label="Animated data flow for the selected skill"></canvas>
+        <div class="flat" id="flat" role="img" aria-label="Diagram of the current step"><svg class="flat-lines" id="flatSvg" aria-hidden="true"></svg></div>
         <div class="fallback" id="fb" hidden>The 3D view could not load. The steps and the details still work.</div>
       </div>
       <div class="controls">
@@ -224,6 +260,7 @@ details p { margin: 6px 0 0; color: var(--muted); }
       <ol class="steps" id="steps"></ol>
       <div class="note" aria-live="polite">
         <p id="note"></p>
+        <p class="like" id="like"></p>
         <p class="counts" id="counts"></p>
         <p class="howto" id="howto"></p>
       </div>
@@ -455,7 +492,9 @@ details p { margin: 6px 0 0; color: var(--muted); }
      }
     ],
     "notChecked": "Files over the size limit, listed by scan."
-   }
+   },
+   "idea": "The pack gives your AI assistant a method for big jobs: split the work into pieces, check each piece, then combine the results into one report.",
+   "why": "A large project does not fit in one read. Working in pieces means nothing is skipped."
   },
   {
    "id": "rlm-security-audit",
@@ -602,7 +641,9 @@ details p { margin: 6px 0 0; color: var(--muted); }
      }
     ],
     "notChecked": "Runtime configuration; dependencies (see dependency-audit)."
-   }
+   },
+   "idea": "Like a building inspector who checks every room, floor by floor, and reports only the problems they could confirm.",
+   "why": "Security problems hide in files nobody opened. This checks all of them."
   },
   {
    "id": "rlm-refactor-planner",
@@ -798,7 +839,9 @@ details p { margin: 6px 0 0; color: var(--muted); }
       ]
      ]
     }
-   }
+   },
+   "idea": "Like a city planner who maps every road before deciding which ones to move, so traffic keeps flowing during the works.",
+   "why": "Changing tangled code without a map breaks things. The plan keeps each change small and safe."
   },
   {
    "id": "rlm-doc-generator",
@@ -898,7 +941,9 @@ details p { margin: 6px 0 0; color: var(--muted); }
      }
     ],
     "notChecked": "Behaviour in other services."
-   }
+   },
+   "idea": "Like a technical writer who studies each part of a machine and writes one clear page per part.",
+   "why": "New team members learn faster when every module has an accurate page."
   },
   {
    "id": "rlm-test-gap-analysis",
@@ -1018,7 +1063,9 @@ details p { margin: 6px 0 0; color: var(--muted); }
      }
     ],
     "notChecked": "Files the coverage report excludes."
-   }
+   },
+   "idea": "Like a quality manager who finds the parts of a product that were never tested, and lists the riskiest first.",
+   "why": "Untested code is where surprises come from. This tells you which tests to write first."
   },
   {
    "id": "rlm-migration-planner",
@@ -1175,7 +1222,9 @@ details p { margin: 6px 0 0; color: var(--muted); }
       ]
      ]
     }
-   }
+   },
+   "idea": "Like moving offices: list every item, decide where each one goes, and move in stages you can undo.",
+   "why": "Upgrades fail when something is forgotten. An inventory and small phases prevent that."
   },
   {
    "id": "rlm-log-triage",
@@ -1309,7 +1358,9 @@ details p { margin: 6px 0 0; color: var(--muted); }
      }
     ],
     "notChecked": "Compressed files; time outside 14:00-14:30."
-   }
+   },
+   "idea": "Like an investigator who sorts thousands of witness notes into a few patterns, then works out what happened first.",
+   "why": "During an outage, time matters. This turns a flood of lines into a short list of likely causes."
   },
   {
    "id": "rlm-privacy-review",
@@ -1452,7 +1503,9 @@ details p { margin: 6px 0 0; color: var(--muted); }
      }
     ],
     "notChecked": "Database backups, third-party consoles."
-   }
+   },
+   "idea": "Like a data protection officer tracing where each piece of personal information travels, and where it should not.",
+   "why": "Personal data that leaks, or is kept forever, is a legal and trust risk."
   },
   {
    "id": "code-review",
@@ -1583,7 +1636,9 @@ details p { margin: 6px 0 0; color: var(--muted); }
      }
     ],
     "notChecked": "Runtime behaviour in production."
-   }
+   },
+   "idea": "Like a senior colleague reviewing a change before it ships: reading it, checking what it affects, and giving a clear verdict.",
+   "why": "A problem caught before merge is far cheaper than one fixed in production."
   },
   {
    "id": "dependency-audit",
@@ -1715,7 +1770,9 @@ details p { margin: 6px 0 0; color: var(--muted); }
      }
     ],
     "notChecked": "Private registries."
-   }
+   },
+   "idea": "Like checking the safety recalls for every part your product is built from.",
+   "why": "Most code you ship was written by others. A known flaw in one package affects you too."
   },
   {
    "id": "release-notes",
@@ -1842,7 +1899,9 @@ details p { margin: 6px 0 0; color: var(--muted); }
      }
     ],
     "notChecked": "Pull request text that is not in the git history."
-   }
+   },
+   "idea": "Like an editor who reads every change and writes a short, accurate summary for customers.",
+   "why": "Users need to know what changed and what they must do. Clear notes prevent support calls."
   },
   {
    "id": "api-contract-review",
@@ -2004,7 +2063,9 @@ details p { margin: 6px 0 0; color: var(--muted); }
       ]
      ]
     }
-   }
+   },
+   "idea": "Like reviewing a new version of a contract clause by clause, and flagging anything that breaks an existing agreement.",
+   "why": "Apps that depend on your API break when it changes without warning."
   },
   {
    "id": "threat-model",
@@ -2158,7 +2219,9 @@ details p { margin: 6px 0 0; color: var(--muted); }
      }
     ],
     "notChecked": "Cloud IAM, network rules."
-   }
+   },
+   "idea": "Like a security consultant walking through a building plan and asking at every door: who could get in, and what stops them?",
+   "why": "A design flaw found on paper costs far less than one found after launch."
   },
   {
    "id": "cicd-pipeline-review",
@@ -2291,7 +2354,9 @@ details p { margin: 6px 0 0; color: var(--muted); }
      }
     ],
     "notChecked": "Branch protection, environment reviewers."
-   }
+   },
+   "idea": "Like checking the locks on the factory that builds and ships your software.",
+   "why": "Whoever controls the pipeline can push code to production, so it must be locked down."
   },
   {
    "id": "stack-auditor",
@@ -2416,7 +2481,9 @@ details p { margin: 6px 0 0; color: var(--muted); }
      }
     ],
     "notChecked": "Runtime behaviour, cloud settings."
-   }
+   },
+   "idea": "Like a facilities check of the wiring and settings behind the scenes before opening day.",
+   "why": "Most outages and leaked secrets start with a wrong setting, not wrong code."
   },
   {
    "id": "trust-layer-validator",
@@ -2541,7 +2608,9 @@ details p { margin: 6px 0 0; color: var(--muted); }
      }
     ],
     "notChecked": "Runtime key storage, deployment configuration."
-   }
+   },
+   "idea": "Like verifying the seals and signatures on official documents before you rely on them.",
+   "why": "A forged credential or an exposed key lets someone pretend to be someone else."
   },
   {
    "id": "incident-postmortem",
@@ -2683,7 +2752,9 @@ details p { margin: 6px 0 0; color: var(--muted); }
      }
     ],
     "notChecked": "Chat history was not provided."
-   }
+   },
+   "idea": "Like an air-accident report: what happened, in what order, why, and what changes so it does not happen again.",
+   "why": "Teams improve when they learn from incidents without blaming people."
   },
   {
    "id": "compliance-control-check",
@@ -2810,7 +2881,9 @@ details p { margin: 6px 0 0; color: var(--muted); }
      }
     ],
     "notChecked": "Staff training, policies, vendor contracts."
-   }
+   },
+   "idea": "Like preparing for an inspection: for each rule on the checklist, find the evidence that you follow it.",
+   "why": "Gaps found before the audit can be fixed calmly. Gaps found during it cannot."
   },
   {
    "id": "audit-evidence-collector",
@@ -2912,7 +2985,9 @@ details p { margin: 6px 0 0; color: var(--muted); }
      }
     ],
     "notChecked": "Approvals; anything after the collection date."
-   }
+   },
+   "idea": "Like an accountant collecting the receipts for a period, each one stamped so it cannot be changed later.",
+   "why": "Auditors need proof that is complete and tamper-evident."
   },
   {
    "id": "license-attribution",
@@ -3029,7 +3104,9 @@ details p { margin: 6px 0 0; color: var(--muted); }
      }
     ],
     "notChecked": "Distributed binaries; legal decisions."
-   }
+   },
+   "idea": "Like checking the usage rights for every image and font before a product goes to print.",
+   "why": "Shipping code under the wrong licence can force you to publish your own code or withdraw a product."
   },
   {
    "id": "memory-manager",
@@ -3135,7 +3212,9 @@ details p { margin: 6px 0 0; color: var(--muted); }
      }
     ],
     "notChecked": "Code that is not linked to an entry."
-   }
+   },
+   "idea": "Like a team's shared notebook: before answering, check what was already decided, and note when it is out of date.",
+   "why": "Repeating past work wastes time, and out-of-date answers cause mistakes, so they are flagged."
   },
   {
    "id": "token-saver",
@@ -3232,7 +3311,9 @@ details p { margin: 6px 0 0; color: var(--muted); }
      }
     ],
     "notChecked": "Sections other skills require are never removed."
-   }
+   },
+   "idea": "Like a good editor: keep the answer, cut the filler.",
+   "why": "Short answers are faster to read and cheaper to produce."
   }
  ]
 }
@@ -3280,6 +3361,10 @@ let playing = !REDUCED;
 let stepIdx = -1;
 let lastFrame = 0;
 let L = null;
+let view = 'simple';
+let threeError = '';
+let chips = [];
+let flatHot = '';
 
 // 3D state, filled once the module loads
 let T = null, renderer = null, scene = null, camera = null, world = null;
@@ -3697,6 +3782,139 @@ function pickGem(e) {
   if (o) focusFinding(o.userData.finding);
 }
 
+// ---------- Simple view: the same steps as a flat diagram ----------
+const LIKE = {
+  row: 'like laying all the papers out on a desk before starting.',
+  stack: 'like filing each item in order, one on top of the other.',
+  chunks: 'like splitting a long book into chapters, so each one gets careful attention.',
+  parallel: 'like a team of reviewers, each reading one chapter.',
+  funnel: 'like collecting everyone\'s notes into one list and crossing out the repeats.',
+  gate: 'like a checkpoint: only the items that pass the check go through.',
+  match: 'like matching each item to its partner, the way keys are matched to locks.',
+  graph: 'like a map of who depends on whom.',
+  bins: 'like sorting items into labelled trays.',
+  timeline: 'like putting events in the order they happened.',
+  store: 'like saving notes in a filing cabinet for next time.',
+  doc: 'like writing up the final report.',
+  shrink: 'like editing a long message down to what matters.'
+};
+
+function renderIdea() {
+  $('#idea').innerHTML = skill.idea ? `<b>The idea.</b> ${esc(skill.idea)} <b>Why it matters.</b> ${esc(skill.why || '')}` : '';
+}
+
+function buildChips() {
+  const f = $('#flat');
+  chips.forEach((d) => d.remove());
+  chips = skill.items.map((t) => {
+    const d = document.createElement('div');
+    d.className = 'chip item noanim';
+    d.textContent = t;
+    d.title = t;
+    f.appendChild(d);
+    return d;
+  });
+}
+
+function stateKey(st, i) {
+  if (st.pass) return st.pass[i] ? 'ok' : 'bad';
+  if (st.state && st.state[i]) return st.state[i];
+  if (L.binOf) return 'b' + (L.binOf[i] % 6);
+  return 'todo';
+}
+
+function renderFlat(st) {
+  const f = $('#flat'), svg = $('#flatSvg');
+  if (!L || !st) return;
+  const W = f.clientWidth, H = f.clientHeight;
+  if (!W || !H) return;
+  f.querySelectorAll('.fx').forEach((e) => e.remove());
+  const pts = boundsPoints(L);
+  const xs = pts.map((q) => q.x), ys = pts.map((q) => q.y);
+  const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys);
+  const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2;
+  const sc = Math.min((W - 48) / (maxX - minX + 2.6), (H - 40) / (maxY - minY + 1.6));
+  const X = (x) => (x - cx) * sc + W / 2, Y = (y) => H / 2 - (y - cy) * sc;
+  const cw = Math.round(Math.max(64, Math.min(150, sc * 1.9))), ch = 28;
+  const box = (cls, text, x0, y0, x1, y1) => {
+    const e = document.createElement('div');
+    e.className = 'fx ' + cls;
+    e.style.left = X(x0) + 'px'; e.style.top = Y(y1) + 'px';
+    e.style.width = (X(x1) - X(x0)) + 'px'; e.style.height = (Y(y0) - Y(y1)) + 'px';
+    if (text) { const sp = document.createElement('span'); sp.textContent = text; e.appendChild(sp); }
+    f.insertBefore(e, svg);
+  };
+  const label = (text, x, y) => {
+    const e = document.createElement('div');
+    e.className = 'fx fl-label';
+    e.textContent = text;
+    e.style.left = X(x) + 'px'; e.style.top = Y(y) + 'px';
+    f.appendChild(e);
+  };
+  L.frames.forEach((fr) => box('fl-frame', fr.label, fr.x0, fr.y0, fr.x1, fr.y1));
+  if (L.boundary) { const b = L.boundary; box('fl-boundary', b.label, b.x0, b.y0, b.x1, b.y1); }
+  if (L.doc) { const dd = L.doc; box('fl-panel', dd.label, dd.x - dd.w / 2, dd.y - dd.h / 2, dd.x + dd.w / 2, dd.y + dd.h / 2); }
+  if (L.store) { const so = L.store; box('fl-panel fl-store', so.label, so.x - 1.3, so.y - so.h / 2, so.x + 1.3, so.y + so.h / 2); }
+  if (L.funnel) { const u = L.funnel; box('fl-funnel', '', u.x - 2.4, u.y - 1.5, u.x + 2.4, u.y + 1.5); }
+  if (L.bins) L.bins.forEach((b) => label(`${b.label}: ${b.count}`, b.x, b.y));
+  (L.texts || []).forEach((t) => label(t.label, t.x, t.y));
+  if (L.targets) L.targets.forEach((t) => {
+    const e = document.createElement('div');
+    const tw = Math.round(cw * 1.15);
+    e.className = 'fx chip target a-' + t.state;
+    e.textContent = t.label;
+    e.title = t.label;
+    e.style.width = tw + 'px';
+    e.style.transform = `translate(${X(t.x) - tw / 2}px, ${Y(t.y) - ch / 2}px)`;
+    f.appendChild(e);
+  });
+  const seg = (a, b, cls) => `<line class="${cls}" x1="${X(a.x)}" y1="${Y(a.y)}" x2="${X(b.x)}" y2="${Y(b.y)}"/>`;
+  let h = '';
+  if (L.edges) L.edges.forEach(([i, j]) => { h += seg(L.pos[i], L.pos[j], 'ln'); });
+  if (L.cycles) L.cycles.forEach((c) => { h += `<polygon class="cyc" points="${c.map((i) => X(L.pos[i].x) + ',' + Y(L.pos[i].y)).join(' ')}"/>`; });
+  L.lines.forEach(({ a, b, ok }) => { h += seg(L.pos[a], L.targets[b], ok ? 'ln-ok' : 'ln-bad'); });
+  if (L.axis) h += seg({ x: L.axis.x0, y: L.axis.y }, { x: L.axis.x1, y: L.axis.y }, 'ln');
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.innerHTML = h;
+  chips.forEach((d, i) => {
+    const q = L.pos[i];
+    d.style.width = cw + 'px';
+    d.style.transform = `translate(${X(q.x) - cw / 2}px, ${Y(q.y) - ch / 2}px) scale(${q.vis ? 1 : 0.6})`;
+    d.classList.toggle('gone', !q.vis);
+    d.dataset.s = stateKey(st, i);
+    d.classList.remove('hot');
+  });
+  flatHot = '';
+  requestAnimationFrame(() => chips.forEach((d) => d.classList.remove('noanim')));
+}
+
+// Lights up the chunk or item being worked on, as the 3D view does.
+function flatTick() {
+  const st = skill.steps[stepIdx];
+  if (!st) return;
+  let key = '';
+  if (st.sweep) {
+    const q = (time % STEP_SEC) / STEP_SEC;
+    key = L.G ? 'g' + Math.floor(q * L.G) : 'i' + Math.floor(q * chips.length);
+  }
+  if (key === flatHot) return;
+  flatHot = key;
+  chips.forEach((d, i) => d.classList.toggle('hot', !!key && (L.G ? key === 'g' + L.gOf[i] : key === 'i' + i)));
+}
+
+function setView(v) {
+  view = v;
+  document.querySelectorAll('#viewsw button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.view === v)));
+  $('#flat').hidden = v !== 'simple';
+  cv.hidden = v !== '3d' || !T || !!threeError;
+  const fb = $('#fb');
+  if (v === '3d' && threeError) fb.textContent = 'The 3D view could not load (' + threeError + '). Use the simple view.';
+  else if (v === '3d' && !T) fb.textContent = 'Loading the 3D view.';
+  fb.hidden = !(v === '3d' && (threeError || !T));
+  if (v === '3d' && T && !threeError) { resize(); if (stepIdx >= 0) applyStep(stepIdx); }
+  if (v === 'simple' && stepIdx >= 0) renderFlat(skill.steps[stepIdx]);
+}
+
 function applyStep(k) {
   if (!skill) return;
   stepIdx = k;
@@ -3717,6 +3935,8 @@ function applyStep(k) {
   }
   $('#note').textContent = st.note;
   $('#howto').textContent = 'How to read this step: ' + (HOWTO[st.layout] || '');
+  $('#like').textContent = LIKE[st.layout] ? 'In everyday terms, this is ' + LIKE[st.layout] : '';
+  renderFlat(st);
   $('#counts').textContent = countsText(st, L);
   markStep(k);
   if (k === skill.steps.length - 1) playOutcome();
@@ -3745,6 +3965,8 @@ function select(id) {
   renderInfo();
   renderSteps();
   renderOutcome();
+  renderIdea();
+  buildChips();
   if (T) buildTokens(skill.items);
   applyStep(0);
 }
@@ -3816,7 +4038,8 @@ function frame(now) {
   if (skill && skill.steps.length) {
     const k = Math.floor(time / STEP_SEC) % skill.steps.length;
     if (k !== stepIdx) applyStep(k);
-    if (T && renderer && L) tick();
+    if (view === '3d' && T && renderer && L) tick();
+    if (view === 'simple' && L) flatTick();
   }
   requestAnimationFrame(frame);
 }
@@ -3828,9 +4051,8 @@ async function init3D() {
   } catch (e) {
     console.error('RLM atlas: 3D view failed to start', e);
     T = null;
-    cv.hidden = true;
-    $('#fb').textContent = 'The 3D view could not load (' + (e && e.message ? e.message : e) + '). The steps and the details still work.';
-    $('#fb').hidden = false;
+    threeError = e && e.message ? e.message : String(e);
+    setView(view);
     return;
   }
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -3864,6 +4086,7 @@ async function init3D() {
 
   buildTokens(skill.items);
   applyStep(Math.max(stepIdx, 0));
+  setView(view);
 }
 
 // ---------- Controls ----------
@@ -3898,12 +4121,19 @@ document.querySelectorAll('button.copy').forEach((b) => b.addEventListener('clic
   setTimeout(() => { b.textContent = label; }, 1600);
 }));
 
+$('#viewsw').addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-view]');
+  if (b) setView(b.dataset.view);
+});
+new ResizeObserver(() => { if (view === 'simple' && stepIdx >= 0) renderFlat(skill.steps[stepIdx]); }).observe(stage);
+
 // ---------- Start ----------
 renderCats();
 renderTabs();
 renderInfo();
 renderSteps();
 select(current);
+setView('simple');
 requestAnimationFrame(frame);
 init3D();
 
