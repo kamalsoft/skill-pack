@@ -2623,8 +2623,10 @@ async function init3D() {
     T = await import(THREE_URL);
     renderer = new T.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
   } catch (e) {
+    console.error('RLM atlas: 3D view failed to start', e);
     T = null;
     cv.hidden = true;
+    $('#fb').textContent = 'The 3D view could not load (' + (e && e.message ? e.message : e) + '). The steps and the details still work.';
     $('#fb').hidden = false;
     return;
   }
