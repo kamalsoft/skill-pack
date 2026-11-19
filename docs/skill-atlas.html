@@ -6,173 +6,266 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <title>RLM Skill Atlas</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cstyle%3E.t%7Bfill%3A%231c6d75%7D.f%7Bfill%3A%23fff%7D.k%7Bstroke%3A%23fff%7D%40media%20%28prefers-color-scheme%3Adark%29%7B.t%7Bfill%3A%235fcbd5%7D.f%7Bfill%3A%230e1318%7D.k%7Bstroke%3A%230e1318%7D%7D%3C/style%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2214%22%20class%3D%22t%22/%3E%3Ctext%20x%3D%2232%22%20y%3D%2236%22%20text-anchor%3D%22middle%22%20class%3D%22f%22%20style%3D%22font%3A700%2021px%20%27IBM%20Plex%20Sans%27%2C%27Segoe%20UI%27%2CHelvetica%2CArial%2Csans-serif%3Bletter-spacing%3A.02em%22%3ERLM%3C/text%3E%3Cpath%20d%3D%22M17%2047%20H47%22%20class%3D%22k%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22/%3E%3Ccircle%20cx%3D%2217%22%20cy%3D%2247%22%20r%3D%223.5%22%20class%3D%22f%22/%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2247%22%20r%3D%223.5%22%20class%3D%22f%22/%3E%3Ccircle%20cx%3D%2247%22%20cy%3D%2247%22%20r%3D%223.5%22%20class%3D%22f%22/%3E%3C/svg%3E">
-<meta name="description" content="Pick the RLM agent skill you need. A 3D pipeline for each of the 21 skills, with install steps for the VS Code extension.">
-<meta name="theme-color" content="#1c6d75">
+<meta name="description" content="Pick the RLM agent skill you need. A 3D pipeline for each of the 33 skills, with its grade and tier, with install steps for the VS Code extension.">
+<meta name="theme-color" content="#13808a">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: a warm paper ground, deep teal accent, and a plain grid for reading. */
+/* App shell: sticky top bar, skill rail on the left, a dashboard and a tabbed detail pane on the right. */
 :root {
-  --bg: #f4f3ee; --surface: #fffffe; --ink: #1b2430; --muted: #55606d;
-  --line: #d8d5ca; --accent: #1c6d75; --accent-ink: #ffffff; --chip: #e9e7df; --stage: #e7e5dc;
+  --bg: #f4f6f9; --surface: #ffffff; --surface-2: #f8f9fb; --ink: #131a23; --muted: #5a6574;
+  --line: #e2e6ec; --accent: #13808a; --accent-ink: #ffffff; --chip: #edf0f4; --stage: #eef1f5;
+  --premium: #6d4fd8; --pro: #13808a; --essentials: #a8680f;
+  --shadow: 0 1px 2px rgba(16, 24, 40, .05), 0 10px 28px -14px rgba(16, 24, 40, .18);
+  --top: 60px;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0e1318; --surface: #161d25; --ink: #e5eaef; --muted: #9aa6b2;
-    --line: #2a3541; --accent: #5fcbd5; --accent-ink: #0e1318; --chip: #1d2630; --stage: #111922;
+    --bg: #0a0e13; --surface: #11171f; --surface-2: #151c26; --ink: #e6ebf1; --muted: #94a0ae;
+    --line: #222b37; --accent: #5fcbd5; --accent-ink: #0a0e13; --chip: #1a2230; --stage: #0d131a;
+    --premium: #a896ff; --pro: #5fcbd5; --essentials: #e7aa50;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 12px 32px -16px rgba(0, 0, 0, .7);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0e1318; --surface: #161d25; --ink: #e5eaef; --muted: #9aa6b2;
-  --line: #2a3541; --accent: #5fcbd5; --accent-ink: #0e1318; --chip: #1d2630; --stage: #111922;
+  --bg: #0a0e13; --surface: #11171f; --surface-2: #151c26; --ink: #e6ebf1; --muted: #94a0ae;
+  --line: #222b37; --accent: #5fcbd5; --accent-ink: #0a0e13; --chip: #1a2230; --stage: #0d131a;
+  --premium: #a896ff; --pro: #5fcbd5; --essentials: #e7aa50;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 12px 32px -16px rgba(0, 0, 0, .7);
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
+html { scroll-padding-top: calc(var(--top) + 14px); }
 body {
-  margin: 0; background: var(--bg); color: var(--ink);
-  font: 15px/1.5 "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  margin: 0; color: var(--ink);
+  background: radial-gradient(1100px 500px at 85% -10%, color-mix(in srgb, var(--premium) 9%, transparent), transparent 70%),
+              radial-gradient(900px 480px at 10% -15%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%), var(--bg);
+  background-attachment: fixed;
+  font: 15px/1.55 "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
-.wrap {
-  max-width: 1180px; margin: 0 auto; padding-block: 28px 40px;
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-}
-header { margin-bottom: 22px; }
-.eyebrow { margin: 0 0 6px; color: var(--accent); font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
-h1 { margin: 0 0 8px; font-size: clamp(26px, 4vw, 36px); line-height: 1.15; text-wrap: balance; }
-.lede { margin: 0; max-width: 62ch; color: var(--muted); }
-h2 { margin: 0; font-size: 20px; }
-h3 { margin: 0 0 6px; font-size: 18px; text-wrap: balance; }
-h4 { margin: 16px 0 6px; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+h1 { margin: 0 0 8px; font-size: clamp(28px, 4vw, 40px); line-height: 1.1; letter-spacing: -.01em; text-wrap: balance; }
+h2 { margin: 0; font-size: 22px; line-height: 1.2; letter-spacing: -.005em; text-wrap: balance; }
+h3 { margin: 0 0 6px; font-size: 17px; text-wrap: balance; }
+h4 { margin: 18px 0 8px; font-size: 12px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
 p { margin: 0 0 8px; }
+a { color: var(--accent); }
+ul { margin: 0; padding-left: 18px; }
+li { margin-bottom: 4px; overflow-wrap: anywhere; }
+button { font: inherit; color: inherit; }
+button:disabled { opacity: .5; cursor: default; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.mono, code, pre { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); min-width: 0; }
 
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; min-width: 0; }
+/* Tier palette: any element with tp-<tier> gets --tc */
+.tp-premium { --tc: var(--premium); } .tp-pro { --tc: var(--pro); } .tp-essentials { --tc: var(--essentials); } .tp-none { --tc: var(--muted); }
+.tier { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; border-radius: 999px; padding: 2px 9px; white-space: nowrap; color: var(--tc); background: color-mix(in srgb, var(--tc) 13%, transparent); }
+.tier::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--tc); }
+.pill { font-size: 12px; border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; color: var(--muted); white-space: nowrap; background: var(--surface); }
 
-/* Picker */
-.picker { display: grid; gap: 12px; margin-bottom: 18px; }
-.search { display: grid; gap: 4px; max-width: 420px; }
-.search span { font-size: 13px; color: var(--muted); }
-input[type="search"] {
-  font: inherit; color: var(--ink); background: var(--surface);
-  border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; width: 100%;
+/* Top bar */
+.topbar {
+  position: sticky; top: 0; z-index: 30; height: var(--top);
+  display: flex; align-items: center; gap: 14px; padding: 0 max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px));
+  background: color-mix(in srgb, var(--surface) 82%, transparent); backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px);
+  border-bottom: 1px solid var(--line);
 }
-input[type="search"]:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.cats { display: flex; flex-wrap: wrap; gap: 6px; }
-.cats button, .controls button, .steps button, .copy {
-  font: inherit; font-size: 13px; color: var(--ink); background: var(--chip);
-  border: 1px solid transparent; border-radius: 999px; padding: 6px 12px; cursor: pointer;
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); flex: none; }
+.mark { width: 30px; height: 30px; flex: none; }
+.mark .i { fill: var(--ink); } .mark .a { fill: var(--accent); }
+.wordmark { font-weight: 700; font-size: 16px; white-space: nowrap; }
+.brand-sub { color: var(--muted); font-size: 13px; padding-left: 10px; border-left: 1px solid var(--line); white-space: nowrap; }
+.topnav { display: flex; gap: 2px; margin-left: auto; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.topnav a { font-size: 14px; color: var(--muted); text-decoration: none; padding: 6px 11px; border-radius: 8px; white-space: nowrap; }
+.topnav a:hover { color: var(--ink); background: var(--chip); }
+.iconbtn { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; cursor: pointer; color: var(--ink); }
+.iconbtn svg { width: 18px; height: 18px; }
+#railBtn { display: none; }
+@media (max-width: 720px) { .brand-sub { display: none; } }
+@media (max-width: 560px) { .topnav a.opt { display: none; } .wordmark { display: none; } .topbar { gap: 8px; } }
+
+/* Shell */
+.shell { display: grid; grid-template-columns: 300px minmax(0, 1fr); align-items: start; }
+.rail {
+  position: sticky; top: var(--top); height: calc(100dvh - var(--top)); overflow-y: auto; overscroll-behavior: contain;
+  border-right: 1px solid var(--line); background: color-mix(in srgb, var(--surface) 55%, transparent);
+  padding: 16px 12px 24px; display: grid; align-content: start; gap: 12px;
 }
-.cats button[aria-pressed="true"], .steps button.on { background: var(--accent); color: var(--accent-ink); }
-.tabs { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px; }
+.main {
+  min-width: 0; display: grid; gap: 22px; padding: 26px max(16px, env(safe-area-inset-right, 0px)) 40px 26px;
+  max-width: 1240px; width: 100%;
+}
+.scrim { display: none; }
+@media (max-width: 900px) {
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  #railBtn { display: grid; }
+  .rail {
+    position: fixed; left: 0; top: var(--top); z-index: 25; width: min(330px, 88vw);
+    background: var(--surface); box-shadow: var(--shadow); transform: translateX(-104%); transition: transform .25s ease;
+  }
+  .rail.open { transform: none; }
+  .scrim.open { display: block; position: fixed; inset: var(--top) 0 0 0; z-index: 20; background: rgba(5, 10, 15, .4); }
+  .main { padding-left: max(16px, env(safe-area-inset-left, 0px)); }
+}
+
+/* Rail */
+.search { position: relative; display: block; }
+.search svg { position: absolute; left: 11px; top: 50%; translate: 0 -50%; width: 16px; height: 16px; color: var(--muted); pointer-events: none; }
+.search input {
+  font: inherit; font-size: 14px; color: var(--ink); background: var(--surface); width: 100%;
+  border: 1px solid var(--line); border-radius: 10px; padding: 8px 34px 8px 34px;
+}
+.search kbd { position: absolute; right: 9px; top: 50%; translate: 0 -50%; font: 11px "IBM Plex Mono", monospace; color: var(--muted); border: 1px solid var(--line); border-radius: 5px; padding: 0 5px; }
+.seg-ctl { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2px; background: var(--chip); border-radius: 10px; padding: 3px; }
+.seg-ctl button { border: 0; background: transparent; font-size: 12px; padding: 5px 4px; border-radius: 8px; cursor: pointer; color: var(--muted); text-transform: capitalize; white-space: nowrap; }
+.seg-ctl button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0, 0, 0, .12); font-weight: 600; }
+.list { display: grid; gap: 14px; }
+.grp h3 { display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 6px 4px; }
+.grp ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 2px; }
+.grp li { margin: 0; }
 .tab {
-  text-align: left; font: inherit; color: var(--ink); background: var(--surface);
-  border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; cursor: pointer;
-  display: grid; gap: 2px; min-width: 0;
+  width: 100%; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 10px; align-items: center; text-align: left;
+  border: 1px solid transparent; background: transparent; border-radius: 10px; padding: 7px 8px; cursor: pointer;
 }
-.tab[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
-.tab .g { font-weight: 600; }
-.tab .i { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
-.tab .m { font-size: 12px; color: var(--muted); }
-.none { color: var(--muted); grid-column: 1 / -1; }
+.tab:hover { background: var(--chip); }
+.tab[aria-pressed="true"] { background: var(--surface); border-color: var(--line); box-shadow: var(--shadow); }
+.tab[aria-pressed="true"] .gchip { outline: 2px solid var(--tc); outline-offset: 1px; }
+.gchip { width: 34px; height: 28px; display: grid; place-items: center; border-radius: 8px; font-weight: 700; font-size: 13px; color: var(--tc); background: color-mix(in srgb, var(--tc) 14%, transparent); }
+.tab .g { display: block; font-size: 14px; font-weight: 500; line-height: 1.3; }
+.tab .i { display: block; font: 11.5px "IBM Plex Mono", monospace; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.none { color: var(--muted); font-size: 14px; padding: 8px; }
 
-/* Viewer */
-.viewer { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 18px; align-items: start; }
-@media (max-width: 860px) { .viewer { grid-template-columns: minmax(0, 1fr); } }
+/* Hero and stats */
+.hero { padding: 28px; overflow: hidden; position: relative; }
+.eyebrow { margin: 0 0 8px; color: var(--accent); font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.lede { color: var(--muted); max-width: 64ch; margin-bottom: 20px; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 22px; }
+.kpi { background: var(--surface-2); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; min-width: 0; }
+.kpi b { display: block; font-size: 28px; line-height: 1.1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.kpi span { color: var(--muted); font-size: 13px; }
+.split { display: flex; height: 10px; border-radius: 6px; overflow: hidden; margin: 10px 0 8px; gap: 2px; }
+.split i { background: var(--tc); }
+.split-key { display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 12px; color: var(--muted); }
+.split-key span { display: inline-flex; align-items: center; gap: 5px; }
+.split-key span::before { content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--tc); }
+.land-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin-bottom: 6px; }
+.land-head h3 { margin: 0; }
+.land-tip { font-size: 13px; color: var(--muted); min-height: 1.5em; }
+.land-tip b { color: var(--ink); }
+#land { width: 100%; }
+#land svg { display: block; width: 100%; height: auto; overflow: visible; }
+#land .band { fill: var(--tc); opacity: .07; }
+#land .band-l { fill: var(--tc); font: 600 11px "IBM Plex Sans", sans-serif; letter-spacing: .06em; text-transform: uppercase; }
+#land .row-l { fill: var(--muted); font: 500 12px "IBM Plex Sans", sans-serif; }
+#land .tick { fill: var(--muted); font: 11px "IBM Plex Mono", monospace; }
+#land .rule { stroke: var(--line); }
+#land .dot { cursor: pointer; outline: none; }
+#land .dot circle { fill: var(--tc); stroke: var(--surface); stroke-width: 2; transition: r .15s; }
+#land .dot:hover circle, #land .dot:focus-visible circle, #land .dot.on circle { r: 10; }
+#land .dot.on circle { stroke: var(--ink); }
+
+/* Detail */
+.detail { padding: 0; overflow: hidden; }
+.d-head { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 20px; align-items: center; padding: 24px 24px 18px; }
+.ring svg { width: 92px; height: 92px; display: block; }
+.ring .rt { fill: none; stroke: var(--chip); stroke-width: 8; }
+.ring .rv { fill: none; stroke: var(--tc); stroke-width: 8; stroke-linecap: round; transition: stroke-dasharray .6s ease; }
+.ring .rg { fill: var(--ink); font: 700 24px "IBM Plex Sans", sans-serif; text-anchor: middle; }
+.ring .rs { fill: var(--muted); font: 500 11px "IBM Plex Mono", monospace; text-anchor: middle; }
+.ring .ov { fill: var(--accent); }
+.meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 8px; }
+.meta .mono { font-size: 12.5px; color: var(--muted); }
+.idea { margin: 8px 0 0; color: var(--muted); max-width: 80ch; }
+.idea b { color: var(--ink); font-weight: 600; }
+@media (max-width: 560px) { .d-head { grid-template-columns: minmax(0, 1fr); } .ring svg { width: 76px; height: 76px; } }
+.dtabs { display: flex; gap: 4px; padding: 0 20px; border-bottom: 1px solid var(--line); overflow-x: auto; scrollbar-width: none; }
+.dtabs button { border: 0; background: none; padding: 10px 12px; font-size: 14px; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+.dtabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+.dpanel { padding: 20px 24px 24px; }
+
+/* Pipeline */
 .stage-head { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-.mono { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
-.badge { font-size: 12px; border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; color: var(--muted); white-space: nowrap; }
+.caption { color: var(--ink); font-weight: 600; font-size: 14px; min-width: 0; overflow-wrap: anywhere; }
+.viewsw { display: inline-flex; gap: 2px; background: var(--chip); border-radius: 10px; padding: 3px; }
+.viewsw button { font-size: 13px; border: 0; background: transparent; padding: 5px 12px; border-radius: 8px; cursor: pointer; color: var(--muted); }
+.viewsw button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0, 0, 0, .12); font-weight: 600; }
 .stage {
-  position: relative; height: clamp(300px, 46vh, 430px); border-radius: 10px; overflow: hidden;
-  background: radial-gradient(120% 90% at 50% 20%, var(--surface), var(--stage));
-  border: 1px solid var(--line);
+  position: relative; height: clamp(320px, 50vh, 500px); border-radius: 14px; overflow: hidden; border: 1px solid var(--line);
+  background: radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--muted) 22%, transparent) 1px, transparent 0) 0 0 / 22px 22px,
+              radial-gradient(120% 90% at 50% 15%, var(--surface), var(--stage));
 }
 .stage canvas { width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
 .stage canvas:active { cursor: grabbing; }
 .fallback { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; color: var(--muted); }
-.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0 4px; }
-.caption { color: var(--muted); font-size: 14px; min-width: 0; overflow-wrap: anywhere; }
-.steps { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0; margin: 10px 0 12px; }
-.steps button { display: inline-flex; align-items: center; gap: 6px; }
-.sw { width: 10px; height: 10px; border-radius: 3px; flex: none; }
-.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; list-style: none; padding: 0; margin: 0 0 10px; font-size: 13px; color: var(--muted); }
-.legend li { display: inline-flex; align-items: center; gap: 6px; }
-.hint { font-size: 13px; color: var(--muted); margin: 0; }
-
-/* Details */
-.info dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 14px; margin: 12px 0 0; }
-.info dt { color: var(--muted); font-size: 13px; }
-.info dd { margin: 0; min-width: 0; }
-pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; background: var(--chip); border-radius: 8px; padding: 10px 12px; font: 13px/1.5 "IBM Plex Mono", ui-monospace, monospace; }
-.pc { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-@media (max-width: 480px) { .pc { grid-template-columns: minmax(0, 1fr); } }
-ul { margin: 0; padding-left: 18px; }
-li { margin-bottom: 4px; overflow-wrap: anywhere; }
-
-footer { margin-top: 28px; font-size: 13px; color: var(--muted); }
-button:disabled { opacity: .5; cursor: default; }
-a { color: var(--accent); }
-nav.top { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
-nav.top a {
-  font-size: 14px; color: var(--accent); text-decoration: none;
-  border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; background: var(--surface);
-}
-nav.top a:hover { border-color: var(--accent); }
-section.doc { margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--line); }
-section.doc h2 { font-size: clamp(22px, 3vw, 28px); margin-bottom: 6px; }
-section.doc h3 { margin: 24px 0 8px; font-size: 17px; }
-.doc ol, .doc ul { padding-left: 20px; }
-.doc li { margin-bottom: 8px; }
-.doc code { font: 13px "IBM Plex Mono", ui-monospace, monospace; background: var(--chip); border-radius: 4px; padding: 1px 5px; overflow-wrap: anywhere; }
-.lead { color: var(--muted); max-width: 66ch; }
-table.t { width: 100%; border-collapse: collapse; font-size: 14px; margin: 8px 0 14px; }
-table.t th, table.t td { text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); padding: 8px 10px; }
-table.t th { color: var(--muted); font-weight: 600; }
-.cmd {
-  display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between;
-  background: var(--chip); border-radius: 8px; padding: 10px 12px; margin: 8px 0 14px;
-}
-.cmd code { font: 13px/1.5 "IBM Plex Mono", ui-monospace, monospace; background: none; padding: 0; min-width: 0; }
-.cmd.note { display: block; font-size: 14px; color: var(--muted); }
-.cmd.note code { font-size: 13px; color: var(--ink); }
-.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; margin: 12px 0 20px; }
-.card-link {
-  display: grid; gap: 4px; text-decoration: none; color: var(--ink);
-  background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px; min-width: 0;
-}
-.card-link span { color: var(--muted); font-size: 14px; }
-.card-link:hover { border-color: var(--accent); }
-details { border-bottom: 1px solid var(--line); padding: 10px 0; }
-summary { cursor: pointer; font-weight: 600; }
-details p { margin: 6px 0 0; color: var(--muted); }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
-.note { background: var(--chip); border-radius: 10px; padding: 12px 14px; margin: 10px 0; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 14px 0 0; }
+.controls > button { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 6px 12px; font-size: 13px; cursor: pointer; }
+.controls > button#play { background: var(--accent); color: var(--accent-ink); border-color: transparent; min-width: 70px; font-weight: 600; }
+.steps { display: flex; flex-wrap: wrap; gap: 4px; list-style: none; padding: 0; margin: 0 0 0 auto; }
+.steps li { margin: 0; }
+.steps button { display: inline-flex; align-items: center; gap: 6px; border: 1px solid transparent; background: var(--chip); border-radius: 999px; padding: 5px 11px; font-size: 13px; cursor: pointer; color: var(--muted); }
+.steps button.on { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--ink); border-color: color-mix(in srgb, var(--accent) 50%, transparent); font-weight: 600; }
+@media (max-width: 700px) { .steps { margin-left: 0; } }
+.note { background: var(--surface-2); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 12px; padding: 12px 14px; margin: 14px 0 0; }
 .note p { margin: 0; }
 .note #note { font-size: 15px; }
-.counts { margin-top: 6px !important; color: var(--muted); font-size: 13px; }
-.howto { margin-top: 8px !important; font-size: 14px; }
-.howto { color: var(--ink); }
-.outcome-wrap { margin-top: 18px; }
-.oc-head { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-.oc-tag { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
-.verdict { font-size: 17px; font-weight: 700; color: #fff; border-radius: 8px; padding: 6px 12px; }
+.like { margin-top: 6px !important; font-size: 14px; color: var(--muted); }
+.counts { margin-top: 6px !important; color: var(--muted); font: 12.5px "IBM Plex Mono", monospace; }
+.howto { margin-top: 6px !important; font-size: 13.5px; color: var(--muted); }
+.legend-box { margin-top: 12px; }
+.legend-box summary { cursor: pointer; font-size: 13px; color: var(--muted); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; list-style: none; padding: 0; margin: 10px 0; font-size: 13px; color: var(--muted); }
+.legend li { display: inline-flex; align-items: center; gap: 6px; margin: 0; }
+.sw { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.hint { font-size: 13px; color: var(--muted); margin: 0; }
+
+/* Flat diagram (simple view) */
+.flat { position: absolute; inset: 0; overflow: hidden; }
+.flat-lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.flat-lines line { stroke: var(--muted); stroke-width: 1.5; opacity: .7; }
+.flat-lines line.ln-ok { stroke: #1f9d6b; stroke-width: 2; opacity: .9; }
+.flat-lines line.ln-bad { stroke: #d6456a; stroke-width: 2; stroke-dasharray: 5 4; opacity: .9; }
+.flat-lines polygon.cyc { fill: none; stroke: #e0702a; stroke-width: 3; opacity: .85; }
+.chip { position: absolute; left: 0; top: 0; height: 28px; padding: 0 10px; display: flex; align-items: center; justify-content: center; border-radius: 8px; color: #fff; font: 600 12px/1 "IBM Plex Sans", system-ui, sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; box-shadow: 0 2px 6px rgba(0,0,0,.18); transition: transform .8s cubic-bezier(.2,.7,.2,1), background-color .5s, opacity .5s, box-shadow .25s; background: #64748b; }
+.chip.noanim { transition: none; }
+.chip.gone { opacity: 0; }
+.chip.hot { box-shadow: 0 0 0 3px var(--accent), 0 4px 14px rgba(0,0,0,.28); }
+.chip[data-s="ok"] { background: #1f9d6b; } .chip[data-s="bad"] { background: #d6456a; } .chip[data-s="warn"] { background: #b7791f; }
+.chip[data-s="hit"] { background: #2f6fd6; } .chip[data-s="b0"] { background: #7c5ce0; } .chip[data-s="b1"] { background: #13a3a3; }
+.chip[data-s="b2"] { background: #e0702a; } .chip[data-s="b3"] { background: #2f6fd6; } .chip[data-s="b4"] { background: #b7791f; } .chip[data-s="b5"] { background: #1f9d6b; }
+.chip.target { background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-left: 5px solid #64748b; }
+.chip.target.a-ok { border-left-color: #1f9d6b; } .chip.target.a-bad { border-left-color: #d6456a; } .chip.target.a-warn { border-left-color: #b7791f; }
+.fl-frame, .fl-boundary, .fl-panel, .fl-funnel { position: absolute; border-radius: 12px; }
+.fl-frame { border: 1.5px solid var(--line); background: color-mix(in srgb, var(--surface) 85%, transparent); }
+.fl-boundary { border: 2px dashed var(--accent); }
+.fl-panel { border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow); }
+.fl-store { border-radius: 40px / 18px; border-color: #13a3a3; }
+.fl-funnel { background: var(--line); opacity: .55; clip-path: polygon(0 0, 100% 0, 62% 100%, 38% 100%); border-radius: 0; }
+.fl-frame span, .fl-boundary span, .fl-panel span { position: absolute; top: -10px; left: 10px; background: var(--surface); padding: 0 6px; font: 600 11px/20px "IBM Plex Sans", system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); border-radius: 4px; }
+.fl-label { position: absolute; transform: translate(-50%, -50%); white-space: nowrap; font: 600 12px "IBM Plex Sans", system-ui, sans-serif; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); background: var(--surface); padding: 2px 8px; border-radius: 6px; border: 1px solid var(--line); }
+
+/* Outcome */
+.oc-head { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.oc-tag { font-size: 12px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.verdict { font-size: 16px; font-weight: 700; color: #fff; border-radius: 10px; padding: 6px 14px; }
 .v-block { background: #b4233f; } .v-warn { background: #b7791f; } .v-pass { background: #1f9d6b; } .v-info { background: #2f6fd6; }
 .t-critical { background: #b4233f; } .t-high { background: #d6456a; } .t-medium { background: #b7791f; }
 .t-low { background: #2f6fd6; } .t-info { background: #64748b; } .t-ok { background: #1f9d6b; }
-.bar { display: flex; height: 16px; border-radius: 8px; overflow: hidden; background: var(--chip); }
+.bar { display: flex; height: 12px; border-radius: 8px; overflow: hidden; background: var(--chip); gap: 2px; }
 .seg { transform-origin: left center; }
-.bar-key { display: flex; flex-wrap: wrap; gap: 6px 16px; list-style: none; padding: 0; margin: 8px 0 14px; font-size: 13px; color: var(--muted); }
-.bar-key li { display: inline-flex; align-items: center; gap: 6px; }
+.bar-key { display: flex; flex-wrap: wrap; gap: 6px 16px; list-style: none; padding: 0; margin: 10px 0 16px; font-size: 13px; color: var(--muted); }
+.bar-key li { display: inline-flex; align-items: center; gap: 6px; margin: 0; }
 .bar-key b { color: var(--ink); }
-.findings { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
-.finding { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--bg); min-width: 0; display: grid; gap: 4px; }
+.findings { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px; }
+.finding { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; background: var(--surface-2); min-width: 0; display: grid; gap: 4px; margin: 0; }
 .finding.focus { outline: 2px solid var(--accent); outline-offset: 2px; }
 .finding p { margin: 0; }
-.finding code { font: 13px "IBM Plex Mono", ui-monospace, monospace; color: var(--muted); overflow-wrap: anywhere; }
-.sev { justify-self: start; color: #fff; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; border-radius: 999px; padding: 2px 9px; }
+.finding code { font-size: 12.5px; color: var(--muted); overflow-wrap: anywhere; }
+.sev { justify-self: start; color: #fff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; border-radius: 999px; padding: 2px 9px; }
 .fix { color: var(--muted); font-size: 14px; }
 .nc { margin: 14px 0 0; font-size: 14px; color: var(--muted); }
+pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; font-size: 13px; line-height: 1.55; }
 @keyframes oc-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @keyframes oc-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 .outcome.play .finding { animation: oc-in .45s ease-out both; animation-delay: calc(var(--i) * 140ms + 250ms); }
@@ -180,129 +273,249 @@ details p { margin: 6px 0 0; color: var(--muted); }
 .outcome.play .verdict { animation: oc-in .4s ease-out both; }
 .ba { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 6px 12px; margin-bottom: 6px; }
 .ba-h { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
-.ba .cell { font: 13px/1.45 "IBM Plex Mono", ui-monospace, monospace; background: var(--chip); border-radius: 6px; padding: 6px 9px; overflow-wrap: anywhere; min-width: 0; border-left: 4px solid transparent; }
+.ba .cell { font-size: 13px; line-height: 1.45; background: var(--chip); border-radius: 6px; padding: 6px 9px; overflow-wrap: anywhere; min-width: 0; border-left: 4px solid transparent; }
 .ba .a-ok { border-left-color: #1f9d6b; } .ba .a-medium { border-left-color: #b7791f; } .ba .a-high { border-left-color: #d6456a; }
 .ba-key { font-size: 13px; color: var(--muted); margin: 6px 0 14px; }
 .outcome.play .ba .cell { animation: oc-in .4s ease-out both; animation-delay: calc(var(--i) * 90ms + 150ms); }
-.viewsw { display: inline-flex; gap: 2px; background: var(--chip); border-radius: 999px; padding: 3px; }
-.viewsw button { font: inherit; font-size: 13px; border: 0; background: transparent; color: var(--ink); padding: 5px 12px; border-radius: 999px; cursor: pointer; }
-.viewsw button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
-.idea { margin: 0 0 12px; font-size: 15px; line-height: 1.55; max-width: 80ch; }
-.idea b { color: var(--accent); }
-.like { margin-top: 8px !important; font-size: 14px; }
-.flat { position: absolute; inset: 0; overflow: hidden; }
-.flat-lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-.flat-lines line { stroke: var(--muted); stroke-width: 1.5; opacity: .7; }
-.flat-lines line.ln-ok { stroke: #1f9d6b; stroke-width: 2; opacity: .9; }
-.flat-lines line.ln-bad { stroke: #d6456a; stroke-width: 2; stroke-dasharray: 5 4; opacity: .9; }
-.flat-lines polygon.cyc { fill: none; stroke: #e0702a; stroke-width: 3; opacity: .85; }
-.chip { position: absolute; left: 0; top: 0; height: 28px; padding: 0 10px; display: flex; align-items: center; justify-content: center; border-radius: 7px; color: #fff; font: 600 12px/1 "IBM Plex Sans", system-ui, sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; box-shadow: 0 1px 3px rgba(0,0,0,.18); transition: transform .8s cubic-bezier(.2,.7,.2,1), background-color .5s, opacity .5s, box-shadow .25s; background: #64748b; }
-.chip.noanim { transition: none; }
-.chip.gone { opacity: 0; }
-.chip.hot { box-shadow: 0 0 0 3px var(--accent), 0 2px 8px rgba(0,0,0,.25); }
-.chip[data-s="ok"] { background: #1f9d6b; } .chip[data-s="bad"] { background: #d6456a; } .chip[data-s="warn"] { background: #b7791f; }
-.chip[data-s="hit"] { background: #2f6fd6; } .chip[data-s="b0"] { background: #7c5ce0; } .chip[data-s="b1"] { background: #13a3a3; }
-.chip[data-s="b2"] { background: #e0702a; } .chip[data-s="b3"] { background: #2f6fd6; } .chip[data-s="b4"] { background: #b7791f; } .chip[data-s="b5"] { background: #1f9d6b; }
-.chip.target { background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-left: 5px solid #64748b; }
-.chip.target.a-ok { border-left-color: #1f9d6b; } .chip.target.a-bad { border-left-color: #d6456a; } .chip.target.a-warn { border-left-color: #b7791f; }
-.fl-frame, .fl-boundary, .fl-panel, .fl-funnel { position: absolute; border-radius: 10px; }
-.fl-frame { border: 1.5px solid var(--line); background: var(--surface); }
-.fl-boundary { border: 2px dashed var(--accent); }
-.fl-panel { border: 1px solid var(--line); background: var(--surface); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
-.fl-store { border-radius: 40px / 18px; border-color: #13a3a3; }
-.fl-funnel { background: var(--line); opacity: .55; clip-path: polygon(0 0, 100% 0, 62% 100%, 38% 100%); border-radius: 0; }
-.fl-frame span, .fl-boundary span, .fl-panel span { position: absolute; top: -10px; left: 10px; background: var(--bg); padding: 0 6px; font: 600 11px/20px "IBM Plex Sans", system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); border-radius: 4px; }
-.fl-label { position: absolute; transform: translate(-50%, -50%); white-space: nowrap; font: 600 12px "IBM Plex Sans", system-ui, sans-serif; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); background: var(--bg); padding: 2px 8px; border-radius: 4px; }
-@media (prefers-reduced-motion: reduce) { .chip { transition: none; } }
-.brand { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; }
-.mark { width: 34px; height: 34px; flex: none; }
-.mark .i { fill: var(--ink); }
-.mark .a { fill: var(--accent); }
-.mark .b { fill: var(--surface); }
-.mark .l { stroke: var(--muted); opacity: .7; }
-.wordmark { font-weight: 700; font-size: 17px; letter-spacing: .01em; }
-.brand-sub { color: var(--muted); font-size: 14px; padding-left: 10px; border-left: 1px solid var(--line); }
+
+/* Use it */
+.use { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 24px; }
+@media (max-width: 760px) { .use { grid-template-columns: minmax(0, 1fr); } }
+.use .lead { font-size: 16px; color: var(--ink); }
+.facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 8px 16px; margin: 14px 0 0; }
+.facts dt { color: var(--muted); font-size: 13px; }
+.facts dd { margin: 0; min-width: 0; }
+.items { display: flex; flex-wrap: wrap; gap: 4px; }
+.items code { font-size: 12px; background: var(--chip); border-radius: 6px; padding: 1px 7px; }
+.prompt { position: relative; }
+.prompt pre { padding-right: 76px; }
+.copy { font-size: 12px; border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 4px 10px; cursor: pointer; color: var(--ink); }
+.prompt .copy { position: absolute; top: 8px; right: 8px; }
+.pc { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.pc li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 8px; margin: 0; align-items: start; }
+.pc li::before { content: "✓"; width: 22px; height: 22px; border-radius: 7px; display: grid; place-items: center; font-size: 12px; font-weight: 700; color: #1f9d6b; background: color-mix(in srgb, #1f9d6b 15%, transparent); }
+.pc.con li::before { content: "–"; color: #d6456a; background: color-mix(in srgb, #d6456a 14%, transparent); }
+
+/* Grade panel */
+.gp { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 24px; align-items: start; }
+@media (max-width: 820px) { .gp { grid-template-columns: minmax(0, 1fr); } }
+.radar svg { width: 100%; height: auto; display: block; overflow: visible; }
+.radar .grid { fill: none; stroke: var(--line); }
+.radar .axis { stroke: var(--line); }
+.radar .avg { fill: none; stroke: var(--muted); stroke-dasharray: 4 4; stroke-width: 1.5; }
+.radar .val { fill: color-mix(in srgb, var(--tc) 22%, transparent); stroke: var(--tc); stroke-width: 2.5; stroke-linejoin: round; }
+.radar .pt { fill: var(--tc); stroke: var(--surface); stroke-width: 2; }
+.radar .lab { fill: var(--ink); font: 600 12px "IBM Plex Sans", sans-serif; }
+.radar .w { fill: var(--muted); font: 11px "IBM Plex Mono", monospace; }
+.radar-key { display: flex; gap: 14px; font-size: 12px; color: var(--muted); justify-content: center; margin-top: 4px; }
+.radar-key span { display: inline-flex; align-items: center; gap: 6px; }
+.radar-key i { width: 16px; height: 0; border-top: 2.5px solid var(--tc); }
+.radar-key i.d { border-top: 1.5px dashed var(--muted); }
+.gsum { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+.gsum div { background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; padding: 8px 14px; }
+.gsum b { display: block; font-size: 20px; font-variant-numeric: tabular-nums; }
+.gsum span { font-size: 12px; color: var(--muted); }
+.crit { list-style: none; padding: 0; margin: 0 0 14px; display: grid; gap: 8px; font-size: 13.5px; }
+.crit li { display: grid; grid-template-columns: minmax(0, 9.5em) minmax(0, 1fr) 1.2em 3.4em; gap: 10px; align-items: center; margin: 0; }
+.crit small { color: var(--muted); font: 12px "IBM Plex Mono", monospace; text-align: right; }
+.meter { height: 8px; border-radius: 5px; background: var(--chip); overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--tc); border-radius: 5px; }
+.raise { background: color-mix(in srgb, var(--tc) 9%, transparent); border-radius: 12px; padding: 10px 14px; margin-top: 10px; }
+
+/* Docs sections */
+section.doc { padding: 26px 28px; }
+section.doc h2 { font-size: clamp(22px, 3vw, 26px); margin-bottom: 6px; }
+section.doc h3 { margin: 26px 0 10px; font-size: 16px; }
+.doc ol, .doc ul { padding-left: 20px; }
+.doc li { margin-bottom: 8px; }
+.doc code { font-size: 13px; background: var(--chip); border-radius: 5px; padding: 1px 6px; overflow-wrap: anywhere; }
+.lead { color: var(--muted); max-width: 70ch; }
+.tbl-scroll { overflow-x: auto; margin: 8px 0 14px; border: 1px solid var(--line); border-radius: 12px; }
+table.t { width: 100%; border-collapse: collapse; font-size: 14px; }
+.tbl-scroll table.t { margin: 0; }
+table.t th, table.t td { text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); padding: 9px 12px; }
+table.t tr:last-child td { border-bottom: 0; }
+table.t th { color: var(--muted); font-weight: 600; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; background: var(--surface-2); }
+table.t td.n, table.t th.n { font-variant-numeric: tabular-nums; text-align: center; }
+table.t th button { border: 0; background: none; padding: 0; font: inherit; color: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer; white-space: nowrap; }
+table.t th button[data-dir]::after { content: " ↓"; } table.t th button[data-dir="asc"]::after { content: " ↑"; }
+table.t .skill-link { background: none; border: 0; padding: 0; font: 13px "IBM Plex Mono", monospace; color: var(--accent); cursor: pointer; text-align: left; white-space: nowrap; }
+#gradeTable { min-width: 760px; }
+table.t td.heat { font-weight: 600; background: color-mix(in srgb, var(--accent) calc(var(--v) * 9%), transparent); }
+table.t td.gr { font-weight: 700; color: var(--tc); }
+.legend-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0 4px; }
+.wt { flex: 1 1 150px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; min-width: 0; }
+.wt b { font-size: 18px; } .wt span { display: block; font-size: 12.5px; color: var(--muted); }
+.bands { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 10px 0 4px; }
+@media (max-width: 640px) { .bands { grid-template-columns: minmax(0, 1fr); } }
+.bandc { border-radius: 12px; padding: 12px 14px; background: color-mix(in srgb, var(--tc) 9%, transparent); border: 1px solid color-mix(in srgb, var(--tc) 30%, transparent); }
+.bandc b { color: var(--tc); font-size: 15px; }
+.bandc p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+.cmd { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin: 8px 0 14px; }
+.cmd code { font-size: 13px; line-height: 1.5; background: none; padding: 0; min-width: 0; }
+.cmd.note { display: block; font-size: 14px; color: var(--muted); border-left: 3px solid var(--essentials); }
+.cmd.note code { font-size: 13px; color: var(--ink); }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin: 12px 0 20px; }
+.card-link { display: grid; gap: 4px; text-decoration: none; color: var(--ink); background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; padding: 14px; min-width: 0; transition: border-color .15s, transform .15s; }
+.card-link span { color: var(--muted); font-size: 14px; }
+.card-link:hover { border-color: var(--accent); transform: translateY(-1px); }
+details.qa { border-bottom: 1px solid var(--line); padding: 12px 0; }
+details.qa summary { cursor: pointer; font-weight: 600; }
+details.qa p { margin: 6px 0 0; color: var(--muted); }
+footer { font-size: 13px; color: var(--muted); padding: 4px 4px 0; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="brand">
-      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="4" width="26" height="26" rx="6" class="i"/><rect x="34" y="4" width="26" height="26" rx="6" class="i" opacity=".78"/><rect x="4" y="34" width="26" height="26" rx="6" class="i" opacity=".78"/><rect x="34" y="34" width="11.5" height="11.5" rx="3" class="i" opacity=".55"/><rect x="48.5" y="34" width="11.5" height="11.5" rx="3" class="i" opacity=".55"/><rect x="34" y="48.5" width="11.5" height="11.5" rx="3" class="i" opacity=".55"/><rect x="48.5" y="48.5" width="11.5" height="11.5" rx="3" class="a"/></svg>
-      <span class="wordmark">RLM Agent Skills</span>
-      <span class="brand-sub">visual guide</span>
-    </div>
-    <h1>Which skill do I need?</h1>
-    <p class="lede">Each skill is shown as a 3D pipeline: what goes in, the steps the agent takes, and what comes out. Pick a skill to watch it run, then read its pros and cons before you install it.</p>
-    <nav class="top" aria-label="Page sections">
-      <a href="#skills">Pick a skill</a>
-      <a href="#install">How to install</a>
-      <a href="#more">More</a>
-      <a href="#about">About</a>
-      <a href="https://github.com/kamalsoft/skill-pack" target="_blank" rel="noopener noreferrer">Repository</a>
-    </nav>
-  </header>
+<header class="topbar">
+  <button type="button" class="iconbtn" id="railBtn" aria-label="Show the skill list" aria-expanded="false" aria-controls="rail"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="#overview">
+    <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="4" width="26" height="26" rx="6" class="i"/><rect x="34" y="4" width="26" height="26" rx="6" class="i" opacity=".78"/><rect x="4" y="34" width="26" height="26" rx="6" class="i" opacity=".78"/><rect x="34" y="34" width="11.5" height="11.5" rx="3" class="i" opacity=".55"/><rect x="48.5" y="34" width="11.5" height="11.5" rx="3" class="i" opacity=".55"/><rect x="34" y="48.5" width="11.5" height="11.5" rx="3" class="i" opacity=".55"/><rect x="48.5" y="48.5" width="11.5" height="11.5" rx="3" class="a"/></svg>
+    <span class="wordmark">RLM Agent Skills</span>
+    <span class="brand-sub">Skill atlas</span>
+  </a>
+  <nav class="topnav" aria-label="Page sections">
+    <a href="#overview" class="opt">Overview</a>
+    <a href="#skills">Skill</a>
+    <a href="#grades">Grades</a>
+    <a href="#install">Install</a>
+    <a href="#more" class="opt">More</a>
+  </nav>
+  <button type="button" class="iconbtn" id="theme" aria-label="Switch light or dark theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>
+  <a class="iconbtn" href="https://github.com/kamalsoft/skill-pack" target="_blank" rel="noopener noreferrer" aria-label="Repository on GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg></a>
+</header>
 
-  <section class="picker" id="skills" aria-label="Choose a skill">
-    <label class="search"><span>Search by goal, skill name or word</span><input id="q" type="search" placeholder="For example: security, log, licence" autocomplete="off"></label>
-    <div class="cats" id="cats" role="group" aria-label="Filter by category"></div>
-    <div class="tabs" id="tabs"></div>
-  </section>
+<div class="shell">
+  <aside class="rail" id="rail" aria-label="Skills">
+    <label class="search"><span hidden>Search skills</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search by goal or name" autocomplete="off" aria-label="Search skills"><kbd aria-hidden="true">/</kbd>
+    </label>
+    <div class="seg-ctl" id="tiers" role="group" aria-label="Filter by tier"></div>
+    <div class="list" id="tabs"></div>
+  </aside>
+  <div class="scrim" id="scrim"></div>
 
-  <section class="viewer" aria-label="Skill viewer">
-    <div class="card">
-      <div class="stage-head">
-        <h2 id="sname"></h2>
-        <span id="sbadges" class="mono"></span>
-        <div class="viewsw" id="viewsw" role="group" aria-label="Choose a view">
-          <button type="button" data-view="simple" aria-pressed="true">Simple view</button>
-          <button type="button" data-view="3d" aria-pressed="false">3D view</button>
+  <main class="main">
+    <section class="card hero" id="overview" aria-labelledby="ov-title">
+      <p class="eyebrow">Skill atlas · graded 2026-11-19</p>
+      <h1 id="ov-title">Which skill do I need?</h1>
+      <p class="lede">Each skill is shown as a pipeline: what goes in, the steps the agent takes, and what comes out. Every skill is graded A+ to D on how well it serves a project, and the grade sets its tier. Pick a skill from the list or the chart.</p>
+      <div class="kpis" id="kpis"></div>
+      <div class="land-head">
+        <h3>Grade landscape</h3>
+        <p class="land-tip" id="landTip" aria-live="polite">Each dot is a skill, placed by its score. Hover or focus a dot; select it to open the skill.</p>
+      </div>
+      <div id="land"></div>
+    </section>
+
+    <section class="card detail" id="skills" aria-label="Skill viewer">
+      <div class="d-head">
+        <div class="ring" id="ring"></div>
+        <div>
+          <div class="meta" id="sbadges"></div>
+          <h2 id="sname"></h2>
+          <p class="idea" id="idea"></p>
         </div>
       </div>
-      <p class="idea" id="idea"></p>
-      <div class="stage" id="stage">
-        <canvas id="cv" aria-label="Animated data flow for the selected skill"></canvas>
-        <div class="flat" id="flat" role="img" aria-label="Diagram of the current step"><svg class="flat-lines" id="flatSvg" aria-hidden="true"></svg></div>
-        <div class="fallback" id="fb" hidden>The 3D view could not load. The steps and the details still work.</div>
+      <div class="dtabs" role="tablist" aria-label="Skill details">
+        <button type="button" role="tab" id="t-how" aria-controls="p-how" aria-selected="true" data-tab="how">How it works</button>
+        <button type="button" role="tab" id="t-out" aria-controls="p-out" aria-selected="false" data-tab="out">Output</button>
+        <button type="button" role="tab" id="t-use" aria-controls="p-use" aria-selected="false" data-tab="use">Use it</button>
+        <button type="button" role="tab" id="t-grade" aria-controls="p-grade" aria-selected="false" data-tab="grade">Grade</button>
       </div>
-      <div class="controls">
-        <button type="button" id="prev">◀ Previous</button>
-        <button type="button" id="play">Pause</button>
-        <button type="button" id="next">Next ▶</button>
-        <span class="caption" id="cap" aria-live="polite"></span>
+      <div class="dpanel" role="tabpanel" id="p-how" aria-labelledby="t-how">
+        <div class="stage-head">
+          <span class="caption" id="cap" aria-live="polite"></span>
+          <div class="viewsw" id="viewsw" role="group" aria-label="Choose a view">
+            <button type="button" data-view="simple" aria-pressed="true">Simple</button>
+            <button type="button" data-view="3d" aria-pressed="false">3D</button>
+          </div>
+        </div>
+        <div class="stage" id="stage">
+          <canvas id="cv" aria-label="Animated data flow for the selected skill"></canvas>
+          <div class="flat" id="flat" role="img" aria-label="Diagram of the current step"><svg class="flat-lines" id="flatSvg" aria-hidden="true"></svg></div>
+          <div class="fallback" id="fb" hidden>The 3D view could not load. The steps and the details still work.</div>
+        </div>
+        <div class="controls">
+          <button type="button" id="prev" aria-label="Previous step">◀</button>
+          <button type="button" id="play">Pause</button>
+          <button type="button" id="next" aria-label="Next step">▶</button>
+          <ol class="steps" id="steps"></ol>
+        </div>
+        <div class="note" aria-live="polite">
+          <p id="note"></p>
+          <p class="like" id="like"></p>
+          <p class="howto" id="howto"></p>
+          <p class="counts" id="counts"></p>
+        </div>
+        <details class="legend-box">
+          <summary>How to read the diagram</summary>
+          <ul class="legend">
+            <li><span class="sw" style="background:#64748b"></span>Grey: an item</li>
+            <li><span class="sw" style="background:#1f9d6b"></span>Green: passed or matched</li>
+            <li><span class="sw" style="background:#d6456a"></span>Red: failed, or a risk</li>
+            <li><span class="sw" style="background:#d9962b"></span>Amber: flagged for a look</li>
+            <li><span class="sw" style="background:#2f6fd6"></span>Blue: the first or a recalled item</li>
+            <li><span class="sw" style="background:#7c5ce0"></span>Coloured: its group</li>
+            <li><span class="sw" style="background:#e0702a"></span>Orange loop: a cycle</li>
+            <li><span class="sw" style="background:#13a3a3"></span>Teal cylinder: memory</li>
+          </ul>
+          <p class="hint">In the 3D view, drag to turn it and click a gem to open its finding. Click a step to jump to it. The blocks are the items; follow one through the skill. A frame marks a chunk, a dashed line a boundary.</p>
+        </details>
       </div>
-      <ol class="steps" id="steps"></ol>
-      <div class="note" aria-live="polite">
-        <p id="note"></p>
-        <p class="like" id="like"></p>
-        <p class="counts" id="counts"></p>
-        <p class="howto" id="howto"></p>
+      <div class="dpanel" role="tabpanel" id="p-out" aria-labelledby="t-out" hidden>
+        <div class="outcome" id="outcome" aria-live="polite"></div>
       </div>
-      <ul class="legend">
-        <li><span class="sw" style="background:#64748b"></span>Grey block: an item</li>
-        <li><span class="sw" style="background:#1f9d6b"></span>Green: passed or matched</li>
-        <li><span class="sw" style="background:#d6456a"></span>Red: failed, or a risk</li>
-        <li><span class="sw" style="background:#d9962b"></span>Amber: flagged for a look</li>
-        <li><span class="sw" style="background:#2f6fd6"></span>Blue: the first or a recalled item</li>
-        <li><span class="sw" style="background:#7c5ce0"></span>Coloured block: its group</li>
-        <li><span class="sw" style="background:#e0702a"></span>Orange loop: a cycle</li>
-        <li><span class="sw" style="background:#13a3a3"></span>Teal cylinder: memory</li>
-        <li><span class="sw" style="background:#55606d"></span>Frame: one chunk</li>
-      </ul>
-      <p class="hint">Drag to turn the view. Click a step to jump to it. The blocks are the items. They move and change colour at each step, so you can follow one item through the skill. The dashed line marks a boundary, and a frame marks a chunk.</p>
-    </div>
-    <aside class="card info" id="info" aria-live="polite"></aside>
-  </section>
+      <div class="dpanel" role="tabpanel" id="p-use" aria-labelledby="t-use" hidden>
+        <div id="info"></div>
+      </div>
+      <div class="dpanel" role="tabpanel" id="p-grade" aria-labelledby="t-grade" hidden>
+        <div id="gradePanel"></div>
+      </div>
+    </section>
 
-  <section class="outcome-wrap" aria-label="Outcome">
-    <div class="card outcome" id="outcome" aria-live="polite"></div>
-  </section>
+    <section class="card doc" id="grades" aria-labelledby="grades-title">
+      <p class="eyebrow">Grades and tiers</p>
+      <h2 id="grades-title">How the skills are graded</h2>
+      <p class="lead">Every skill is scored 1 to 5 on five criteria. The weighted sum gives a score out of 5, the score gives the grade, and the grade sets the tier; the tier never affects the grade. These are design grades: no skill has yet been run against a model with measured results. Reference project: a team that builds and runs a commercial web application, with a front end, APIs, a database, third-party dependencies and CI.</p>
+      <div class="legend-row">
+        <div class="wt"><b>35%</b><span>Support strength: drives a correct, complete, checkable result</span></div>
+        <div class="wt"><b>20%</b><span>Importance: how much the outcome matters</span></div>
+        <div class="wt"><b>20%</b><span>Severity: how bad what it catches is</span></div>
+        <div class="wt"><b>15%</b><span>Usage: how often a project needs it</span></div>
+        <div class="wt"><b>10%</b><span>Presence: how many projects have it</span></div>
+      </div>
+      <div class="bands">
+        <div class="bandc tp-premium"><b>A+ · A · A- → premium</b><p>Score 4.00 to 5.00. Essential, core or strong: high value with a strong method.</p></div>
+        <div class="bandc tp-pro"><b>B+ · B · B- → pro</b><p>Score 3.10 to 3.99. Valuable for many projects, or vital for some.</p></div>
+        <div class="bandc tp-essentials"><b>C+ · C · D → essentials</b><p>Score below 3.10. Situational, narrow or early. Installs without a key.</p></div>
+      </div>
+      <h3>All skills, ranked</h3>
+      <div class="tbl-scroll"><table class="t" id="gradeTable">
+        <thead><tr>
+          <th class="n"><button type="button" data-sort="rank">#</button></th>
+          <th><button type="button" data-sort="id">Skill</button></th>
+          <th><button type="button" data-sort="cat">Category</button></th>
+          <th><button type="button" data-sort="tier">Tier</button></th>
+          <th class="n"><button type="button" data-sort="0" title="Support strength">S</button></th>
+          <th class="n"><button type="button" data-sort="1" title="Importance">I</button></th>
+          <th class="n"><button type="button" data-sort="2" title="Severity">V</button></th>
+          <th class="n"><button type="button" data-sort="3" title="Usage">U</button></th>
+          <th class="n"><button type="button" data-sort="4" title="Presence">P</button></th>
+          <th class="n"><button type="button" data-sort="score">Score</button></th>
+          <th class="n">Grade</th>
+        </tr></thead>
+        <tbody id="gradeRows"></tbody>
+      </table></div>
+      <p>Full reasoning for every grade: <a href="https://github.com/kamalsoft/skill-pack/blob/main/docs/skill-grade.md" target="_blank" rel="noopener noreferrer">skill-grade.md</a>.</p>
+    </section>
 
-  <section class="doc" id="install" aria-labelledby="install-title">
+  <section class="card doc" id="install" aria-labelledby="install-title">
     <h2 id="install-title">How to install</h2>
     <p class="lead">Two steps. Install the extension once, then install the skills into each project that uses them.</p>
     <!-- absolute URL: the sync workflow copies only this page to the live site -->
-    <img src="https://raw.githubusercontent.com/kamalsoft/skill-pack/main/docs/install.gif" width="960" height="600" loading="lazy" style="display:block;max-width:100%;height:auto;border:1px solid var(--line);border-radius:8px;margin:0 0 20px" alt="Download the .vsix from this page, install it with Install from VSIX… in the Extensions view, then run RLM: Install Agent Skills and keep the defaults. The extension installs the 14 default skills in .github/skills/ and reports 23 files written.">
+    <img src="https://raw.githubusercontent.com/kamalsoft/skill-pack/main/docs/install.gif" width="960" height="600" loading="lazy" style="display:block;max-width:100%;height:auto;border:1px solid var(--line);border-radius:12px;margin:0 0 20px" alt="Download the .vsix from this page, install it with Install from VSIX… in the Extensions view, then run RLM: Install Agent Skills and keep the defaults. The extension installs the 14 default skills in .github/skills/ and reports 23 files written.">
 
     <h3>Step 1: install the extension</h3>
     <p>The extension is not on the VS Code Marketplace yet. Download the package, then install it.</p>
@@ -320,21 +533,21 @@ details p { margin: 6px 0 0; color: var(--muted); }
       <li>Run <strong>RLM: Install Agent Skills</strong> from the Command Palette (⇧⌘P on macOS, Ctrl+Shift+P on Windows).</li>
       <li>Answer the three questions.</li>
     </ol>
-    <table class="t">
+    <div class="tbl-scroll"><table class="t">
       <thead><tr><th>Question</th><th>Default</th><th>What to choose</th></tr></thead>
       <tbody>
         <tr><td>How should the helper scripts run?</td><td>1. Python</td><td>1 if Python 3 is installed. 2 if only Node.js is installed. 4 if programs may not run. Option 3 is listed, but it does not work in the standard package (see the note below).</td></tr>
         <tr><td>Where should the skills go?</td><td>GitHub Copilot</td><td>Every agent you use. You can pick more than one.</td></tr>
         <tr><td>Which skills should be installed?</td><td>Fourteen selected</td><td>Keep the defaults, or tick the off ones you need (the three compliance skills, release-notes, stack-auditor, trust-layer-validator, incident-postmortem).</td></tr>
       </tbody>
-    </table>
+    </table></div>
     <div class="cmd note"><span><strong>About option 3, Portable Python.</strong> The portable Python interpreter adds about 22 MB, so the standard <code>.vsix</code> leaves it out. Choosing option 3 stops the install with the message “the portable Python runtime is not bundled in this build”. Choose option 1, 2 or 4 instead. Developers can bundle it by running <code>node scripts/fetch-portable-python.mjs</code> in the source repository and rebuilding the package. It has been prepared for Windows, but not tested there.</span></div>
     <ol start="4">
       <li>Wait for the message <em>RLM: wrote N file(s).</em> If it says some files were left unchanged, those were files you had edited.</li>
     </ol>
 
     <h3>Where each agent reads its skills</h3>
-    <table class="t">
+    <div class="tbl-scroll"><table class="t">
       <thead><tr><th>Agent</th><th>Skills folder in your project</th></tr></thead>
       <tbody>
         <tr><td>GitHub Copilot (default)</td><td><code>.github/skills/</code></td></tr>
@@ -344,7 +557,7 @@ details p { margin: 6px 0 0; color: var(--muted); }
         <tr><td>Gemini CLI</td><td><code>.gemini/skills/</code></td></tr>
         <tr><td>Windsurf</td><td><code>.windsurf/skills/</code></td></tr>
       </tbody>
-    </table>
+    </table></div>
 
     <h3>Step 3: check the install</h3>
     <ul>
@@ -362,7 +575,7 @@ details p { margin: 6px 0 0; color: var(--muted); }
     </ul>
   </section>
 
-  <section class="doc" id="more" aria-labelledby="more-title">
+  <section class="card doc" id="more" aria-labelledby="more-title">
     <h2 id="more-title">More</h2>
     <div class="cards">
       <a class="card-link" href="https://github.com/kamalsoft/skill-pack/blob/main/docs/SKILLS.md" target="_blank" rel="noopener noreferrer"><strong>Skill reference</strong><span>Each skill: what it is for, an example prompt, pros and cons.</span></a>
@@ -373,23 +586,23 @@ details p { margin: 6px 0 0; color: var(--muted); }
     </div>
 
     <h3>Questions</h3>
-    <details>
+    <details class="qa">
       <summary>Does it need an API key?</summary>
-      <p>No. The extension makes no model calls. The agent you use sends the code it reads to its own model provider, under your subscription.</p>
+      <p>No model API key. The extension makes no model calls; the agent you use sends the code it reads to its own model provider, under your subscription. Essentials skills install without a key. Pro and premium skills need a licence key; see <a href="#grades">Grades and tiers</a>.</p>
     </details>
-    <details>
+    <details class="qa">
       <summary>Does it change my code?</summary>
       <p>It writes skill files into the agent folders in your project. It never deletes anything, and files you have edited are left alone.</p>
     </details>
-    <details>
+    <details class="qa">
       <summary>Where is memory stored?</summary>
       <p>In <code>.agent-memory/graph.json</code> in the project. Add <code>.agent-memory/</code> to <code>.gitignore</code> if the project uses git.</p>
     </details>
-    <details>
+    <details class="qa">
       <summary>Why is Portable Python listed but not working?</summary>
       <p>It is listed in the install picker, but the standard package does not include the interpreter, because it adds about 22 MB. Choose Python 3, Node.js, or instructions only. See the note in the install section.</p>
     </details>
-    <details>
+    <details class="qa">
       <summary>Is it on the Marketplace?</summary>
       <p>Not yet. Install it from the .vsix file.</p>
     </details>
@@ -404,7 +617,7 @@ details p { margin: 6px 0 0; color: var(--muted); }
     </ul>
   </section>
 
-  <section class="doc" id="about" aria-labelledby="about-title">
+  <section class="card doc" id="about" aria-labelledby="about-title">
     <h2 id="about-title">About the author</h2>
     <p>RLM Agent Skills is built and maintained by Kamalesh (kamalsoft).</p>
     <div class="cards">
@@ -416,6 +629,7 @@ details p { margin: 6px 0 0; color: var(--muted); }
   <footer>
     RLM Agent Skills 1.0.0 · MIT licence · <a href="https://github.com/kamalsoft/skill-pack" target="_blank" rel="noopener noreferrer">kamalsoft/skill-pack</a>
   </footer>
+  </main>
 </div>
 
 <script type="application/json" id="skill-data">
@@ -426,7 +640,7 @@ details p { margin: 6px 0 0; color: var(--muted); }
    "goal": "How the skill pack works",
    "cat": "Overview",
    "on": true,
-   "use": "The pattern the analysis skills share: scan, split into pieces, review each piece, merge, verify and report.",
+   "use": "33 skills in 10 categories, graded A+ to D. The grade sets the tier: 11 premium, 15 pro, 7 essentials. The analysis skills share one pattern: scan, split into pieces, review each piece, merge, verify and report.",
    "prompt": "Use the rlm-security-audit skill on src/. Report findings with file and line.",
    "input": "Your request and a folder",
    "output": "A report with file and line references",
@@ -668,7 +882,22 @@ details p { margin: 6px 0 0; color: var(--muted); }
     "notChecked": "Runtime configuration; dependencies (see dependency-audit)."
    },
    "idea": "Like a building inspector who checks every room, floor by floor, and reports only the problems they could confirm.",
-   "why": "Security problems hide in files nobody opened. This checks all of them."
+   "why": "Security problems hide in files nobody opened. This checks all of them.",
+   "grade": {
+    "grade": "A+",
+    "tier": "premium",
+    "rank": 2,
+    "score": "4.70",
+    "scores": [
+     5,
+     5,
+     5,
+     3,
+     5
+    ],
+    "why": "Vulnerabilities and leaked secrets are the most severe class of defect. The chunk helper covers a whole repository, every high-severity item is confirmed reachable, secrets are redacted, and dismissed findings are listed. A full audit runs per release, not per change, which is the only point lost.",
+    "raise": "Run it in CI on changed folders to raise usage; validate recall on planted issues (B-1)."
+   }
   },
   {
    "id": "rlm-refactor-planner",
@@ -866,7 +1095,22 @@ details p { margin: 6px 0 0; color: var(--muted); }
     }
    },
    "idea": "Like a city planner who maps every road before deciding which ones to move, so traffic keeps flowing during the works.",
-   "why": "Changing tangled code without a map breaks things. The plan keeps each change small and safe."
+   "why": "Changing tangled code without a map breaks things. The plan keeps each change small and safe.",
+   "grade": {
+    "grade": "A-",
+    "tier": "premium",
+    "rank": 11,
+    "score": "4.10",
+    "scores": [
+     5,
+     4,
+     3,
+     3,
+     5
+    ],
+    "why": "The import-graph helper gives evidence that no prompt-only approach has: real cycles and the most-imported modules. Findings are verified before a change is recommended. Refactoring is planned work, not a daily need, and its defects are maintainability rather than outage risks.",
+    "raise": "Add language coverage to the graph (B-6)."
+   }
   },
   {
    "id": "rlm-doc-generator",
@@ -968,7 +1212,22 @@ details p { margin: 6px 0 0; color: var(--muted); }
     "notChecked": "Behaviour in other services."
    },
    "idea": "Like a technical writer who studies each part of a machine and writes one clear page per part.",
-   "why": "New team members learn faster when every module has an accurate page."
+   "why": "New team members learn faster when every module has an accurate page.",
+   "grade": {
+    "grade": "C+",
+    "tier": "essentials",
+    "rank": 27,
+    "score": "3.00",
+    "scores": [
+     3,
+     3,
+     2,
+     3,
+     5
+    ],
+    "why": "Every project needs documentation, and the import graph gives the overview structure. Documentation errors are low severity, and the skill has no not-checked list: it does not say which modules were left undocumented.",
+    "raise": "Add a not-checked list and require each documented signature to cite its file and line."
+   }
   },
   {
    "id": "rlm-test-gap-analysis",
@@ -1090,7 +1349,22 @@ details p { margin: 6px 0 0; color: var(--muted); }
     "notChecked": "Files the coverage report excludes."
    },
    "idea": "Like a quality manager who finds the parts of a product that were never tested, and lists the riskiest first.",
-   "why": "Untested code is where surprises come from. This tells you which tests to write first."
+   "why": "Untested code is where surprises come from. This tells you which tests to write first.",
+   "grade": {
+    "grade": "A",
+    "tier": "premium",
+    "rank": 5,
+    "score": "4.45",
+    "scores": [
+     5,
+     4,
+     4,
+     4,
+     5
+    ],
+    "why": "Every project has untested risk. The skill uses real coverage data first, confirms each gap by searching the tests, and gives the test to add, so the output is directly actionable.",
+    "raise": "Validate the ranking against a coverage report on a real project (B-1)."
+   }
   },
   {
    "id": "rlm-migration-planner",
@@ -1249,7 +1523,22 @@ details p { margin: 6px 0 0; color: var(--muted); }
     }
    },
    "idea": "Like moving offices: list every item, decide where each one goes, and move in stages you can undo.",
-   "why": "Upgrades fail when something is forgotten. An inventory and small phases prevent that."
+   "why": "Upgrades fail when something is forgotten. An inventory and small phases prevent that.",
+   "grade": {
+    "grade": "B+",
+    "tier": "pro",
+    "rank": 18,
+    "score": "3.70",
+    "scores": [
+     4,
+     4,
+     4,
+     2,
+     4
+    ],
+    "why": "Framework and runtime migrations are high-risk projects; the skill orders work by the import graph and requires a rollback path. Migrations are occasional.",
+    "raise": "Add a verification pass on each compatibility risk before it enters the plan."
+   }
   },
   {
    "id": "rlm-log-triage",
@@ -1385,7 +1674,22 @@ details p { margin: 6px 0 0; color: var(--muted); }
     "notChecked": "Compressed files; time outside 14:00-14:30."
    },
    "idea": "Like an investigator who sorts thousands of witness notes into a few patterns, then works out what happened first.",
-   "why": "During an outage, time matters. This turns a flood of lines into a short list of likely causes."
+   "why": "During an outage, time matters. This turns a flood of lines into a short list of likely causes.",
+   "grade": {
+    "grade": "B+",
+    "tier": "pro",
+    "rank": 17,
+    "score": "3.70",
+    "scores": [
+     4,
+     4,
+     4,
+     2,
+     4
+    ],
+    "why": "During an incident, turning thousands of log lines into ranked causes shortens the outage. Clustering is done by the model per chunk, so counts are approximate, and log citations are not required at line level.",
+    "raise": "Require a log file and line for each cluster's first occurrence."
+   }
   },
   {
    "id": "rlm-privacy-review",
@@ -1530,7 +1834,22 @@ details p { margin: 6px 0 0; color: var(--muted); }
     "notChecked": "Database backups, third-party consoles."
    },
    "idea": "Like a data protection officer tracing where each piece of personal information travels, and where it should not.",
-   "why": "Personal data that leaks, or is kept forever, is a legal and trust risk."
+   "why": "Personal data that leaks, or is kept forever, is a legal and trust risk.",
+   "grade": {
+    "grade": "B+",
+    "tier": "pro",
+    "rank": 15,
+    "score": "3.90",
+    "scores": [
+     4,
+     4,
+     5,
+     2,
+     4
+    ],
+    "why": "Mishandled personal data has legal and trust consequences. The skill maps collection, storage, logging, sharing and retention without reproducing personal values. It finds personal data by field name, so unusual names are missed.",
+    "raise": "Accept an organisation-specific list of personal field names (B-11)."
+   }
   },
   {
    "id": "code-review",
@@ -1663,7 +1982,22 @@ details p { margin: 6px 0 0; color: var(--muted); }
     "notChecked": "Runtime behaviour in production."
    },
    "idea": "Like a senior colleague reviewing a change before it ships: reading it, checking what it affects, and giving a clear verdict.",
-   "why": "A problem caught before merge is far cheaper than one fixed in production."
+   "why": "A problem caught before merge is far cheaper than one fixed in production.",
+   "grade": {
+    "grade": "A+",
+    "tier": "premium",
+    "rank": 1,
+    "score": "5.00",
+    "scores": [
+     5,
+     5,
+     5,
+     5,
+     5
+    ],
+    "why": "Applies to every change in every project, and catches correctness, security and data-safety defects before merge. The method reads callers as well as the diff, demands the triggering input for each finding, and ends with a verdict and the tests to run.",
+    "raise": "Already at the top. Keep it there by validating it against a model (B-1)."
+   }
   },
   {
    "id": "dependency-audit",
@@ -1797,7 +2131,22 @@ details p { margin: 6px 0 0; color: var(--muted); }
     "notChecked": "Private registries."
    },
    "idea": "Like checking the safety recalls for every part your product is built from.",
-   "why": "Most code you ship was written by others. A known flaw in one package affects you too."
+   "why": "Most code you ship was written by others. A known flaw in one package affects you too.",
+   "grade": {
+    "grade": "A",
+    "tier": "premium",
+    "rank": 8,
+    "score": "4.30",
+    "scores": [
+     4,
+     4,
+     5,
+     4,
+     5
+    ],
+    "why": "Nearly every project has third-party packages, and a known-vulnerable dependency is a common breach path. The skill runs the installed audit tools, confirms each finding in the lock file, and plans upgrades by risk. It cites advisory IDs but has no file-level evidence rule for where a vulnerable package is used.",
+    "raise": "Require the call site of each vulnerable package before rating it high; run end to end (B-12)."
+   }
   },
   {
    "id": "release-notes",
@@ -1926,7 +2275,22 @@ details p { margin: 6px 0 0; color: var(--muted); }
     "notChecked": "Pull request text that is not in the git history."
    },
    "idea": "Like an editor who reads every change and writes a short, accurate summary for customers.",
-   "why": "Users need to know what changed and what they must do. Clear notes prevent support calls."
+   "why": "Users need to know what changed and what they must do. Clear notes prevent support calls.",
+   "grade": {
+    "grade": "C",
+    "tier": "essentials",
+    "rank": 32,
+    "score": "2.70",
+    "scores": [
+     3,
+     2,
+     2,
+     3,
+     4
+    ],
+    "why": "Useful at each release, and notes trace to commits. A wrong note misleads users but rarely causes harm, and there is little to verify beyond the history.",
+    "raise": "Group by user impact using labels from merged pull requests, and flag commits with no description."
+   }
   },
   {
    "id": "api-contract-review",
@@ -2090,7 +2454,22 @@ details p { margin: 6px 0 0; color: var(--muted); }
     }
    },
    "idea": "Like reviewing a new version of a contract clause by clause, and flagging anything that breaks an existing agreement.",
-   "why": "Apps that depend on your API break when it changes without warning."
+   "why": "Apps that depend on your API break when it changes without warning.",
+   "grade": {
+    "grade": "B+",
+    "tier": "pro",
+    "rank": 16,
+    "score": "3.75",
+    "scores": [
+     4,
+     4,
+     4,
+     3,
+     3
+    ],
+    "why": "A breaking API change silently breaks every client. The skill classifies each change against explicit rules, checks the schema against the handlers, and runs compatibility checkers where installed. It has no explicit verification pass, and applies only to projects with published contracts.",
+    "raise": "Add a verification step that re-reads each drift item in the handler."
+   }
   },
   {
    "id": "threat-model",
@@ -2246,7 +2625,22 @@ details p { margin: 6px 0 0; color: var(--muted); }
     "notChecked": "Cloud IAM, network rules."
    },
    "idea": "Like a security consultant walking through a building plan and asking at every door: who could get in, and what stops them?",
-   "why": "A design flaw found on paper costs far less than one found after launch."
+   "why": "A design flaw found on paper costs far less than one found after launch.",
+   "grade": {
+    "grade": "A-",
+    "tier": "premium",
+    "rank": 10,
+    "score": "4.25",
+    "scores": [
+     4,
+     5,
+     5,
+     3,
+     4
+    ],
+    "why": "Finding a design flaw before code is written is the cheapest fix there is. STRIDE per element, every control backed by a code reference, and a verification pass make it rigorous. Quality depends on the architecture documents available, which caps support strength.",
+    "raise": "Add a worked example data-flow diagram; validate on a sample system (B-9)."
+   }
   },
   {
    "id": "cicd-pipeline-review",
@@ -2381,7 +2775,22 @@ details p { margin: 6px 0 0; color: var(--muted); }
     "notChecked": "Branch protection, environment reviewers."
    },
    "idea": "Like checking the locks on the factory that builds and ships your software.",
-   "why": "Whoever controls the pipeline can push code to production, so it must be locked down."
+   "why": "Whoever controls the pipeline can push code to production, so it must be locked down.",
+   "grade": {
+    "grade": "B+",
+    "tier": "pro",
+    "rank": 14,
+    "score": "3.90",
+    "scores": [
+     4,
+     4,
+     5,
+     2,
+     4
+    ],
+    "why": "A pipeline holds deployment credentials, so a leaked secret or an over-permitted token is a supply-chain risk. The checks are specific, and findings cite lines. Pipelines change less often than code.",
+    "raise": "Settle the overlap with stack-auditor (B-10)."
+   }
   },
   {
    "id": "stack-auditor",
@@ -2508,7 +2917,22 @@ details p { margin: 6px 0 0; color: var(--muted); }
     "notChecked": "Runtime behaviour, cloud settings."
    },
    "idea": "Like a facilities check of the wiring and settings behind the scenes before opening day.",
-   "why": "Most outages and leaked secrets start with a wrong setting, not wrong code."
+   "why": "Most outages and leaked secrets start with a wrong setting, not wrong code.",
+   "grade": {
+    "grade": "B",
+    "tier": "pro",
+    "rank": 19,
+    "score": "3.65",
+    "scores": [
+     4,
+     3,
+     4,
+     3,
+     4
+    ],
+    "why": "Configuration mistakes and secrets in container files cause outages and leaks. The method runs format validators and gives a verdict. Its scope overlaps cicd-pipeline-review.",
+    "raise": "Settle the overlap with cicd-pipeline-review (B-10)."
+   }
   },
   {
    "id": "trust-layer-validator",
@@ -2635,7 +3059,22 @@ details p { margin: 6px 0 0; color: var(--muted); }
     "notChecked": "Runtime key storage, deployment configuration."
    },
    "idea": "Like verifying the seals and signatures on official documents before you rely on them.",
-   "why": "A forged credential or an exposed key lets someone pretend to be someone else."
+   "why": "A forged credential or an exposed key lets someone pretend to be someone else.",
+   "grade": {
+    "grade": "B",
+    "tier": "pro",
+    "rank": 25,
+    "score": "3.45",
+    "scores": [
+     4,
+     4,
+     5,
+     1,
+     1
+    ],
+    "why": "A forged credential or replayed message is severe, and the checks are specific (pinned contexts, proof allow-lists, replay protection, key handling). Very few projects implement decentralized identity, so presence and usage are minimal.",
+    "raise": "Grade rises sharply for identity projects; keep it off by default."
+   }
   },
   {
    "id": "incident-postmortem",
@@ -2779,7 +3218,22 @@ details p { margin: 6px 0 0; color: var(--muted); }
     "notChecked": "Chat history was not provided."
    },
    "idea": "Like an air-accident report: what happened, in what order, why, and what changes so it does not happen again.",
-   "why": "Teams improve when they learn from incidents without blaming people."
+   "why": "Teams improve when they learn from incidents without blaming people.",
+   "grade": {
+    "grade": "C+",
+    "tier": "essentials",
+    "rank": 30,
+    "score": "2.85",
+    "scores": [
+     3,
+     3,
+     3,
+     2,
+     3
+    ],
+    "why": "A sourced timeline and owned actions stop incidents repeating. The method has no verification pass on timeline sources, and it is used only after incidents.",
+    "raise": "Require a source (log line, message, commit) for every timeline entry and a check that each one exists."
+   }
   },
   {
    "id": "compliance-control-check",
@@ -2908,7 +3362,22 @@ details p { margin: 6px 0 0; color: var(--muted); }
     "notChecked": "Staff training, policies, vendor contracts."
    },
    "idea": "Like preparing for an inspection: for each rule on the checklist, find the evidence that you follow it.",
-   "why": "Gaps found before the audit can be fixed calmly. Gaps found during it cannot."
+   "why": "Gaps found before the audit can be fixed calmly. Gaps found during it cannot.",
+   "grade": {
+    "grade": "C+",
+    "tier": "essentials",
+    "rank": 31,
+    "score": "2.80",
+    "scores": [
+     3,
+     3,
+     4,
+     1,
+     2
+    ],
+    "why": "Missing control evidence fails an audit. The reference table was checked against secondary sources only, which caps support strength, and only regulated organisations need it.",
+    "raise": "Practitioner review of the reference table and more frameworks (B-18, B-30)."
+   }
   },
   {
    "id": "audit-evidence-collector",
@@ -3012,7 +3481,22 @@ details p { margin: 6px 0 0; color: var(--muted); }
     "notChecked": "Approvals; anything after the collection date."
    },
    "idea": "Like an accountant collecting the receipts for a period, each one stamped so it cannot be changed later.",
-   "why": "Auditors need proof that is complete and tamper-evident."
+   "why": "Auditors need proof that is complete and tamper-evident.",
+   "grade": {
+    "grade": "C+",
+    "tier": "essentials",
+    "rank": 28,
+    "score": "2.95",
+    "scores": [
+     4,
+     3,
+     3,
+     1,
+     2
+    ],
+    "why": "During an audit, an indexed evidence set with a hash per item saves days. Audits are periodic and only regulated organisations run them.",
+    "raise": "Confirm the collection steps with the organisation's auditor (B-18)."
+   }
   },
   {
    "id": "license-attribution",
@@ -3131,7 +3615,22 @@ details p { margin: 6px 0 0; color: var(--muted); }
     "notChecked": "Distributed binaries; legal decisions."
    },
    "idea": "Like checking the usage rights for every image and font before a product goes to print.",
-   "why": "Shipping code under the wrong licence can force you to publish your own code or withdraw a product."
+   "why": "Shipping code under the wrong licence can force you to publish your own code or withdraw a product.",
+   "grade": {
+    "grade": "B",
+    "tier": "pro",
+    "rank": 23,
+    "score": "3.50",
+    "scores": [
+     4,
+     3,
+     4,
+     2,
+     4
+    ],
+    "why": "Shipping copyleft or unknown licences can force disclosure or a recall. The skill checks against a policy and drafts the attribution. It is needed at distribution time, not daily.",
+    "raise": "Validate with licence tools installed."
+   }
   },
   {
    "id": "memory-manager",
@@ -3239,7 +3738,22 @@ details p { margin: 6px 0 0; color: var(--muted); }
     "notChecked": "Code that is not linked to an entry."
    },
    "idea": "Like a team's shared notebook: before answering, check what was already decided, and note when it is out of date.",
-   "why": "Repeating past work wastes time, and out-of-date answers cause mistakes, so they are flagged."
+   "why": "Repeating past work wastes time, and out-of-date answers cause mistakes, so they are flagged.",
+   "grade": {
+    "grade": "B",
+    "tier": "pro",
+    "rank": 24,
+    "score": "3.50",
+    "scores": [
+     4,
+     3,
+     2,
+     4,
+     5
+    ],
+    "why": "Recalling earlier answers saves time and tokens on repeat requests, and staleness flags stop an outdated answer being reused silently. It improves efficiency rather than preventing defects, and it has no not-checked list.",
+    "raise": "Add a not-checked list (what recall cannot see); set a store size policy (B-16)."
+   }
   },
   {
    "id": "token-saver",
@@ -3338,7 +3852,1867 @@ details p { margin: 6px 0 0; color: var(--muted); }
     "notChecked": "Sections other skills require are never removed."
    },
    "idea": "Like a good editor: keep the answer, cut the filler.",
-   "why": "Short answers are faster to read and cheaper to produce."
+   "why": "Short answers are faster to read and cheaper to produce.",
+   "grade": {
+    "grade": "C+",
+    "tier": "essentials",
+    "rank": 29,
+    "score": "2.90",
+    "scores": [
+     3,
+     2,
+     1,
+     5,
+     5
+    ],
+    "why": "It applies to every reply and cuts cost and reading time, but it prevents no defects. Its rules are clear and it defers to other skills' required sections, but it has nothing to verify.",
+    "raise": "Measure the token reduction end to end (B-17)."
+   }
+  },
+  {
+   "id": "rlm-llm-app-review",
+   "goal": "Review an app that calls a model",
+   "cat": "Security",
+   "on": false,
+   "use": "An application that calls a language model or runs an agent with tools, before release or after adding a model feature.",
+   "prompt": "Use the rlm-llm-app-review skill on services/assistant/. The agent can send email and create tickets.",
+   "input": "Repository with model calls",
+   "output": "Findings with path:line, severity and OWASP LLM identifier.",
+   "pros": [
+    "Covers prompt injection, unsafe model output and over-privileged tools, which a general audit misses.",
+    "Asks for a deterministic control, not a prompt instruction."
+   ],
+   "cons": [
+    "A code review, not a red-team test: model behaviour is not observed.",
+    "Prompts stored outside the repository are not seen."
+   ],
+   "items": [
+    "chat.py",
+    "prompts.py",
+    "tools.py",
+    "retrieve.py",
+    "render.tsx",
+    "agent.py",
+    "config.py"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "drop": [
+      6
+     ],
+     "note": "Scope. The agent finds the model surface: clients, prompt builders, tool definitions and retrieval code. Other code is set aside."
+    },
+    {
+     "layout": "chunks",
+     "drop": [
+      6
+     ],
+     "groups": [
+      0,
+      0,
+      1,
+      1,
+      2,
+      2,
+      2
+     ],
+     "note": "Split. The model surface is cut into chunks of at most 800 lines."
+    },
+    {
+     "layout": "bins",
+     "drop": [
+      6
+     ],
+     "bins": [
+      "LLM01 injection",
+      "LLM05 output",
+      "LLM06 agency",
+      "no finding"
+     ],
+     "binOf": [
+      3,
+      0,
+      2,
+      0,
+      1,
+      2,
+      3
+     ],
+     "note": "Map. Each finding takes its OWASP Top 10 for LLM Applications identifier: prompt injection, improper output handling, excessive agency."
+    },
+    {
+     "layout": "graph",
+     "edges": [
+      [
+       3,
+       1
+      ],
+      [
+       1,
+       0
+      ],
+      [
+       0,
+       4
+      ],
+      [
+       0,
+       2
+      ]
+     ],
+     "state": [
+      "warn",
+      "warn",
+      "bad",
+      "bad",
+      "bad",
+      "todo",
+      "todo"
+     ],
+     "note": "Trace. Each high-severity item is followed from the untrusted input to the sink before it is reported. Here a fetched page reaches the prompt, then a tool and the page."
+    },
+    {
+     "layout": "doc",
+     "drop": [
+      0,
+      5,
+      6
+     ],
+     "docLabel": "findings",
+     "note": "Report. Confirmed findings with path, line, severity, OWASP identifier and a fix."
+    }
+   ],
+   "example": "Model surface: 6 files (clients, prompts, tools, retrieval).\n[high] LLM01 retrieve.py:31  Fetched web pages go into the prompt unmarked; a page can tell the agent to send email.\n       Fix: mark retrieved text as data; require user confirmation for send_email.\n[high] LLM05 render.tsx:58  Model output rendered as HTML.\n       Fix: render as text or sanitise.\n[medium] LLM06 tools.py:14  create_ticket runs with an admin token.\n       Fix: call it with the user's own token.\nNot checked: prompts stored outside the repository; model behaviour at runtime.",
+   "outcome": {
+    "verdict": "4 findings: fix before release",
+    "tone": "block",
+    "bars": [
+     [
+      "high",
+      2,
+      "high"
+     ],
+     [
+      "medium",
+      1,
+      "medium"
+     ],
+     [
+      "low",
+      1,
+      "low"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "retrieve.py:31",
+      "title": "LLM01: fetched pages can instruct the agent",
+      "fix": "Mark retrieved text as data; confirm before send_email"
+     },
+     {
+      "sev": "high",
+      "where": "render.tsx:58",
+      "title": "LLM05: model output rendered as HTML",
+      "fix": "Render as text or sanitise"
+     },
+     {
+      "sev": "medium",
+      "where": "tools.py:14",
+      "title": "LLM06: ticket tool runs with an admin token",
+      "fix": "Use the user's own token"
+     },
+     {
+      "sev": "low",
+      "where": "prompts.py:12",
+      "title": "LLM02: user email sent to the model without need",
+      "fix": "Drop the field from the prompt"
+     }
+    ],
+    "notChecked": "Prompts stored outside the repository; model behaviour at runtime."
+   },
+   "idea": "Like a security reviewer who follows every path by which outside text can reach the model, and everything the model's answer can touch.",
+   "why": "A model follows instructions hidden in the data it reads. This finds where that can do harm.",
+   "grade": {
+    "grade": "A",
+    "tier": "premium",
+    "rank": 4,
+    "score": "4.50",
+    "scores": [
+     5,
+     5,
+     5,
+     3,
+     3
+    ],
+    "why": "Prompt injection and unsafe use of model output are severe and growing as more applications call models. The skill limits scope to the model surface, maps each finding to the OWASP Top 10 for LLM Applications, and traces input to sink before reporting. Presence is still limited to projects that call models.",
+    "raise": "Presence rises as more projects add model features; validate on a planted app (B-23)."
+   }
+  },
+  {
+   "id": "rlm-performance-review",
+   "goal": "Find where the code will not scale",
+   "cat": "Analysis",
+   "on": false,
+   "use": "A slow service, a planned load increase, or the question of where the code will not scale.",
+   "prompt": "Use the rlm-performance-review skill on api/. Here is last week's slow-query log.",
+   "input": "Repository, plus a profile if available",
+   "output": "Ranked risks with path:line, growth and a fix.",
+   "pros": [
+    "Ranks by how hot the path is, so start-up code does not crowd out request handlers.",
+    "Each risk states how it grows, such as one query per order line."
+   ],
+   "cons": [
+    "Reads code; does not measure. Without a profile the ranking is an estimate.",
+    "Query plans and production data volumes are not visible."
+   ],
+   "items": [
+    "orders.py",
+    "api.py",
+    "report.py",
+    "search.py",
+    "startup.py",
+    "jobs.py",
+    "cache.py"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Scan. The helper lists the files in scope and reports what it skipped."
+    },
+    {
+     "layout": "chunks",
+     "groups": [
+      0,
+      0,
+      1,
+      1,
+      2,
+      2,
+      2
+     ],
+     "note": "Split. The code is cut into chunks of at most 800 lines."
+    },
+    {
+     "layout": "parallel",
+     "groups": [
+      0,
+      0,
+      1,
+      1,
+      2,
+      2,
+      2
+     ],
+     "sweep": true,
+     "state": [
+      "bad",
+      "bad",
+      "warn",
+      "ok",
+      "warn",
+      "warn",
+      "ok"
+     ],
+     "note": "Review. Each chunk is read for queries in loops, blocking calls on async paths, unbounded reads, quadratic work and missing timeouts."
+    },
+    {
+     "layout": "bins",
+     "bins": [
+      "hot path",
+      "warm",
+      "cold"
+     ],
+     "binOf": [
+      0,
+      0,
+      1,
+      2,
+      2,
+      1,
+      2
+     ],
+     "note": "Rank. Callers are traced to see how often each path runs. A profile or trace from you outranks anything inferred."
+    },
+    {
+     "layout": "doc",
+     "drop": [
+      3,
+      6
+     ],
+     "docLabel": "ranked risks",
+     "note": "Report. Each risk states its path, how it grows and a fix."
+    }
+   ],
+   "example": "Ranked by path heat (no profile supplied: the ranking is an estimate).\n[high] orders.py:77  One query per order line inside the checkout loop (N+1).\n       Grows with: lines per order. Fix: load the lines in one query.\n[high] api.py:140  Outbound HTTP call with no timeout on the request path.\n       Fix: set a 3 s timeout.\n[medium] report.py:52  Reads the whole table into memory.\n       Fix: stream it in pages of 1,000.\nNot checked: query plans, production data volumes.",
+   "outcome": {
+    "verdict": "3 risks on hot paths",
+    "tone": "warn",
+    "bars": [
+     [
+      "high",
+      2,
+      "high"
+     ],
+     [
+      "medium",
+      2,
+      "medium"
+     ],
+     [
+      "low",
+      1,
+      "low"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "orders.py:77",
+      "title": "One query per order line in the checkout loop",
+      "fix": "Load the lines in one query"
+     },
+     {
+      "sev": "high",
+      "where": "api.py:140",
+      "title": "Outbound call with no timeout on the request path",
+      "fix": "Set a 3 s timeout"
+     },
+     {
+      "sev": "medium",
+      "where": "report.py:52",
+      "title": "Whole table read into memory",
+      "fix": "Stream in pages of 1,000"
+     },
+     {
+      "sev": "medium",
+      "where": "jobs.py:33",
+      "title": "Sorted list rebuilt inside a loop",
+      "fix": "Sort once after the loop"
+     },
+     {
+      "sev": "low",
+      "where": "startup.py:20",
+      "title": "Config file parsed on every import",
+      "fix": "Parse it once"
+     }
+    ],
+    "notChecked": "Query plans and production data volumes."
+   },
+   "idea": "Like a traffic engineer who looks for the junctions that will jam first as traffic grows.",
+   "why": "Code that is fine with 100 rows can fail with a million. This finds it before the data grows.",
+   "grade": {
+    "grade": "B+",
+    "tier": "pro",
+    "rank": 13,
+    "score": "3.95",
+    "scores": [
+     4,
+     4,
+     4,
+     3,
+     5
+    ],
+    "why": "Queries in loops and unbounded reads cause most slow-downs as data grows. The skill ranks findings by how hot the path is and puts a real profile ahead of inference. Without a profile the ranking is an estimate, which caps support strength.",
+    "raise": "Validate the hot-path ranking on a planted repository (B-24)."
+   }
+  },
+  {
+   "id": "db-migration-safety",
+   "goal": "Check a migration before it runs",
+   "cat": "Engineering",
+   "on": false,
+   "use": "A branch or pull request that adds or changes a database migration.",
+   "prompt": "Use the db-migration-safety skill on this branch. PostgreSQL 16; orders has about 40 million rows; migrations run before the new code.",
+   "input": "Branch with migration files",
+   "output": "Verdict, findings and a safe migration sequence.",
+   "pros": [
+    "Gives the fix as a sequence of migrations, not only a warning.",
+    "Never connects to a database."
+   ],
+   "cons": [
+    "Lock rules differ by engine and version; PostgreSQL and MySQL are covered best.",
+    "Real table sizes and traffic are unknown unless you give them."
+   ],
+   "items": [
+    "0042_add_status.sql",
+    "0043_backfill.py",
+    "0044_drop_col.sql",
+    "0045_index.sql",
+    "models.py"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "List. The migration files in the change are listed, and the SQL is printed from the ORM tool where it can be."
+    },
+    {
+     "layout": "gate",
+     "pass": [
+      true,
+      false,
+      false,
+      false,
+      true
+     ],
+     "note": "Check. Each statement is checked for blocking locks, table rewrites, data loss, unsafe backfills and missing lock timeouts."
+    },
+    {
+     "layout": "match",
+     "targets": [
+      "old code (still running)",
+      "new code"
+     ],
+     "targetState": [
+      "bad",
+      "ok"
+     ],
+     "pairs": [
+      1,
+      1,
+      0,
+      -1,
+      1
+     ],
+     "note": "Deploy order. Each change is matched to the code that runs during the deploy. A column the old code still reads cannot be dropped yet."
+    },
+    {
+     "layout": "timeline",
+     "at": [
+      0,
+      0.4,
+      1,
+      0.2,
+      0.65
+     ],
+     "note": "Sequence. Unsafe changes become an expand-and-contract sequence: add, build the index, backfill in batches, deploy, then drop."
+    },
+    {
+     "layout": "doc",
+     "docLabel": "verdict",
+     "note": "Verdict. The report gives a verdict, each finding and the safe migration sequence."
+    }
+   ],
+   "example": "Verdict: do not run as is. PostgreSQL 16, orders about 40M rows.\n[critical] 0044_drop_col.sql:3  Drops orders.legacy_status, still read by the running release (models.py:88).\n       Fix: drop it in a later release, after the reads are removed.\n[high] 0045_index.sql:1  CREATE INDEX without CONCURRENTLY blocks writes to orders.\n       Fix: CREATE INDEX CONCURRENTLY, outside a transaction.\n[high] 0043_backfill.py:12  Backfills 40M rows in one transaction.\n       Fix: batches of 10,000 with a pause.\nSafe sequence: 0042 -> 0045 (concurrently) -> 0043 (batched) -> deploy -> 0044 next release.\nNot checked: real lock waits and long-running transactions.",
+   "outcome": {
+    "verdict": "Do not run as is",
+    "tone": "block",
+    "bars": [
+     [
+      "critical",
+      1,
+      "critical"
+     ],
+     [
+      "high",
+      2,
+      "high"
+     ],
+     [
+      "medium",
+      1,
+      "medium"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "critical",
+      "where": "0044_drop_col.sql:3",
+      "title": "Drops a column the running release still reads",
+      "fix": "Drop it in a later release"
+     },
+     {
+      "sev": "high",
+      "where": "0045_index.sql:1",
+      "title": "Index build blocks writes to orders",
+      "fix": "CREATE INDEX CONCURRENTLY"
+     },
+     {
+      "sev": "high",
+      "where": "0043_backfill.py:12",
+      "title": "40M-row backfill in one transaction",
+      "fix": "Batches of 10,000 with a pause"
+     },
+     {
+      "sev": "medium",
+      "where": "0042_add_status.sql:1",
+      "title": "No lock timeout set",
+      "fix": "SET lock_timeout = '5s'"
+     }
+    ],
+    "notChecked": "Real lock waits and long-running transactions."
+   },
+   "idea": "Like a structural engineer who checks a renovation plan so the building stays open while the work is done.",
+   "why": "A migration that locks a big table or drops a column too early takes the service down. This catches it before production.",
+   "grade": {
+    "grade": "A-",
+    "tier": "premium",
+    "rank": 9,
+    "score": "4.25",
+    "scores": [
+     4,
+     5,
+     5,
+     3,
+     4
+    ],
+    "why": "A migration that locks a large table or drops data a running release still reads causes outages and data loss. The skill checks each statement for locks, rewrites, data loss, deploy order and reversibility, and gives the safe migration sequence. The engine-specific lock rules still need a practitioner check.",
+    "raise": "Have a PostgreSQL and MySQL practitioner confirm the rules (B-25)."
+   }
+  },
+  {
+   "id": "web-client-security",
+   "goal": "Secure the browser side",
+   "cat": "Web",
+   "on": false,
+   "use": "Adding sign-in or passkeys, rendering untrusted HTML, embedding third-party scripts, or reviewing front-end security.",
+   "prompt": "Use the web-client-security skill on the sign-in flow and the comment rendering.",
+   "input": "Sign-in code, HTML sinks, headers",
+   "output": "Findings with path:line and a security-header table.",
+   "pros": [
+    "Traces each injection from source to sink before reporting it.",
+    "Rolls out a strict CSP through report-only first."
+   ],
+   "cons": [
+    "Headers set outside the repository (CDN, proxy) are not seen.",
+    "Third-party script contents are not reviewed."
+   ],
+   "items": [
+    "login.ts",
+    "webauthn.ts",
+    "comments.tsx",
+    "headers.conf",
+    "widget.html",
+    "messages.ts",
+    "crypto.ts"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "List. Sign-in flows, HTML sinks, message channels, third-party origins, security headers and client-side cryptography are listed."
+    },
+    {
+     "layout": "bins",
+     "bins": [
+      "sign-in",
+      "code the page runs",
+      "whom it talks to",
+      "crypto"
+     ],
+     "binOf": [
+      0,
+      0,
+      1,
+      1,
+      1,
+      2,
+      3
+     ],
+     "note": "Group. Each item is checked in its area: passkeys and sign-in, CSP and Trusted Types, cross-origin messaging, browser cryptography."
+    },
+    {
+     "layout": "graph",
+     "edges": [
+      [
+       4,
+       5
+      ],
+      [
+       5,
+       2
+      ]
+     ],
+     "state": [
+      "todo",
+      "todo",
+      "bad",
+      "todo",
+      "bad",
+      "bad",
+      "todo"
+     ],
+     "note": "Trace. Each injection is followed from its source to the sink before it is reported. Here a message from an embedded widget reaches innerHTML."
+    },
+    {
+     "layout": "gate",
+     "pass": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true
+     ],
+     "note": "Check. Each item passes or fails its rule. Failing items move down."
+    },
+    {
+     "layout": "doc",
+     "drop": [
+      0,
+      6
+     ],
+     "docLabel": "findings",
+     "note": "Report. Findings with path, line and a fix, plus a table of the security headers to set."
+    }
+   ],
+   "example": "[high] messages.ts:22  The message handler does not check event.origin; the data reaches comments.tsx:40 innerHTML.\n       Fix: check the origin against an allow-list; render with textContent or a sanitiser.\n[high] headers.conf:8  CSP allows 'unsafe-inline' scripts.\n       Fix: nonce-based strict CSP, rolled out as Report-Only first.\n[medium] webauthn.ts:31  userVerification is 'discouraged' for sign-in.\n       Fix: 'preferred', and require it for sensitive actions.\n[medium] widget.html:5  Third-party script loaded without integrity.\n       Fix: add integrity and crossorigin.\nNot checked: headers set by the CDN; third-party script contents.",
+   "outcome": {
+    "verdict": "4 findings: fix before release",
+    "tone": "block",
+    "bars": [
+     [
+      "high",
+      2,
+      "high"
+     ],
+     [
+      "medium",
+      2,
+      "medium"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "messages.ts:22",
+      "title": "Unchecked message origin reaches innerHTML",
+      "fix": "Allow-list origins; render as text"
+     },
+     {
+      "sev": "high",
+      "where": "headers.conf:8",
+      "title": "CSP allows inline scripts",
+      "fix": "Nonce-based strict CSP, report-only first"
+     },
+     {
+      "sev": "medium",
+      "where": "webauthn.ts:31",
+      "title": "Passkey sign-in does not ask for user verification",
+      "fix": "Set userVerification to preferred"
+     },
+     {
+      "sev": "medium",
+      "where": "widget.html:5",
+      "title": "Third-party script without integrity",
+      "fix": "Add integrity and crossorigin"
+     }
+    ],
+    "notChecked": "Headers set by the CDN; third-party script contents."
+   },
+   "idea": "Like a locksmith who checks every door, window and letterbox of the house, not only the front door.",
+   "why": "Many web breaches start in the browser: a sign-in flaw, injected HTML or a third-party script. This checks all three.",
+   "grade": {
+    "grade": "A+",
+    "tier": "premium",
+    "rank": 3,
+    "score": "4.60",
+    "scores": [
+     5,
+     5,
+     5,
+     3,
+     4
+    ],
+    "why": "Sign-in, injected HTML and third-party scripts are where web apps are breached. The skill checks passkeys end to end, a strict CSP rolled out through report-only, Trusted Types and sanitizing, cross-origin messaging and browser cryptography, and traces each injection from source to sink.",
+    "raise": "Validate on a sample app with planted issues (B-34)."
+   }
+  },
+  {
+   "id": "web-forms-autofill",
+   "goal": "Make forms fill themselves",
+   "cat": "Web",
+   "on": false,
+   "use": "Building or reviewing sign-in, sign-up, checkout, address or any data-entry form.",
+   "prompt": "Use the web-forms-autofill skill on the checkout and sign-up forms.",
+   "input": "Form markup and handlers",
+   "output": "Field table, findings and corrected markup.",
+   "pros": [
+    "A complete autocomplete-token table for identity, address and payment fields.",
+    "Never suggests blocking paste or client-only validation."
+   ],
+   "cons": [
+    "Password managers behave differently; none is tested.",
+    "Server-side validation outside the scope is not read."
+   ],
+   "items": [
+    "email",
+    "password",
+    "name",
+    "street",
+    "postcode",
+    "card",
+    "otp"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "List. Every field is listed with its type, name, label, autocomplete token and validation."
+    },
+    {
+     "layout": "match",
+     "targets": [
+      "email",
+      "current-password",
+      "name",
+      "address-line1",
+      "postal-code",
+      "cc-number",
+      "one-time-code"
+     ],
+     "targetState": [
+      "ok",
+      "bad",
+      "ok",
+      "bad",
+      "ok",
+      "bad",
+      "bad"
+     ],
+     "pairs": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "note": "Match. Each field is matched to its autocomplete token. A red line is a missing or wrong token, so autofill and password managers cannot fill it."
+    },
+    {
+     "layout": "gate",
+     "pass": [
+      true,
+      false,
+      true,
+      false,
+      true,
+      false,
+      false
+     ],
+     "note": "Check. Labels, input types, keyboards, error messages and input-method-safe submit are checked. Failing fields move down."
+    },
+    {
+     "layout": "doc",
+     "drop": [
+      0,
+      2,
+      4
+     ],
+     "docLabel": "corrected markup",
+     "note": "Fix. Each failing field gets corrected markup."
+    }
+   ],
+   "example": "Checkout and sign-in: 7 fields, 4 fail.\n[high] password  autocomplete=\"off\" blocks password managers.\n       Fix: autocomplete=\"current-password\".\n[high] card  type=\"number\" and no token: no autofill, spinner arrows.\n       Fix: inputmode=\"numeric\" autocomplete=\"cc-number\".\n[medium] street  No token.\n       Fix: autocomplete=\"address-line1\".\n[medium] otp  Code is not offered from the SMS.\n       Fix: autocomplete=\"one-time-code\" inputmode=\"numeric\".\nNot checked: server-side validation; individual password managers.",
+   "outcome": {
+    "verdict": "4 fields to fix",
+    "tone": "warn",
+    "bars": [
+     [
+      "high",
+      2,
+      "high"
+     ],
+     [
+      "medium",
+      2,
+      "medium"
+     ],
+     [
+      "pass",
+      3,
+      "ok"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "signin.html:14",
+      "title": "Password field blocks password managers",
+      "fix": "autocomplete=\"current-password\""
+     },
+     {
+      "sev": "high",
+      "where": "checkout.html:52",
+      "title": "Card number cannot be autofilled",
+      "fix": "inputmode=\"numeric\" autocomplete=\"cc-number\""
+     },
+     {
+      "sev": "medium",
+      "where": "checkout.html:31",
+      "title": "Street field has no autocomplete token",
+      "fix": "autocomplete=\"address-line1\""
+     },
+     {
+      "sev": "medium",
+      "where": "verify.html:9",
+      "title": "One-time code is not offered from the SMS",
+      "fix": "autocomplete=\"one-time-code\""
+     }
+    ],
+    "notChecked": "Server-side validation; individual password managers."
+   },
+   "idea": "Like a form at a good front desk: it already knows your name and address, so you only check and sign.",
+   "why": "Every field a person must type is a chance to give up. Forms that autofill lose fewer sign-ups and sales.",
+   "grade": {
+    "grade": "A",
+    "tier": "premium",
+    "rank": 7,
+    "score": "4.35",
+    "scores": [
+     5,
+     4,
+     4,
+     4,
+     4
+    ],
+    "why": "Forms are where users sign in, sign up and pay, so failures cost revenue directly. The skill carries a complete autocomplete-token table and specific checks for errors, one-time codes and input methods, and gives corrected markup.",
+    "raise": "Validate on a sample checkout and sign-in flow (B-34)."
+   }
+  },
+  {
+   "id": "rlm-accessibility-audit",
+   "goal": "Audit accessibility",
+   "cat": "Web",
+   "on": false,
+   "use": "An accessibility review of a whole front end, before release, or after a report from an assistive-technology user.",
+   "prompt": "Use the rlm-accessibility-audit skill on web/. Our target is WCAG 2.2 AA.",
+   "input": "Front-end templates, components and styles",
+   "output": "Findings by WCAG 2.2 success criterion, with fixes.",
+   "pros": [
+    "Every finding is tied to a WCAG 2.2 success criterion.",
+    "Findings from a shared component are merged, so the fix list stays short."
+   ],
+   "cons": [
+    "Cannot replace testing with assistive technology or disabled users.",
+    "Contrast is computed only where the colours are known."
+   ],
+   "items": [
+    "Header.tsx",
+    "Menu.tsx",
+    "Modal.tsx",
+    "ProductCard.tsx",
+    "Form.tsx",
+    "theme.css",
+    "Carousel.tsx",
+    "Footer.tsx"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Scope. Templates, components and styles are in scope. The project's own checker runs first, if it has one."
+    },
+    {
+     "layout": "chunks",
+     "groups": [
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      2,
+      2
+     ],
+     "note": "Split. The front end is cut into chunks of at most 800 lines."
+    },
+    {
+     "layout": "parallel",
+     "groups": [
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      2,
+      2
+     ],
+     "sweep": true,
+     "state": [
+      "ok",
+      "bad",
+      "bad",
+      "warn",
+      "bad",
+      "warn",
+      "warn",
+      "ok"
+     ],
+     "note": "Review. Each chunk is read for names and roles, keyboard and focus, announcements, contrast, motion, text scaling and forms."
+    },
+    {
+     "layout": "bins",
+     "bins": [
+      "1.4.3 contrast",
+      "2.1.1 keyboard",
+      "2.4.11 focus",
+      "4.1.2 name",
+      "pass"
+     ],
+     "binOf": [
+      4,
+      1,
+      2,
+      3,
+      3,
+      0,
+      1,
+      4
+     ],
+     "note": "Map. Each finding is tied to a WCAG 2.2 success criterion. Findings from a shared component are merged and reported once."
+    },
+    {
+     "layout": "doc",
+     "drop": [
+      0,
+      7
+     ],
+     "docLabel": "findings",
+     "note": "Report. Findings by success criterion, with native HTML fixes preferred over ARIA."
+    }
+   ],
+   "example": "Target: WCAG 2.2 AA. 6 findings in 8 files.\n[high] 2.1.1 Menu.tsx:44  The menu opens on hover only; there is no keyboard path.\n       Fix: a <button> with aria-expanded.\n[high] 2.4.11 Modal.tsx:18  Focus is not moved into the dialog.\n       Fix: <dialog> with showModal().\n[high] 4.1.2 Form.tsx:27  The email input has no label.\n       Fix: add a <label for>.\n[medium] 1.4.3 theme.css:12  Muted text #8a8a8a on white is 3.4:1.\n       Fix: #6b6b6b (5.3:1).\nNot checked: testing with screen readers and real users.",
+   "outcome": {
+    "verdict": "6 failures against WCAG 2.2 AA",
+    "tone": "block",
+    "bars": [
+     [
+      "high",
+      3,
+      "high"
+     ],
+     [
+      "medium",
+      2,
+      "medium"
+     ],
+     [
+      "low",
+      1,
+      "low"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "Menu.tsx:44",
+      "title": "2.1.1: menu opens on hover only",
+      "fix": "A <button> with aria-expanded"
+     },
+     {
+      "sev": "high",
+      "where": "Modal.tsx:18",
+      "title": "2.4.11: focus not moved into the dialog",
+      "fix": "<dialog> with showModal()"
+     },
+     {
+      "sev": "high",
+      "where": "Form.tsx:27",
+      "title": "4.1.2: email input has no label",
+      "fix": "Add a <label for>"
+     },
+     {
+      "sev": "medium",
+      "where": "theme.css:12",
+      "title": "1.4.3: muted text contrast 3.4:1",
+      "fix": "Use #6b6b6b (5.3:1)"
+     },
+     {
+      "sev": "medium",
+      "where": "Carousel.tsx:9",
+      "title": "2.2.2: autoplay cannot be paused",
+      "fix": "Add a pause button"
+     },
+     {
+      "sev": "low",
+      "where": "ProductCard.tsx:21",
+      "title": "1.1.1: decorative icon announced as an image",
+      "fix": "alt=\"\""
+     }
+    ],
+    "notChecked": "Testing with screen readers and real users."
+   },
+   "idea": "Like trying the whole site with only a keyboard, a screen reader and a zoomed screen, and noting each place you got stuck.",
+   "why": "Many people use a keyboard, a screen reader or zoom, and many markets require accessible sites. This finds the barriers in the code.",
+   "grade": {
+    "grade": "A",
+    "tier": "premium",
+    "rank": 6,
+    "score": "4.40",
+    "scores": [
+     5,
+     4,
+     5,
+     3,
+     4
+    ],
+    "why": "Accessibility failures exclude users and carry legal exposure in many markets. The chunked method covers a whole front end, ties every finding to a WCAG 2.2 success criterion, and merges findings from shared components. A code review cannot replace assistive-technology testing, which the skill states.",
+    "raise": "Validate on a sample UI with planted failures (B-29)."
+   }
+  },
+  {
+   "id": "browser-extension-review",
+   "goal": "Review a browser extension",
+   "cat": "Web",
+   "on": false,
+   "use": "Writing, reviewing or preparing to publish a Manifest V3 browser extension.",
+   "prompt": "Use the browser-extension-review skill on this extension before we submit it to the store.",
+   "input": "Extension manifest and source",
+   "output": "Verdict, findings and a permission table.",
+   "pros": [
+    "Each permission is tied to the code that uses it, or marked for removal.",
+    "A store checklist before submission."
+   ],
+   "cons": [
+    "Store policies change; the agent must check the current text.",
+    "Servers the extension talks to are not reviewed."
+   ],
+   "items": [
+    "manifest.json",
+    "background.js",
+    "content.js",
+    "popup.html",
+    "options.js",
+    "inject.js"
+   ],
+   "steps": [
+    {
+     "layout": "stack",
+     "note": "Manifest. The manifest is read first: permissions, host access, content scripts and CSP."
+    },
+    {
+     "layout": "match",
+     "targets": [
+      "tabs",
+      "storage",
+      "<all_urls>",
+      "scripting",
+      "cookies"
+     ],
+     "targetState": [
+      "ok",
+      "ok",
+      "bad",
+      "ok",
+      "bad"
+     ],
+     "pairs": [
+      -1,
+      0,
+      2,
+      1,
+      1,
+      3
+     ],
+     "note": "Permissions. Each permission is tied to the code that uses it. One with no user, or broader than needed, is marked for removal."
+    },
+    {
+     "layout": "graph",
+     "edges": [
+      [
+       2,
+       1
+      ],
+      [
+       1,
+       5
+      ],
+      [
+       3,
+       1
+      ],
+      [
+       4,
+       1
+      ]
+     ],
+     "state": [
+      "todo",
+      "bad",
+      "bad",
+      "todo",
+      "todo",
+      "warn"
+     ],
+     "note": "Messaging. Messages between the page, content script and service worker are traced. A handler that skips the sender check lets a web page drive the extension."
+    },
+    {
+     "layout": "gate",
+     "pass": [
+      false,
+      false,
+      true,
+      true,
+      true,
+      false
+     ],
+     "note": "Store readiness. Worker lifecycle, remote code and the store checklist are checked. Failing files move down."
+    },
+    {
+     "layout": "doc",
+     "docLabel": "verdict",
+     "note": "Verdict. A verdict, the findings and a permission table."
+    }
+   ],
+   "example": "Verdict: not ready to submit.\n[high] background.js:31  onMessageExternal runs any action without checking the sender.\n       Fix: allow-list the sender origin.\n[high] manifest.json:14  host_permissions <all_urls>; the code uses two sites.\n       Fix: list those two hosts.\n[medium] inject.js:8  Builds code with new Function(): rejected by store review.\n       Fix: ship the code in the package.\n[low] manifest.json:9  The cookies permission is unused.\n       Fix: remove it.\nNot checked: the server the extension calls; the current store policy text.",
+   "outcome": {
+    "verdict": "Not ready to submit",
+    "tone": "block",
+    "bars": [
+     [
+      "high",
+      2,
+      "high"
+     ],
+     [
+      "medium",
+      1,
+      "medium"
+     ],
+     [
+      "low",
+      1,
+      "low"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "background.js:31",
+      "title": "External messages run without a sender check",
+      "fix": "Allow-list the sender origin"
+     },
+     {
+      "sev": "high",
+      "where": "manifest.json:14",
+      "title": "Access to all sites; the code uses two",
+      "fix": "List the two hosts"
+     },
+     {
+      "sev": "medium",
+      "where": "inject.js:8",
+      "title": "Code built at runtime; store review rejects it",
+      "fix": "Ship the code in the package"
+     },
+     {
+      "sev": "low",
+      "where": "manifest.json:9",
+      "title": "Unused cookies permission",
+      "fix": "Remove it"
+     }
+    ],
+    "notChecked": "The server the extension calls; the current store policy text."
+   },
+   "idea": "Like a check before a flight: every item in the bag needs a reason, and nothing on board may be steered from outside.",
+   "why": "An extension runs with more power than a web page. One missing sender check lets any site use that power.",
+   "grade": {
+    "grade": "B+",
+    "tier": "pro",
+    "rank": 12,
+    "score": "3.95",
+    "scores": [
+     5,
+     4,
+     5,
+     2,
+     1
+    ],
+    "why": "For projects that ship an extension, the risks are severe: a web page driving the extension, over-broad permissions, store rejection. The method covers the worker lifecycle, sender checks, permissions and store readiness, with a verdict. Few projects ship an extension, so presence and usage are low.",
+    "raise": "Grade rises for teams whose product is an extension; validate on a sample extension (B-34)."
+   }
+  },
+  {
+   "id": "web-performance",
+   "goal": "Speed up a slow page",
+   "cat": "Web",
+   "on": false,
+   "use": "A page that is slow to load or respond, failing Core Web Vitals, or a heavy front-end change before release.",
+   "prompt": "Use the web-performance skill on the product page. Field data from our RUM is attached; INP is failing.",
+   "input": "Pages, plus field data if available",
+   "output": "Findings grouped by LCP, INP and CLS, with a third-party cost table.",
+   "pros": [
+    "Field data outranks lab results, and the report says which was used.",
+    "A cost table for every third-party script."
+   ],
+   "cons": [
+    "Without field data the ranking is an estimate.",
+    "Server response time and the CDN are out of scope; use rlm-performance-review for back-end code."
+   ],
+   "items": [
+    "hero.jpg",
+    "app.js",
+    "font.woff2",
+    "analytics.js",
+    "chat-widget.js",
+    "styles.css",
+    "ad-slot"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Inventory. For each page the agent finds the largest-content element, scripts, fonts and images. Field data comes first, if you supply it."
+    },
+    {
+     "layout": "timeline",
+     "at": [
+      0.6,
+      0.3,
+      0.45,
+      0.1,
+      0.2,
+      0.05,
+      0.85
+     ],
+     "note": "Load order. The resources are placed in load order. The hero image starts late, behind scripts that hold it up."
+    },
+    {
+     "layout": "bins",
+     "bins": [
+      "LCP",
+      "INP",
+      "CLS"
+     ],
+     "binOf": [
+      0,
+      1,
+      2,
+      0,
+      1,
+      0,
+      2
+     ],
+     "note": "Group. Each resource is placed under the Core Web Vitals metric it affects."
+    },
+    {
+     "layout": "gate",
+     "pass": [
+      false,
+      false,
+      true,
+      false,
+      false,
+      true,
+      false
+     ],
+     "note": "Check. Each resource is checked for priority, size, blocking and long tasks. Failing items move down."
+    },
+    {
+     "layout": "doc",
+     "drop": [
+      2,
+      5
+     ],
+     "docLabel": "by metric",
+     "note": "Report. Fixes ordered by their effect on each metric, with a cost table for third-party scripts."
+    }
+   ],
+   "example": "Field data (RUM, p75): LCP 3.9 s (poor), INP 380 ms (poor), CLS 0.04 (good).\nLCP\n[high] hero.jpg  Lazy-loaded and found late. Fix: remove loading=lazy; fetchpriority=high.\n[medium] analytics.js  Loaded in <head> without async. Fix: defer it.\nINP\n[high] app.js:210  A click handler runs a 280 ms task. Fix: split it and yield to the browser.\n[medium] chat-widget.js  Loads on every page (190 KB). Fix: load it on first click.\nCLS\n[low] ad-slot  No reserved height. Fix: min-height on the slot.\nNot checked: server response time, CDN set-up.",
+   "outcome": {
+    "verdict": "LCP and INP fail at p75",
+    "tone": "warn",
+    "bars": [
+     [
+      "high",
+      2,
+      "high"
+     ],
+     [
+      "medium",
+      2,
+      "medium"
+     ],
+     [
+      "low",
+      1,
+      "low"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "hero.jpg",
+      "title": "LCP image is lazy-loaded and found late",
+      "fix": "Remove loading=lazy; fetchpriority=high"
+     },
+     {
+      "sev": "high",
+      "where": "app.js:210",
+      "title": "Click handler runs a 280 ms task",
+      "fix": "Split the task and yield"
+     },
+     {
+      "sev": "medium",
+      "where": "analytics.js",
+      "title": "Blocking script in <head>",
+      "fix": "Defer it"
+     },
+     {
+      "sev": "medium",
+      "where": "chat-widget.js",
+      "title": "190 KB widget on every page",
+      "fix": "Load it on first click"
+     },
+     {
+      "sev": "low",
+      "where": "ad-slot",
+      "title": "No reserved height",
+      "fix": "min-height on the slot"
+     }
+    ],
+    "notChecked": "Server response time; CDN set-up."
+   },
+   "idea": "Like a pit crew timing each part of a stop and fixing the slowest first.",
+   "why": "Slow pages lose visitors and search ranking. Core Web Vitals show where the time goes.",
+   "grade": {
+    "grade": "B",
+    "tier": "pro",
+    "rank": 20,
+    "score": "3.65",
+    "scores": [
+     4,
+     4,
+     3,
+     3,
+     4
+    ],
+    "why": "Core Web Vitals affect conversion and search ranking. The skill groups findings by metric and asks for field data first. Without field data the ranking is an estimate, and most findings degrade experience rather than break it.",
+    "raise": "Validate against field data on a real site (B-34)."
+   }
+  },
+  {
+   "id": "web-css-layout",
+   "goal": "Fix layout with modern CSS",
+   "cat": "Web",
+   "on": false,
+   "use": "Writing or reviewing stylesheets, fixing layout bugs, or replacing JavaScript layout code with CSS.",
+   "prompt": "Use the web-css-layout skill on src/components/. Targets are in .browserslistrc.",
+   "input": "Stylesheets and browser targets",
+   "output": "Findings with fixes and @supports fallbacks.",
+   "pros": [
+    "Every newer feature is checked against your browser targets, with a fallback.",
+    "Does not change the design beyond what a finding needs."
+   ],
+   "cons": [
+    "Reads source, not the rendered page.",
+    "Browser support changes; results depend on the support check."
+   ],
+   "items": [
+    "card.css",
+    "grid.css",
+    "resize.js",
+    "theme.css",
+    "nav.css",
+    "print.css"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Inventory. The stylesheets, the browser targets and any JavaScript doing layout work are listed."
+    },
+    {
+     "layout": "bins",
+     "bins": [
+      "layout",
+      "cascade",
+      "theme",
+      "type"
+     ],
+     "binOf": [
+      0,
+      0,
+      0,
+      2,
+      1,
+      3
+     ],
+     "note": "Group. Each finding is placed in its area: layout, selectors and cascade, tokens and theming, typography."
+    },
+    {
+     "layout": "gate",
+     "pass": [
+      false,
+      true,
+      false,
+      false,
+      true,
+      true
+     ],
+     "note": "Support check. Every newer feature is checked against the project's browser targets. Items that fail a check, or lack a fallback, move down."
+    },
+    {
+     "layout": "doc",
+     "drop": [
+      1,
+      4,
+      5
+     ],
+     "docLabel": "fixes",
+     "note": "Report. Each fix comes with an @supports fallback where a target lacks the feature."
+    }
+   ],
+   "example": "Targets: .browserslistrc (last 2 versions, Safari 16).\n[medium] resize.js:12  A ResizeObserver switches the card layout by width.\n       Fix: a container query on .card-list; delete resize.js.\n[medium] theme.css:40  Dark-mode text #777 on #222 is 3.6:1.\n       Fix: #a8a8a8 (7.2:1).\n[low] card.css:8  A fixed height clips text at 200% zoom.\n       Fix: min-height.\nNot checked: the rendered page.",
+   "outcome": {
+    "verdict": "3 fixes; one script removed",
+    "tone": "warn",
+    "bars": [
+     [
+      "medium",
+      2,
+      "medium"
+     ],
+     [
+      "low",
+      1,
+      "low"
+     ],
+     [
+      "pass",
+      3,
+      "ok"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "medium",
+      "where": "resize.js:12",
+      "title": "JavaScript switches the layout by width",
+      "fix": "Container query; delete resize.js"
+     },
+     {
+      "sev": "medium",
+      "where": "theme.css:40",
+      "title": "Dark-mode text contrast 3.6:1",
+      "fix": "Use #a8a8a8 (7.2:1)"
+     },
+     {
+      "sev": "low",
+      "where": "card.css:8",
+      "title": "Fixed height clips text at 200% zoom",
+      "fix": "min-height"
+     }
+    ],
+    "notChecked": "The rendered page."
+   },
+   "idea": "Like replacing scaffolding with walls that hold themselves up: the browser does the layout, not your script.",
+   "why": "Layout written in JavaScript is slow and fragile. Modern CSS does the same job with less code.",
+   "grade": {
+    "grade": "B",
+    "tier": "pro",
+    "rank": 21,
+    "score": "3.60",
+    "scores": [
+     4,
+     3,
+     3,
+     4,
+     4
+    ],
+    "why": "Every front end has stylesheets, and layout bugs, contrast failures and overflow are common. The support rule checks each newer feature against the project's targets with a fallback. Most defects are visual rather than severe.",
+    "raise": "Validate on a sample front end (B-34)."
+   }
+  },
+  {
+   "id": "web-ui-components",
+   "goal": "Build accessible UI components",
+   "cat": "Web",
+   "on": false,
+   "use": "Building or reviewing UI components, overlays, animations or scroll effects.",
+   "prompt": "Use the web-ui-components skill on our dialog, menu and carousel components.",
+   "input": "Component source",
+   "output": "Findings per component, with the keyboard path and fixes.",
+   "pros": [
+    "Each recent feature comes with feature detection and a fallback.",
+    "Covers the common components, from dialogs to carousels."
+   ],
+   "cons": [
+    "Behaviour in real assistive technology is not tested.",
+    "Third-party component internals are not reviewed."
+   ],
+   "items": [
+    "Dialog",
+    "Menu",
+    "Tooltip",
+    "Tabs",
+    "Toast",
+    "Carousel"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Inventory. Each interactive component is listed with how it is built."
+    },
+    {
+     "layout": "match",
+     "targets": [
+      "<dialog>",
+      "popover",
+      "anchor positioning",
+      "tabs pattern",
+      "live region",
+      "reduced motion"
+     ],
+     "targetState": [
+      "ok",
+      "bad",
+      "bad",
+      "ok",
+      "bad",
+      "bad"
+     ],
+     "pairs": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "note": "Match. Each component is compared with its platform feature or pattern. A red line is custom code a platform feature can replace, or a pattern not met."
+    },
+    {
+     "layout": "row",
+     "sweep": true,
+     "note": "Keyboard. Each component's keyboard path is walked: Tab, arrow keys, Escape and where focus returns."
+    },
+    {
+     "layout": "gate",
+     "pass": [
+      true,
+      false,
+      false,
+      true,
+      false,
+      false
+     ],
+     "note": "Check. Components that fail the keyboard, announcement or motion checks move down."
+    },
+    {
+     "layout": "doc",
+     "drop": [
+      0,
+      3
+     ],
+     "docLabel": "findings",
+     "note": "Report. Findings per component, each with a fix that uses the platform first."
+    }
+   ],
+   "example": "6 components, 4 findings.\n[high] Menu.tsx:20  Escape does not close the menu; focus is lost.\n       Fix: popover=\"auto\" on the menu; return focus to the button.\n[medium] Toast.tsx:11  Toasts are not announced.\n       Fix: a role=\"status\" live region.\n[medium] Carousel.tsx:5  Autoplays and ignores reduced motion.\n       Fix: a pause button; stop under prefers-reduced-motion.\n[low] Tooltip.tsx:30  140 lines of position maths.\n       Fix: CSS anchor positioning, with a fallback.\nNot checked: real assistive technology; third-party component internals.",
+   "outcome": {
+    "verdict": "4 components to fix",
+    "tone": "warn",
+    "bars": [
+     [
+      "high",
+      1,
+      "high"
+     ],
+     [
+      "medium",
+      2,
+      "medium"
+     ],
+     [
+      "low",
+      1,
+      "low"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "Menu.tsx:20",
+      "title": "Escape does not close the menu; focus is lost",
+      "fix": "popover=\"auto\"; return focus"
+     },
+     {
+      "sev": "medium",
+      "where": "Toast.tsx:11",
+      "title": "Toasts are not announced",
+      "fix": "role=\"status\" live region"
+     },
+     {
+      "sev": "medium",
+      "where": "Carousel.tsx:5",
+      "title": "Autoplay ignores reduced motion",
+      "fix": "Pause button; respect the setting"
+     },
+     {
+      "sev": "low",
+      "where": "Tooltip.tsx:30",
+      "title": "Custom position maths",
+      "fix": "CSS anchor positioning"
+     }
+    ],
+    "notChecked": "Real assistive technology; third-party component internals."
+   },
+   "idea": "Like using the doors and lifts the building already has instead of building your own, and checking each works for everyone.",
+   "why": "Custom widgets often break keyboard and screen-reader use. Platform features get it right with less code.",
+   "grade": {
+    "grade": "B",
+    "tier": "pro",
+    "rank": 22,
+    "score": "3.60",
+    "scores": [
+     4,
+     3,
+     3,
+     4,
+     4
+    ],
+    "why": "Interactive components are built in most front ends, and their keyboard, focus and motion defects affect real users. The coverage is broad, but many recommended features are recent, so much of the advice depends on a support check.",
+    "raise": "Validate component by component on a sample UI (B-34)."
+   }
+  },
+  {
+   "id": "web-built-in-ai",
+   "goal": "Use on-device browser AI safely",
+   "cat": "Web",
+   "on": false,
+   "use": "A feature that uses the browser's on-device AI, or a site being made usable by AI agents.",
+   "prompt": "Use the web-built-in-ai skill on the new summarize button and the agent tools on the booking page.",
+   "input": "Browser AI calls and agent tools",
+   "output": "Findings and an availability matrix, dated when checked.",
+   "pros": [
+    "Treats page content and model output as untrusted.",
+    "Never states API availability from memory as settled."
+   ],
+   "cons": [
+    "The APIs and the agent-tools draft change often.",
+    "Model output quality is not judged."
+   ],
+   "items": [
+    "summarize.ts",
+    "translate.ts",
+    "detect.ts",
+    "book-tool.ts",
+    "cancel-tool.ts"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Inventory. Each browser AI call and each tool exposed to browser agents is listed."
+    },
+    {
+     "layout": "bins",
+     "bins": [
+      "browser AI call",
+      "agent tool"
+     ],
+     "binOf": [
+      0,
+      0,
+      0,
+      1,
+      1
+     ],
+     "note": "Group. Calls to the on-device model are separated from tools that agents can call."
+    },
+    {
+     "layout": "gate",
+     "pass": [
+      false,
+      true,
+      true,
+      true,
+      false
+     ],
+     "note": "Check. AI calls need an availability check, download handling and a fallback. Agent tools need a clear schema, the user's own rights and a confirmation before acting."
+    },
+    {
+     "layout": "doc",
+     "docLabel": "availability matrix",
+     "note": "Report. Findings and an availability matrix, dated when checked."
+    }
+   ],
+   "example": "Availability matrix checked 2026-11-19; these APIs change often.\n[high] cancel-tool.ts:18  The agent tool cancels a booking without asking the user.\n       Fix: require confirmation before the action.\n[medium] summarize.ts:9  No availability check; the button fails where the model is missing.\n       Fix: check availability; fall back to the server summary.\n[low] summarize.ts:30  Model output inserted as HTML.\n       Fix: insert it as text.\nNot checked: model output quality.",
+   "outcome": {
+    "verdict": "3 findings",
+    "tone": "warn",
+    "bars": [
+     [
+      "high",
+      1,
+      "high"
+     ],
+     [
+      "medium",
+      1,
+      "medium"
+     ],
+     [
+      "low",
+      1,
+      "low"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "cancel-tool.ts:18",
+      "title": "Agent tool acts without asking the user",
+      "fix": "Require confirmation"
+     },
+     {
+      "sev": "medium",
+      "where": "summarize.ts:9",
+      "title": "No availability check or fallback",
+      "fix": "Check availability; fall back to the server"
+     },
+     {
+      "sev": "low",
+      "where": "summarize.ts:30",
+      "title": "Model output inserted as HTML",
+      "fix": "Insert it as text"
+     }
+    ],
+    "notChecked": "Model output quality."
+   },
+   "idea": "Like adding a helper who may not always turn up: plan for when they are missing, and never let them act without asking.",
+   "why": "On-device AI is not on every device, and agents act for the user. Both need guard rails.",
+   "grade": {
+    "grade": "C",
+    "tier": "essentials",
+    "rank": 33,
+    "score": "2.65",
+    "scores": [
+     4,
+     2,
+     3,
+     1,
+     1
+    ],
+    "why": "The safety guidance is solid: fallbacks when the model is missing, untrusted input and output, confirmation before agent actions. The APIs and the agent-tools draft are still changing, and few projects use them yet.",
+    "raise": "Re-grade as the APIs stabilise and adoption grows; validate (B-34)."
+   }
+  },
+  {
+   "id": "web-app-platform",
+   "goal": "Installable apps and correct dates",
+   "cat": "Web",
+   "on": false,
+   "use": "Making a site installable or offline-capable, moving it to a new origin, or fixing date, time or locale bugs.",
+   "prompt": "Use the web-app-platform skill. We move from app.example.com to example.app next quarter, and users report wrong meeting times.",
+   "input": "Manifest, service worker, date and locale code",
+   "output": "Findings, failing inputs and an origin-move plan.",
+   "pros": [
+    "An ordered origin-move plan for what does not move by itself.",
+    "Every date finding has a concrete failing case."
+   ],
+   "cons": [
+    "Install flows differ by platform and are not tested.",
+    "Server-side date handling is not read."
+   ],
+   "items": [
+    "manifest.json",
+    "sw.js",
+    "install.ts",
+    "dates.ts",
+    "price.ts",
+    "calendar.ts"
+   ],
+   "steps": [
+    {
+     "layout": "row",
+     "note": "Inventory. The manifest, service worker, caches, install UI and every place dates, numbers and currencies are handled are listed."
+    },
+    {
+     "layout": "bins",
+     "bins": [
+      "install",
+      "cache and update",
+      "date and locale"
+     ],
+     "binOf": [
+      0,
+      1,
+      0,
+      2,
+      2,
+      2
+     ],
+     "note": "Group. Each item is checked in its area: installability, caching and updates, date and locale handling."
+    },
+    {
+     "layout": "gate",
+     "pass": [
+      true,
+      false,
+      true,
+      false,
+      true,
+      false
+     ],
+     "note": "Check. Each item passes or fails. Every date finding comes with a failing input, such as a meeting across a daylight-saving change."
+    },
+    {
+     "layout": "doc",
+     "drop": [
+      0,
+      2,
+      4
+     ],
+     "docLabel": "findings",
+     "note": "Report. Findings with failing inputs, and an ordered plan for an origin move: storage and passkeys do not move by themselves."
+    }
+   ],
+   "example": "[high] sw.js:44  Caches /api/account responses: personal data stays on shared devices.\n       Fix: network-only for /api/; cache static files only.\n[high] calendar.ts:61  Adds 24 h to move a meeting by one day.\n       Failing input: 2026-03-28 09:00 Europe/London -> 10:00 after the clock change.\n       Fix: add one calendar day in the meeting's time zone.\n[medium] dates.ts:12  new Date('2026-11-19') is read as UTC and shows the 18th in New York.\n       Fix: parse it as a plain date.\nOrigin move: storage and passkeys do not move by themselves; plan included.\nNot checked: install flows on each platform; server-side dates.",
+   "outcome": {
+    "verdict": "3 findings",
+    "tone": "warn",
+    "bars": [
+     [
+      "high",
+      2,
+      "high"
+     ],
+     [
+      "medium",
+      1,
+      "medium"
+     ]
+    ],
+    "findings": [
+     {
+      "sev": "high",
+      "where": "sw.js:44",
+      "title": "Account responses cached on the device",
+      "fix": "Network-only for /api/"
+     },
+     {
+      "sev": "high",
+      "where": "calendar.ts:61",
+      "title": "A day is added as 24 hours",
+      "fix": "Add a calendar day in the meeting's zone"
+     },
+     {
+      "sev": "medium",
+      "where": "dates.ts:12",
+      "title": "Date-only string read as UTC",
+      "fix": "Parse it as a plain date"
+     }
+    ],
+    "notChecked": "Install flows on each platform; server-side dates."
+   },
+   "idea": "Like a travel planner who checks the clock in every city and packs only what is safe to leave in the hotel.",
+   "why": "Wrong times and leaked caches lose users' trust, and an installed app must update without breaking.",
+   "grade": {
+    "grade": "B",
+    "tier": "pro",
+    "rank": 26,
+    "score": "3.40",
+    "scores": [
+     4,
+     3,
+     4,
+     2,
+     3
+    ],
+    "why": "Date and time-zone bugs and caches that leak personal data are real failures, and an origin move breaks storage and passkeys without a plan. Installable and offline apps, and origin moves, are not common needs.",
+    "raise": "Validate the date checks with failing-input fixtures (B-34)."
+   }
   }
  ]
 }
@@ -3349,7 +5723,11 @@ const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const STEP_SEC = 5; // seconds per step
 const COL = { todo: 0x64748b, ok: 0x1f9d6b, bad: 0xd6456a, warn: 0xd9962b, hit: 0x2f6fd6 };
 const BINS = [0x7c5ce0, 0x13a3a3, 0xe0702a, 0x2f6fd6, 0xd9962b, 0x1f9d6b];
-const CATS = ['All', 'Overview', 'Analysis', 'Engineering', 'Security', 'Domain', 'Operations', 'Compliance', 'Memory', 'Efficiency'];
+const CATS = ['Overview', 'Analysis', 'Engineering', 'Security', 'Web', 'Domain', 'Operations', 'Compliance', 'Memory', 'Efficiency'];
+const CAT_NAME = { Overview: 'Start here', Analysis: 'Analysis (chunked)', Engineering: 'Engineering review', Security: 'Security and risk', Web: 'Web platform', Domain: 'Domain review' };
+const TIERS = ['All tiers', 'premium', 'pro', 'essentials'];
+const CRIT = ['Support strength', 'Importance', 'Severity', 'Usage', 'Presence'];
+const WEIGHT = [0.35, 0.2, 0.2, 0.15, 0.1];
 const $ = (s) => document.querySelector(s);
 const HOWTO = {
   row: 'the items sit in a line, one per entry.',
@@ -3379,7 +5757,7 @@ const SKILLS = DATA.skills;
 
 let current = (SKILLS.find((s) => s.id === params.get('skill')) || SKILLS[0]).id;
 let skill = SKILLS.find((s) => s.id === current);
-let filter = 'All';
+let tier = 'All tiers';
 let query = '';
 let time = 0;
 let playing = !REDUCED;
@@ -3525,42 +5903,191 @@ function boundsPoints(o) {
 
 // ---------- Panel ----------
 const stepTitle = (st) => st.note.split('.')[0];
+const GRADED = SKILLS.filter((s) => s.grade);
+const tp = (s) => 'tp-' + (s.grade ? s.grade.tier : 'none');
+const AVG = CRIT.map((_, i) => GRADED.reduce((a, s) => a + s.grade.scores[i], 0) / Math.max(GRADED.length, 1));
 
 function renderTabs() {
   const q = query.trim().toLowerCase();
-  const list = SKILLS.filter((s) => (filter === 'All' || s.cat === filter) &&
+  const list = SKILLS.filter((s) => (tier === 'All tiers' ? true : s.grade && s.grade.tier === tier) &&
     (!q || (s.goal + ' ' + s.id + ' ' + s.use).toLowerCase().includes(q)));
-  $('#tabs').innerHTML = list.map((s) => `
-    <button type="button" class="tab" data-id="${esc(s.id)}" aria-pressed="${s.id === current}">
-      <span class="g">${esc(s.goal)}</span>
-      <span class="i">${esc(s.id)}</span>
-      <span class="m">${esc(s.cat)}${s.cat === 'Overview' ? '' : ' · ' + (s.on ? 'On by default' : 'Off by default')}</span>
-    </button>`).join('') || '<p class="none">No skill matches. Clear the search.</p>';
+  const row = (s) => `<li><button type="button" class="tab ${tp(s)}" data-id="${esc(s.id)}" aria-pressed="${s.id === current}">
+      <span class="gchip" aria-hidden="true">${s.grade ? esc(s.grade.grade) : '◎'}</span>
+      <span><span class="g">${esc(s.goal)}</span><span class="i">${esc(s.id)}${s.grade ? ' · ' + esc(s.grade.tier) : ''}</span></span>
+    </button></li>`;
+  $('#tabs').innerHTML = CATS.map((c) => {
+    const m = list.filter((s) => s.cat === c);
+    return m.length ? `<div class="grp"><h3>${esc(CAT_NAME[c] || c)}<span>${m.length}</span></h3><ul>${m.map(row).join('')}</ul></div>` : '';
+  }).join('') || '<p class="none">No skill matches. Clear the search or the tier filter.</p>';
 }
 
 function renderCats() {
-  $('#cats').innerHTML = CATS.map((c) => `<button type="button" data-cat="${c}" aria-pressed="${c === filter}">${c}</button>`).join('');
+  $('#tiers').innerHTML = TIERS.map((c) => `<button type="button" data-tier="${c}" aria-pressed="${c === tier}">${c === 'All tiers' ? 'All' : c}</button>`).join('');
+}
+
+function renderKpis() {
+  const n = (t) => GRADED.filter((s) => s.grade.tier === t).length;
+  const cats = new Set(GRADED.map((s) => s.cat)).size;
+  const avg = GRADED.reduce((a, s) => a + Number(s.grade.score), 0) / GRADED.length;
+  const top = GRADED.reduce((a, s) => (s.grade.rank < a.grade.rank ? s : a));
+  $('#kpis').innerHTML = `
+    <div class="kpi"><b>${GRADED.length}</b><span>skills, ${SKILLS.filter((s) => s.grade && s.on).length} on by default</span></div>
+    <div class="kpi"><b>${cats}</b><span>categories</span></div>
+    <div class="kpi"><b>${avg.toFixed(2)}</b><span>average score of 5 · top: ${esc(top.id)}</span></div>
+    <div class="kpi"><span>Tier split</span>
+      <div class="split" role="img" aria-label="${n('premium')} premium, ${n('pro')} pro, ${n('essentials')} essentials">
+        ${TIERS.slice(1).map((t) => `<i class="tp-${t}" style="flex:${n(t)}"></i>`).join('')}
+      </div>
+      <div class="split-key">${TIERS.slice(1).map((t) => `<span class="tp-${t}">${n(t)} ${t}</span>`).join('')}</div>
+    </div>`;
+}
+
+// One row per category, one dot per skill at its score, over the A/B/C bands.
+function renderLand() {
+  const el = $('#land');
+  const W = el.clientWidth;
+  if (!W) return;
+  const cats = CATS.filter((c) => GRADED.some((s) => s.cat === c));
+  const left = W < 560 ? 92 : 150, right = 18, top = 30, rowH = W < 560 ? 30 : 36;
+  const H = top + cats.length * rowH + 26;
+  const lo = 2.5, hi = 5.0;
+  const X = (v) => left + (v - lo) / (hi - lo) * (W - left - right);
+  let h = '';
+  [[2.5, 3.1, 'C', 'essentials'], [3.1, 4.0, 'B', 'pro'], [4.0, 5.0, 'A', 'premium']].forEach(([a, b, g, t]) => {
+    h += `<g class="tp-${t}"><rect class="band" x="${X(a)}" y="${top - 6}" width="${X(b) - X(a)}" height="${cats.length * rowH + 6}" rx="8"/>
+      <text class="band-l" x="${(X(a) + X(b)) / 2}" y="${top - 12}" text-anchor="middle">${W < 560 ? g : g + ' · ' + t}</text></g>`;
+  });
+  [2.5, 3, 3.5, 4, 4.5, 5].forEach((v) => { h += `<text class="tick" x="${X(v)}" y="${H - 4}" text-anchor="middle">${v.toFixed(1)}</text>`; });
+  cats.forEach((c, r) => {
+    const y = top + r * rowH + rowH / 2;
+    h += `<line class="rule" x1="${left}" x2="${W - right}" y1="${y}" y2="${y}"/>
+      <text class="row-l" x="${left - 12}" y="${y + 4}" text-anchor="end">${esc(W < 560 ? c : (CAT_NAME[c] || c))}</text>`;
+    const m = GRADED.filter((s) => s.cat === c).sort((a, b) => a.grade.score - b.grade.score);
+    let lastX = -99, k = 0;
+    m.forEach((s) => {
+      const x = X(Number(s.grade.score));
+      k = x - lastX < 15 ? k + 1 : 0;
+      lastX = k ? lastX : x;
+      const dy = k ? (k % 2 ? -1 : 1) * Math.ceil(k / 2) * 13 : 0;
+      const g = s.grade;
+      h += `<g class="dot ${tp(s)}${s.id === current ? ' on' : ''}" tabindex="0" role="button" data-id="${esc(s.id)}"
+        aria-label="${esc(s.id)}, grade ${esc(g.grade)}, score ${esc(g.score)}, ${esc(g.tier)}"><circle cx="${x}" cy="${y + dy}" r="7"/></g>`;
+    });
+  });
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="group" aria-label="Skills by category and score">${h}</svg>`;
+}
+
+function landTip(id) {
+  const s = SKILLS.find((x) => x.id === id);
+  if (!s) return;
+  const g = s.grade;
+  $('#landTip').innerHTML = `<b>${esc(s.id)}</b> · ${esc(g.grade)} · ${esc(g.score)} · <span class="tier ${tp(s)}">${esc(g.tier)}</span> · ${esc(s.goal)}`;
+}
+
+function ring(s) {
+  const r = 38, c = 2 * Math.PI * r;
+  if (!s.grade) {
+    return `<svg viewBox="0 0 92 92" role="img" aria-label="Pack overview"><circle class="rt" cx="46" cy="46" r="${r}"/>
+      <text class="rg" x="46" y="52">◎</text></svg>`;
+  }
+  const g = s.grade, f = Number(g.score) / 5;
+  return `<svg viewBox="0 0 92 92" role="img" aria-label="Grade ${esc(g.grade)}, score ${esc(g.score)} of 5">
+    <circle class="rt" cx="46" cy="46" r="${r}"/>
+    <circle class="rv" cx="46" cy="46" r="${r}" stroke-dasharray="${(f * c).toFixed(1)} ${c.toFixed(1)}" transform="rotate(-90 46 46)"/>
+    <text class="rg" x="46" y="50">${esc(g.grade)}</text><text class="rs" x="46" y="66">${esc(g.score)}</text></svg>`;
+}
+
+// Five criteria as a pentagon; the dashed shape is the pack average.
+function radar(scores) {
+  const cx = 170, cy = 128, R = 92, n = 5;
+  const pt = (i, v) => { const a = -Math.PI / 2 + 2 * Math.PI * i / n; return [cx + Math.cos(a) * R * v / 5, cy + Math.sin(a) * R * v / 5]; };
+  const poly = (vals) => vals.map((v, i) => pt(i, v).map((q) => q.toFixed(1)).join(',')).join(' ');
+  let h = '';
+  for (let v = 1; v <= 5; v++) h += `<polygon class="grid" points="${poly(Array(n).fill(v))}"/>`;
+  for (let i = 0; i < n; i++) { const [x, y] = pt(i, 5); h += `<line class="axis" x1="${cx}" y1="${cy}" x2="${x}" y2="${y}"/>`; }
+  h += `<polygon class="avg" points="${poly(AVG)}"/><polygon class="val" points="${poly(scores)}"/>`;
+  scores.forEach((v, i) => { const [x, y] = pt(i, v); h += `<circle class="pt" cx="${x}" cy="${y}" r="4.5"/>`; });
+  CRIT.forEach((c, i) => {
+    const [x, y] = pt(i, 6.15);
+    const anchor = Math.abs(x - cx) < 8 ? 'middle' : x > cx ? 'start' : 'end';
+    h += `<text class="lab" x="${x}" y="${y}" text-anchor="${anchor}">${c} ${scores[i]}</text>
+      <text class="w" x="${x}" y="${y + 15}" text-anchor="${anchor}">${WEIGHT[i] * 100}%</text>`;
+  });
+  return `<svg viewBox="0 0 340 262" role="img" aria-label="${CRIT.map((c, i) => c + ' ' + scores[i]).join(', ')}">${h}</svg>`;
+}
+
+function renderGradePanel() {
+  const g = skill.grade;
+  if (!g) { $('#gradePanel').innerHTML = ''; return; }
+  $('#gradePanel').innerHTML = `<div class="gp ${tp(skill)}">
+    <div class="radar">${radar(g.scores)}
+      <div class="radar-key"><span><i></i>${esc(skill.id)}</span><span><i class="d"></i>pack average</span></div>
+    </div>
+    <div>
+      <div class="gsum">
+        <div><b>${esc(g.grade)}</b><span>grade</span></div>
+        <div><b>${esc(g.score)}</b><span>score of 5</span></div>
+        <div><b>${g.rank}<small> / ${GRADED.length}</small></b><span>rank</span></div>
+        <div><b><span class="tier ${tp(skill)}">${esc(g.tier)}</span></b><span>tier</span></div>
+      </div>
+      <ul class="crit">${g.scores.map((v, i) => `<li><span>${CRIT[i]}</span>
+        <span class="meter" role="img" aria-label="${CRIT[i]} ${v} of 5"><i style="width:${v * 20}%"></i></span><b>${v}</b>
+        <small title="weighted points">+${(v * WEIGHT[i]).toFixed(2)}</small></li>`).join('')}</ul>
+      <p>${esc(g.why)}</p>
+      <p class="raise"><b>To raise the grade:</b> ${esc(g.raise)}</p>
+    </div></div>`;
+}
+
+const SORT = { key: 'rank', dir: 'asc' };
+function renderGrades() {
+  const val = (s, k) => k === 'rank' ? s.grade.rank : k === 'id' ? s.id : k === 'cat' ? s.cat : k === 'tier' ? TIERS.indexOf(s.grade.tier)
+    : k === 'score' ? Number(s.grade.score) : s.grade.scores[Number(k)];
+  const rows = [...GRADED].sort((a, b) => {
+    const x = val(a, SORT.key), y = val(b, SORT.key);
+    const d = x < y ? -1 : x > y ? 1 : 0;
+    return (SORT.dir === 'desc' ? -d : d) || a.grade.rank - b.grade.rank;
+  });
+  document.querySelectorAll('#gradeTable th button').forEach((b) => {
+    if (b.dataset.sort === SORT.key) b.dataset.dir = SORT.dir; else delete b.dataset.dir;
+  });
+  $('#gradeRows').innerHTML = rows.map((s) => {
+    const g = s.grade;
+    return `<tr class="${tp(s)}"><td class="n">${g.rank}</td><td><button type="button" class="skill-link" data-id="${esc(s.id)}">${esc(s.id)}</button></td>
+      <td>${esc(CAT_NAME[s.cat] || s.cat)}</td><td><span class="tier ${tp(s)}">${esc(g.tier)}</span></td>
+      ${g.scores.map((v) => `<td class="n heat" style="--v:${v}">${v}</td>`).join('')}<td class="n">${esc(g.score)}</td><td class="n gr">${esc(g.grade)}</td></tr>`;
+  }).join('');
 }
 
 function renderInfo() {
   $('#sname').textContent = skill.goal;
-  $('#sbadges').innerHTML = `${esc(skill.id)} · ${esc(skill.cat)}` + (skill.cat === 'Overview' ? '' : ` · <span class="badge">${skill.on ? 'On by default' : 'Off by default'}</span>`);
-  $('#info').innerHTML = `
-    <h3>${esc(skill.goal)}</h3>
-    <p>${esc(skill.use)}</p>
-    <dl>
-      <dt>Input</dt><dd>${esc(skill.input)}</dd>
-      <dt>Output</dt><dd>${esc(skill.output)}</dd>
-      <dt>Items</dt><dd>${skill.items.map((x) => esc(x)).join(', ')}</dd>
-    </dl>
-    <h4>What you get (illustrative, not real output)</h4>
-    <pre><code>${esc(skill.example || "")}</code></pre>
-    <h4>Example prompt</h4>
-    <pre><code>${esc(skill.prompt)}</code></pre>
-    <div class="pc">
-      <div><h4>Pros</h4><ul>${skill.pros.map((p) => `<li>${esc(p)}</li>`).join('')}</ul></div>
-      <div><h4>Cons</h4><ul>${skill.cons.map((p) => `<li>${esc(p)}</li>`).join('')}</ul></div>
-    </div>`;
+  $('#ring').className = 'ring ' + tp(skill);
+  $('#ring').innerHTML = ring(skill);
+  $('#sbadges').innerHTML = `<span class="mono">${esc(skill.id)}</span><span class="pill">${esc(CAT_NAME[skill.cat] || skill.cat)}</span>` +
+    (skill.cat === 'Overview' ? '' : `<span class="pill">${skill.on ? 'On by default' : 'Off by default'}</span>`) +
+    (skill.grade ? `<span class="tier ${tp(skill)}">${esc(skill.grade.tier)}</span>` : '');
+  $('#info').innerHTML = `<div class="use">
+    <div>
+      <p class="lead">${esc(skill.use)}</p>
+      <h4>Example prompt</h4>
+      <div class="prompt"><pre><code>${esc(skill.prompt)}</code></pre><button type="button" class="copy" data-copy="${esc(skill.prompt)}">Copy</button></div>
+      <dl class="facts">
+        <dt>Input</dt><dd>${esc(skill.input)}</dd>
+        <dt>Output</dt><dd>${esc(skill.output)}</dd>
+        <dt>Items</dt><dd class="items">${skill.items.map((x) => `<code>${esc(x)}</code>`).join('')}</dd>
+      </dl>
+    </div>
+    <div>
+      <h4>Pros</h4><ul class="pc">${skill.pros.map((p) => `<li>${esc(p)}</li>`).join('')}</ul>
+      <h4>Cons</h4><ul class="pc con">${skill.cons.map((p) => `<li>${esc(p)}</li>`).join('')}</ul>
+    </div></div>`;
+  renderGradePanel();
+  $('#t-grade').hidden = !skill.grade;
+}
+
+function showTab(name) {
+  document.querySelectorAll('.dtabs [role="tab"]').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === name)));
+  document.querySelectorAll('.dpanel').forEach((p) => { p.hidden = p.id !== 'p-' + name; });
+  if (name === 'how') setView(view);
 }
 
 function renderSteps() {
@@ -3753,7 +6280,8 @@ function renderOutcome() {
         <p>${esc(f.title)}</p>
         ${f.fix && f.fix !== '-' ? `<p class="fix">Fix: ${esc(f.fix)}</p>` : ''}
       </li>`).join('')}</ol>
-    <p class="nc"><b>Not checked:</b> ${esc(o.notChecked)}</p>`;
+    <p class="nc"><b>Not checked:</b> ${esc(o.notChecked)}</p>
+    ${skill.example ? `<h4>Example report (illustrative, not real output)</h4><pre><code>${esc(skill.example)}</code></pre>` : ''}`;
 }
 
 // Replays the card's entrance when the last step is reached.
@@ -3766,6 +6294,7 @@ function playOutcome() {
 }
 
 function focusFinding(k) {
+  showTab('out');
   document.querySelectorAll('#outcome .finding').forEach((el) => el.classList.toggle('focus', Number(el.dataset.k) === k));
   const el = document.querySelector(`#outcome .finding[data-k="${k}"]`);
   if (el) el.scrollIntoView({ block: 'nearest', behavior: REDUCED ? 'auto' : 'smooth' });
@@ -3987,7 +6516,10 @@ function select(id) {
   stepIdx = -1;
   setPlaying(!REDUCED);
   document.querySelectorAll('#tabs .tab').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.id === id)));
+  document.querySelectorAll('#land .dot').forEach((d) => d.classList.toggle('on', d.dataset.id === id));
   renderInfo();
+  if (!skill.grade && $('#t-grade').getAttribute('aria-selected') === 'true') showTab('how');
+  try { const u = new URL(location.href); u.searchParams.set('skill', id); history.replaceState(null, '', u); } catch (e) { /* file:// or sandboxed */ }
   renderSteps();
   renderOutcome();
   renderIdea();
@@ -4115,18 +6647,72 @@ async function init3D() {
 }
 
 // ---------- Controls ----------
+const rail = $('#rail');
+function setRail(open) {
+  rail.classList.toggle('open', open);
+  $('#scrim').classList.toggle('open', open);
+  $('#railBtn').setAttribute('aria-expanded', String(open));
+}
+// Opens a skill from the list, the chart or the table, and brings the detail pane into view.
+function openSkill(id) {
+  select(id);
+  setRail(false);
+  const r = $('#skills').getBoundingClientRect();
+  if (r.top > innerHeight * 0.5 || r.bottom < 120) $('#skills').scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth' });
+}
 $('#tabs').addEventListener('click', (e) => {
   const b = e.target.closest('button[data-id]');
-  if (b) select(b.dataset.id);
+  if (b) openSkill(b.dataset.id);
 });
-$('#cats').addEventListener('click', (e) => {
-  const b = e.target.closest('button[data-cat]');
+$('#tiers').addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-tier]');
   if (!b) return;
-  filter = b.dataset.cat;
-  document.querySelectorAll('#cats button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+  tier = b.dataset.tier;
+  document.querySelectorAll('#tiers button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
   renderTabs();
 });
+$('#gradeRows').addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-id]');
+  if (b) openSkill(b.dataset.id);
+});
+$('#gradeTable thead').addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-sort]');
+  if (!b) return;
+  const k = b.dataset.sort;
+  SORT.dir = SORT.key === k ? (SORT.dir === 'asc' ? 'desc' : 'asc') : (/^\d$|score/.test(k) ? 'desc' : 'asc');
+  SORT.key = k;
+  renderGrades();
+});
+const land = $('#land');
+land.addEventListener('click', (e) => { const d = e.target.closest('.dot'); if (d) openSkill(d.dataset.id); });
+land.addEventListener('keydown', (e) => {
+  const d = e.target.closest('.dot');
+  if (d && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openSkill(d.dataset.id); }
+});
+land.addEventListener('pointerover', (e) => { const d = e.target.closest('.dot'); if (d) landTip(d.dataset.id); });
+land.addEventListener('focusin', (e) => { const d = e.target.closest('.dot'); if (d) landTip(d.dataset.id); });
+new ResizeObserver(renderLand).observe(land);
+
+document.querySelector('.dtabs').addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-tab]');
+  if (b) showTab(b.dataset.tab);
+});
+document.querySelector('.dtabs').addEventListener('keydown', (e) => {
+  if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+  const tabs = [...document.querySelectorAll('.dtabs [role="tab"]')].filter((t) => !t.hidden);
+  const i = tabs.indexOf(document.activeElement);
+  if (i < 0) return;
+  const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length];
+  n.focus();
+  showTab(n.dataset.tab);
+});
 $('#q').addEventListener('input', (e) => { query = e.target.value; renderTabs(); });
+document.addEventListener('keydown', (e) => {
+  if (e.key === '/' && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) { e.preventDefault(); setRail(true); $('#q').focus(); }
+  if (e.key === 'Escape') setRail(false);
+});
+$('#railBtn').addEventListener('click', () => setRail(!rail.classList.contains('open')));
+$('#scrim').addEventListener('click', () => setRail(false));
 $('#steps').addEventListener('click', (e) => {
   const b = e.target.closest('button[data-step]');
   if (b) goTo(Number(b.dataset.step), true);
@@ -4135,16 +6721,27 @@ $('#prev').addEventListener('click', () => goTo(stepIdx - 1, true));
 $('#next').addEventListener('click', () => goTo(stepIdx + 1, true));
 $('#play').addEventListener('click', () => setPlaying(!playing));
 
-document.querySelectorAll('button.copy').forEach((b) => b.addEventListener('click', async () => {
+document.addEventListener('click', async (e) => {
+  const b = e.target.closest('button.copy');
+  if (!b) return;
   const label = b.textContent;
   try {
     await navigator.clipboard.writeText(b.dataset.copy);
     b.textContent = 'Copied';
-  } catch (e) {
+  } catch (err) {
     b.textContent = 'Select and copy';
   }
   setTimeout(() => { b.textContent = label; }, 1600);
-}));
+});
+
+// Theme: follows the system until the viewer picks one; the choice is kept per browser.
+const root = document.documentElement;
+try { const t = localStorage.getItem('atlas-theme'); if (t) root.dataset.theme = t; } catch (e) { /* storage blocked */ }
+$('#theme').addEventListener('click', () => {
+  const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme = dark ? 'light' : 'dark';
+  try { localStorage.setItem('atlas-theme', root.dataset.theme); } catch (e) { /* storage blocked */ }
+});
 
 $('#viewsw').addEventListener('click', (e) => {
   const b = e.target.closest('button[data-view]');
@@ -4155,6 +6752,9 @@ new ResizeObserver(() => { if (view === 'simple' && stepIdx >= 0) renderFlat(ski
 // ---------- Start ----------
 renderCats();
 renderTabs();
+renderKpis();
+renderLand();
+renderGrades();
 renderInfo();
 renderSteps();
 select(current);
