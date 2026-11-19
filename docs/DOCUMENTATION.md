@@ -22,12 +22,12 @@ The analysis happens in your agent's chat, under your own agent subscription. Th
 
 ## 3. Install the extension
 
-The extension is not on the VS Code Marketplace yet. Install it from the `skill-pack-1.0.0.vsix` file.
+The extension is not on the VS Code Marketplace yet. Download [`skill-pack-2.1.0.vsix`](https://github.com/kamalsoft/skill-pack/raw/main/binary/skill-pack-2.1.0.vsix) from the `binary/` folder of the repository, then install it.
 
 From a terminal:
 
 ```bash
-code --install-extension skill-pack-1.0.0.vsix
+code --install-extension skill-pack-2.1.0.vsix
 ```
 
 From VS Code:
