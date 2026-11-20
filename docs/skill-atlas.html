@@ -5896,7 +5896,7 @@ let chips = [];
 let flatHot = '';
 
 // 3D state, filled once the module loads
-let T = null, renderer = null, scene = null, camera = null, world = null;
+let T = null, renderer = null, scene = null, camera = null, world = null, keyLight = null, plain3d = false;
 let tokens = [], decor = [], pulses = [], gems = [], gemStart = 0;
 let rotX = -0.38, rotY = 0.12, camDist = 12, camDistT = 12, offZ = 0, hover3 = -1;
 let off = { x: 0, y: 0 }, offT = { x: 0, y: 0 };
@@ -7114,7 +7114,23 @@ function tick() {
   world.rotation.set(rotX, rotY + (playing && !REDUCED ? Math.sin(time * 0.3) * 0.04 : 0), 0);
   camera.position.set(0, 0, camDist * z3);
   camera.lookAt(0, 0, 0);
-  renderer.render(scene, camera);
+  try { renderer.render(scene, camera); } catch (e) { goPlain(e.message || String(e)); }
+}
+
+// Some GPU and browser pairs fail to compile the shadow shaders, which leaves the stage empty.
+// Fall back to a plain scene without shadows; if that fails too, say why instead of showing nothing.
+function fail3D(reason) {
+  console.error('RLM atlas: 3D view stopped:', reason);
+  threeError = reason;
+  setView(view);
+}
+function goPlain(reason) {
+  if (plain3d) { fail3D(reason); return; }
+  plain3d = true;
+  console.warn('RLM atlas: 3D view switched to plain rendering:', reason);
+  renderer.shadowMap.enabled = false;
+  if (keyLight) keyLight.castShadow = false;
+  scene.traverse((o) => { if (o.material) o.material.needsUpdate = true; });
 }
 
 function frame(now) {
@@ -7124,7 +7140,7 @@ function frame(now) {
   if (skill && skill.steps.length) {
     const k = Math.floor(time / STEP_SEC) % skill.steps.length;
     if (k !== stepIdx) applyStep(k);
-    if (view === '3d' && T && renderer && L) tick();
+    if (view === '3d' && T && renderer && L && !threeError) tick();
     if (view === 'simple' && L) flatTick();
   }
   requestAnimationFrame(frame);
@@ -7144,13 +7160,18 @@ async function init3D() {
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = T.PCFSoftShadowMap;
+  renderer.debug.onShaderError = (gl, program, vs, fs) => {
+    const log = [gl.getProgramInfoLog(program), gl.getShaderInfoLog(vs), gl.getShaderInfoLog(fs)].filter(Boolean).join(' ').trim();
+    goPlain('a shader did not compile' + (log ? ': ' + log.slice(0, 160) : ''));
+  };
+  cv.addEventListener('webglcontextlost', (e) => { e.preventDefault(); fail3D('the browser dropped the graphics context'); });
   camera = new T.PerspectiveCamera(32, 1, 0.1, 200);
   scene = new T.Scene();
   world = new T.Group();
   scene.add(world);
   scene.add(new T.HemisphereLight(0xffffff, 0xb8c2cc, 1.5));
   // The key light turns with the board, so shadows always fall the same way on it.
-  const key = new T.DirectionalLight(0xffffff, 1.9);
+  const key = keyLight = new T.DirectionalLight(0xffffff, 1.9);
   key.position.set(4, 7, 12);
   key.castShadow = true;
   key.shadow.mapSize.set(2048, 2048);
