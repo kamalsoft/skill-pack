@@ -86,10 +86,39 @@ Each skill is a folder holding a `SKILL.md`. The analysis skills and `memory-man
 - **GitHub Copilot:** open Copilot Chat and type `/skills`. The skill names should be listed.
 - **Claude Code:** the skills appear under `.claude/skills/`. Start Claude Code in the project and name a skill in your request.
 
-### Update, remove or install without the extension
+### Update the extension
 
-- **Update:** run **RLM: Install Agent Skills** again. Files you have edited are left alone.
-- **Remove:** delete the skill folders from the agent's skills folder. The extension never deletes anything.
+Download the newer `.vsix` from the [`binary/` folder](https://github.com/kamalsoft/skill-pack/tree/main/binary), install it over the old one, then run **RLM: Install Agent Skills** again in each project. Files you have edited are left alone.
+
+```bash
+code --install-extension skill-pack-2.1.0.vsix --force
+```
+
+### Uninstall the extension
+
+1. If you entered a licence key, run **RLM: Remove Licence Key** first, so it does not stay in VS Code's secret storage.
+2. Uninstall from a terminal, or in the Extensions view: gear on **RLM Agent Skills** > **Uninstall**.
+   ```bash
+   code --uninstall-extension kamalsoft.skill-pack
+   ```
+3. Quit VS Code completely (`⌘Q`) and start it again. A window reload is not enough.
+4. Check that nothing is left: `code --list-extensions --show-versions | grep kamalsoft` should print nothing.
+5. Uninstalling does not touch your projects. To remove the skills too, delete the skill folders the extension wrote (for example `.github/skills/rlm-security-audit/`, or the same folders under `.claude/skills/`, `.agents/skills/`, `.cursor/skills/`, `.gemini/skills/`, `.windsurf/skills/`) and `.agent-memory/`.
+
+Older builds were published as `kamalsoft.rlm-agent-skills` and `kamalsoft.vscode-rlm-agent`. If either is installed, uninstall it the same way and restart VS Code.
+
+### Commands
+
+| Where | Command | What it does |
+| --- | --- | --- |
+| Command Palette | **RLM: Install Agent Skills** | Installs or updates the skills in the open project |
+| Command Palette | **RLM: Enter Licence Key** | Checks a key offline and stores it on this machine; unlocks pro or premium skills |
+| Command Palette | **RLM: Remove Licence Key** | Deletes the stored key; essentials skills keep working |
+| Terminal | `code --install-extension skill-pack-2.1.0.vsix [--force]` | Installs, or updates over an older copy |
+| Terminal | `code --list-extensions --show-versions \| grep kamalsoft` | Shows the installed version |
+| Terminal | `code --uninstall-extension kamalsoft.skill-pack` | Uninstalls the extension |
+
+The helper commands the chunked skills use (`scan`, `chunk`, `graph`, `merge`, `pending`) are listed in [docs/DOCUMENTATION.md](docs/DOCUMENTATION.md#12-command-reference).
 
 ## Choose how the helpers run
 
