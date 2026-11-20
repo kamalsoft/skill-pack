@@ -386,6 +386,12 @@ table.t .skill-link { background: none; border: 0; padding: 0; font: 13px "IBM P
 table.t td.heat { font-weight: 600; background: color-mix(in srgb, var(--accent) calc(var(--v) * 9%), transparent); }
 table.t td.gr { font-weight: 700; color: var(--tc); }
 .legend-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0 4px; }
+.doc .crit-key { list-style: none; padding: 0; margin: 6px 0 4px; display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13.5px; color: var(--muted); }
+.doc .crit-key li { display: inline-flex; align-items: center; gap: 6px; margin: 0; }
+.crit-key b { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 6px; font-size: 12.5px; color: var(--ink); background: color-mix(in srgb, var(--accent) 22%, transparent); }
+.crit-key small { font: 12px "IBM Plex Mono", monospace; }
+.heat-key { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin: 0 0 10px; font-size: 13px; color: var(--muted); }
+.heat-key i { display: inline-grid; place-items: center; width: 26px; height: 22px; border-radius: 5px; font: 600 12px "IBM Plex Sans", sans-serif; font-style: normal; color: var(--ink); background: color-mix(in srgb, var(--accent) calc(var(--v) * 9%), transparent); border: 1px solid var(--line); }
 .wt { flex: 1 1 150px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; min-width: 0; }
 .wt b { font-size: 18px; } .wt span { display: block; font-size: 12.5px; color: var(--muted); }
 .bands { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 10px 0 4px; }
@@ -395,6 +401,7 @@ table.t td.gr { font-weight: 700; color: var(--tc); }
 .bandc p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
 .cmd { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin: 8px 0 14px; }
 .cmd code { font-size: 13px; line-height: 1.5; background: none; padding: 0; min-width: 0; }
+td .cmd { margin: 0; }
 .cmd.note { display: block; font-size: 14px; color: var(--muted); border-left: 3px solid var(--essentials); }
 .cmd.note code { font-size: 13px; color: var(--ink); }
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin: 12px 0 20px; }
@@ -553,6 +560,16 @@ footer { font-size: 13px; color: var(--muted); padding: 4px 4px 0; }
         <div class="bandc tp-essentials"><b>C+ · C · D → essentials</b><p>Score below 3.10. Situational, narrow or early. Installs without a key.</p></div>
       </div>
       <h3>All skills, ranked</h3>
+      <ul class="crit-key" aria-label="Column key">
+        <li><b>S</b>Support strength <small>35%</small></li>
+        <li><b>I</b>Importance <small>20%</small></li>
+        <li><b>V</b>Severity <small>20%</small></li>
+        <li><b>U</b>Usage <small>15%</small></li>
+        <li><b>P</b>Presence <small>10%</small></li>
+      </ul>
+      <p class="heat-key">Each criterion is scored 1 to 5; a darker cell is a higher score:
+        <i style="--v:1">1</i><i style="--v:2">2</i><i style="--v:3">3</i><i style="--v:4">4</i><i style="--v:5">5</i></p>
+      <p class="heat-key">Score = 0.35 S + 0.20 I + 0.20 V + 0.15 U + 0.10 P. Select a column heading to sort.</p>
       <div class="tbl-scroll"><table class="t" id="gradeTable">
         <thead><tr>
           <th class="n"><button type="button" data-sort="rank">#</button></th>
@@ -628,12 +645,58 @@ footer { font-size: 13px; color: var(--muted); padding: 4px 4px 0; }
     <p>Then ask your agent in plain words, naming the skill:</p>
     <div class="cmd"><code>Use the rlm-security-audit skill on src/. Report findings with file and line.</code><button type="button" class="copy" data-copy="Use the rlm-security-audit skill on src/. Report findings with file and line.">Copy</button></div>
 
-    <h3>Update, remove, or get the source</h3>
-    <ul>
-      <li><strong>Update:</strong> run <strong>RLM: Install Agent Skills</strong> again. Files you have edited are left alone.</li>
-      <li><strong>Remove:</strong> delete the skill folders in the agent's folder. The extension never deletes anything.</li>
-      <li><strong>Clone the package repository:</strong> <code>git clone https://github.com/kamalsoft/skill-pack.git</code></li>
-    </ul>
+    <h3>Update the extension</h3>
+    <ol>
+      <li>Download the newer <code>.vsix</code> from the <a href="https://github.com/kamalsoft/skill-pack/tree/main/binary" target="_blank" rel="noopener noreferrer"><code>binary/</code> folder</a> and install it over the old one.
+        <div class="cmd"><code>code --install-extension skill-pack-2.1.0.vsix --force</code><button type="button" class="copy" data-copy="code --install-extension skill-pack-2.1.0.vsix --force">Copy</button></div></li>
+      <li>Run <strong>RLM: Install Agent Skills</strong> again in each project, to refresh its skills. Files you have edited are left alone.</li>
+    </ol>
+
+    <h3>Uninstall the extension</h3>
+    <ol>
+      <li>If you entered a licence key, run <strong>RLM: Remove Licence Key</strong> first, so the key does not stay in VS Code's secret storage.</li>
+      <li>Uninstall it from a terminal, or in the Extensions view (⇧⌘X): click the gear on <strong>RLM Agent Skills</strong> and choose <strong>Uninstall</strong>.
+        <div class="cmd"><code>code --uninstall-extension kamalsoft.skill-pack</code><button type="button" class="copy" data-copy="code --uninstall-extension kamalsoft.skill-pack">Copy</button></div></li>
+      <li>Quit VS Code completely (⌘Q on macOS) and start it again. A window reload is not enough: VS Code removes uninstalled extensions only on a full restart.</li>
+      <li>Check that nothing is left. The command should print nothing.
+        <div class="cmd"><code>code --list-extensions --show-versions | grep kamalsoft</code><button type="button" class="copy" data-copy="code --list-extensions --show-versions | grep kamalsoft">Copy</button></div></li>
+      <li>Remove the skills from your projects, if you want them gone. Uninstalling the extension does not touch your projects: delete the skill folders it wrote (for example <code>.github/skills/rlm-security-audit/</code>, or the same folders under <code>.claude/skills/</code>, <code>.agents/skills/</code>, <code>.cursor/skills/</code>, <code>.gemini/skills/</code>, <code>.windsurf/skills/</code>) and the memory store <code>.agent-memory/</code>.</li>
+    </ol>
+    <div class="cmd note"><span><strong>Older copies.</strong> Earlier builds were published as <code>kamalsoft.rlm-agent-skills</code> and <code>kamalsoft.vscode-rlm-agent</code>. If either is still installed, the skill picker can show an old list. Uninstall them the same way, then restart VS Code: <code>code --uninstall-extension kamalsoft.rlm-agent-skills</code> and <code>code --uninstall-extension kamalsoft.vscode-rlm-agent</code>.</span></div>
+
+    <h3>Commands</h3>
+    <p><strong>In VS Code</strong>, from the Command Palette (⇧⌘P on macOS, Ctrl+Shift+P on Windows):</p>
+    <div class="tbl-scroll"><table class="t">
+      <thead><tr><th>Command</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr><td><strong>RLM: Install Agent Skills</strong></td><td>Installs or updates the skills in the open project. Asks how helpers run, which agents, and which skills.</td></tr>
+        <tr><td><strong>RLM: Enter Licence Key</strong></td><td>Checks a key offline and stores it in VS Code's secret storage on this machine. Unlocks pro or premium skills in every project.</td></tr>
+        <tr><td><strong>RLM: Remove Licence Key</strong></td><td>Deletes the stored key. Essentials skills keep working.</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>In a terminal</strong>, with the <code>code</code> command on your path:</p>
+    <div class="tbl-scroll"><table class="t">
+      <thead><tr><th>To</th><th>Run</th></tr></thead>
+      <tbody>
+        <tr><td>Install</td><td><div class="cmd"><code>code --install-extension skill-pack-2.1.0.vsix</code><button type="button" class="copy" data-copy="code --install-extension skill-pack-2.1.0.vsix">Copy</button></div></td></tr>
+        <tr><td>Update to a newer file</td><td><div class="cmd"><code>code --install-extension skill-pack-2.1.0.vsix --force</code><button type="button" class="copy" data-copy="code --install-extension skill-pack-2.1.0.vsix --force">Copy</button></div></td></tr>
+        <tr><td>See the installed version</td><td><div class="cmd"><code>code --list-extensions --show-versions | grep kamalsoft</code><button type="button" class="copy" data-copy="code --list-extensions --show-versions | grep kamalsoft">Copy</button></div></td></tr>
+        <tr><td>Uninstall</td><td><div class="cmd"><code>code --uninstall-extension kamalsoft.skill-pack</code><button type="button" class="copy" data-copy="code --uninstall-extension kamalsoft.skill-pack">Copy</button></div></td></tr>
+        <tr><td>Get the package repository</td><td><div class="cmd"><code>git clone https://github.com/kamalsoft/skill-pack.git</code><button type="button" class="copy" data-copy="git clone https://github.com/kamalsoft/skill-pack.git">Copy</button></div></td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>Helper scripts</strong> (optional). The agent runs these for you; run them yourself to see what a skill will read. The chunked skills include <code>rlm_corpus.py</code> (or <code>rlm_corpus.js</code> with <code>node</code> if you chose Node.js). Run from the project root:</p>
+    <div class="tbl-scroll"><table class="t">
+      <thead><tr><th>Command</th><th>Output</th></tr></thead>
+      <tbody>
+        <tr><td><div class="cmd"><code>python3 .github/skills/rlm-security-audit/scripts/rlm_corpus.py scan .</code><button type="button" class="copy" data-copy="python3 .github/skills/rlm-security-audit/scripts/rlm_corpus.py scan .">Copy</button></div></td><td>Files, lines and characters in scope, and what was skipped.</td></tr>
+        <tr><td><div class="cmd"><code>python3 .github/skills/rlm-security-audit/scripts/rlm_corpus.py chunk . /tmp/rlm-chunks</code><button type="button" class="copy" data-copy="python3 .github/skills/rlm-security-audit/scripts/rlm_corpus.py chunk . /tmp/rlm-chunks">Copy</button></div></td><td>Chunk files of at most 800 lines, and a manifest.</td></tr>
+        <tr><td><div class="cmd"><code>python3 .github/skills/rlm-refactor-planner/scripts/rlm_corpus.py graph .</code><button type="button" class="copy" data-copy="python3 .github/skills/rlm-refactor-planner/scripts/rlm_corpus.py graph .">Copy</button></div></td><td>The import graph, its cycles and the most-imported files.</td></tr>
+        <tr><td><div class="cmd"><code>python3 .github/skills/rlm-security-audit/scripts/rlm_corpus.py pending /tmp/rlm-chunks /tmp/rlm-out</code><button type="button" class="copy" data-copy="python3 .github/skills/rlm-security-audit/scripts/rlm_corpus.py pending /tmp/rlm-chunks /tmp/rlm-out">Copy</button></div></td><td>Which chunks still have no usable review.</td></tr>
+        <tr><td><div class="cmd"><code>python3 .github/skills/rlm-security-audit/scripts/rlm_corpus.py merge /tmp/rlm-out</code><button type="button" class="copy" data-copy="python3 .github/skills/rlm-security-audit/scripts/rlm_corpus.py merge /tmp/rlm-out">Copy</button></div></td><td>All chunk results merged, duplicates removed, failed outputs listed.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Add <code>--include 'src/*'</code> to any helper command to narrow it to matching paths, or <code>--max-bytes N</code> to change the 20 MB file-size limit.</p>
   </section>
 
   <section class="card doc" id="more" aria-labelledby="more-title">
@@ -5835,7 +5898,7 @@ let flatHot = '';
 // 3D state, filled once the module loads
 let T = null, renderer = null, scene = null, camera = null, world = null;
 let tokens = [], decor = [], pulses = [], gems = [], gemStart = 0;
-let rotX = 0.12, rotY = 0.35, camDist = 12, camDistT = 12;
+let rotX = -0.38, rotY = 0.12, camDist = 12, camDistT = 12, offZ = 0, hover3 = -1;
 let off = { x: 0, y: 0 }, offT = { x: 0, y: 0 };
 let drag = null;
 const cv = $('#cv'), stage = $('#stage');
@@ -6400,27 +6463,73 @@ function roundRect(ctx, x, y, w, h, r) {
   ctx.closePath();
 }
 
-// A readable label: dark text on a light pill, so it reads in both themes.
-function makeLabel(text) {
+const FONT = '"IBM Plex Sans", system-ui, sans-serif';
+// Fits text on one line at the largest size up to `size`, with an ellipsis when it cannot fit.
+function fitText(ctx, text, maxW, size, weight = 700) {
+  let s = size;
+  ctx.font = `${weight} ${s}px ${FONT}`;
+  while (ctx.measureText(text).width > maxW && s > size * 0.62) { s -= 2; ctx.font = `${weight} ${s}px ${FONT}`; }
+  let t = text;
+  while (ctx.measureText(t).width > maxW && t.length > 2) t = t.slice(0, -2) + '…';
+  return t;
+}
+function canvasTex(c) {
+  const tx = new T.CanvasTexture(c);
+  tx.colorSpace = T.SRGBColorSpace;
+  tx.anisotropy = renderer ? renderer.capabilities.getMaxAnisotropy() : 1;
+  return tx;
+}
+
+// A flat tag that lies on the board: a light pill with dark text, readable in both themes.
+function makeTag(text, { h = 0.46, bg = 'rgba(255,255,255,0.95)', fg = '#1b2430', weight = 600, caps = true } = {}) {
   const c = document.createElement('canvas');
   const ctx = c.getContext('2d');
-  const font = '700 44px "IBM Plex Sans", system-ui, sans-serif';
-  ctx.font = font;
-  const w = Math.ceil(ctx.measureText(text).width) + 48;
-  c.width = w; c.height = 84;
-  ctx.font = font;
-  ctx.fillStyle = 'rgba(255,255,255,0.94)';
-  roundRect(ctx, 0, 0, w, 84, 42);
+  const H = 96, s = caps ? text.toUpperCase() : text;
+  ctx.font = `${weight} 52px ${FONT}`;
+  if (caps) ctx.letterSpacing = '3px';
+  const W = Math.ceil(ctx.measureText(s).width) + 56;
+  c.width = W; c.height = H;
+  ctx.font = `${weight} 52px ${FONT}`;
+  if (caps) ctx.letterSpacing = '3px';
+  ctx.fillStyle = bg;
+  roundRect(ctx, 0, 0, W, H, 22);
   ctx.fill();
-  ctx.fillStyle = '#1b2430';
+  ctx.fillStyle = fg;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText(text, w / 2, 43);
-  const sp = new T.Sprite(new T.SpriteMaterial({ map: new T.CanvasTexture(c), transparent: true, depthTest: false, fog: false }));
-  const h = 0.42;
-  sp.scale.set(h * w / 84, h, 1);
-  sp.renderOrder = 2;
-  return sp;
+  ctx.fillText(s, W / 2, H / 2 + 2);
+  const m = new T.Mesh(new T.PlaneGeometry(h * W / H, h), new T.MeshBasicMaterial({ map: canvasTex(c), transparent: true, depthWrite: false, toneMapped: false }));
+  m.renderOrder = 3;
+  m.userData.w = h * W / H;
+  return m;
+}
+
+// Text printed on the front face of a block, like the chips in the simple view.
+function faceText(text, w, h, color = '#ffffff') {
+  const c = document.createElement('canvas');
+  const ctx = c.getContext('2d');
+  c.width = 512; c.height = Math.round(512 * h / w);
+  const t = fitText(ctx, text, c.width - 44, Math.min(96, c.height * 0.5));
+  ctx.fillStyle = color;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(t, c.width / 2, c.height / 2 + 3);
+  const m = new T.Mesh(new T.PlaneGeometry(w, h), new T.MeshBasicMaterial({ map: canvasTex(c), transparent: true, depthWrite: false, toneMapped: false }));
+  m.renderOrder = 2;
+  return m;
+}
+
+// A block with rounded edges, centred on its origin, front face at +z.
+function roundedBlock(w, h, d, r = 0.13) {
+  const s = new T.Shape();
+  const x = -w / 2, y = -h / 2;
+  s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r);
+  s.lineTo(x + w, y + h - r); s.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  s.lineTo(x + r, y + h); s.quadraticCurveTo(x, y + h, x, y + h - r);
+  s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y);
+  const g = new T.ExtrudeGeometry(s, { depth: d - 0.08, bevelEnabled: true, bevelThickness: 0.04, bevelSize: 0.04, bevelSegments: 3, curveSegments: 6 });
+  g.translate(0, 0, -(d - 0.08) / 2);
+  return g;
 }
 
 function disposeObj(o) {
@@ -6433,14 +6542,16 @@ function disposeObj(o) {
   });
 }
 
+const BLOCK = { w: 1.74, h: 0.68, d: 0.34 };  // a little narrower than the layout pitch, so neighbours never touch
 function buildTokens(items) {
   tokens.forEach((tk) => { world.remove(tk.mesh); disposeObj(tk.mesh); });
   tokens = items.map((text) => {
-    const mat = new T.MeshStandardMaterial({ color: COL.todo, emissive: COL.todo, emissiveIntensity: 0.05, roughness: 0.4, metalness: 0.1 });
-    const mesh = new T.Mesh(new T.BoxGeometry(1.9, 0.7, 0.4), mat);
-    const sp = makeLabel(text);
-    sp.position.set(0, 0.7, 0.25);
-    mesh.add(sp);
+    const mat = new T.MeshStandardMaterial({ color: COL.todo, emissive: COL.todo, emissiveIntensity: 0.25, roughness: 0.55, metalness: 0.05 });
+    const mesh = new T.Mesh(roundedBlock(BLOCK.w, BLOCK.h, BLOCK.d), mat);
+    mesh.castShadow = true;
+    const face = faceText(text, BLOCK.w - 0.1, BLOCK.h - 0.06);
+    face.position.z = BLOCK.d / 2 + 0.006;
+    mesh.add(face);
     world.add(mesh);
     return { mesh, cur: { x: 0, y: 0, z: 0, s: 0.001 }, tgt: { x: 0, y: 0, z: 0, s: 0.001 }, tcol: new T.Color(COL.todo) };
   });
@@ -6455,86 +6566,146 @@ function clearDecor() {
   gems = [];
 }
 
+// Theme colours, so cards and the report sheet match the simple view in light and dark.
+const themeColor = (name, fallback) => getComputedStyle(stage).getPropertyValue(name).trim() || fallback;
+
 function buildDecor(o) {
   clearDecor();
+  const surface = new T.Color(themeColor('--surface', '#ffffff')), ink = themeColor('--ink', '#131a23');
   const add = (x) => { world.add(x); decor.push(x); return x; };
   const P = (i) => o.pos[i];
-  const segs = (pairs, color, op) => {
-    const pts = [];
-    pairs.forEach(([a, b]) => pts.push(new T.Vector3(a.x, a.y, 0.12), new T.Vector3(b.x, b.y, 0.12)));
-    return add(new T.LineSegments(new T.BufferGeometry().setFromPoints(pts), new T.LineBasicMaterial({ color, transparent: true, opacity: op })));
+  const V = (p, z = 0.02) => new T.Vector3(p.x, p.y, z);
+  // A thin tube between two points: lines thick enough to read at any zoom.
+  const tube = (a, b, color, r = 0.035, op = 0.9, z = 0.02) => {
+    const A = V(a, z), B = V(b, z), len = A.distanceTo(B);
+    if (len < 1e-3) return null;
+    const m = new T.Mesh(new T.CylinderGeometry(r, r, len, 10), new T.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.35, transparent: op < 1, opacity: op }));
+    m.position.copy(A).add(B).multiplyScalar(0.5);
+    m.quaternion.setFromUnitVectors(new T.Vector3(0, 1, 0), B.clone().sub(A).normalize());
+    return add(m);
   };
-  const loop = (pts, color, op, dashed) => {
-    const g = new T.BufferGeometry().setFromPoints(pts.map((p) => new T.Vector3(p.x, p.y, 0.1)));
-    const m = dashed
-      ? new T.LineDashedMaterial({ color, dashSize: 0.3, gapSize: 0.2, transparent: true, opacity: op })
-      : new T.LineBasicMaterial({ color, transparent: true, opacity: op });
-    const line = new T.LineLoop(g, m);
-    if (dashed) line.computeLineDistances();
-    return add(line);
+  const dashed = (a, b, color, r = 0.03, z = 0.02) => {
+    const len = Math.hypot(b.x - a.x, b.y - a.y), n = Math.max(1, Math.floor(len / 0.4));
+    for (let k = 0; k < n; k++) {
+      const u0 = k / n, u1 = u0 + 0.6 / n;
+      tube({ x: a.x + (b.x - a.x) * u0, y: a.y + (b.y - a.y) * u0 }, { x: a.x + (b.x - a.x) * u1, y: a.y + (b.y - a.y) * u1 }, color, r, 0.9, z);
+    }
   };
-  const text = (s, x, y, z = 0.4) => { const sp = makeLabel(s); sp.position.set(x, y, z); return add(sp); };
-  const box = (s, x, y, color) => {
-    const mesh = new T.Mesh(new T.BoxGeometry(2.1, 0.7, 0.4), new T.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.2 }));
-    mesh.position.set(x, y, 0.1);
-    const sp = makeLabel(s);
-    sp.position.set(0, 0.7, 0.25);
-    mesh.add(sp);
-    return add(mesh);
+  const rect = (x0, y0, x1, y1, color, op, z) => {
+    const m = add(new T.Mesh(new T.PlaneGeometry(x1 - x0, y1 - y0), new T.MeshStandardMaterial({ color, transparent: true, opacity: op, depthWrite: false })));
+    m.position.set((x0 + x1) / 2, (y0 + y1) / 2, z);
+    m.receiveShadow = true;
+    return m;
+  };
+  const outline = (x0, y0, x1, y1, color, isDashed) => {
+    const c = [{ x: x0, y: y0 }, { x: x1, y: y0 }, { x: x1, y: y1 }, { x: x0, y: y1 }];
+    c.forEach((p, k) => (isDashed ? dashed : tube)(p, c[(k + 1) % 4], color, 0.022, 0.75, -0.2));
+  };
+  const tag = (s, x, y, opts, anchor = 'center') => {
+    const m = makeTag(s, opts);
+    m.position.set(anchor === 'left' ? x + m.userData.w / 2 : x, y, 0.06);
+    return add(m);
   };
 
+  // The board: a faint grid and a shadow catcher under the whole step.
+  const pts = boundsPoints(o);
+  const xs = pts.map((q) => q.x), ys = pts.map((q) => q.y);
+  const bx0 = Math.min(...xs) - 2, bx1 = Math.max(...xs) + 2, by0 = Math.min(...ys) - 1.6, by1 = Math.max(...ys) + 1.6;
+  const size = Math.ceil(Math.max(bx1 - bx0, by1 - by0) / 2) * 2 + 4;
+  const grid = add(new T.GridHelper(size, size, 0x8a96a8, 0x8a96a8));
+  grid.rotation.x = Math.PI / 2;
+  grid.position.set((bx0 + bx1) / 2, (by0 + by1) / 2, -0.5);
+  grid.material.transparent = true;
+  grid.material.opacity = 0.14;
+  const board = add(new T.Mesh(new T.PlaneGeometry(size, size), new T.ShadowMaterial({ opacity: 0.18 })));
+  board.position.set((bx0 + bx1) / 2, (by0 + by1) / 2, -0.48);
+  board.receiveShadow = true;
+
+  // Chunk frames: glass panels that light up while their chunk is read.
   o.frames.forEach((f) => {
-    const glass = add(new T.Mesh(new T.PlaneGeometry(f.x1 - f.x0, f.y1 - f.y0), new T.MeshStandardMaterial({ color: 0x5fcbd5, transparent: true, opacity: 0.05, depthWrite: false })));
-    glass.position.set((f.x0 + f.x1) / 2, (f.y0 + f.y1) / 2, -0.3);
+    const glass = rect(f.x0, f.y0, f.x1, f.y1, 0x5fcbd5, 0.06, -0.3);
     frameGlass.push({ m: glass.material, g: f.g });
-    loop([{ x: f.x0, y: f.y0 }, { x: f.x1, y: f.y0 }, { x: f.x1, y: f.y1 }, { x: f.x0, y: f.y1 }], 0x55606d, 0.7, false);
-    text(f.label, f.x0 + 1.0, f.y1 - 0.25);
+    outline(f.x0, f.y0, f.x1, f.y1, 0x7f8c9c, false);
+    tag(f.label, f.x0 + 0.25, f.y1 + 0.05, { h: 0.46 }, 'left');
   });
-  if (o.edges) segs(o.edges.map(([i, j]) => [P(i), P(j)]), 0x8a96a8, 0.8);
-  if (o.cycles) o.cycles.forEach((c) => {
-    const pts = c.map((i) => P(i));
-    const a = loop(pts, 0xe0702a, 0.9, false);
-    const b = loop(pts.map((p) => ({ x: p.x + 0.04, y: p.y + 0.04 })), 0xe0702a, 0.9, false);
-    pulses.push(a.material, b.material);
+  // Gate: a green lane for passed items and a red lane for failed ones.
+  if (o.texts && o.texts.length === 2) {
+    const vis = o.pos.filter((p) => p.vis);
+    [[vis.filter((p) => p.y > 0), 0x1f9d6b], [vis.filter((p) => p.y <= 0), 0xd6456a]].forEach(([ps, color], k) => {
+      const y = o.texts[k].y, ly = ps.length ? ps.map((p) => p.y) : [y];
+      rect(-o.texts[k].x + 0.6, Math.min(...ly) - 0.65, o.texts[k].x + 0.9, Math.max(...ly) + 0.65, color, 0.09, -0.32);
+    });
+  }
+  // Bins: a tray per column with its count.
+  if (o.bins) o.bins.forEach((b, k) => {
+    rect(b.x - 2.05, b.y + 0.45, b.x + 2.05, 2.45, BINS[k % BINS.length], 0.08, -0.32);
+    tag(`${b.label}: ${b.count}`, b.x, b.y, { h: 0.42 });
   });
-  o.lines.forEach(({ a, b, ok }) => segs([[P(a), o.targets[b]]], ok ? COL.ok : COL.bad, 0.85));
+  if (o.texts) o.texts.forEach((t) => tag(t.label, t.x, t.y, { h: 0.42 }));
+
+  if (o.edges) o.edges.forEach(([i, j]) => tube(P(i), P(j), 0x8a96a8, 0.03, 0.8));
+  if (o.cycles) o.cycles.forEach((c) => c.forEach((i, k) => {
+    const m = tube(P(i), P(c[(k + 1) % c.length]), 0xe0702a, 0.06, 0.95, 0.05);
+    if (m) pulses.push(m.material);
+  }));
+  o.lines.forEach(({ a, b, ok }) => (ok ? tube : dashed)(P(a), o.targets[b], ok ? COL.ok : COL.bad, 0.032));
   // Small dots travel along links and match lines.
   if (!REDUCED) {
     const paths = [...(o.edges || []).map(([i, j]) => [P(i), P(j), 0x5fcbd5]), ...o.lines.map(({ a, b, ok }) => [P(a), o.targets[b], ok ? COL.ok : COL.bad])];
     paths.slice(0, 24).forEach(([a, b, color], k) => {
-      const m = add(new T.Mesh(new T.SphereGeometry(0.09, 12, 8), new T.MeshBasicMaterial({ color })));
+      const m = add(new T.Mesh(new T.SphereGeometry(0.1, 14, 10), new T.MeshBasicMaterial({ color, toneMapped: false })));
       flows3.push({ m, a, b, t: k * 0.17 });
     });
   }
-  if (o.targets) o.targets.forEach((t) => box(t.label, t.x, t.y, COL[t.state] ?? COL.todo));
-  if (o.bins) o.bins.forEach((b) => text(`${b.label}: ${b.count} item${b.count === 1 ? '' : 's'}`, b.x, b.y));
-  if (o.texts) o.texts.forEach((t) => text(t.label, t.x, t.y));
+  // Match targets: white cards with a coloured edge, as in the simple view.
+  if (o.targets) o.targets.forEach((t) => {
+    const card = add(new T.Mesh(roundedBlock(2.2, 0.7, 0.24, 0.1), new T.MeshStandardMaterial({ color: surface, roughness: 0.7 })));
+    card.position.set(t.x, t.y, 0);
+    card.castShadow = true;
+    const edge = new T.Mesh(new T.PlaneGeometry(0.12, 0.6), new T.MeshBasicMaterial({ color: COL[t.state] ?? COL.todo, toneMapped: false }));
+    edge.position.set(-1.0, 0, 0.125);
+    card.add(edge);
+    const face = faceText(t.label, 1.9, 0.62, ink);
+    face.position.set(0.08, 0, 0.126);
+    card.add(face);
+  });
   if (o.boundary) {
     const b = o.boundary;
-    loop([{ x: b.x0, y: b.y0 }, { x: b.x1, y: b.y0 }, { x: b.x1, y: b.y1 }, { x: b.x0, y: b.y1 }], 0x8a96a8, 0.9, true);
-    text(b.label, b.x0 + 1.0, b.y1 - 0.25);
+    rect(b.x0, b.y0, b.x1, b.y1, 0x2f6fd6, 0.05, -0.34);
+    outline(b.x0, b.y0, b.x1, b.y1, 0x2f6fd6, true);
+    tag(b.label, b.x0 + 0.25, b.y1 + 0.05, { h: 0.36, fg: '#2f6fd6' }, 'left');
   }
-  if (o.axis) segs([[{ x: o.axis.x0, y: o.axis.y }, { x: o.axis.x1, y: o.axis.y }]], 0x8a96a8, 0.8);
+  if (o.axis) {
+    tube({ x: o.axis.x0, y: o.axis.y }, { x: o.axis.x1, y: o.axis.y }, 0x8a96a8, 0.035, 0.9);
+    const head = add(new T.Mesh(new T.ConeGeometry(0.14, 0.34, 16), new T.MeshStandardMaterial({ color: 0x8a96a8 })));
+    head.rotation.z = -Math.PI / 2;
+    head.position.set(o.axis.x1 + 0.15, o.axis.y, 0.02);
+    tag('time', o.axis.x1 - 0.2, o.axis.y - 0.45, { h: 0.32 });
+  }
   if (o.store) {
     const s = o.store;
-    const cyl = new T.Mesh(new T.CylinderGeometry(1.1, 1.1, s.h, 32), new T.MeshStandardMaterial({ color: 0x13a3a3, transparent: true, opacity: 0.22 }));
-    cyl.position.set(s.x, s.y, -0.3);
-    add(cyl);
-    text(s.label, s.x, s.y + s.h / 2 + 0.3, 0.2);
+    const cyl = add(new T.Mesh(new T.CylinderGeometry(1.2, 1.2, s.h, 40, 1, true), new T.MeshStandardMaterial({ color: 0x13a3a3, transparent: true, opacity: 0.2, side: T.DoubleSide, depthWrite: false })));
+    cyl.position.set(s.x, s.y, -0.1);
+    const rim = add(new T.Mesh(new T.TorusGeometry(1.2, 0.04, 8, 48), new T.MeshStandardMaterial({ color: 0x13a3a3 })));
+    rim.rotation.x = Math.PI / 2;
+    rim.position.set(s.x, s.y + s.h / 2, -0.1);
+    tag(s.label, s.x, s.y + s.h / 2 + 0.45, { h: 0.4, fg: '#0e7c7c' });
   }
+  // The report: a sheet of paper with a title bar.
   if (o.doc) {
     const d = o.doc;
-    const page = new T.Mesh(new T.PlaneGeometry(d.w, d.h), new T.MeshStandardMaterial({ color: 0x8a96a8, transparent: true, opacity: 0.18 }));
-    page.position.set(d.x, d.y, -0.6);
-    add(page);
-    text(d.label, d.x - d.w / 2 + 1.0, d.y + d.h / 2 - 0.3, 0.2);
+    const page = add(new T.Mesh(new T.PlaneGeometry(d.w, d.h), new T.MeshStandardMaterial({ color: surface, roughness: 0.9 })));
+    page.position.set(d.x, d.y, -0.36);
+    page.receiveShadow = true;
+    const bar = add(new T.Mesh(new T.PlaneGeometry(d.w, 0.5), new T.MeshBasicMaterial({ color: 0x13808a, toneMapped: false })));
+    bar.position.set(d.x, d.y + d.h / 2 - 0.25, -0.34);
+    tag(d.label, d.x - d.w / 2 + 0.2, d.y + d.h / 2 - 0.25, { h: 0.4, bg: 'rgba(0,0,0,0)', fg: '#ffffff' }, 'left');
   }
   if (o.funnel) {
     const f = o.funnel;
-    const cone = new T.Mesh(new T.ConeGeometry(2.4, 3.0, 32, 1, true), new T.MeshStandardMaterial({ color: 0x8a96a8, transparent: true, opacity: 0.16, side: T.DoubleSide }));
+    const cone = add(new T.Mesh(new T.ConeGeometry(2.4, 3.0, 40, 1, true), new T.MeshStandardMaterial({ color: 0x8a96a8, transparent: true, opacity: 0.18, side: T.DoubleSide, depthWrite: false })));
     cone.rotation.z = Math.PI;
     cone.position.set(f.x, f.y, -0.4);
-    add(cone);
   }
 }
 
@@ -6595,42 +6766,47 @@ function addGems(o) {
   const f = (skill.outcome && skill.outcome.findings) || [];
   if (!f.length) return;
   const x = Math.max(...boundsPoints(o).map((p) => p.x)) + 2.2;
-  const n = f.length, sp = 1.15;
+  const n = f.length, sp = 1.05;
   gemStart = performance.now() / 1000;
   f.forEach((fd, k) => {
     const color = TONE[fd.sev] ?? TONE.info;
     const g = new T.Group();
-    const gem = new T.Mesh(new T.OctahedronGeometry(0.4, 0), new T.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.35, roughness: 0.25, metalness: 0.3 }));
+    const gem = new T.Mesh(new T.OctahedronGeometry(0.34, 0), new T.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.4, roughness: 0.25, metalness: 0.3 }));
+    gem.castShadow = true;
     g.add(gem);
-    const lab = makeLabel(`${fd.sev} · ${fd.where}`);
-    lab.position.set(0.6 + lab.scale.x / 2, 0, 0.2);
+    const lab = makeTag(`${fd.sev} · ${fd.where}`, { h: 0.4, caps: false });
+    lab.position.set(0.55 + lab.userData.w / 2, 0, 0);
     g.add(lab);
     const y = ((n - 1) / 2 - k) * sp;
     g.position.set(x, REDUCED ? y : y + 5, 0.3);
-    g.userData = { finding: k, ty: y, delay: k * 0.35 };
+    g.userData = { finding: k, ty: y, delay: k * 0.3 };
     world.add(g); decor.push(g); gems.push(g);
     const it = itemOfFinding(skill.items, fd);
     if (it >= 0 && o.pos[it].vis) {
-      const ln = new T.Line(new T.BufferGeometry().setFromPoints([new T.Vector3(x - 0.45, y, 0.3), new T.Vector3(o.pos[it].x, o.pos[it].y, 0.2)]),
-        new T.LineDashedMaterial({ color, dashSize: 0.18, gapSize: 0.12, transparent: true, opacity: 0.7 }));
+      const ln = new T.Line(new T.BufferGeometry().setFromPoints([new T.Vector3(x - 0.4, y, 0.3), new T.Vector3(o.pos[it].x + 0.95, o.pos[it].y, 0.2)]),
+        new T.LineDashedMaterial({ color, dashSize: 0.18, gapSize: 0.12, transparent: true, opacity: 0.75 }));
       ln.computeLineDistances();
       world.add(ln); decor.push(ln);
     }
-    o.ext.push({ x: x + 0.7 + lab.scale.x, y }, { x: x - 0.5, y: y + 0.6 }, { x: x - 0.5, y: y - 0.6 });
+    o.ext.push({ x: x + 0.7 + lab.userData.w, y }, { x: x - 0.5, y: y + 0.5 }, { x: x - 0.5, y: y - 0.5 });
   });
 }
 
-function pickGem(e) {
+function rayAt(e) {
   const r = cv.getBoundingClientRect();
-  const v = new T.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
   const ray = new T.Raycaster();
-  ray.setFromCamera(v, camera);
+  ray.setFromCamera(new T.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1), camera);
+  return ray;
+}
+const tokenAt = (ray) => {
+  const th = ray.intersectObjects(tokens.filter((tk) => tk.mesh.visible).map((tk) => tk.mesh), false)[0];
+  return th ? tokens.findIndex((tk) => tk.mesh === th.object) : -1;
+};
+
+function pickGem(e) {
+  const ray = rayAt(e);
   const hit = gems.length ? ray.intersectObjects(gems, true)[0] : null;
-  if (!hit) {
-    const th = ray.intersectObjects(tokens.map((tk) => tk.mesh), false)[0];
-    if (th) showItem(tokens.findIndex((tk) => tk.mesh === th.object), e.clientX, e.clientY);
-    return;
-  }
+  if (!hit) { showItem(tokenAt(ray), e.clientX, e.clientY); return; }
   let o = hit.object;
   while (o && o.userData.finding === undefined) o = o.parent;
   if (o) focusFinding(o.userData.finding);
@@ -6864,16 +7040,24 @@ function select(id) {
   applyStep(0);
 }
 
+// Fits the camera to the step as the viewer sees it: tilted and turned, with gems and tags included.
 function fit() {
   const pts = boundsPoints(L);
+  if (L.axis) pts.push({ x: L.axis.x0, y: L.axis.y - 0.6 }, { x: L.axis.x1 + 0.6, y: L.axis.y - 0.6 });
   const xs = pts.map((p) => p.x), ys = pts.map((p) => p.y);
-  const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys);
-  const vf = Math.tan(camera.fov * Math.PI / 360);
-  const hf = vf * camera.aspect;
-  // The scene is turned sideways, so wide layouts need extra room at the near edge.
-  const halfW = ((maxX - minX) / 2 + 1.6) * (1 + Math.abs(Math.sin(rotY)) * 0.45), halfH = (maxY - minY) / 2 + 1.6;
-  camDistT = Math.max(halfW / hf, halfH / vf) + 1.5;
-  offT = { x: -(minX + maxX) / 2, y: -(minY + maxY) / 2 };
+  const c = new T.Vector3((Math.min(...xs) + Math.max(...xs)) / 2, (Math.min(...ys) + Math.max(...ys)) / 2, 0);
+  const e = new T.Euler(rotX, rotY, 0);
+  const vf0 = Math.tan(camera.fov * Math.PI / 360), hf = vf0 * camera.aspect, vf = vf0 * 0.86;
+  let d = 0;
+  pts.forEach((p) => [-0.4, 0.4].forEach((z) => [[-1.05, -0.5], [1.05, 0.5], [-1.05, 0.5], [1.05, -0.5]].forEach(([dx, dy]) => {
+    const q = new T.Vector3(p.x + dx - c.x, p.y + dy - c.y, z).applyEuler(e);
+    d = Math.max(d, q.z + Math.abs(q.x) / hf, q.z + Math.abs(q.y) / vf);
+  })));
+  camDistT = d + 0.8;
+  const rc = c.clone().applyEuler(e);
+  // Lift the scene a little so the hint bar along the bottom of the stage never covers it.
+  offT = { x: -rc.x, y: -rc.y + 0.07 * vf0 * camDistT };
+  offZ = -rc.z;
 }
 
 function resize() {
@@ -6897,14 +7081,16 @@ function tick() {
   tokens.forEach((tk, i) => {
     const t = tk.tgt, c = tk.cur, k = 0.09;
     c.x += (t.x - c.x) * k; c.y += (t.y - c.y) * k; c.z += (t.z - c.z) * k; c.s += (t.s - c.s) * k;
-    tk.mesh.position.set(c.x, c.y, c.z);
-    tk.mesh.scale.setScalar(Math.max(c.s, 0.001));
+    // Blocks lift towards the viewer while they travel, then settle.
+    const lift = Math.min(Math.hypot(t.x - c.x, t.y - c.y), 3) * 0.35;
+    tk.mesh.position.set(c.x, c.y, c.z + lift);
+    tk.mesh.scale.setScalar(Math.max(c.s, 0.001) * (i === hover3 ? 1.07 : 1));
     tk.mesh.visible = c.s > 0.03;
     const m = tk.mesh.material;
     m.color.lerp(tk.tcol, 0.12);
     m.emissive.copy(m.color);
     const hot = (activeG >= 0 && L.gOf && L.gOf[i] === activeG) || i === activeI;
-    m.emissiveIntensity += ((hot ? 0.75 : tk.ok ? 0.3 : 0.06) - m.emissiveIntensity) * 0.2;
+    m.emissiveIntensity += ((hot ? 0.75 : i === hover3 ? 0.6 : tk.ok ? 0.38 : 0.25) - m.emissiveIntensity) * 0.2;
   });
   frameGlass.forEach((gl) => { gl.m.opacity += ((gl.g === activeG ? 0.22 : 0.05) - gl.m.opacity) * 0.15; });
   const nowF = performance.now() / 1000;
@@ -6924,11 +7110,9 @@ function tick() {
   pulses.forEach((m) => { m.opacity = 0.5 + 0.4 * Math.sin(time * 4); });
   off.x += (offT.x - off.x) * 0.08; off.y += (offT.y - off.y) * 0.08;
   camDist += (camDistT - camDist) * 0.08;
-  world.position.set(off.x + pan3.x, off.y + pan3.y, 0);
-  world.rotation.set(rotX, rotY + (playing ? Math.sin(time * 0.35) * 0.18 : 0), 0);
+  world.position.set(off.x + pan3.x, off.y + pan3.y, offZ);
+  world.rotation.set(rotX, rotY + (playing && !REDUCED ? Math.sin(time * 0.3) * 0.04 : 0), 0);
   camera.position.set(0, 0, camDist * z3);
-  scene.fog.near = camDist * z3 - 3;
-  scene.fog.far = camDist * z3 + 16;
   camera.lookAt(0, 0, 0);
   renderer.render(scene, camera);
 }
@@ -6946,11 +7130,6 @@ function frame(now) {
   requestAnimationFrame(frame);
 }
 
-// Fog fades far objects into the stage colour of the current theme.
-function setFog() {
-  if (scene && scene.fog) scene.fog.color.set(getComputedStyle(stage).getPropertyValue('--stage').trim() || '#eef1f5');
-}
-
 async function init3D() {
   try {
     T = await import(THREE_URL);
@@ -6963,19 +7142,27 @@ async function init3D() {
     return;
   }
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-  camera = new T.PerspectiveCamera(35, 1, 0.1, 100);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = T.PCFSoftShadowMap;
+  camera = new T.PerspectiveCamera(32, 1, 0.1, 200);
   scene = new T.Scene();
   world = new T.Group();
   scene.add(world);
-  scene.fog = new T.Fog(0xffffff, 10, 30);
-  setFog();
-  scene.add(new T.AmbientLight(0xffffff, 0.75));
-  const key = new T.DirectionalLight(0xffffff, 1.1);
-  key.position.set(3, 5, 4);
-  scene.add(key);
-  const fill = new T.DirectionalLight(0xffffff, 0.4);
-  fill.position.set(-4, -2, -3);
+  scene.add(new T.HemisphereLight(0xffffff, 0xb8c2cc, 1.5));
+  // The key light turns with the board, so shadows always fall the same way on it.
+  const key = new T.DirectionalLight(0xffffff, 1.9);
+  key.position.set(4, 7, 12);
+  key.castShadow = true;
+  key.shadow.mapSize.set(2048, 2048);
+  Object.assign(key.shadow.camera, { left: -22, right: 22, top: 22, bottom: -22, near: 1, far: 50 });
+  key.shadow.bias = -0.0005;
+  key.shadow.radius = 4;
+  world.add(key, key.target);
+  const fill = new T.DirectionalLight(0xffffff, 0.5);
+  fill.position.set(-5, -3, 6);
   scene.add(fill);
+  // Wait briefly for the web font so labels use it; never block the view on it.
+  try { await Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 1500))]); } catch (e) { /* system font */ }
 
   new ResizeObserver(resize).observe(stage);
   resize();
@@ -6986,16 +7173,24 @@ async function init3D() {
     cv.setPointerCapture(e.pointerId);
   });
   cv.addEventListener('pointermove', (e) => {
-    if (!drag) return;
+    if (!drag) {
+      const ray = rayAt(e), i = tokenAt(ray);
+      hover3 = i;
+      cv.style.cursor = i >= 0 || (gems.length && ray.intersectObjects(gems, true).length) ? 'pointer' : '';
+      return;
+    }
     if (drag.pan) panBy(e.clientX - drag.x, e.clientY - drag.y);
     else {
       rotY += (e.clientX - drag.x) * 0.008;
-      rotX = Math.max(-0.6, Math.min(0.6, rotX + (e.clientY - drag.y) * 0.005));
+      rotX = Math.max(-0.95, Math.min(0.5, rotX + (e.clientY - drag.y) * 0.005));
+      drag.turned = true;
     }
     drag.x = e.clientX; drag.y = e.clientY;
   });
+  cv.addEventListener('pointerleave', () => { if (!drag) hover3 = -1; });
   cv.addEventListener('pointerup', (e) => {
     const tap = drag && Math.hypot(e.clientX - drag.sx, e.clientY - drag.sy) < 6;
+    if (drag && drag.turned && L) fit();
     drag = null;
     if (tap) pickGem(e);
   });
@@ -7100,8 +7295,9 @@ $('#theme').addEventListener('click', () => {
   const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
   root.dataset.theme = dark ? 'light' : 'dark';
   try { localStorage.setItem('atlas-theme', root.dataset.theme); } catch (e) { /* storage blocked */ }
-  setFog();
+  if (view === '3d' && T && stepIdx >= 0) applyStep(stepIdx);
 });
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (view === '3d' && T && stepIdx >= 0) applyStep(stepIdx); });
 
 $('#runs').addEventListener('click', (e) => {
   const b = e.target.closest('button[data-run]');
@@ -7180,7 +7376,6 @@ $('#zFull').addEventListener('click', () => {
   if (document.fullscreenElement) document.exitFullscreen();
   else if (stage.requestFullscreen) stage.requestFullscreen().catch(() => {});
 });
-matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setFog);
 
 $('#viewsw').addEventListener('click', (e) => {
   const b = e.target.closest('button[data-view]');

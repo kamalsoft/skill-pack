@@ -152,3 +152,61 @@ Use `--include 'src/*'` to limit a command to part of the project. Use `--max-by
 - **Cursor** also reads `.agents/skills/`. If you install for both Codex and Cursor, Cursor may list a skill twice.
 - **Portable Python** has not been tested on Windows.
 - **Compliance skills** report evidence. They do not certify compliance.
+
+## 11. Update and uninstall
+
+**Update.** Download the newer `.vsix` from the [`binary/` folder](https://github.com/kamalsoft/skill-pack/tree/main/binary) and install it over the old one, then run **RLM: Install Agent Skills** again in each project:
+
+```bash
+code --install-extension skill-pack-2.1.0.vsix --force
+```
+
+**Uninstall.**
+
+1. If you entered a licence key, run **RLM: Remove Licence Key** first, so it does not stay in VS Code's secret storage.
+2. Uninstall the extension, from a terminal or from the Extensions view (gear on **RLM Agent Skills** > **Uninstall**):
+   ```bash
+   code --uninstall-extension kamalsoft.skill-pack
+   ```
+3. Quit VS Code completely (`⌘Q` on macOS) and start it again. VS Code removes uninstalled extensions only on a full restart.
+4. Check: `code --list-extensions --show-versions | grep kamalsoft` should print nothing.
+5. Uninstalling does not change your projects. To remove the skills as well, delete the skill folders the extension wrote in each agent folder (`.github/skills/`, `.claude/skills/`, `.agents/skills/`, `.cursor/skills/`, `.gemini/skills/`, `.windsurf/skills/`) and the memory store `.agent-memory/`.
+
+Earlier builds were published as `kamalsoft.rlm-agent-skills` and `kamalsoft.vscode-rlm-agent`. If the skill picker shows an old list, uninstall those copies the same way and restart VS Code.
+
+## 12. Command reference
+
+**Command Palette** (`⇧⌘P` on macOS, `Ctrl+Shift+P` on Windows):
+
+| Command | What it does |
+| --- | --- |
+| **RLM: Install Agent Skills** | Installs or updates the skills in the open project. Asks how helpers run, which agents and which skills. |
+| **RLM: Enter Licence Key** | Checks a key offline and stores it in VS Code's secret storage on this machine. Unlocks pro or premium skills in every project. |
+| **RLM: Remove Licence Key** | Deletes the stored key. Essentials skills keep working. |
+
+**Terminal:**
+
+| To | Run |
+| --- | --- |
+| Install | `code --install-extension skill-pack-2.1.0.vsix` |
+| Update over an older copy | `code --install-extension skill-pack-2.1.0.vsix --force` |
+| See the installed version | `code --list-extensions --show-versions \| grep kamalsoft` |
+| Uninstall | `code --uninstall-extension kamalsoft.skill-pack` |
+
+**Helper scripts.** The chunked skills include `scripts/rlm_corpus.py` (or `rlm_corpus.js`, run with `node`, if you chose Node.js). The agent runs them; run them yourself from the project root to see what a skill will read:
+
+| Command | Output |
+| --- | --- |
+| `rlm_corpus.py scan ROOT` | Files, lines and characters in scope, per top-level folder, and what was skipped |
+| `rlm_corpus.py chunk ROOT OUT_DIR [--max-lines N] [--max-chars N]` | Chunk files of at most 800 lines and 100,000 characters, and `manifest.json` |
+| `rlm_corpus.py graph ROOT` | The local import graph, its cycles and the most-imported files |
+| `rlm_corpus.py pending CHUNKS_DIR OUT_DIR` | Which chunks have no usable review yet |
+| `rlm_corpus.py merge OUT_DIR [--out FILE]` | Chunk results merged, duplicates removed, failed outputs listed (exit code 1 if any failed) |
+
+Every helper command accepts `--include GLOB` (repeatable, for example `--include 'src/*'`) and `--max-bytes N` (default 20 MB).
+
+```bash
+python3 .github/skills/rlm-security-audit/scripts/rlm_corpus.py scan .
+python3 .github/skills/rlm-security-audit/scripts/rlm_corpus.py chunk . /tmp/rlm-chunks --include 'src/*'
+```
+
