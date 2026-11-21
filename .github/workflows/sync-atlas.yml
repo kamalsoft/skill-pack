@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - docs/skill-atlas.html
+      - docs/skills-index.js
       - .github/workflows/sync-atlas.yml
   workflow_dispatch:
 
@@ -22,17 +23,18 @@ jobs:
       - name: Check out this repository
         uses: actions/checkout@v4
 
-      - name: Copy the page into the site repository and push
+      - name: Copy the page and the skill index into the site repository and push
         env:
           SITE_TOKEN: ${{ secrets.SITE_TOKEN }}
         run: |
           set -euo pipefail
           git clone --depth 1 "https://x-access-token:${SITE_TOKEN}@github.com/kamalsoft/kamalsoft.github.io.git" site
           cp docs/skill-atlas.html site/skillpack/index.html
+          cp docs/skills-index.js site/skillpack/skills-index.js
           cd site
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add skillpack/index.html
+          git add skillpack/index.html skillpack/skills-index.js
           if git diff --cached --quiet; then
             echo "Live page already matches docs/skill-atlas.html"
             exit 0
