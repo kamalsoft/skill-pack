@@ -18,6 +18,12 @@ window.SKILL_INDEX = {
    "why": "",
    "protocol": [],
    "path": ".claude/skills/memory-manager",
+   "files": [
+    "scripts/memory_graph.py",
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 2,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
@@ -29,6 +35,7 @@ window.SKILL_INDEX = {
      4,
      5
     ],
+    "design": true,
     "rank": 116
    },
    "tier": "pro"
@@ -149,6 +156,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-accessibility-audit",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A",
     "tier": "premium",
@@ -160,6 +172,7 @@ window.SKILL_INDEX = {
      3,
      4
     ],
+    "design": true,
     "rank": 6
    },
    "tier": "premium"
@@ -276,6 +289,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-api-contract-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
@@ -287,6 +305,7 @@ window.SKILL_INDEX = {
      3,
      3
     ],
+    "design": true,
     "rank": 37
    },
    "tier": "pro"
@@ -403,6 +422,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-audit-evidence-collector",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
@@ -414,6 +438,7 @@ window.SKILL_INDEX = {
      1,
      2
     ],
+    "design": true,
     "rank": 351
    },
    "tier": "essentials"
@@ -530,6 +555,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-browser-extension-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
@@ -541,6 +571,7 @@ window.SKILL_INDEX = {
      2,
      1
     ],
+    "design": true,
     "rank": 33
    },
    "tier": "pro"
@@ -657,6 +688,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-cicd-pipeline-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
@@ -668,6 +704,7 @@ window.SKILL_INDEX = {
      2,
      4
     ],
+    "design": true,
     "rank": 35
    },
    "tier": "pro"
@@ -784,6 +821,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-code-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A+",
     "tier": "premium",
@@ -795,6 +837,7 @@ window.SKILL_INDEX = {
      5,
      5
     ],
+    "design": true,
     "rank": 1
    },
    "tier": "premium"
@@ -911,6 +954,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-compliance-control-check",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
@@ -922,6 +970,7 @@ window.SKILL_INDEX = {
      1,
      2
     ],
+    "design": true,
     "rank": 354
    },
    "tier": "essentials"
@@ -1101,11 +1150,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-core-procurement-cycle",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 40
    },
    "tier": "pro",
@@ -1281,11 +1336,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-core-quality-method",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 41
    },
    "tier": "pro",
@@ -1464,11 +1525,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-core-risk-management",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A-",
     "tier": "premium",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 14
    },
    "tier": "premium",
@@ -1639,11 +1706,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-core-risk-register",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 42
    },
    "tier": "pro",
@@ -1819,11 +1892,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-core-safety-risk",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A-",
     "tier": "premium",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 15
    },
    "tier": "premium",
@@ -2002,11 +2081,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-core-standards-map",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 410
    },
    "tier": "essentials",
@@ -2182,11 +2267,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-cs-adhoc-triage",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 355
    },
    "tier": "essentials",
@@ -2357,11 +2448,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-cs-annual-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 240
    },
    "tier": "pro",
@@ -2540,11 +2637,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-cs-channel-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 356
    },
    "tier": "essentials",
@@ -2710,11 +2813,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-cs-complaint-handling",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 43
    },
    "tier": "pro",
@@ -2890,11 +2999,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-cs-csat-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 241
    },
    "tier": "pro",
@@ -3065,11 +3180,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-cs-daily-backlog",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 120
    },
    "tier": "pro",
@@ -3245,11 +3366,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-cs-escalation-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 121
    },
    "tier": "pro",
@@ -3430,11 +3557,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-cs-knowledge-base-gaps",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 357
    },
    "tier": "essentials",
@@ -3605,11 +3738,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-cs-quality-assurance",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 242
    },
    "tier": "pro",
@@ -3790,11 +3929,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-cs-quarterly-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 243
    },
    "tier": "pro",
@@ -3965,11 +4110,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-cs-queue-monitor",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 122
    },
    "tier": "pro",
@@ -4140,11 +4291,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-cs-refund-request",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 44
    },
    "tier": "pro",
@@ -4302,11 +4459,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-cs-shift-handover",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 123
    },
    "tier": "pro",
@@ -4469,11 +4632,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-cs-staffing-model",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 358
    },
    "tier": "essentials",
@@ -4649,11 +4818,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-cs-top-issues",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 244
    },
    "tier": "pro",
@@ -4824,11 +4999,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-cs-weekly-sla-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 45
    },
    "tier": "pro",
@@ -4988,11 +5169,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-cs-ytd-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 359
    },
    "tier": "essentials",
@@ -5110,6 +5297,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-db-migration-safety",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A-",
     "tier": "premium",
@@ -5121,6 +5313,7 @@ window.SKILL_INDEX = {
      3,
      4
     ],
+    "design": true,
     "rank": 11
    },
    "tier": "premium"
@@ -5237,6 +5430,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-dependency-audit",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A",
     "tier": "premium",
@@ -5248,6 +5446,7 @@ window.SKILL_INDEX = {
      4,
      5
     ],
+    "design": true,
     "rank": 8
    },
    "tier": "premium"
@@ -5422,11 +5621,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-devops-access-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 46
    },
    "tier": "pro",
@@ -5597,11 +5802,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-devops-annual-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 245
    },
    "tier": "pro",
@@ -5764,11 +5975,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-devops-budget",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 124
    },
    "tier": "pro",
@@ -5944,11 +6161,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-devops-cloud-cost",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 125
    },
    "tier": "pro",
@@ -6114,11 +6337,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-devops-deploy-log",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 47
    },
    "tier": "pro",
@@ -6277,11 +6506,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-devops-dr-test",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A-",
     "tier": "premium",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 16
    },
    "tier": "premium",
@@ -6457,11 +6692,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-devops-flaky-test-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 246
    },
    "tier": "pro",
@@ -6624,11 +6865,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-devops-monthly-dora-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 126
    },
    "tier": "pro",
@@ -6813,11 +7060,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-devops-new-service-checklist",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 48
    },
    "tier": "pro",
@@ -6975,11 +7228,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-devops-on-call-handover",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 127
    },
    "tier": "pro",
@@ -7155,11 +7414,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-devops-pipeline-health",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 128
    },
    "tier": "pro",
@@ -7340,11 +7605,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-devops-pipeline-proposal",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 360
    },
    "tier": "essentials",
@@ -7520,11 +7791,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-devops-platform-roadmap",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 247
    },
    "tier": "pro",
@@ -7688,11 +7965,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-devops-release-checklist",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A-",
     "tier": "premium",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 17
    },
    "tier": "premium",
@@ -7868,11 +8151,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-devops-reliability-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 129
    },
    "tier": "pro",
@@ -8057,11 +8346,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-devops-rollback-runbook",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 49
    },
    "tier": "pro",
@@ -8235,11 +8530,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-devops-sprint-release-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 248
    },
    "tier": "pro",
@@ -8404,11 +8705,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-devops-toolchain-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 361
    },
    "tier": "essentials",
@@ -8584,11 +8891,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-devops-triage",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 362
    },
    "tier": "essentials",
@@ -8764,11 +9077,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-devops-vulnerability-triage",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 50
    },
    "tier": "pro",
@@ -8931,11 +9250,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-devops-weekly-delivery-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 130
    },
    "tier": "pro",
@@ -9095,11 +9420,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-devops-ytd-delivery-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 363
    },
    "tier": "essentials",
@@ -9221,6 +9552,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-doc-generator",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
@@ -9232,6 +9568,7 @@ window.SKILL_INDEX = {
      3,
      5
     ],
+    "design": true,
     "rank": 350
    },
    "tier": "essentials"
@@ -9406,11 +9743,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ehs-adhoc-triage",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 364
    },
    "tier": "essentials",
@@ -9586,11 +9929,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ehs-annual-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 365
    },
    "tier": "essentials",
@@ -9766,11 +10115,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ehs-business-case",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 249
    },
    "tier": "pro",
@@ -9946,11 +10301,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ehs-certification-readiness",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 250
    },
    "tier": "pro",
@@ -10116,11 +10477,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ehs-contractor-safety",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 131
    },
    "tier": "pro",
@@ -10301,11 +10668,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ehs-emergency-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 132
    },
    "tier": "pro",
@@ -10484,11 +10857,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ehs-environmental-aspects-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 251
    },
    "tier": "pro",
@@ -10654,11 +11033,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ehs-environmental-incident",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 51
    },
    "tier": "pro",
@@ -10834,11 +11219,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ehs-environmental-monitoring",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 52
    },
    "tier": "pro",
@@ -11014,11 +11405,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ehs-exposure-monitoring",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 53
    },
    "tier": "pro",
@@ -11194,11 +11591,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ehs-health-surveillance",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 252
    },
    "tier": "pro",
@@ -11356,11 +11759,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ehs-management-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 253
    },
    "tier": "pro",
@@ -11526,11 +11935,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ehs-permit-compliance",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 133
    },
    "tier": "pro",
@@ -11701,11 +12116,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ehs-permit-to-work",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 54
    },
    "tier": "pro",
@@ -11876,11 +12297,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ehs-regulatory-calendar",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 134
    },
    "tier": "pro",
@@ -12056,11 +12483,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ehs-training-compliance",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 135
    },
    "tier": "pro",
@@ -12220,11 +12653,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ehs-ytd-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 366
    },
    "tier": "essentials",
@@ -12400,11 +12839,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-fin-adhoc-triage",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 367
    },
    "tier": "essentials",
@@ -12567,11 +13012,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-fin-annual-budget",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 136
    },
    "tier": "pro",
@@ -12752,11 +13203,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-fin-bank-reconciliation",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 137
    },
    "tier": "pro",
@@ -12932,11 +13389,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-fin-budget-variance",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 138
    },
    "tier": "pro",
@@ -13112,11 +13575,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-fin-business-case",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 254
    },
    "tier": "pro",
@@ -13292,11 +13761,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-fin-capital-allocation-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 255
    },
    "tier": "pro",
@@ -13467,11 +13942,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-fin-cash-position",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A-",
     "tier": "premium",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 18
    },
    "tier": "premium",
@@ -13642,11 +14123,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-fin-covenant-check",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A-",
     "tier": "premium",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 19
    },
    "tier": "premium",
@@ -13812,11 +14299,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-fin-expense-policy-check",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 256
    },
    "tier": "pro",
@@ -13979,11 +14472,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-fin-investment-appraisal",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 257
    },
    "tier": "pro",
@@ -14164,11 +14663,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-fin-management-accounts",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 139
    },
    "tier": "pro",
@@ -14339,11 +14844,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-fin-month-end-close",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 55
    },
    "tier": "pro",
@@ -14524,11 +15035,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-fin-next-year-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 258
    },
    "tier": "pro",
@@ -14694,11 +15211,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-fin-payables-run",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 56
    },
    "tier": "pro",
@@ -14861,11 +15384,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-fin-quarterly-reforecast",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 140
    },
    "tier": "pro",
@@ -15041,11 +15570,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-fin-receivables-tracker",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 141
    },
    "tier": "pro",
@@ -15226,11 +15761,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-fin-rolling-forecast",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 142
    },
    "tier": "pro",
@@ -15411,11 +15952,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-fin-tax-provision-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 143
    },
    "tier": "pro",
@@ -15596,11 +16143,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-fin-variance-explanation",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 368
    },
    "tier": "essentials",
@@ -15781,11 +16334,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-fin-year-end-prep",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 144
    },
    "tier": "pro",
@@ -15945,11 +16504,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-fin-ytd-financial-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 259
    },
    "tier": "pro",
@@ -16125,11 +16690,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-adhoc-triage",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 369
    },
    "tier": "essentials",
@@ -16305,11 +16876,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-attrition-trend",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 145
    },
    "tier": "pro",
@@ -16472,11 +17049,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-budget",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 146
    },
    "tier": "pro",
@@ -16650,11 +17233,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-budget-variance",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 147
    },
    "tier": "pro",
@@ -16830,11 +17419,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-compensation-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 148
    },
    "tier": "pro",
@@ -17005,11 +17600,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-compliance-calendar",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 57
    },
    "tier": "pro",
@@ -17185,11 +17786,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-daily-attendance",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 58
    },
    "tier": "pro",
@@ -17360,11 +17967,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-grievance-log",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 59
    },
    "tier": "pro",
@@ -17540,11 +18153,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-headcount-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 149
    },
    "tier": "pro",
@@ -17715,11 +18334,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-hiring-pipeline",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 150
    },
    "tier": "pro",
@@ -17900,11 +18525,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-job-description",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 260
    },
    "tier": "pro",
@@ -18080,11 +18711,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-leave-tracking",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 151
    },
    "tier": "pro",
@@ -18247,11 +18884,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-monthly-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 152
    },
    "tier": "pro",
@@ -18417,11 +19060,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-negotiation-brief",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 60
    },
    "tier": "pro",
@@ -18592,11 +19241,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-offboarding-exit",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 61
    },
    "tier": "pro",
@@ -18759,11 +19414,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-onboarding-checklist",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 153
    },
    "tier": "pro",
@@ -18939,11 +19600,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-payroll-cycle",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A-",
     "tier": "premium",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 20
    },
    "tier": "premium",
@@ -19124,11 +19791,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-performance-cycle",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 261
    },
    "tier": "pro",
@@ -19304,11 +19977,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-policy-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 262
    },
    "tier": "pro",
@@ -19484,11 +20163,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-proposal",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 263
    },
    "tier": "pro",
@@ -19669,11 +20354,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-quarterly-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 264
    },
    "tier": "pro",
@@ -19844,11 +20535,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-requirements",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 265
    },
    "tier": "pro",
@@ -20014,11 +20711,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-requisition",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 266
    },
    "tier": "pro",
@@ -20194,11 +20897,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-shift-exceptions",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 154
    },
    "tier": "pro",
@@ -20374,11 +21083,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-talent-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 155
    },
    "tier": "pro",
@@ -20549,11 +21264,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-training-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 370
    },
    "tier": "essentials",
@@ -20716,11 +21437,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-weekly-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 156
    },
    "tier": "pro",
@@ -20896,11 +21623,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-workforce-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 157
    },
    "tier": "pro",
@@ -21060,11 +21793,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hr-ytd-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 371
    },
    "tier": "essentials",
@@ -21245,11 +21984,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-benefits-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 267
    },
    "tier": "pro",
@@ -21425,11 +22170,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-candidate-data-retention",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 62
    },
    "tier": "pro",
@@ -21610,11 +22361,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-candidate-screening",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 63
    },
    "tier": "pro",
@@ -21790,11 +22547,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-candidate-sourcing",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 158
    },
    "tier": "pro",
@@ -21975,11 +22738,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-change-impact-assessment",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 268
    },
    "tier": "pro",
@@ -22155,11 +22924,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-client-health-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 159
    },
    "tier": "pro",
@@ -22335,11 +23110,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-client-payroll-run",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A-",
     "tier": "premium",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 21
    },
    "tier": "premium",
@@ -22520,11 +23301,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-client-submission",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 160
    },
    "tier": "pro",
@@ -22695,11 +23482,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-communication-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 269
    },
    "tier": "pro",
@@ -22862,11 +23655,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-competency-framework",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 372
    },
    "tier": "essentials",
@@ -23042,11 +23841,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-competitor-hiring-watch",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 373
    },
    "tier": "essentials",
@@ -23217,11 +24022,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-consultation-log",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 64
    },
    "tier": "pro",
@@ -23387,11 +24198,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-contract-staffing-billing",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 65
    },
    "tier": "pro",
@@ -23557,11 +24374,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-data-migration-check",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 66
    },
    "tier": "pro",
@@ -23737,11 +24560,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-dei-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 270
    },
    "tier": "pro",
@@ -23912,11 +24741,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-deployment-tracker",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 161
    },
    "tier": "pro",
@@ -24082,11 +24917,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-disciplinary-process-check",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 67
    },
    "tier": "pro",
@@ -24267,11 +25108,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-employment-contract-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 68
    },
    "tier": "pro",
@@ -24447,11 +25294,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-engagement-survey-analysis",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 271
    },
    "tier": "pro",
@@ -24622,11 +25475,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-eor-onboarding",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 162
    },
    "tier": "pro",
@@ -24802,11 +25661,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-fee-margin-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 163
    },
    "tier": "pro",
@@ -24969,11 +25834,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-fill-rate-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 272
    },
    "tier": "pro",
@@ -25149,11 +26020,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-hr-due-diligence",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 69
    },
    "tier": "pro",
@@ -25329,11 +26206,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-hr-helpdesk-queue",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 164
    },
    "tier": "pro",
@@ -25504,11 +26387,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-hris-project-status",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 165
    },
    "tier": "pro",
@@ -25689,11 +26578,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-hris-selection",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 273
    },
    "tier": "pro",
@@ -25859,11 +26754,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-hris-uat-checklist",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 166
    },
    "tier": "pro",
@@ -26044,11 +26945,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-hro-sla-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 167
    },
    "tier": "pro",
@@ -26214,11 +27121,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-hro-transition-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 168
    },
    "tier": "pro",
@@ -26381,11 +27294,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-inclusive-hiring-audit",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 70
    },
    "tier": "pro",
@@ -26562,11 +27481,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-integration-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 274
    },
    "tier": "pro",
@@ -26747,11 +27672,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-job-evaluation",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 169
    },
    "tier": "pro",
@@ -26922,11 +27853,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-labour-law-calendar",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 170
    },
    "tier": "pro",
@@ -27107,11 +28044,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-leadership-programme-design",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 374
    },
    "tier": "essentials",
@@ -27287,11 +28230,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-liability-summary",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 71
    },
    "tier": "pro",
@@ -27472,11 +28421,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-longlist-assessment",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 72
    },
    "tier": "pro",
@@ -27657,11 +28612,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-org-design-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 275
    },
    "tier": "pro",
@@ -27837,11 +28798,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-outplacement-tracker",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 276
    },
    "tier": "pro",
@@ -28017,11 +28984,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-pay-equity-analysis",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 171
    },
    "tier": "pro",
@@ -28197,11 +29170,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-pay-structure-design",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 172
    },
    "tier": "pro",
@@ -28382,11 +29361,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-performance-system-design",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 277
    },
    "tier": "pro",
@@ -28555,11 +29540,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-placement-guarantee-tracker",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 278
    },
    "tier": "pro",
@@ -28730,11 +29721,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-policy-drafting",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 173
    },
    "tier": "pro",
@@ -28915,11 +29912,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-proposal-hr-consulting",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 174
    },
    "tier": "pro",
@@ -29095,11 +30098,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-quality-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 279
    },
    "tier": "pro",
@@ -29275,11 +30284,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-readiness-survey-analysis",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 280
    },
    "tier": "pro",
@@ -29460,11 +30475,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-relocation-cost-estimate",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 375
    },
    "tier": "essentials",
@@ -29630,11 +30651,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-restructuring-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 73
    },
    "tier": "pro",
@@ -29810,11 +30837,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-retention-risk",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 175
    },
    "tier": "pro",
@@ -29995,11 +31028,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-role-design",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 281
    },
    "tier": "pro",
@@ -30175,11 +31214,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-salary-benchmark",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 176
    },
    "tier": "pro",
@@ -30360,11 +31405,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-salary-trend-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 282
    },
    "tier": "pro",
@@ -30535,11 +31586,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-search-mandate",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 177
    },
    "tier": "pro",
@@ -30715,11 +31772,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-search-progress-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 178
    },
    "tier": "pro",
@@ -30900,11 +31963,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-service-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 283
    },
    "tier": "pro",
@@ -31080,11 +32149,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-span-layer-analysis",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 284
    },
    "tier": "pro",
@@ -31260,11 +32335,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-stakeholder-map",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 285
    },
    "tier": "pro",
@@ -31435,11 +32516,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-statutory-filing-calendar",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 74
    },
    "tier": "pro",
@@ -31615,11 +32702,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-succession-consult",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 179
    },
    "tier": "pro",
@@ -31795,11 +32888,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-talent-supply-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 286
    },
    "tier": "pro",
@@ -31980,11 +33079,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-training-needs-analysis",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 376
    },
    "tier": "essentials",
@@ -32160,11 +33265,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-utilisation-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 180
    },
    "tier": "pro",
@@ -32335,11 +33446,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-visa-expiry-tracker",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 75
    },
    "tier": "pro",
@@ -32520,11 +33637,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-hrc-workforce-scenario",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 287
    },
    "tier": "pro",
@@ -32642,6 +33765,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-incident-postmortem",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
@@ -32653,6 +33781,7 @@ window.SKILL_INDEX = {
      2,
      3
     ],
+    "design": true,
     "rank": 353
    },
    "tier": "essentials"
@@ -32827,11 +33956,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-asset-criticality-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 288
    },
    "tier": "pro",
@@ -33007,11 +34142,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-audit-readiness",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 289
    },
    "tier": "pro",
@@ -33182,11 +34323,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-breakdown-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 76
    },
    "tier": "pro",
@@ -33367,11 +34514,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-capex-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 181
    },
    "tier": "pro",
@@ -33547,11 +34700,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-capex-proposal",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 290
    },
    "tier": "pro",
@@ -33717,11 +34876,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-commissioning-checklist",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 182
    },
    "tier": "pro",
@@ -33902,11 +35067,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-energy-target-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 291
    },
    "tier": "pro",
@@ -34082,11 +35253,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-energy-use",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 183
    },
    "tier": "pro",
@@ -34249,11 +35426,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-failure-analysis",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 77
    },
    "tier": "pro",
@@ -34433,11 +35616,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-lockout-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A-",
     "tier": "premium",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 22
    },
    "tier": "premium",
@@ -34618,11 +35807,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-maintenance-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 184
    },
    "tier": "pro",
@@ -34793,11 +35988,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-maintenance-schedule",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 78
    },
    "tier": "pro",
@@ -34957,11 +36158,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-monthly-maintenance-kpi",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 185
    },
    "tier": "pro",
@@ -35142,11 +36349,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-preventive-plan-revision",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 79
    },
    "tier": "pro",
@@ -35327,11 +36540,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-reliability-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 80
    },
    "tier": "pro",
@@ -35507,11 +36726,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-safety-observations",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A",
     "tier": "premium",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 9
    },
    "tier": "premium",
@@ -35674,11 +36899,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-safety-statistics",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A-",
     "tier": "premium",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 23
    },
    "tier": "premium",
@@ -35849,11 +37080,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-shift-alarm-log",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A-",
     "tier": "premium",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 24
    },
    "tier": "premium",
@@ -36016,11 +37253,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-shift-handover",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A-",
     "tier": "premium",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 25
    },
    "tier": "premium",
@@ -36205,11 +37448,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-shutdown-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 186
    },
    "tier": "pro",
@@ -36385,11 +37634,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-spares-check",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 81
    },
    "tier": "pro",
@@ -36560,11 +37815,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-spares-requisition",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 187
    },
    "tier": "pro",
@@ -36740,11 +38001,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-triage",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 377
    },
    "tier": "essentials",
@@ -36915,11 +38182,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-work-order-request",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 82
    },
    "tier": "pro",
@@ -37079,11 +38352,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ind-ytd-plant-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 378
    },
    "tier": "essentials",
@@ -37259,11 +38538,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-legal-adhoc-triage",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 379
    },
    "tier": "essentials",
@@ -37434,11 +38719,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-legal-annual-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 292
    },
    "tier": "pro",
@@ -37612,11 +38903,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-legal-clause-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 83
    },
    "tier": "pro",
@@ -37779,11 +39076,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-legal-contract-draft",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 188
    },
    "tier": "pro",
@@ -37959,11 +39262,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-legal-contract-intake",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 189
    },
    "tier": "pro",
@@ -38134,11 +39443,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-legal-contract-portfolio-audit",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 293
    },
    "tier": "pro",
@@ -38314,11 +39629,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-legal-counsel-spend",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 294
    },
    "tier": "pro",
@@ -38489,11 +39810,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-legal-deadline-watch",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A-",
     "tier": "premium",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 26
    },
    "tier": "premium",
@@ -38672,11 +39999,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-legal-dispute-summary",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 84
    },
    "tier": "pro",
@@ -38852,11 +40185,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-legal-disputes-log",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 85
    },
    "tier": "pro",
@@ -39035,11 +40374,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-legal-nda-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 190
    },
    "tier": "pro",
@@ -39215,11 +40560,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-legal-obligations-tracker",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 86
    },
    "tier": "pro",
@@ -39385,11 +40736,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-legal-policy-calendar",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 295
    },
    "tier": "pro",
@@ -39570,11 +40927,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-legal-policy-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 191
    },
    "tier": "pro",
@@ -39750,11 +41113,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-legal-risk-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 296
    },
    "tier": "pro",
@@ -39930,11 +41299,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-legal-weekly-status",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 192
    },
    "tier": "pro",
@@ -40094,11 +41469,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-legal-ytd-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 380
    },
    "tier": "essentials",
@@ -40216,6 +41597,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-license-attribution",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
@@ -40227,6 +41613,7 @@ window.SKILL_INDEX = {
      2,
      4
     ],
+    "design": true,
     "rank": 117
    },
    "tier": "pro"
@@ -40347,6 +41734,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-llm-app-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A",
     "tier": "premium",
@@ -40358,6 +41750,7 @@ window.SKILL_INDEX = {
      3,
      3
     ],
+    "design": true,
     "rank": 4
    },
    "tier": "premium"
@@ -40482,6 +41875,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-log-triage",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
@@ -40493,6 +41891,7 @@ window.SKILL_INDEX = {
      2,
      4
     ],
+    "design": true,
     "rank": 38
    },
    "tier": "pro"
@@ -40654,11 +42053,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-annual-budget",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 193
    },
    "tier": "pro",
@@ -40839,11 +42244,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-annual-production-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 297
    },
    "tier": "pro",
@@ -41014,11 +42425,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-bom-change-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 298
    },
    "tier": "pro",
@@ -41189,11 +42606,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-capacity-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 194
    },
    "tier": "pro",
@@ -41369,11 +42792,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-capex-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 299
    },
    "tier": "pro",
@@ -41558,11 +42987,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-changeover-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 195
    },
    "tier": "pro",
@@ -41725,11 +43160,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-daily-production-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 87
    },
    "tier": "pro",
@@ -41905,11 +43346,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-downtime-log",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 196
    },
    "tier": "pro",
@@ -42085,11 +43532,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-line-change-proposal",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 300
    },
    "tier": "pro",
@@ -42270,11 +43723,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-line-improvement-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 301
    },
    "tier": "pro",
@@ -42445,11 +43904,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-material-shortages",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 88
    },
    "tier": "pro",
@@ -42609,11 +44074,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-monthly-production-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 197
    },
    "tier": "pro",
@@ -42794,11 +44265,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-mrp-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 198
    },
    "tier": "pro",
@@ -42969,11 +44446,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-nonconformance-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 89
    },
    "tier": "pro",
@@ -43134,11 +44617,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-npi-checklist",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 199
    },
    "tier": "pro",
@@ -43301,11 +44790,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-root-cause-analysis",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 90
    },
    "tier": "pro",
@@ -43468,11 +44963,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-scrap-rework-cost",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 200
    },
    "tier": "pro",
@@ -43630,11 +45131,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-shift-handover",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 201
    },
    "tier": "pro",
@@ -43805,11 +45312,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-shift-output-log",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 202
    },
    "tier": "pro",
@@ -43985,11 +45498,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-supplier-quality-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 302
    },
    "tier": "pro",
@@ -44152,11 +45671,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-weekly-oee-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 91
    },
    "tier": "pro",
@@ -44332,11 +45857,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-wip-tracking",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 203
    },
    "tier": "pro",
@@ -44507,11 +46038,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-work-order-release",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A-",
     "tier": "premium",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 27
    },
    "tier": "premium",
@@ -44671,11 +46208,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mfg-ytd-production-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 381
    },
    "tier": "essentials",
@@ -44801,6 +46344,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-migration-planner",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
@@ -44812,6 +46360,7 @@ window.SKILL_INDEX = {
      2,
      4
     ],
+    "design": true,
     "rank": 39
    },
    "tier": "pro"
@@ -44986,11 +46535,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mkt-adhoc-triage",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 382
    },
    "tier": "essentials",
@@ -45166,11 +46721,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mkt-annual-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 303
    },
    "tier": "pro",
@@ -45344,11 +46905,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mkt-attribution-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 304
    },
    "tier": "pro",
@@ -45524,11 +47091,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mkt-brand-health",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 411
    },
    "tier": "essentials",
@@ -45691,11 +47264,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mkt-budget",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 204
    },
    "tier": "pro",
@@ -45861,11 +47440,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mkt-campaign-brief",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 383
    },
    "tier": "essentials",
@@ -46036,11 +47621,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mkt-campaign-monitor",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 205
    },
    "tier": "pro",
@@ -46214,11 +47805,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mkt-campaign-proposal",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 384
    },
    "tier": "essentials",
@@ -46384,11 +47981,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mkt-compliance-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 92
    },
    "tier": "pro",
@@ -46559,11 +48162,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mkt-content-calendar",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 385
    },
    "tier": "essentials",
@@ -46739,11 +48348,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mkt-lead-quality",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 305
    },
    "tier": "pro",
@@ -46906,11 +48521,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mkt-monthly-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 206
    },
    "tier": "pro",
@@ -47091,11 +48712,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mkt-quarterly-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 306
    },
    "tier": "pro",
@@ -47271,11 +48898,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mkt-spend-reconcile",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 93
    },
    "tier": "pro",
@@ -47451,11 +49084,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mkt-weekly-performance",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 207
    },
    "tier": "pro",
@@ -47615,11 +49254,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-mkt-ytd-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 386
    },
    "tier": "essentials",
@@ -47790,11 +49435,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-neg-annual-strategy",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 387
    },
    "tier": "essentials",
@@ -47975,11 +49626,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-neg-budget-impact",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 307
    },
    "tier": "pro",
@@ -48155,11 +49812,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-neg-contract-portfolio-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 308
    },
    "tier": "pro",
@@ -48335,11 +49998,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-neg-contract-redline",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A-",
     "tier": "premium",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 28
    },
    "tier": "premium",
@@ -48510,11 +50179,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-neg-contract-renewal-calendar",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 94
    },
    "tier": "pro",
@@ -48695,11 +50370,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-neg-debrief",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 388
    },
    "tier": "essentials",
@@ -48870,11 +50551,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-neg-offer-tracker",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 208
    },
    "tier": "pro",
@@ -49040,11 +50727,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-neg-prep-brief",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 95
    },
    "tier": "pro",
@@ -49220,11 +50913,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-neg-quarterly-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 309
    },
    "tier": "pro",
@@ -49400,11 +51099,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-neg-rfp-response",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 310
    },
    "tier": "pro",
@@ -49580,11 +51285,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-neg-savings-tracker",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 311
    },
    "tier": "pro",
@@ -49760,11 +51471,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-neg-supplier-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 312
    },
    "tier": "pro",
@@ -49940,11 +51657,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-neg-term-sheet-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 96
    },
    "tier": "pro",
@@ -50120,11 +51843,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-neg-triage",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 389
    },
    "tier": "essentials",
@@ -50300,11 +52029,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-neg-weekly-status",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 209
    },
    "tier": "pro",
@@ -50464,11 +52199,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-neg-ytd-savings-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 390
    },
    "tier": "essentials",
@@ -50639,11 +52380,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ops-annual-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 313
    },
    "tier": "pro",
@@ -50814,11 +52561,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ops-backlog-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 210
    },
    "tier": "pro",
@@ -50994,11 +52747,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ops-budget-variance",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 211
    },
    "tier": "pro",
@@ -51169,11 +52928,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ops-capacity-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 314
    },
    "tier": "pro",
@@ -51349,11 +53114,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ops-capacity-utilisation",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 212
    },
    "tier": "pro",
@@ -51524,11 +53295,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ops-change-request",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 213
    },
    "tier": "pro",
@@ -51709,11 +53486,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ops-continuity-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 214
    },
    "tier": "pro",
@@ -51884,11 +53667,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ops-daily-dashboard",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 215
    },
    "tier": "pro",
@@ -52064,11 +53853,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ops-escalation-triage",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 391
    },
    "tier": "essentials",
@@ -52244,11 +54039,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ops-exception-log",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 216
    },
    "tier": "pro",
@@ -52427,11 +54228,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ops-kpi-scorecard",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 217
    },
    "tier": "pro",
@@ -52592,11 +54399,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ops-monthly-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 218
    },
    "tier": "pro",
@@ -52772,11 +54585,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ops-process-improvement-proposal",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 392
    },
    "tier": "essentials",
@@ -52952,11 +54771,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ops-process-maturity-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 393
    },
    "tier": "essentials",
@@ -53137,11 +54962,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ops-quarterly-process-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 315
    },
    "tier": "pro",
@@ -53312,11 +55143,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ops-queue-monitor",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 219
    },
    "tier": "pro",
@@ -53492,11 +55329,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ops-risk-register",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 316
    },
    "tier": "pro",
@@ -53659,11 +55502,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ops-sop-writer",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 317
    },
    "tier": "pro",
@@ -53826,11 +55675,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ops-unit-cost",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 220
    },
    "tier": "pro",
@@ -54006,11 +55861,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ops-vendor-spend-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 221
    },
    "tier": "pro",
@@ -54181,11 +56042,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ops-weekly-sla-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 222
    },
    "tier": "pro",
@@ -54345,11 +56212,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-ops-ytd-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 394
    },
    "tier": "essentials",
@@ -54467,6 +56340,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-performance-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
@@ -54478,6 +56356,7 @@ window.SKILL_INDEX = {
      3,
      5
     ],
+    "design": true,
     "rank": 34
    },
    "tier": "pro"
@@ -54634,11 +56513,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-pm-annual-budget",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 318
    },
    "tier": "pro",
@@ -54814,11 +56699,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-pm-annual-portfolio-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 319
    },
    "tier": "pro",
@@ -54994,11 +56885,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-pm-budget-burn",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 97
    },
    "tier": "pro",
@@ -55169,11 +57066,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-pm-change-request",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 223
    },
    "tier": "pro",
@@ -55331,11 +57234,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-pm-lessons-learned",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 395
    },
    "tier": "essentials",
@@ -55506,11 +57415,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-pm-milestone-tracker",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 98
    },
    "tier": "pro",
@@ -55673,11 +57588,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-pm-monthly-project-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 224
    },
    "tier": "pro",
@@ -55853,11 +57774,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-pm-portfolio-prioritisation",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 320
    },
    "tier": "pro",
@@ -56033,11 +57960,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-pm-portfolio-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 225
    },
    "tier": "pro",
@@ -56216,11 +58149,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-pm-project-charter",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 321
    },
    "tier": "pro",
@@ -56396,11 +58335,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-pm-project-proposal",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 322
    },
    "tier": "pro",
@@ -56576,11 +58521,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-pm-raid-log",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 226
    },
    "tier": "pro",
@@ -56759,11 +58710,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-pm-requirements-spec",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 323
    },
    "tier": "pro",
@@ -56939,11 +58896,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-pm-resource-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 324
    },
    "tier": "pro",
@@ -57114,11 +59077,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-pm-retro-summary",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 396
    },
    "tier": "essentials",
@@ -57294,11 +59263,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-pm-sprint-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 227
    },
    "tier": "pro",
@@ -57469,11 +59444,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-pm-sprint-review-pack",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 397
    },
    "tier": "essentials",
@@ -57652,11 +59633,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-pm-stakeholder-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 412
    },
    "tier": "essentials",
@@ -57827,11 +59814,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-pm-standup-summary",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 325
    },
    "tier": "pro",
@@ -58007,11 +60000,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-pm-triage",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 398
    },
    "tier": "essentials",
@@ -58187,11 +60186,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-pm-weekly-status",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 99
    },
    "tier": "pro",
@@ -58351,11 +60356,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-pm-ytd-project-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 399
    },
    "tier": "essentials",
@@ -58477,6 +60488,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-privacy-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": false,
    "grade": {
     "grade": "B+",
     "tier": "pro",
@@ -58488,6 +60504,7 @@ window.SKILL_INDEX = {
      2,
      4
     ],
+    "design": true,
     "rank": 36
    },
    "tier": "pro"
@@ -58662,11 +60679,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-qual-adhoc-triage",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 400
    },
    "tier": "essentials",
@@ -58842,11 +60865,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-qual-annual-quality-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 326
    },
    "tier": "pro",
@@ -59017,11 +61046,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-qual-audit-finding-response",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 100
    },
    "tier": "pro",
@@ -59197,11 +61232,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-qual-calibration-status",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 101
    },
    "tier": "pro",
@@ -59377,11 +61418,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-qual-capa-status",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 228
    },
    "tier": "pro",
@@ -59557,11 +61604,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-qual-certification-readiness",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 327
    },
    "tier": "pro",
@@ -59737,11 +61790,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-qual-complaints-trend",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 229
    },
    "tier": "pro",
@@ -59917,11 +61976,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-qual-document-control",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 328
    },
    "tier": "pro",
@@ -60092,11 +62157,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-qual-internal-audit-schedule",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 329
    },
    "tier": "pro",
@@ -60254,11 +62325,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-qual-management-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 330
    },
    "tier": "pro",
@@ -60439,11 +62516,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-qual-management-review-input",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 331
    },
    "tier": "pro",
@@ -60614,11 +62697,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-qual-nonconformance-log",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 230
    },
    "tier": "pro",
@@ -60797,11 +62886,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-qual-process-audit",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 332
    },
    "tier": "pro",
@@ -60972,11 +63067,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-qual-quality-objectives",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 333
    },
    "tier": "pro",
@@ -61152,11 +63253,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-qual-quality-proposal",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 401
    },
    "tier": "essentials",
@@ -61332,11 +63439,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-qual-supplier-performance",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 334
    },
    "tier": "pro",
@@ -61496,11 +63609,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-qual-ytd-quality-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 402
    },
    "tier": "essentials",
@@ -61622,6 +63741,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-refactor-planner",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A-",
     "tier": "premium",
@@ -61633,6 +63757,7 @@ window.SKILL_INDEX = {
      3,
      5
     ],
+    "design": true,
     "rank": 13
    },
    "tier": "premium"
@@ -61749,6 +63874,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-release-notes",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C",
     "tier": "essentials",
@@ -61760,6 +63890,7 @@ window.SKILL_INDEX = {
      3,
      4
     ],
+    "design": true,
     "rank": 408
    },
    "tier": "essentials"
@@ -61934,11 +64065,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-sales-activity-log",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 335
    },
    "tier": "pro",
@@ -62114,11 +64251,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-sales-adhoc-triage",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 403
    },
    "tier": "essentials",
@@ -62294,11 +64437,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-sales-annual-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 336
    },
    "tier": "pro",
@@ -62461,11 +64610,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-sales-capacity-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 404
    },
    "tier": "essentials",
@@ -62646,11 +64801,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-sales-commission-check",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 102
    },
    "tier": "pro",
@@ -62826,11 +64987,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-sales-compensation-plan-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 337
    },
    "tier": "pro",
@@ -63001,11 +65168,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-sales-crm-requirements",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 338
    },
    "tier": "pro",
@@ -63171,11 +65344,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-sales-deal-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 103
    },
    "tier": "pro",
@@ -63351,11 +65530,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-sales-forecast-call-prep",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A-",
     "tier": "premium",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 29
    },
    "tier": "premium",
@@ -63536,11 +65721,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-sales-monthly-results",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 231
    },
    "tier": "pro",
@@ -63716,11 +65907,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-sales-pipeline-hygiene",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 232
    },
    "tier": "pro",
@@ -63896,11 +66093,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-sales-pricing-request",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 104
    },
    "tier": "pro",
@@ -64081,11 +66284,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-sales-proposal",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 233
    },
    "tier": "pro",
@@ -64266,11 +66475,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-sales-quarterly-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 339
    },
    "tier": "pro",
@@ -64446,11 +66661,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-sales-quota-attainment",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 234
    },
    "tier": "pro",
@@ -64626,11 +66847,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-sales-territory-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 340
    },
    "tier": "pro",
@@ -64793,11 +67020,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-sales-weekly-pipeline",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 105
    },
    "tier": "pro",
@@ -64973,11 +67206,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-sales-win-loss-analysis",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 341
    },
    "tier": "pro",
@@ -65137,11 +67376,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-sales-ytd-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 405
    },
    "tier": "essentials",
@@ -65259,6 +67504,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-security-audit",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A+",
     "tier": "premium",
@@ -65270,6 +67520,7 @@ window.SKILL_INDEX = {
      3,
      5
     ],
+    "design": true,
     "rank": 2
    },
    "tier": "premium"
@@ -65386,6 +67637,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-stack-auditor",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
@@ -65397,6 +67653,7 @@ window.SKILL_INDEX = {
      3,
      4
     ],
+    "design": true,
     "rank": 112
    },
    "tier": "pro"
@@ -65571,11 +67828,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-access-request",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A-",
     "tier": "premium",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 30
    },
    "tier": "premium",
@@ -65749,11 +68012,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-access-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 106
    },
    "tier": "pro",
@@ -65924,11 +68193,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-annual-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 342
    },
    "tier": "pro",
@@ -66104,11 +68379,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-asset-reconcile",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 235
    },
    "tier": "pro",
@@ -66274,11 +68555,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-backup-check",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A",
     "tier": "premium",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 10
    },
    "tier": "premium",
@@ -66441,11 +68728,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-budget",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 236
    },
    "tier": "pro",
@@ -66621,11 +68914,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-capacity-check",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 107
    },
    "tier": "pro",
@@ -66796,11 +69095,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-change-request",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 108
    },
    "tier": "pro",
@@ -66971,11 +69276,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-change-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 109
    },
    "tier": "pro",
@@ -67160,11 +69471,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-decommission-checklist",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 343
    },
    "tier": "pro",
@@ -67323,11 +69640,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-dr-test",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A-",
     "tier": "premium",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 31
    },
    "tier": "premium",
@@ -67498,11 +69821,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-hardware-refresh-plan",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 344
    },
    "tier": "pro",
@@ -67678,11 +70007,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-it-proposal",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 345
    },
    "tier": "pro",
@@ -67848,11 +70183,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-licence-renewal",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 346
    },
    "tier": "pro",
@@ -68028,11 +70369,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-licence-usage",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 237
    },
    "tier": "pro",
@@ -68195,11 +70542,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-monthly-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 238
    },
    "tier": "pro",
@@ -68375,11 +70728,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-patch-compliance",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 110
    },
    "tier": "pro",
@@ -68555,11 +70914,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-patch-status",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B+",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 111
    },
    "tier": "pro",
@@ -68730,11 +71095,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-service-health",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A-",
     "tier": "premium",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 32
    },
    "tier": "premium",
@@ -68892,11 +71263,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-system-requirements",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 347
    },
    "tier": "pro",
@@ -69072,11 +71449,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-ticket-queue",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 239
    },
    "tier": "pro",
@@ -69252,11 +71635,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-ticket-trend",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 348
    },
    "tier": "pro",
@@ -69432,11 +71821,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-triage",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 406
    },
    "tier": "essentials",
@@ -69612,11 +72007,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-vendor-review",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B-",
     "tier": "pro",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 349
    },
    "tier": "pro",
@@ -69776,11 +72177,17 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-techops-ytd-report",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
     "score": null,
     "scores": null,
+    "design": true,
     "rank": 407
    },
    "tier": "essentials",
@@ -69902,6 +72309,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-test-gap-analysis",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A",
     "tier": "premium",
@@ -69913,6 +72325,7 @@ window.SKILL_INDEX = {
      4,
      5
     ],
+    "design": true,
     "rank": 5
    },
    "tier": "premium"
@@ -70029,6 +72442,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-threat-model",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A-",
     "tier": "premium",
@@ -70040,6 +72458,7 @@ window.SKILL_INDEX = {
      3,
      4
     ],
+    "design": true,
     "rank": 12
    },
    "tier": "premium"
@@ -70156,6 +72575,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-token-saver",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C+",
     "tier": "essentials",
@@ -70167,6 +72591,7 @@ window.SKILL_INDEX = {
      5,
      5
     ],
+    "design": true,
     "rank": 352
    },
    "tier": "essentials"
@@ -70283,6 +72708,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-trust-layer-validator",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
@@ -70294,6 +72724,7 @@ window.SKILL_INDEX = {
      1,
      1
     ],
+    "design": true,
     "rank": 118
    },
    "tier": "pro"
@@ -70468,6 +72899,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-web-app-platform",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
@@ -70479,6 +72915,7 @@ window.SKILL_INDEX = {
      2,
      3
     ],
+    "design": true,
     "rank": 119
    },
    "tier": "pro",
@@ -70654,6 +73091,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-web-built-in-ai",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "C",
     "tier": "essentials",
@@ -70665,6 +73107,7 @@ window.SKILL_INDEX = {
      1,
      1
     ],
+    "design": true,
     "rank": 409
    },
    "tier": "essentials",
@@ -70830,6 +73273,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-web-client-security",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A+",
     "tier": "premium",
@@ -70841,6 +73289,7 @@ window.SKILL_INDEX = {
      3,
      4
     ],
+    "design": true,
     "rank": 3
    },
    "tier": "premium",
@@ -71014,6 +73463,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-web-css-layout",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
@@ -71025,6 +73479,7 @@ window.SKILL_INDEX = {
      4,
      4
     ],
+    "design": true,
     "rank": 114
    },
    "tier": "pro",
@@ -71193,6 +73648,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-web-forms-autofill",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "A",
     "tier": "premium",
@@ -71204,6 +73664,7 @@ window.SKILL_INDEX = {
      4,
      4
     ],
+    "design": true,
     "rank": 7
    },
    "tier": "premium",
@@ -71379,6 +73840,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-web-performance",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
@@ -71390,6 +73856,7 @@ window.SKILL_INDEX = {
      3,
      4
     ],
+    "design": true,
     "rank": 113
    },
    "tier": "pro",
@@ -71563,6 +74030,11 @@ window.SKILL_INDEX = {
     }
    ],
    "path": ".claude/skills/rlm-web-ui-components",
+   "files": [
+    "scripts/rlm_corpus.py"
+   ],
+   "helperScripts": 1,
+   "notChecked": true,
    "grade": {
     "grade": "B",
     "tier": "pro",
@@ -71574,6 +74046,7 @@ window.SKILL_INDEX = {
      4,
      4
     ],
+    "design": true,
     "rank": 115
    },
    "tier": "pro",
