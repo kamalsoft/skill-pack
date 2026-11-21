@@ -55,10 +55,10 @@ export default function Home() {
         <section className="new" aria-labelledby="new-title">
           <h2 id="new-title">New to skills?</h2>
           <div className="cards">
-            <a className="card" href="https://agentskills.io/home" rel="noopener noreferrer" target="_blank">
+            <div className="card">
               <h3>What a skill is</h3>
               <p>A folder with a SKILL.md file, optional scripts, references and assets. Agents load it when it matches the task.</p>
-            </a>
+            </div>
             <div className="card">
               <h3>Installing skills</h3>
               <p>Install the extension, then pick the skills for each project. Skills that need a licence key are marked by tier.</p>
