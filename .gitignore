@@ -28,3 +28,9 @@ coverage/
 # Agent memory
 .agent-memory/
 .claude
+.agents
+.cursor
+.gemini
+.github/skills
+.windsurf
+
