@@ -15,6 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "skills-index.js"
+SUMMARY = ROOT / "src" / "data" / "skills.json"
 ANIMATIONS = ROOT / "scripts" / "animations"
 REGISTRY = ROOT / "scripts" / "registry.json"
 GRADE_DOC = ROOT / "docs" / "skill-grade.md"
@@ -182,7 +183,20 @@ def main():
     rank(skills)
     missing = [s["id"] for s in skills if not s["grade"]]
     OUT.write_text("window.SKILL_INDEX = " + json.dumps({"skills": skills}, indent=1) + ";\n", encoding="utf-8")
-    print(f"Wrote {len(skills)} skills from {source} to {OUT}")
+    summary = [
+        {
+            "id": s["id"],
+            "goal": s["goal"],
+            "family": s["id"][4:].split("-")[0] if s["id"].startswith("rlm-") else s["id"],
+            "tier": s["tier"],
+            "grade": s["grade"]["grade"] if s["grade"] else None,
+            "design": bool(s["grade"] and s["grade"].get("design")),
+        }
+        for s in skills
+    ]
+    SUMMARY.parent.mkdir(parents=True, exist_ok=True)
+    SUMMARY.write_text(json.dumps(summary, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"Wrote {len(skills)} skills from {source} to {OUT} and {SUMMARY}")
     if missing:
         print(f"Not in the registry snapshot: {len(missing)} ({', '.join(missing[:5])}...)")
 

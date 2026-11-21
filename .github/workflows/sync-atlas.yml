@@ -6,6 +6,13 @@ on:
     paths:
       - docs/skill-atlas.html
       - docs/skills-index.js
+      - src/**
+      - public/**
+      - scripts/prepare-public.mjs
+      - next.config.mjs
+      - tsconfig.json
+      - package.json
+      - package-lock.json
       - .github/workflows/sync-atlas.yml
   workflow_dispatch:
 
@@ -23,20 +30,33 @@ jobs:
       - name: Check out this repository
         uses: actions/checkout@v4
 
-      - name: Copy the page and the skill index into the site repository and push
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install and build the site under /skillpack
+        run: |
+          set -euo pipefail
+          npm ci
+          PAGES_BASE_PATH=/skillpack npm run build
+
+      - name: Copy the built site into the site repository and push
         env:
           SITE_TOKEN: ${{ secrets.SITE_TOKEN }}
         run: |
           set -euo pipefail
           git clone --depth 1 "https://x-access-token:${SITE_TOKEN}@github.com/kamalsoft/kamalsoft.github.io.git" site
-          cp docs/skill-atlas.html site/skillpack/index.html
-          cp docs/skills-index.js site/skillpack/skills-index.js
+          rm -rf site/skillpack
+          mkdir -p site/skillpack
+          cp -R out/. site/skillpack/
           cd site
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add skillpack/index.html skillpack/skills-index.js
+          git add -A skillpack
           if git diff --cached --quiet; then
-            echo "Live page already matches docs/skill-atlas.html"
+            echo "Live site already matches this build"
             exit 0
           fi
           git commit -m "Sync skill atlas from kamalsoft/skill-pack@${GITHUB_SHA::7}"
