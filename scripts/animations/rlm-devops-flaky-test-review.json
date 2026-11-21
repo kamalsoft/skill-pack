@@ -1,0 +1,134 @@
+{
+  "items": [
+    "test-checkout.spec",
+    "test-login.spec",
+    "test-search.spec",
+    "test-export.spec",
+    "test-upload.spec",
+    "test-report.spec"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "bad",
+        "ok",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "stable",
+        "flaky",
+        "quarantined"
+      ],
+      "binOf": [
+        1,
+        0,
+        0,
+        1,
+        1,
+        2
+      ],
+      "note": "Rank. A test that passes and fails on the same commit is flaky."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 flaky test has no owner",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "test-checkout.spec:12",
+        "title": "Passes and fails on the same commit four times, no owner",
+        "fix": "Assign an owner and fix the cause"
+      },
+      {
+        "sev": "medium",
+        "where": "test-upload.spec:19",
+        "title": "Flaky test with no owner",
+        "fix": "Assign an owner role"
+      },
+      {
+        "sev": "low",
+        "where": "test-report.spec:26",
+        "title": "Quarantined with no date",
+        "fix": "Set a date to remove the quarantine"
+      }
+    ],
+    "notChecked": "Causes that need a code reading."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] test-checkout.spec:12  Passes and fails on the same commit four times, no owner.\n       Fix: Assign an owner and fix the cause.\n[medium] test-upload.spec:19  Flaky test with no owner.\n       Fix: Assign an owner role.\n[low] test-report.spec:26  Quarantined with no date.\n       Fix: Set a date to remove the quarantine.\nNot checked: Causes that need a code reading.",
+  "pros": [
+    "Flags a test that both passes and fails on the same commit more than twice, a flaky test with no owner, and a test quarantined with no date."
+  ],
+  "cons": [
+    "Not checked: Causes that need a code reading."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-devops-flaky-test-review skill on the records for this review."
+}

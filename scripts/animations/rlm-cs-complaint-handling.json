@@ -1,0 +1,124 @@
+{
+  "items": [
+    "complaint-0412.md",
+    "complaint-0413.md",
+    "complaint-0414.md",
+    "complaint-0415.md",
+    "complaint-0416.md",
+    "complaint-0417.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "warn",
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
+      "note": "Gate. A complaint needs a receipt date, a due date with its rule, and a response before the due date."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 complaints fail the response check",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        2,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "complaint-0414.md:12",
+        "title": "Response dated after the due date",
+        "fix": "Record the breach and the response date"
+      },
+      {
+        "sev": "medium",
+        "where": "complaint-0412.md:19",
+        "title": "No receipt date",
+        "fix": "Record the date the complaint was received"
+      },
+      {
+        "sev": "medium",
+        "where": "complaint-0417.md:26",
+        "title": "Due date with no rule stated",
+        "fix": "State the rule the due date comes from"
+      }
+    ],
+    "notChecked": "Whether the complaint is upheld; any legal duty beyond the stated rule."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 2 medium).\n[high] complaint-0414.md:12  Response dated after the due date.\n       Fix: Record the breach and the response date.\n[medium] complaint-0412.md:19  No receipt date.\n       Fix: Record the date the complaint was received.\n[medium] complaint-0417.md:26  Due date with no rule stated.\n       Fix: State the rule the due date comes from.\nNot checked: Whether the complaint is upheld; any legal duty beyond the stated rule.",
+  "pros": [
+    "Checks a complaint with no receipt date, a response due date with no rule stated, and a response date after the due date."
+  ],
+  "cons": [
+    "Not checked: Whether the complaint is upheld; any legal duty beyond the stated rule."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-cs-complaint-handling skill on the records for this review."
+}

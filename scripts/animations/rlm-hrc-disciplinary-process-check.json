@@ -1,0 +1,124 @@
+{
+  "items": [
+    "case-steps.md",
+    "case-documents.md",
+    "case-timing.md",
+    "case-decision.md",
+    "procedure.md",
+    "case-notes.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "bad",
+        "bad",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        false,
+        true
+      ],
+      "note": "Gate. Each procedure step must be in order and documented, and each decision needs a reason."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 disciplinary checks fail",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        2,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "case-timing.md:12",
+        "title": "Step out of order",
+        "fix": "Re-run the step in the procedure's order"
+      },
+      {
+        "sev": "high",
+        "where": "case-decision.md:19",
+        "title": "Decision with no recorded reason",
+        "fix": "Record the reason before the decision stands"
+      },
+      {
+        "sev": "medium",
+        "where": "case-documents.md:26",
+        "title": "Step missing from the documentation",
+        "fix": "Add the documentation"
+      }
+    ],
+    "notChecked": "Whether the facts support the decision."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 high, 1 medium).\n[high] case-timing.md:12  Step out of order.\n       Fix: Re-run the step in the procedure's order.\n[high] case-decision.md:19  Decision with no recorded reason.\n       Fix: Record the reason before the decision stands.\n[medium] case-documents.md:26  Step missing from the documentation.\n       Fix: Add the documentation.\nNot checked: Whether the facts support the decision.",
+  "pros": [
+    "Checks a step missing, a step out of order, and a decision with no recorded reason."
+  ],
+  "cons": [
+    "Not checked: Whether the facts support the decision."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-disciplinary-process-check skill on the records for this review."
+}

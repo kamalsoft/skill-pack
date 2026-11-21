@@ -1,0 +1,124 @@
+{
+  "items": [
+    "brief-objective.md",
+    "brief-audience.md",
+    "brief-measure.md",
+    "brief-budget.md",
+    "brief-channel.md",
+    "brief-claims.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        false
+      ],
+      "note": "Gate. A brief needs an objective, an audience, a measure with a target, a budget and a reason for each channel."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 briefs fail the measurable-campaign check",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        2,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "brief-objective.md:12",
+        "title": "Brief with no objective",
+        "fix": "Write the objective first"
+      },
+      {
+        "sev": "medium",
+        "where": "brief-claims.md:19",
+        "title": "Claim that needs compliance review",
+        "fix": "Route the claim to compliance"
+      },
+      {
+        "sev": "medium",
+        "where": "brief-budget.md:26",
+        "title": "No budget",
+        "fix": "Set the budget"
+      }
+    ],
+    "notChecked": "Creative concept quality."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 2 medium).\n[high] brief-objective.md:12  Brief with no objective.\n       Fix: Write the objective first.\n[medium] brief-claims.md:19  Claim that needs compliance review.\n       Fix: Route the claim to compliance.\n[medium] brief-budget.md:26  No budget.\n       Fix: Set the budget.\nNot checked: Creative concept quality.",
+  "pros": [
+    "Checks a brief with no objective; no measure with a target; no audience definition; no budget; a channel with no reason; a claim that needs compliance review (route it to `rlm-mkt-compliance-review`)."
+  ],
+  "cons": [
+    "Not checked: Creative concept quality."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mkt-campaign-brief skill on the records for this review."
+}

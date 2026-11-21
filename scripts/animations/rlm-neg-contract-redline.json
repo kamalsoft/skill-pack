@@ -1,0 +1,134 @@
+{
+  "items": [
+    "clause-liability.md",
+    "clause-renewal.md",
+    "clause-termination.md",
+    "clause-payment.md",
+    "clause-warranty.md",
+    "clause-audit.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "warn",
+        "bad",
+        "bad",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "fallback position set",
+        "no fallback",
+        "uncapped cost"
+      ],
+      "pairs": [
+        2,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "bad"
+      ],
+      "note": "Compare. Each clause is matched to its fallback position. A clause that moves uncapped cost is flagged."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 clauses move risk to the organisation",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        2,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "clause-termination.md:12",
+        "title": "Termination right favours only the supplier",
+        "fix": "Ask for a mutual termination right"
+      },
+      {
+        "sev": "high",
+        "where": "clause-renewal.md:19",
+        "title": "Automatic renewal with no notice route",
+        "fix": "Add a notice route before signing"
+      },
+      {
+        "sev": "medium",
+        "where": "clause-liability.md:26",
+        "title": "Uncapped liability moved to the organisation",
+        "fix": "Cap the liability at the fee"
+      }
+    ],
+    "notChecked": "Whether a clause is enforceable or what it means in law. Counsel decides."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 high, 1 medium).\n[high] clause-termination.md:12  Termination right favours only the supplier.\n       Fix: Ask for a mutual termination right.\n[high] clause-renewal.md:19  Automatic renewal with no notice route.\n       Fix: Add a notice route before signing.\n[medium] clause-liability.md:26  Uncapped liability moved to the organisation.\n       Fix: Cap the liability at the fee.\nNot checked: Whether a clause is enforceable or what it means in law. Counsel decides.",
+  "pros": [
+    "Checks a clause that moves uncapped liability or cost to the organisation, an automatic renewal with no notice route, a termination right that favours only the counterparty, and a clause that departs from th."
+  ],
+  "cons": [
+    "Not checked: Whether a clause is enforceable or what it means in law. Counsel decides."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-neg-contract-redline skill on the records for this review."
+}

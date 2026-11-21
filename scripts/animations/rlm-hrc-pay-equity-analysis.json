@@ -1,0 +1,134 @@
+{
+  "items": [
+    "group-gender.csv",
+    "group-age.csv",
+    "group-level.csv",
+    "method.md",
+    "row-level.csv",
+    "sizes.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "reported in aggregate",
+        "group below minimum",
+        "individual row"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        2,
+        0
+      ],
+      "note": "Rank. Each comparison is placed by its group size against the minimum of five, and each row by whether it is aggregated."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 row shows an individual's pay",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "row-level.csv:12",
+        "title": "Row carries an individual's pay",
+        "fix": "Remove the individual row"
+      },
+      {
+        "sev": "medium",
+        "where": "group-age.csv:19",
+        "title": "Gap reported for a group below five",
+        "fix": "Merge the group before reporting"
+      },
+      {
+        "sev": "low",
+        "where": "method.md:26",
+        "title": "Gap with no method stated",
+        "fix": "State the method"
+      }
+    ],
+    "notChecked": "Causes of the gaps beyond the data given."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] row-level.csv:12  Row carries an individual's pay.\n       Fix: Remove the individual row.\n[medium] group-age.csv:19  Gap reported for a group below five.\n       Fix: Merge the group before reporting.\n[low] method.md:26  Gap with no method stated.\n       Fix: State the method.\nNot checked: Causes of the gaps beyond the data given.",
+  "pros": [
+    "Checks a comparison with a group below the minimum size (default 5), a gap with no method stated, and a row that carries an individual's identifier."
+  ],
+  "cons": [
+    "Not checked: Causes of the gaps beyond the data given."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-pay-equity-analysis skill on the records for this review."
+}

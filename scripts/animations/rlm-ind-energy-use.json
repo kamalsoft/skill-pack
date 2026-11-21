@@ -1,0 +1,134 @@
+{
+  "items": [
+    "meter-main.csv",
+    "meter-line-a.csv",
+    "meter-line-b.csv",
+    "meter-compressor.csv",
+    "output.csv",
+    "meter-utility.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "in line with output",
+        "reading fell, output did not",
+        "no reading this month"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        2
+      ],
+      "note": "Rank. Each meter is placed by whether its reading moves with output and whether it was read this month."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 reading fell with no change in output",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "meter-line-a.csv:12",
+        "title": "Meter reading fell with no matching change in output",
+        "fix": "Check the meter and the process"
+      },
+      {
+        "sev": "medium",
+        "where": "meter-utility.csv:19",
+        "title": "Meter with no reading this month",
+        "fix": "Take the reading"
+      },
+      {
+        "sev": "low",
+        "where": "meter-line-b.csv:26",
+        "title": "Billing difference outside the readings",
+        "fix": "Reconcile the bill to the reading"
+      }
+    ],
+    "notChecked": "Billing differences outside the readings."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] meter-line-a.csv:12  Meter reading fell with no matching change in output.\n       Fix: Check the meter and the process.\n[medium] meter-utility.csv:19  Meter with no reading this month.\n       Fix: Take the reading.\n[low] meter-line-b.csv:26  Billing difference outside the readings.\n       Fix: Reconcile the bill to the reading.\nNot checked: Billing differences outside the readings.",
+  "pros": [
+    "Checks a meter reading that falls, with no matching change in output, and a meter with no reading in the month."
+  ],
+  "cons": [
+    "Not checked: Billing differences outside the readings."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ind-energy-use skill on the records for this review."
+}

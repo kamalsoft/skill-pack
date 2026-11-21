@@ -1,0 +1,134 @@
+{
+  "items": [
+    "asset-laptop-114",
+    "asset-server-07",
+    "asset-switch-3",
+    "asset-printer-2",
+    "asset-phone-88",
+    "asset-vm-204"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "matched",
+        "found, not registered",
+        "registered, not found"
+      ],
+      "binOf": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        2
+      ],
+      "note": "Rank. Each asset is placed by whether the register and the network agree."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 assets do not match the register",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "asset-printer-2:12",
+        "title": "Found on the network but not registered",
+        "fix": "Register the device or remove it"
+      },
+      {
+        "sev": "medium",
+        "where": "asset-vm-204:19",
+        "title": "Registered but not found on the network",
+        "fix": "Confirm the asset is retired or find it"
+      },
+      {
+        "sev": "low",
+        "where": "asset-phone-88:26",
+        "title": "Asset with no owner",
+        "fix": "Assign an owner"
+      }
+    ],
+    "notChecked": "Assets not discovered by the scan."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] asset-printer-2:12  Found on the network but not registered.\n       Fix: Register the device or remove it.\n[medium] asset-vm-204:19  Registered but not found on the network.\n       Fix: Confirm the asset is retired or find it.\n[low] asset-phone-88:26  Asset with no owner.\n       Fix: Assign an owner.\nNot checked: Assets not discovered by the scan.",
+  "pros": [
+    "Flags an asset found but not registered, an asset registered but not found, and an asset with no owner."
+  ],
+  "cons": [
+    "Not checked: Assets not discovered by the scan."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-techops-asset-reconcile skill on the records for this review."
+}

@@ -1,0 +1,139 @@
+{
+  "items": [
+    "cand-01.md",
+    "cand-02.md",
+    "cand-03.md",
+    "cand-04.md",
+    "success-profile.md",
+    "ratings.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "bad",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "rated with evidence",
+        "rating with no evidence",
+        "uses protected characteristic"
+      ],
+      "pairs": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "bad"
+      ],
+      "note": "Compare. Each rating is matched to its evidence and to the success profile. A rating that uses a protected characteristic is flagged."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 rating uses a protected characteristic",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "cand-04.md:12",
+        "title": "Rating uses a protected characteristic",
+        "fix": "Remove it and re-rate on the profile"
+      },
+      {
+        "sev": "medium",
+        "where": "cand-02.md:19",
+        "title": "Rating with no evidence",
+        "fix": "Attach the evidence from the profile"
+      },
+      {
+        "sev": "low",
+        "where": "success-profile.md:26",
+        "title": "Measure not in the success profile",
+        "fix": "Use a measure from the profile"
+      }
+    ],
+    "notChecked": "The candidate's private circumstances."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] cand-04.md:12  Rating uses a protected characteristic.\n       Fix: Remove it and re-rate on the profile.\n[medium] cand-02.md:19  Rating with no evidence.\n       Fix: Attach the evidence from the profile.\n[low] success-profile.md:26  Measure not in the success profile.\n       Fix: Use a measure from the profile.\nNot checked: The candidate's private circumstances.",
+  "pros": [
+    "Checks a rating with no evidence, a rating that uses a protected characteristic, and a measure that is not in the success profile."
+  ],
+  "cons": [
+    "Not checked: The candidate's private circumstances."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-longlist-assessment skill on the records for this review."
+}

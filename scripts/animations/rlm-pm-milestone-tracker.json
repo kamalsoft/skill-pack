@@ -1,0 +1,129 @@
+{
+  "items": [
+    "ms-design",
+    "ms-build",
+    "ms-test",
+    "ms-pilot",
+    "ms-cutover",
+    "ms-review"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "warn",
+        "bad",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.0
+      ],
+      "note": "Order. Each milestone is placed by its planned date and its forecast."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 milestone has slipped with no recovery action",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "ms-pilot:12",
+        "title": "Forecast after the planned date with no recovery action",
+        "fix": "Add a recovery action with a date"
+      },
+      {
+        "sev": "medium",
+        "where": "ms-test:19",
+        "title": "Milestone with no owner",
+        "fix": "Assign an owner"
+      },
+      {
+        "sev": "low",
+        "where": "ms-review:26",
+        "title": "Milestone with no forecast",
+        "fix": "Add a forecast date"
+      }
+    ],
+    "notChecked": "Dependencies not in the list."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] ms-pilot:12  Forecast after the planned date with no recovery action.\n       Fix: Add a recovery action with a date.\n[medium] ms-test:19  Milestone with no owner.\n       Fix: Assign an owner.\n[low] ms-review:26  Milestone with no forecast.\n       Fix: Add a forecast date.\nNot checked: Dependencies not in the list.",
+  "pros": [
+    "Checks a forecast date after the planned date with no recovery action, a milestone with no owner, and a milestone with no forecast."
+  ],
+  "cons": [
+    "Not checked: Dependencies not in the list."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-pm-milestone-tracker skill on the records for this review."
+}

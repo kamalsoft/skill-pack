@@ -1,0 +1,129 @@
+{
+  "items": [
+    "standup-mon",
+    "standup-tue",
+    "standup-wed",
+    "standup-thu",
+    "standup-fri",
+    "standup-notes"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "bad",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.0
+      ],
+      "note": "Order. Each day's standup is placed in the sprint."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 blocker has been open for three days",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "standup-wed:12",
+        "title": "Blocker open for three days",
+        "fix": "Escalate the blocker today"
+      },
+      {
+        "sev": "medium",
+        "where": "standup-tue:19",
+        "title": "Blocker with no owner",
+        "fix": "Assign an owner"
+      },
+      {
+        "sev": "low",
+        "where": "standup-notes:26",
+        "title": "Note with no progress and no blocker",
+        "fix": "Record progress or the blocker"
+      }
+    ],
+    "notChecked": "Progress not in the notes."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] standup-wed:12  Blocker open for three days.\n       Fix: Escalate the blocker today.\n[medium] standup-tue:19  Blocker with no owner.\n       Fix: Assign an owner.\n[low] standup-notes:26  Note with no progress and no blocker.\n       Fix: Record progress or the blocker.\nNot checked: Progress not in the notes.",
+  "pros": [
+    "Checks a blocker with no owner, a blocker open for three days, and a note with no progress and no blocker."
+  ],
+  "cons": [
+    "Not checked: Progress not in the notes."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-pm-standup-summary skill on the records for this review."
+}

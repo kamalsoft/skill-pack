@@ -1,0 +1,134 @@
+{
+  "items": [
+    "search-string-1.md",
+    "search-string-2.md",
+    "channel-job-boards.csv",
+    "channel-referrals.csv",
+    "market-map.md",
+    "sourced-list.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "active",
+        "no results 2 weeks",
+        "no channel recorded"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        2
+      ],
+      "note": "Rank. Each search string and channel is placed by its results and its activity."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 search string has returned no results for two weeks",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "search-string-2.md:12",
+        "title": "Search string with no results for two weeks",
+        "fix": "Rewrite the search"
+      },
+      {
+        "sev": "medium",
+        "where": "channel-referrals.csv:19",
+        "title": "Channel with no activity",
+        "fix": "Pause the channel or move the budget"
+      },
+      {
+        "sev": "low",
+        "where": "sourced-list.csv:26",
+        "title": "Candidate sourced with no channel recorded",
+        "fix": "Record the channel"
+      }
+    ],
+    "notChecked": "The candidates' willingness to move."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] search-string-2.md:12  Search string with no results for two weeks.\n       Fix: Rewrite the search.\n[medium] channel-referrals.csv:19  Channel with no activity.\n       Fix: Pause the channel or move the budget.\n[low] sourced-list.csv:26  Candidate sourced with no channel recorded.\n       Fix: Record the channel.\nNot checked: The candidates' willingness to move.",
+  "pros": [
+    "Checks a search string that returns no results for two weeks, a channel with no activity, and a candidate sourced with no channel recorded."
+  ],
+  "cons": [
+    "Not checked: The candidates' willingness to move."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-candidate-sourcing skill on the records for this review."
+}

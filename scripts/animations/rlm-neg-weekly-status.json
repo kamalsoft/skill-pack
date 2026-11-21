@@ -1,0 +1,134 @@
+{
+  "items": [
+    "neg-w-cloud.md",
+    "neg-w-freight.md",
+    "neg-w-print.md",
+    "neg-w-services.md",
+    "neg-w-raw.md",
+    "neg-w-it.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "moving",
+        "no contact 14 days",
+        "stage stuck 2 weeks"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        1
+      ],
+      "note": "Rank. Each negotiation is placed by its contact, its owner and whether its stage has moved."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 negotiation has had no contact for 14 days",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "neg-w-freight.md:12",
+        "title": "No contact for more than 14 days",
+        "fix": "Contact the counterparty this week"
+      },
+      {
+        "sev": "medium",
+        "where": "neg-w-services.md:19",
+        "title": "Stage did not move for two weeks",
+        "fix": "Set the next step and its date"
+      },
+      {
+        "sev": "low",
+        "where": "neg-w-it.md:26",
+        "title": "Negotiation with no owner",
+        "fix": "Assign an owner"
+      }
+    ],
+    "notChecked": "Whether the counterparty agrees with the status recorded."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] neg-w-freight.md:12  No contact for more than 14 days.\n       Fix: Contact the counterparty this week.\n[medium] neg-w-services.md:19  Stage did not move for two weeks.\n       Fix: Set the next step and its date.\n[low] neg-w-it.md:26  Negotiation with no owner.\n       Fix: Assign an owner.\nNot checked: Whether the counterparty agrees with the status recorded.",
+  "pros": [
+    "Checks a negotiation with no next step, no owner, or no contact for more than 14 days, and a stage that did not move for two weeks."
+  ],
+  "cons": [
+    "Not checked: Whether the counterparty agrees with the status recorded."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-neg-weekly-status skill on the records for this review."
+}

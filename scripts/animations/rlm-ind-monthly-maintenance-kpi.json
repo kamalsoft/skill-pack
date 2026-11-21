@@ -1,0 +1,118 @@
+{
+  "items": [
+    "month-01.csv",
+    "month-02.csv",
+    "month-03.csv",
+    "month-04.csv",
+    "month-05.csv",
+    "month-06.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "warn",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.0
+      ],
+      "note": "Check. Each month's compliance, backlog and backlog age is checked against its rows."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 figures need a check",
+    "tone": "warn",
+    "bars": [
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "medium",
+        "where": "month-03.csv:12",
+        "title": "Compliance figure does not match its rows",
+        "fix": "Recompute the compliance from the rows"
+      },
+      {
+        "sev": "low",
+        "where": "month-05.csv:19",
+        "title": "Backlog item with no age",
+        "fix": "Add the age"
+      }
+    ],
+    "notChecked": "Whether the definitions match the plant's."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 2 findings (1 medium, 1 low).\n[medium] month-03.csv:12  Compliance figure does not match its rows.\n       Fix: Recompute the compliance from the rows.\n[low] month-05.csv:19  Backlog item with no age.\n       Fix: Add the age.\nNot checked: Whether the definitions match the plant's.",
+  "pros": [
+    "Checks a compliance figure that does not match its rows, a backlog item with no age, and a month missing."
+  ],
+  "cons": [
+    "Not checked: Whether the definitions match the plant's."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ind-monthly-maintenance-kpi skill on the records for this review."
+}

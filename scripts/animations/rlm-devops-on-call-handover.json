@@ -1,0 +1,116 @@
+{
+  "items": [
+    "alert-db-lag.md",
+    "alert-disk.md",
+    "deploy-pending-api.md",
+    "deploy-pending-web.md",
+    "risk-cert-expiry.md",
+    "risk-vendor.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "bad",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "stack",
+      "note": "List. Open alerts, pending deploys and risks are stacked for the next engineer."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 handover items need action before the shift ends",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        2,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "alert-disk.md:12",
+        "title": "Open alert with no next step",
+        "fix": "Write the next step and its owner"
+      },
+      {
+        "sev": "high",
+        "where": "deploy-pending-web.md:19",
+        "title": "Pending deploy with no approval",
+        "fix": "Get the approval before the handover"
+      },
+      {
+        "sev": "medium",
+        "where": "risk-vendor.md:26",
+        "title": "Risk with no owner role",
+        "fix": "Assign an owner role"
+      }
+    ],
+    "notChecked": "Alerts not in the log."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 high, 1 medium).\n[high] alert-disk.md:12  Open alert with no next step.\n       Fix: Write the next step and its owner.\n[high] deploy-pending-web.md:19  Pending deploy with no approval.\n       Fix: Get the approval before the handover.\n[medium] risk-vendor.md:26  Risk with no owner role.\n       Fix: Assign an owner role.\nNot checked: Alerts not in the log.",
+  "pros": [
+    "Flags an open alert with no next step, a pending deploy with no approval, and a risk with no owner."
+  ],
+  "cons": [
+    "Not checked: Alerts not in the log."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-devops-on-call-handover skill on the records for this review."
+}

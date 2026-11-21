@@ -1,0 +1,129 @@
+{
+  "items": [
+    "retro-s12.md",
+    "retro-s13.md",
+    "retro-s14.md",
+    "retro-s15.md",
+    "retro-s16.md",
+    "retro-s17.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.0
+      ],
+      "note": "Order. Each retrospective is placed by its sprint."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 action was not taken after two sprints",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "retro-s14.md:12",
+        "title": "Action not taken after two sprints",
+        "fix": "Take the action or drop it openly"
+      },
+      {
+        "sev": "medium",
+        "where": "retro-s16.md:19",
+        "title": "Action with no owner",
+        "fix": "Assign an owner"
+      },
+      {
+        "sev": "low",
+        "where": "retro-s12.md:26",
+        "title": "Theme repeated across three retrospectives",
+        "fix": "Address the theme directly"
+      }
+    ],
+    "notChecked": "Discussions not in the notes."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] retro-s14.md:12  Action not taken after two sprints.\n       Fix: Take the action or drop it openly.\n[medium] retro-s16.md:19  Action with no owner.\n       Fix: Assign an owner.\n[low] retro-s12.md:26  Theme repeated across three retrospectives.\n       Fix: Address the theme directly.\nNot checked: Discussions not in the notes.",
+  "pros": [
+    "Checks an action agreed with no owner, an action not taken after two sprints, and a theme repeated across three or more retrospectives."
+  ],
+  "cons": [
+    "Not checked: Discussions not in the notes."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-pm-retro-summary skill on the records for this review."
+}

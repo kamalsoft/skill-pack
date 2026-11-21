@@ -1,0 +1,139 @@
+{
+  "items": [
+    "target-compressed-air.md",
+    "target-steam.md",
+    "target-lighting.md",
+    "target-process.md",
+    "next-q-action-1.md",
+    "next-q-action-2.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "target met",
+        "missed by over 5 percent",
+        "no baseline"
+      ],
+      "pairs": [
+        0,
+        1,
+        2,
+        0,
+        0,
+        2
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "warn"
+      ],
+      "note": "Compare. Each target is matched to its result and its baseline. A miss of more than 5 percent needs an action."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 energy target missed with no action",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "target-steam.md:12",
+        "title": "Target missed by more than 5 percent with no action",
+        "fix": "Set the action for the next quarter"
+      },
+      {
+        "sev": "medium",
+        "where": "next-q-action-2.md:19",
+        "title": "Next-quarter action with no measure",
+        "fix": "Add the measure"
+      },
+      {
+        "sev": "low",
+        "where": "target-lighting.md:26",
+        "title": "Target with no baseline",
+        "fix": "Record the baseline"
+      }
+    ],
+    "notChecked": "Energy supply contracts."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] target-steam.md:12  Target missed by more than 5 percent with no action.\n       Fix: Set the action for the next quarter.\n[medium] next-q-action-2.md:19  Next-quarter action with no measure.\n       Fix: Add the measure.\n[low] target-lighting.md:26  Target with no baseline.\n       Fix: Record the baseline.\nNot checked: Energy supply contracts.",
+  "pros": [
+    "Checks a target missed by more than 5 percent with no action, a target with no baseline, and a next-quarter action with no measure."
+  ],
+  "cons": [
+    "Not checked: Energy supply contracts."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ind-energy-target-review skill on the records for this review."
+}

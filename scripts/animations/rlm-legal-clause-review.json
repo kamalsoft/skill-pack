@@ -1,0 +1,132 @@
+{
+  "items": [
+    "clause-liability.md",
+    "clause-indemnity.md",
+    "clause-payment.md",
+    "clause-term.md",
+    "clause-law.md",
+    "clause-confidentiality.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "bad",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "matches approved position",
+        "no approved position"
+      ],
+      "pairs": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad"
+      ],
+      "note": "Compare. Each clause is matched to the approved position for its type."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 liability clauses have no cap",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        2,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "clause-liability.md:12",
+        "title": "Liability clause with no cap stated",
+        "fix": "Add a cap or escalate to counsel"
+      },
+      {
+        "sev": "high",
+        "where": "clause-indemnity.md:19",
+        "title": "Indemnity clause with no cap stated",
+        "fix": "Add a cap or escalate to counsel"
+      },
+      {
+        "sev": "medium",
+        "where": "clause-law.md:26",
+        "title": "Clause type with no approved position",
+        "fix": "Ask counsel for the position"
+      }
+    ],
+    "notChecked": "Enforceability; the effect of each clause in law."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 high, 1 medium).\n[high] clause-liability.md:12  Liability clause with no cap stated.\n       Fix: Add a cap or escalate to counsel.\n[high] clause-indemnity.md:19  Indemnity clause with no cap stated.\n       Fix: Add a cap or escalate to counsel.\n[medium] clause-law.md:26  Clause type with no approved position.\n       Fix: Ask counsel for the position.\nNot checked: Enforceability; the effect of each clause in law.",
+  "pros": [
+    "Checks a departing clause, a clause type with no approved position, and a liability or indemnity clause with no cap stated."
+  ],
+  "cons": [
+    "Not checked: Enforceability; the effect of each clause in law."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-legal-clause-review skill on the records for this review."
+}

@@ -1,0 +1,121 @@
+{
+  "items": [
+    "week-40.csv",
+    "week-41.csv",
+    "week-42.csv",
+    "week-43.csv",
+    "week-44.csv",
+    "week-45.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "warn",
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "funnel",
+      "note": "Compute. Each measure is computed from the week's records by the published definition."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 week has missing records",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "week-44.csv:12",
+        "title": "Week with missing records",
+        "fix": "Add the missing records and recompute"
+      },
+      {
+        "sev": "medium",
+        "where": "week-42.csv:19",
+        "title": "Failure with no restore time",
+        "fix": "Record the restore time"
+      },
+      {
+        "sev": "low",
+        "where": "week-45.csv:26",
+        "title": "Measure with no source records",
+        "fix": "Name the source of the measure"
+      }
+    ],
+    "notChecked": "Whether the metrics reflect real customer value."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] week-44.csv:12  Week with missing records.\n       Fix: Add the missing records and recompute.\n[medium] week-42.csv:19  Failure with no restore time.\n       Fix: Record the restore time.\n[low] week-45.csv:26  Measure with no source records.\n       Fix: Name the source of the measure.\nNot checked: Whether the metrics reflect real customer value.",
+  "pros": [
+    "Flags a measure with no source records, a failure with no restore time, and a week with missing records."
+  ],
+  "cons": [
+    "Not checked: Whether the metrics reflect real customer value."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-devops-weekly-delivery-report skill on the records for this review."
+}

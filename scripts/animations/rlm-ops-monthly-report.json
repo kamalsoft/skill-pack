@@ -1,0 +1,119 @@
+{
+  "items": [
+    "ops-ship.csv",
+    "ops-stock.csv",
+    "ops-field.csv",
+    "ops-desk.csv",
+    "ops-quality.csv",
+    "ops-cost.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "ok",
+        "warn",
+        "ok",
+        "bad"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "funnel",
+      "note": "Compute. Each headline total is recomputed from the rows, not copied."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 total does not match its rows",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "ops-cost.csv:12",
+        "title": "Total does not match its rows",
+        "fix": "Recompute the total from the rows"
+      },
+      {
+        "sev": "medium",
+        "where": "ops-desk.csv:19",
+        "title": "Change above 25 percent with no note",
+        "fix": "Explain the change in one line"
+      },
+      {
+        "sev": "low",
+        "where": "ops-field.csv:26",
+        "title": "Month missing from the trend",
+        "fix": "Add the month"
+      }
+    ],
+    "notChecked": "Business outcomes; forecasts."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] ops-cost.csv:12  Total does not match its rows.\n       Fix: Recompute the total from the rows.\n[medium] ops-desk.csv:19  Change above 25 percent with no note.\n       Fix: Explain the change in one line.\n[low] ops-field.csv:26  Month missing from the trend.\n       Fix: Add the month.\nNot checked: Business outcomes; forecasts.",
+  "pros": [],
+  "cons": [
+    "Not checked: Business outcomes; forecasts."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ops-monthly-report skill on the records for this review."
+}

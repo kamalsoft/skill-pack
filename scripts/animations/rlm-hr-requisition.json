@@ -1,0 +1,124 @@
+{
+  "items": [
+    "req-role-a.md",
+    "req-role-b.md",
+    "req-role-c.md",
+    "req-role-d.md",
+    "req-role-e.md",
+    "req-role-f.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "bad",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Gate. A requisition needs a budget line, an approver, and a start date after approval."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 requisitions cannot be approved as written",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        2,
+        "high"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "req-role-b.md:12",
+        "title": "Requisition with no budget line",
+        "fix": "Link the requisition to a budget line"
+      },
+      {
+        "sev": "high",
+        "where": "req-role-d.md:19",
+        "title": "Start date before approval",
+        "fix": "Move the start date after the approval"
+      },
+      {
+        "sev": "low",
+        "where": "req-role-f.md:26",
+        "title": "Requisition with no approver",
+        "fix": "Name the approver"
+      }
+    ],
+    "notChecked": "Whether the role is needed."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 high, 1 low).\n[high] req-role-b.md:12  Requisition with no budget line.\n       Fix: Link the requisition to a budget line.\n[high] req-role-d.md:19  Start date before approval.\n       Fix: Move the start date after the approval.\n[low] req-role-f.md:26  Requisition with no approver.\n       Fix: Name the approver.\nNot checked: Whether the role is needed.",
+  "pros": [
+    "Checks a requisition with no budget line, no approver, and a start date before approval."
+  ],
+  "cons": [
+    "Not checked: Whether the role is needed."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hr-requisition skill on the records for this review."
+}

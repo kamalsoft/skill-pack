@@ -1,0 +1,134 @@
+{
+  "items": [
+    "claim-savings.md",
+    "cost-licences.csv",
+    "risk-migration.md",
+    "benefit-uptime.md",
+    "cost-training.csv",
+    "risk-vendor.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "warn",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "source: pilot data",
+        "source: vendor quote",
+        "no source"
+      ],
+      "pairs": [
+        0,
+        1,
+        2,
+        2,
+        1,
+        2
+      ],
+      "targetState": [
+        "ok",
+        "ok",
+        "bad"
+      ],
+      "note": "Compare. Each benefit and cost is matched to its source. One with no source is a gap."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 benefits or risks lack a basis",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        2,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "risk-migration.md:12",
+        "title": "Risk with no mitigation",
+        "fix": "Name a mitigation and its owner"
+      },
+      {
+        "sev": "medium",
+        "where": "benefit-uptime.md:19",
+        "title": "Benefit with no basis",
+        "fix": "Give the basis for the benefit"
+      },
+      {
+        "sev": "medium",
+        "where": "cost-training.csv:26",
+        "title": "Cost line with no estimate source",
+        "fix": "Attach the estimate"
+      }
+    ],
+    "notChecked": "The actual benefit."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 2 medium).\n[high] risk-migration.md:12  Risk with no mitigation.\n       Fix: Name a mitigation and its owner.\n[medium] benefit-uptime.md:19  Benefit with no basis.\n       Fix: Give the basis for the benefit.\n[medium] cost-training.csv:26  Cost line with no estimate source.\n       Fix: Attach the estimate.\nNot checked: The actual benefit.",
+  "pros": [
+    "Flags a benefit with no basis, a cost line with no estimate source, and a risk with no mitigation."
+  ],
+  "cons": [
+    "Not checked: The actual benefit."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-techops-it-proposal skill on the records for this review."
+}

@@ -1,0 +1,121 @@
+{
+  "items": [
+    "svc-email.csv",
+    "svc-erp.csv",
+    "svc-vpn.csv",
+    "svc-desk.csv",
+    "svc-wifi.csv",
+    "svc-web.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "funnel",
+      "note": "Compute. Each figure is recomputed from its source, not copied from the last report."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 figure does not match its source",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "svc-erp.csv:12",
+        "title": "Figure does not match its source",
+        "fix": "Recompute from the source export"
+      },
+      {
+        "sev": "medium",
+        "where": "svc-wifi.csv:19",
+        "title": "Change above 25 percent with no note",
+        "fix": "Explain the change in one line"
+      },
+      {
+        "sev": "low",
+        "where": "svc-desk.csv:26",
+        "title": "Service missing from the report",
+        "fix": "Add the service row"
+      }
+    ],
+    "notChecked": "Business outcomes."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] svc-erp.csv:12  Figure does not match its source.\n       Fix: Recompute from the source export.\n[medium] svc-wifi.csv:19  Change above 25 percent with no note.\n       Fix: Explain the change in one line.\n[low] svc-desk.csv:26  Service missing from the report.\n       Fix: Add the service row.\nNot checked: Business outcomes.",
+  "pros": [
+    "Flags a figure that does not match its source, a missing service, and a change above 25 percent with no note."
+  ],
+  "cons": [
+    "Not checked: Business outcomes."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-techops-monthly-report skill on the records for this review."
+}

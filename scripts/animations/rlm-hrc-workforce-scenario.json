@@ -1,0 +1,139 @@
+{
+  "items": [
+    "demand-base.md",
+    "demand-high.md",
+    "headcount-model.csv",
+    "cost-rate.md",
+    "assumption-attrition.md",
+    "scenario-summary.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "assumption sourced",
+        "no source",
+        "headcount follows demand"
+      ],
+      "pairs": [
+        0,
+        1,
+        2,
+        1,
+        0,
+        2
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Compare. Each assumption is matched to its source, and each headcount figure to the demand behind it."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 assumption has no source",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "demand-high.md:12",
+        "title": "Assumption with no source",
+        "fix": "Name the source of the assumption"
+      },
+      {
+        "sev": "medium",
+        "where": "cost-rate.md:19",
+        "title": "Cost with no rate source",
+        "fix": "Name the source of the rate"
+      },
+      {
+        "sev": "low",
+        "where": "scenario-summary.md:26",
+        "title": "Headcount that does not follow from demand",
+        "fix": "Recompute the headcount"
+      }
+    ],
+    "notChecked": "Attrition beyond the assumptions."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] demand-high.md:12  Assumption with no source.\n       Fix: Name the source of the assumption.\n[medium] cost-rate.md:19  Cost with no rate source.\n       Fix: Name the source of the rate.\n[low] scenario-summary.md:26  Headcount that does not follow from demand.\n       Fix: Recompute the headcount.\nNot checked: Attrition beyond the assumptions.",
+  "pros": [
+    "Checks an assumption with no source, a headcount that does not follow from the demand, and a cost with no rate source."
+  ],
+  "cons": [
+    "Not checked: Attrition beyond the assumptions."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-workforce-scenario skill on the records for this review."
+}

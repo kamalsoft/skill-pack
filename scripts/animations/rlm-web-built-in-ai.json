@@ -1,0 +1,134 @@
+{
+  "items": [
+    "ai-summary.ts",
+    "ai-translate.ts",
+    "agent-tools.ts",
+    "ai-detect.ts",
+    "ui-prompt.tsx",
+    "fallback.ts"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "detected before use",
+        "not detected",
+        "fallback present"
+      ],
+      "binOf": [
+        1,
+        0,
+        1,
+        0,
+        1,
+        2
+      ],
+      "note": "Rank. Each use of an on-device AI API is placed by whether it is detected and has a fallback."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 API used without feature detection",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "ai-summary.ts:12",
+        "title": "AI API used without feature detection",
+        "fix": "Check the API exists before calling it"
+      },
+      {
+        "sev": "medium",
+        "where": "agent-tools.ts:19",
+        "title": "Agent action with no confirmation step",
+        "fix": "Ask the user before the action"
+      },
+      {
+        "sev": "low",
+        "where": "ui-prompt.tsx:26",
+        "title": "Unavailable state not handled",
+        "fix": "Show a message for the unavailable state"
+      }
+    ],
+    "notChecked": "Model behaviour and output quality, availability on specific devices, and draft specifications that changed after the date checked."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] ai-summary.ts:12  AI API used without feature detection.\n       Fix: Check the API exists before calling it.\n[medium] agent-tools.ts:19  Agent action with no confirmation step.\n       Fix: Ask the user before the action.\n[low] ui-prompt.tsx:26  Unavailable state not handled.\n       Fix: Show a message for the unavailable state.\nNot checked: Model behaviour and output quality, availability on specific devices, and draft specifications that changed after the date checked.",
+  "pros": [
+    "Checks each AI API feature-detected before use, with its availability result handled for every state (unavailable, downloadable, downloading, available) and a fallback instead of an error; a model download s."
+  ],
+  "cons": [
+    "Not checked: Model behaviour and output quality, availability on specific devices, and draft specifications that changed after the date checked."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-web-built-in-ai skill on the records for this review."
+}

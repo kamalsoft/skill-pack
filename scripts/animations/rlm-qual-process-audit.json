@@ -1,0 +1,137 @@
+{
+  "items": [
+    "process-order.md",
+    "process-receiving.md",
+    "process-picking.md",
+    "process-dispatch.md",
+    "process-returns.md",
+    "process-billing.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "control has a result",
+        "control with no result"
+      ],
+      "pairs": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad"
+      ],
+      "note": "Compare. Each control in each process is matched to its recorded result."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 control has no result",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "process-picking.md:12",
+        "title": "Control with no result",
+        "fix": "Run the control and record the result"
+      },
+      {
+        "sev": "medium",
+        "where": "process-dispatch.md:19",
+        "title": "Finding with no action",
+        "fix": "Name the action"
+      },
+      {
+        "sev": "low",
+        "where": "process-billing.md:26",
+        "title": "Action with no due date",
+        "fix": "Set the due date"
+      }
+    ],
+    "notChecked": "Whether the controls were run as written; processes not audited."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] process-picking.md:12  Control with no result.\n       Fix: Run the control and record the result.\n[medium] process-dispatch.md:19  Finding with no action.\n       Fix: Name the action.\n[low] process-billing.md:26  Action with no due date.\n       Fix: Set the due date.\nNot checked: Whether the controls were run as written; processes not audited.",
+  "pros": [
+    "Checks a control with no result, a finding with no action, and an action with no owner or due date."
+  ],
+  "cons": [
+    "Not checked: Whether the controls were run as written; processes not audited."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-qual-process-audit skill on the records for this review."
+}

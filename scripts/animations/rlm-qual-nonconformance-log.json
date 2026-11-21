@@ -1,0 +1,129 @@
+{
+  "items": [
+    "nc-0301.md",
+    "nc-0302.md",
+    "nc-0303.md",
+    "nc-0304.md",
+    "nc-0305.md",
+    "nc-0306.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        false,
+        true
+      ],
+      "note": "Gate. Each nonconformance needs containment, an owner, a date and a status that matches its containment."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 record is closed while containment is open",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "nc-0303.md:12",
+        "title": "Closed while containment is still open",
+        "fix": "Reopen the record until containment is in place"
+      },
+      {
+        "sev": "medium",
+        "where": "nc-0305.md:19",
+        "title": "No containment recorded",
+        "fix": "Record the containment action"
+      },
+      {
+        "sev": "low",
+        "where": "nc-0302.md:26",
+        "title": "No owner",
+        "fix": "Assign an owner"
+      }
+    ],
+    "notChecked": "Whether the containment works; the true cause; records never raised."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] nc-0303.md:12  Closed while containment is still open.\n       Fix: Reopen the record until containment is in place.\n[medium] nc-0305.md:19  No containment recorded.\n       Fix: Record the containment action.\n[low] nc-0302.md:26  No owner.\n       Fix: Assign an owner.\nNot checked: Whether the containment works; the true cause; records never raised.",
+  "pros": [
+    "Checks a record with no containment, no owner, a missing date, or a status that is closed while containment is open."
+  ],
+  "cons": [
+    "Not checked: Whether the containment works; the true cause; records never raised."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-qual-nonconformance-log skill on the records for this review."
+}

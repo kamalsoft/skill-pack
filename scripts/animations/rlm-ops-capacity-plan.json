@@ -1,0 +1,129 @@
+{
+  "items": [
+    "period-q1.csv",
+    "period-q2.csv",
+    "period-q3.csv",
+    "period-q4.csv",
+    "forecast-source.md",
+    "capacity-basis.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0,
+        0.33,
+        0.66,
+        1.0,
+        0.2,
+        0.8
+      ],
+      "note": "Order. Each period is placed in the quarter it covers, with its demand against capacity."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 period has a gap and no action",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "period-q3.csv:12",
+        "title": "Gap with no action",
+        "fix": "Name the action that closes the gap"
+      },
+      {
+        "sev": "medium",
+        "where": "forecast-source.md:19",
+        "title": "Forecast with no source",
+        "fix": "Attach the forecast's source"
+      },
+      {
+        "sev": "low",
+        "where": "capacity-basis.md:26",
+        "title": "Capacity figure with no basis",
+        "fix": "Give the basis for the capacity figure"
+      }
+    ],
+    "notChecked": "Demand not in the forecast."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] period-q3.csv:12  Gap with no action.\n       Fix: Name the action that closes the gap.\n[medium] forecast-source.md:19  Forecast with no source.\n       Fix: Attach the forecast's source.\n[low] capacity-basis.md:26  Capacity figure with no basis.\n       Fix: Give the basis for the capacity figure.\nNot checked: Demand not in the forecast.",
+  "pros": [
+    "Checks a period with a gap and no action, a forecast with no source, and a capacity figure with no basis."
+  ],
+  "cons": [
+    "Not checked: Demand not in the forecast."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ops-capacity-plan skill on the records for this review."
+}

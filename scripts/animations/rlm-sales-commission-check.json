@@ -1,0 +1,139 @@
+{
+  "items": [
+    "comm-0301.md",
+    "comm-0302.md",
+    "comm-0303.md",
+    "comm-0304.md",
+    "comm-0305.md",
+    "comm-0306.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "recomputed value matches",
+        "value differs",
+        "rule not in plan"
+      ],
+      "pairs": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        1
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "warn"
+      ],
+      "note": "Compare. Each commission is recomputed from the plan rule and matched to the paid amount."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 commission differs from the recomputed value",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "comm-0302.md:12",
+        "title": "Commission differs from the recomputed value",
+        "fix": "Correct the payment to the plan rule"
+      },
+      {
+        "sev": "medium",
+        "where": "comm-0306.md:19",
+        "title": "Booking counted twice",
+        "fix": "Remove the duplicate booking"
+      },
+      {
+        "sev": "low",
+        "where": "comm-0304.md:26",
+        "title": "Rule cited that is not in the plan",
+        "fix": "Cite the plan rule"
+      }
+    ],
+    "notChecked": "Whether the plan rule is lawful or fair; the payment itself."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] comm-0302.md:12  Commission differs from the recomputed value.\n       Fix: Correct the payment to the plan rule.\n[medium] comm-0306.md:19  Booking counted twice.\n       Fix: Remove the duplicate booking.\n[low] comm-0304.md:26  Rule cited that is not in the plan.\n       Fix: Cite the plan rule.\nNot checked: Whether the plan rule is lawful or fair; the payment itself.",
+  "pros": [
+    "Checks a calculation that differs from the recomputed value, a rule cited that is not in the plan, and a booking counted twice."
+  ],
+  "cons": [
+    "Not checked: Whether the plan rule is lawful or fair; the payment itself."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-sales-commission-check skill on the records for this review."
+}

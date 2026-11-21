@@ -1,0 +1,137 @@
+{
+  "items": [
+    "stk-sponsor",
+    "stk-users",
+    "stk-finance",
+    "stk-legal",
+    "stk-vendor",
+    "stk-team"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "ok",
+        "bad",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "channel set",
+        "no channel"
+      ],
+      "pairs": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad"
+      ],
+      "note": "Compare. Each stakeholder is matched to a channel. One with no channel is a gap."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 stakeholder has no channel",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "stk-legal:12",
+        "title": "Stakeholder with no information need",
+        "fix": "Record what this stakeholder needs to know"
+      },
+      {
+        "sev": "medium",
+        "where": "stk-vendor:19",
+        "title": "Stakeholder with no channel",
+        "fix": "Name the channel and the frequency"
+      },
+      {
+        "sev": "low",
+        "where": "stk-team:26",
+        "title": "Need with no owner",
+        "fix": "Assign an owner for the update"
+      }
+    ],
+    "notChecked": "Stakeholders not on the list."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] stk-legal:12  Stakeholder with no information need.\n       Fix: Record what this stakeholder needs to know.\n[medium] stk-vendor:19  Stakeholder with no channel.\n       Fix: Name the channel and the frequency.\n[low] stk-team:26  Need with no owner.\n       Fix: Assign an owner for the update.\nNot checked: Stakeholders not on the list.",
+  "pros": [
+    "Checks a stakeholder with no information need, a stakeholder with no channel, and a need with no owner."
+  ],
+  "cons": [
+    "Not checked: Stakeholders not on the list."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-pm-stakeholder-plan skill on the records for this review."
+}

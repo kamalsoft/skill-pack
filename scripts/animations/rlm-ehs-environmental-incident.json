@@ -1,0 +1,124 @@
+{
+  "items": [
+    "spill-0410.md",
+    "release-0411.md",
+    "emission-0412.md",
+    "spill-0413.md",
+    "spill-0414.md",
+    "release-0415.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "warn",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.0
+      ],
+      "note": "Order. Each event is placed by the time it happened and when containment began."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 release has no containment time",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        2,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "release-0411.md:12",
+        "title": "Release with no containment time",
+        "fix": "Record when containment began"
+      },
+      {
+        "sev": "medium",
+        "where": "emission-0412.md:19",
+        "title": "Reporting obligation with no source",
+        "fix": "Name the rule the report is due under"
+      },
+      {
+        "sev": "medium",
+        "where": "spill-0414.md:26",
+        "title": "Action with no owner",
+        "fix": "Assign an owner"
+      }
+    ],
+    "notChecked": "Whether the containment worked; the environmental effect."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 2 medium).\n[high] release-0411.md:12  Release with no containment time.\n       Fix: Record when containment began.\n[medium] emission-0412.md:19  Reporting obligation with no source.\n       Fix: Name the rule the report is due under.\n[medium] spill-0414.md:26  Action with no owner.\n       Fix: Assign an owner.\nNot checked: Whether the containment worked; the environmental effect.",
+  "pros": [
+    "Checks a release with no containment time, a reporting obligation with no source, and an action with no owner."
+  ],
+  "cons": [
+    "Not checked: Whether the containment worked; the environmental effect."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ehs-environmental-incident skill on the records for this review."
+}

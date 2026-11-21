@@ -1,0 +1,124 @@
+{
+  "items": [
+    "deploy-api.log",
+    "deploy-web.log",
+    "deploy-worker.log",
+    "deploy-search.log",
+    "deploy-billing.log",
+    "deploy-auth.log"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "warn",
+        "bad",
+        "bad",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.0
+      ],
+      "note": "Order. Deploys and rollbacks are placed in the order they happened."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 production deploys have no record",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        2,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "deploy-search.log:12",
+        "title": "Failed production deploy with no cause",
+        "fix": "Record the cause and the fix"
+      },
+      {
+        "sev": "high",
+        "where": "deploy-billing.log:19",
+        "title": "Production deploy with no approval reference",
+        "fix": "Attach the approval or record the exception"
+      },
+      {
+        "sev": "medium",
+        "where": "deploy-worker.log:26",
+        "title": "Rollback with no record",
+        "fix": "Write the rollback entry"
+      }
+    ],
+    "notChecked": "What happened in production after the deploy."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 high, 1 medium).\n[high] deploy-search.log:12  Failed production deploy with no cause.\n       Fix: Record the cause and the fix.\n[high] deploy-billing.log:19  Production deploy with no approval reference.\n       Fix: Attach the approval or record the exception.\n[medium] deploy-worker.log:26  Rollback with no record.\n       Fix: Write the rollback entry.\nNot checked: What happened in production after the deploy.",
+  "pros": [
+    "Flags a failed deployment with no cause, a rollback with no record, and a deployment to production with no approval reference."
+  ],
+  "cons": [
+    "Not checked: What happened in production after the deploy."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-devops-deploy-log skill on the records for this review."
+}

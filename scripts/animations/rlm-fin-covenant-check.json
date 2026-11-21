@@ -1,0 +1,129 @@
+{
+  "items": [
+    "cov-leverage.md",
+    "cov-interest.md",
+    "cov-liquidity.md",
+    "cov-capex.md",
+    "cov-definitions.md",
+    "cov-headroom.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Gate. Each covenant test uses its definition and must leave headroom above the warning level."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 covenant test does not follow from its figures",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "cov-liquidity.md:12",
+        "title": "Test value does not follow from the figures",
+        "fix": "Recompute the test from the definition"
+      },
+      {
+        "sev": "medium",
+        "where": "cov-headroom.md:19",
+        "title": "Headroom under the warning level",
+        "fix": "Warn the lender early and plan the action"
+      },
+      {
+        "sev": "low",
+        "where": "cov-definitions.md:26",
+        "title": "Figures not from the definition",
+        "fix": "Use the definition in the agreement"
+      }
+    ],
+    "notChecked": "Whether the agreement's definitions are what the lender will apply; any waiver."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] cov-liquidity.md:12  Test value does not follow from the figures.\n       Fix: Recompute the test from the definition.\n[medium] cov-headroom.md:19  Headroom under the warning level.\n       Fix: Warn the lender early and plan the action.\n[low] cov-definitions.md:26  Figures not from the definition.\n       Fix: Use the definition in the agreement.\nNot checked: Whether the agreement's definitions are what the lender will apply; any waiver.",
+  "pros": [
+    "Checks a covenant whose figures are not from the definition, a test value that does not follow from the figures, and a headroom under the stated warning level."
+  ],
+  "cons": [
+    "Not checked: Whether the agreement's definitions are what the lender will apply; any waiver."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-fin-covenant-check skill on the records for this review."
+}

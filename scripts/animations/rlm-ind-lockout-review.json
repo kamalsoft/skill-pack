@@ -1,0 +1,138 @@
+{
+  "items": [
+    "energy-motor.md",
+    "energy-pneumatic.md",
+    "energy-hydraulic.md",
+    "step-isolate.md",
+    "step-verify.md",
+    "step-release.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "warn",
+        "ok",
+        "bad",
+        "bad"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "graph",
+      "edges": [
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "note": "Order. Each energy source is isolated, then verified, then released. A release before verification is flagged."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 lockout checks fail",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        2,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "step-release.md:12",
+        "title": "Release step before verification",
+        "fix": "Move the release after the verification"
+      },
+      {
+        "sev": "high",
+        "where": "step-verify.md:19",
+        "title": "Verification step missing",
+        "fix": "Add the zero-energy verification"
+      },
+      {
+        "sev": "medium",
+        "where": "energy-hydraulic.md:26",
+        "title": "Energy source with no isolation step",
+        "fix": "Add the isolation for the source"
+      }
+    ],
+    "notChecked": "Whether the step is carried out on the floor."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 high, 1 medium).\n[high] step-release.md:12  Release step before verification.\n       Fix: Move the release after the verification.\n[high] step-verify.md:19  Verification step missing.\n       Fix: Add the zero-energy verification.\n[medium] energy-hydraulic.md:26  Energy source with no isolation step.\n       Fix: Add the isolation for the source.\nNot checked: Whether the step is carried out on the floor.",
+  "pros": [
+    "Checks an energy source on the equipment list with no isolation step, a verification step missing, and a release step before verification."
+  ],
+  "cons": [
+    "Not checked: Whether the step is carried out on the floor."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ind-lockout-review skill on the records for this review."
+}

@@ -1,0 +1,129 @@
+{
+  "items": [
+    "sla-intake.csv",
+    "sla-dispatch.csv",
+    "sla-returns.csv",
+    "sla-support.csv",
+    "sla-billing.csv",
+    "sla-audit.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Gate. Each service's combined attainment is checked against its target."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 service level is below target",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "sla-returns.csv:12",
+        "title": "Combined attainment below its target",
+        "fix": "Recover the week's backlog"
+      },
+      {
+        "sev": "medium",
+        "where": "sla-billing.csv:19",
+        "title": "Week with missing records",
+        "fix": "Add the missing records and recompute"
+      },
+      {
+        "sev": "low",
+        "where": "sla-audit.csv:26",
+        "title": "Quality within target not measured",
+        "fix": "Add a quality check"
+      }
+    ],
+    "notChecked": "Quality of the work done within target."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] sla-returns.csv:12  Combined attainment below its target.\n       Fix: Recover the week's backlog.\n[medium] sla-billing.csv:19  Week with missing records.\n       Fix: Add the missing records and recompute.\n[low] sla-audit.csv:26  Quality within target not measured.\n       Fix: Add a quality check.\nNot checked: Quality of the work done within target.",
+  "pros": [
+    "Checks a combination below its target, and a week with missing records."
+  ],
+  "cons": [
+    "Not checked: Quality of the work done within target."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ops-weekly-sla-report skill on the records for this review."
+}

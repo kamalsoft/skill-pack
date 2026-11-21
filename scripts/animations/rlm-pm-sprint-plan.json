@@ -1,0 +1,134 @@
+{
+  "items": [
+    "story-101",
+    "story-102",
+    "story-103",
+    "story-104",
+    "story-105",
+    "story-106"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "ok",
+        "bad",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "within capacity",
+        "carried over",
+        "no estimate"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        2,
+        1
+      ],
+      "note": "Rank. Each item is placed by whether it fits the capacity, was carried over, and has an estimate."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "the sprint scope is above capacity",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "story-104:12",
+        "title": "Scope above capacity",
+        "fix": "Remove items until the scope fits"
+      },
+      {
+        "sev": "medium",
+        "where": "story-105:19",
+        "title": "Item with no estimate",
+        "fix": "Estimate the item before it is committed"
+      },
+      {
+        "sev": "low",
+        "where": "story-102:26",
+        "title": "Carried-over item with no reason",
+        "fix": "Record why it was carried over"
+      }
+    ],
+    "notChecked": "The team's actual velocity beyond the sheet."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] story-104:12  Scope above capacity.\n       Fix: Remove items until the scope fits.\n[medium] story-105:19  Item with no estimate.\n       Fix: Estimate the item before it is committed.\n[low] story-102:26  Carried-over item with no reason.\n       Fix: Record why it was carried over.\nNot checked: The team's actual velocity beyond the sheet.",
+  "pros": [
+    "Checks scope above capacity, an item with no estimate, and a carried-over item with no reason."
+  ],
+  "cons": [
+    "Not checked: The team's actual velocity beyond the sheet."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-pm-sprint-plan skill on the records for this review."
+}

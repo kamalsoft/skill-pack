@@ -1,0 +1,124 @@
+{
+  "items": [
+    "timesheet-a.csv",
+    "timesheet-b.csv",
+    "invoice-0401.md",
+    "invoice-0402.md",
+    "margin.csv",
+    "rates.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "bad",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Gate. Each hour needs an approval, each invoice must match its recomputed amount, and each placement must clear the margin floor."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 invoice differs from its recomputed amount",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        2,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "invoice-0401.md:12",
+        "title": "Invoice differs from its recomputed amount",
+        "fix": "Correct the invoice before it is sent"
+      },
+      {
+        "sev": "medium",
+        "where": "timesheet-b.csv:19",
+        "title": "Hour with no approval",
+        "fix": "Get the approval before billing"
+      },
+      {
+        "sev": "medium",
+        "where": "margin.csv:26",
+        "title": "Margin below the floor",
+        "fix": "Review the rate with the client"
+      }
+    ],
+    "notChecked": "Whether the hours were worked."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 2 medium).\n[high] invoice-0401.md:12  Invoice differs from its recomputed amount.\n       Fix: Correct the invoice before it is sent.\n[medium] timesheet-b.csv:19  Hour with no approval.\n       Fix: Get the approval before billing.\n[medium] margin.csv:26  Margin below the floor.\n       Fix: Review the rate with the client.\nNot checked: Whether the hours were worked.",
+  "pros": [
+    "Checks an invoice that differs from its recomputed amount, an hour with no approval, and a margin below the floor."
+  ],
+  "cons": [
+    "Not checked: Whether the hours were worked."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-contract-staffing-billing skill on the records for this review."
+}

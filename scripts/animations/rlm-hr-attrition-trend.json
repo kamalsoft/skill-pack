@@ -1,0 +1,134 @@
+{
+  "items": [
+    "leavers-jan.csv",
+    "leavers-feb.csv",
+    "leavers-mar.csv",
+    "leavers-apr.csv",
+    "headcount.csv",
+    "reason-codes.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "coded",
+        "no reason code",
+        "rate on wrong headcount"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        2,
+        0
+      ],
+      "note": "Rank. Each leaver is placed by its reason code, and each rate by its headcount base."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 leaver has no reason code",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "leavers-feb.csv:12",
+        "title": "Leaver with no reason code",
+        "fix": "Code the reason from the exit record"
+      },
+      {
+        "sev": "medium",
+        "where": "headcount.csv:19",
+        "title": "Rate computed on a headcount that does not match the period",
+        "fix": "Recompute on the period's headcount"
+      },
+      {
+        "sev": "low",
+        "where": "reason-codes.csv:26",
+        "title": "Reasons given beyond the codes not recorded",
+        "fix": "Note the reasons in the exit record"
+      }
+    ],
+    "notChecked": "The reasons given beyond the codes."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] leavers-feb.csv:12  Leaver with no reason code.\n       Fix: Code the reason from the exit record.\n[medium] headcount.csv:19  Rate computed on a headcount that does not match the period.\n       Fix: Recompute on the period's headcount.\n[low] reason-codes.csv:26  Reasons given beyond the codes not recorded.\n       Fix: Note the reasons in the exit record.\nNot checked: The reasons given beyond the codes.",
+  "pros": [
+    "Checks a leaver with no reason code, and a rate computed on a headcount that does not match the period."
+  ],
+  "cons": [
+    "Not checked: The reasons given beyond the codes."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hr-attrition-trend skill on the records for this review."
+}

@@ -1,0 +1,139 @@
+{
+  "items": [
+    "unit-finance.md",
+    "unit-sales.md",
+    "unit-people.md",
+    "unit-ops.md",
+    "lines.csv",
+    "design-principles.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "graph",
+      "edges": [
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "note": "Order. Each unit reports up its reporting line. A line that loops back is flagged."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 reporting line loops",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "lines.csv:12",
+        "title": "Reporting line loops",
+        "fix": "Break the loop in the reporting lines"
+      },
+      {
+        "sev": "medium",
+        "where": "unit-sales.md:19",
+        "title": "Unit with no manager",
+        "fix": "Name a manager"
+      },
+      {
+        "sev": "low",
+        "where": "design-principles.md:26",
+        "title": "Unit with no stated purpose",
+        "fix": "Write the purpose"
+      }
+    ],
+    "notChecked": "The people in the roles."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] lines.csv:12  Reporting line loops.\n       Fix: Break the loop in the reporting lines.\n[medium] unit-sales.md:19  Unit with no manager.\n       Fix: Name a manager.\n[low] design-principles.md:26  Unit with no stated purpose.\n       Fix: Write the purpose.\nNot checked: The people in the roles.",
+  "pros": [
+    "Checks a unit with no manager, a reporting line that loops, and a unit with no stated purpose."
+  ],
+  "cons": [
+    "Not checked: The people in the roles."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-org-design-review skill on the records for this review."
+}

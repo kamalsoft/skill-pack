@@ -1,0 +1,129 @@
+{
+  "items": [
+    "job-1041.md",
+    "job-1042.md",
+    "job-1043.md",
+    "job-1044.md",
+    "job-1045.md",
+    "job-1046.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.0
+      ],
+      "note": "Order. Each short part is placed by the job's start and the part's expected arrival."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 job has a short part with no expected arrival",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "job-1042.md:12",
+        "title": "Part short for a job with no expected arrival",
+        "fix": "Get an arrival date from purchasing today"
+      },
+      {
+        "sev": "medium",
+        "where": "job-1044.md:19",
+        "title": "Arrival after the job's start date",
+        "fix": "Re-sequence the job or expedite the part"
+      },
+      {
+        "sev": "low",
+        "where": "job-1046.md:26",
+        "title": "Shortage with no owner",
+        "fix": "Assign an owner"
+      }
+    ],
+    "notChecked": "Supplier reliability."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] job-1042.md:12  Part short for a job with no expected arrival.\n       Fix: Get an arrival date from purchasing today.\n[medium] job-1044.md:19  Arrival after the job's start date.\n       Fix: Re-sequence the job or expedite the part.\n[low] job-1046.md:26  Shortage with no owner.\n       Fix: Assign an owner.\nNot checked: Supplier reliability.",
+  "pros": [
+    "Checks a part short for a job with no expected arrival, and an arrival after the job's start date."
+  ],
+  "cons": [
+    "Not checked: Supplier reliability."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mfg-material-shortages skill on the records for this review."
+}

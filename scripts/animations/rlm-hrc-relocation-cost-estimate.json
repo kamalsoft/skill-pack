@@ -1,0 +1,139 @@
+{
+  "items": [
+    "line-flights.md",
+    "line-housing.md",
+    "line-shipping.md",
+    "line-allowance.md",
+    "quotes.csv",
+    "total.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "quoted",
+        "no quote",
+        "total agrees"
+      ],
+      "pairs": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        2
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Compare. Each cost line is matched to its quote, and the total to its lines."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 line has no quote",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "line-housing.md:12",
+        "title": "Line with no quote",
+        "fix": "Get a quote for the line"
+      },
+      {
+        "sev": "medium",
+        "where": "total.csv:19",
+        "title": "Total does not equal its lines",
+        "fix": "Correct the total"
+      },
+      {
+        "sev": "low",
+        "where": "line-allowance.md:26",
+        "title": "Assumption not stated",
+        "fix": "State the assumption"
+      }
+    ],
+    "notChecked": "Costs not quoted."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] line-housing.md:12  Line with no quote.\n       Fix: Get a quote for the line.\n[medium] total.csv:19  Total does not equal its lines.\n       Fix: Correct the total.\n[low] line-allowance.md:26  Assumption not stated.\n       Fix: State the assumption.\nNot checked: Costs not quoted.",
+  "pros": [
+    "Checks a line with no quote, and a total that does not equal its lines."
+  ],
+  "cons": [
+    "Not checked: Costs not quoted."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-relocation-cost-estimate skill on the records for this review."
+}

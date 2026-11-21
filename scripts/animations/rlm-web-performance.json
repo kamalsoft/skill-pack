@@ -1,0 +1,134 @@
+{
+  "items": [
+    "home.html",
+    "product.html",
+    "app.js",
+    "hero.jpg",
+    "font.woff2",
+    "analytics.js"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "fast",
+        "slow to load",
+        "third-party cost"
+      ],
+      "binOf": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        2
+      ],
+      "note": "Rank. Each file is placed by its effect on loading and on the third-party cost."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "the LCP image is lazy-loaded",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "hero.jpg:12",
+        "title": "LCP image is lazy-loaded",
+        "fix": "Load the hero image eagerly with high priority"
+      },
+      {
+        "sev": "medium",
+        "where": "analytics.js:19",
+        "title": "Third-party script blocks rendering",
+        "fix": "Load it with defer or async"
+      },
+      {
+        "sev": "low",
+        "where": "app.js:26",
+        "title": "Script loaded without defer",
+        "fix": "Add defer"
+      }
+    ],
+    "notChecked": "Real-user data if none was given, server response time and CDN configuration, low-end devices and slow networks unless tested, and features whose support was not confirmed for the targets."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] hero.jpg:12  LCP image is lazy-loaded.\n       Fix: Load the hero image eagerly with high priority.\n[medium] analytics.js:19  Third-party script blocks rendering.\n       Fix: Load it with defer or async.\n[low] app.js:26  Script loaded without defer.\n       Fix: Add defer.\nNot checked: Real-user data if none was given, server response time and CDN configuration, low-end devices and slow networks unless tested, and features whose support was not confirmed for the targets.",
+  "pros": [
+    "Checks an LCP resource that is not in the initial HTML, is lazy-loaded, or lacks fetchpriority high; scripts loaded without defer, async or type module where they could be; large render-blocking CSS; third-p."
+  ],
+  "cons": [
+    "Not checked: Real-user data if none was given, server response time and CDN configuration, low-end devices and slow networks unless tested, and features whose support was not confirmed for the targets."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-web-performance skill on the records for this review."
+}

@@ -1,0 +1,134 @@
+{
+  "items": [
+    "roadmap-q2-cache.md",
+    "roadmap-q2-secrets.md",
+    "roadmap-q2-ci.md",
+    "roadmap-q2-observability.md",
+    "roadmap-q2-dbpool.md",
+    "roadmap-q3-plan.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "warn",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "delivered",
+        "partly delivered",
+        "not started"
+      ],
+      "pairs": [
+        0,
+        1,
+        2,
+        0,
+        2,
+        -1
+      ],
+      "targetState": [
+        "ok",
+        "warn",
+        "bad"
+      ],
+      "note": "Compare. Each planned item is matched to its outcome. A planned item with no outcome is a gap."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 roadmap items have no outcome or no measure",
+    "tone": "warn",
+    "bars": [
+      [
+        "medium",
+        2,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "medium",
+        "where": "roadmap-q2-dbpool.md:12",
+        "title": "Planned item has no outcome",
+        "fix": "Record the outcome or move the item"
+      },
+      {
+        "sev": "medium",
+        "where": "roadmap-q3-plan.md:19",
+        "title": "Next-quarter item has no measure",
+        "fix": "Add a measure with its target"
+      },
+      {
+        "sev": "low",
+        "where": "roadmap-q2-secrets.md:26",
+        "title": "Roadmap item has no owner",
+        "fix": "Assign an owner role"
+      }
+    ],
+    "notChecked": "Work not in the records."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 medium, 1 low).\n[medium] roadmap-q2-dbpool.md:12  Planned item has no outcome.\n       Fix: Record the outcome or move the item.\n[medium] roadmap-q3-plan.md:19  Next-quarter item has no measure.\n       Fix: Add a measure with its target.\n[low] roadmap-q2-secrets.md:26  Roadmap item has no owner.\n       Fix: Assign an owner role.\nNot checked: Work not in the records.",
+  "pros": [
+    "Flags a planned item with no outcome, a roadmap item with no owner, and a next-quarter item with no measure."
+  ],
+  "cons": [
+    "Not checked: Work not in the records."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-devops-platform-roadmap skill on the records for this review."
+}

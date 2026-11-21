@@ -1,0 +1,139 @@
+{
+  "items": [
+    "interval-pump.md",
+    "interval-motor.md",
+    "interval-valve.md",
+    "interval-bearing.md",
+    "failure-data.csv",
+    "interval-critical.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "ok",
+        "ok",
+        "bad"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "failure data behind it",
+        "no failure data",
+        "critical, lengthened"
+      ],
+      "pairs": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        2
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "bad"
+      ],
+      "note": "Compare. Each interval change is matched to its failure data. A lengthened interval on a critical asset is flagged."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 critical interval was lengthened",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "interval-critical.md:12",
+        "title": "Lengthened interval on a critical asset",
+        "fix": "Keep the interval until the data supports the change"
+      },
+      {
+        "sev": "medium",
+        "where": "interval-motor.md:19",
+        "title": "Interval change with no failure data",
+        "fix": "Attach the failure data"
+      },
+      {
+        "sev": "low",
+        "where": "interval-bearing.md:26",
+        "title": "Failure data incomplete",
+        "fix": "Complete the record"
+      }
+    ],
+    "notChecked": "Whether the failure data is complete."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] interval-critical.md:12  Lengthened interval on a critical asset.\n       Fix: Keep the interval until the data supports the change.\n[medium] interval-motor.md:19  Interval change with no failure data.\n       Fix: Attach the failure data.\n[low] interval-bearing.md:26  Failure data incomplete.\n       Fix: Complete the record.\nNot checked: Whether the failure data is complete.",
+  "pros": [
+    "Checks an interval change with no failure data, and a lengthened interval on a critical asset."
+  ],
+  "cons": [
+    "Not checked: Whether the failure data is complete."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ind-preventive-plan-revision skill on the records for this review."
+}

@@ -1,0 +1,121 @@
+{
+  "items": [
+    "interval-0900.csv",
+    "interval-1200.csv",
+    "interval-1500.csv",
+    "interval-1800.csv",
+    "shift-pattern.csv",
+    "forecast.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "shrink",
+      "note": "Fit. Each interval's staff is sized to its forecast volume and handling time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 shift pattern leaves staffed hours uncovered",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "shift-pattern.csv:12",
+        "title": "Shift pattern does not cover the staffed hours",
+        "fix": "Add shifts to cover the gap"
+      },
+      {
+        "sev": "medium",
+        "where": "interval-1200.csv:19",
+        "title": "Handling time missing for an interval",
+        "fix": "Record the handling time"
+      },
+      {
+        "sev": "low",
+        "where": "forecast.md:26",
+        "title": "Forecast with no source",
+        "fix": "Name the forecast's source"
+      }
+    ],
+    "notChecked": "Absence and attrition beyond the assumptions; the actual volume."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] shift-pattern.csv:12  Shift pattern does not cover the staffed hours.\n       Fix: Add shifts to cover the gap.\n[medium] interval-1200.csv:19  Handling time missing for an interval.\n       Fix: Record the handling time.\n[low] forecast.md:26  Forecast with no source.\n       Fix: Name the forecast's source.\nNot checked: Absence and attrition beyond the assumptions; the actual volume.",
+  "pros": [
+    "Checks an interval with a handling time missing, a forecast with no source, and a shift pattern that does not cover the staffed hours."
+  ],
+  "cons": [
+    "Not checked: Absence and attrition beyond the assumptions; the actual volume."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-cs-staffing-model skill on the records for this review."
+}

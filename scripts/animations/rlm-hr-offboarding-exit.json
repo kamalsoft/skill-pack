@@ -1,0 +1,129 @@
+{
+  "items": [
+    "leaver-tasks.md",
+    "exit-interview.md",
+    "access-removal.md",
+    "final-pay.md",
+    "equipment-return.md",
+    "leaver-list.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.0
+      ],
+      "note": "Order. Each leaver task is placed against the leaving date."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 leaver still has active access",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "access-removal.md:12",
+        "title": "Access still active after the leaving date",
+        "fix": "Remove the access now and log it"
+      },
+      {
+        "sev": "medium",
+        "where": "final-pay.md:19",
+        "title": "Final pay step with no due date",
+        "fix": "Set the due date for the final pay"
+      },
+      {
+        "sev": "low",
+        "where": "equipment-return.md:26",
+        "title": "Equipment return not recorded",
+        "fix": "Record the return"
+      }
+    ],
+    "notChecked": "Whether access was removed in every system."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] access-removal.md:12  Access still active after the leaving date.\n       Fix: Remove the access now and log it.\n[medium] final-pay.md:19  Final pay step with no due date.\n       Fix: Set the due date for the final pay.\n[low] equipment-return.md:26  Equipment return not recorded.\n       Fix: Record the return.\nNot checked: Whether access was removed in every system.",
+  "pros": [
+    "Checks a leaver with access still active after the leaving date, and a final pay step with no due date."
+  ],
+  "cons": [
+    "Not checked: Whether access was removed in every system."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hr-offboarding-exit skill on the records for this review."
+}

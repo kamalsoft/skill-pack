@@ -1,0 +1,139 @@
+{
+  "items": [
+    "cs-q-phone.md",
+    "cs-q-chat.md",
+    "cs-q-email.md",
+    "cs-q-levels.md",
+    "cs-q-staff.md",
+    "cs-q-tools.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "target met",
+        "missed by over 10 percent",
+        "no owner"
+      ],
+      "pairs": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "warn"
+      ],
+      "note": "Compare. Each target is matched to its result. A miss of more than 10 percent is flagged."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 target missed by more than 10 percent",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "cs-q-chat.md:12",
+        "title": "Target missed by more than 10 percent",
+        "fix": "Set the recovery action for the quarter"
+      },
+      {
+        "sev": "medium",
+        "where": "cs-q-levels.md:19",
+        "title": "Priority with no owner",
+        "fix": "Assign an owner"
+      },
+      {
+        "sev": "low",
+        "where": "cs-q-tools.md:26",
+        "title": "Next-quarter priority with no measure",
+        "fix": "Add a measure with its target"
+      }
+    ],
+    "notChecked": "Market or product changes not in the reports."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] cs-q-chat.md:12  Target missed by more than 10 percent.\n       Fix: Set the recovery action for the quarter.\n[medium] cs-q-levels.md:19  Priority with no owner.\n       Fix: Assign an owner.\n[low] cs-q-tools.md:26  Next-quarter priority with no measure.\n       Fix: Add a measure with its target.\nNot checked: Market or product changes not in the reports.",
+  "pros": [
+    "Checks a target missed by more than 10 percent, a priority with no owner, and a next-quarter priority with no measure."
+  ],
+  "cons": [
+    "Not checked: Market or product changes not in the reports."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-cs-quarterly-review skill on the records for this review."
+}

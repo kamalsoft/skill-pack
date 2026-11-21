@@ -1,0 +1,139 @@
+{
+  "items": [
+    "q-refund-time.md",
+    "q-password.md",
+    "q-delivery.md",
+    "q-billing-date.md",
+    "q-account-close.md",
+    "q-warranty.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "article exists and used",
+        "no article",
+        "article not used"
+      ],
+      "pairs": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        1
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "warn"
+      ],
+      "note": "Compare. Each customer question is matched to its best article. No article, or an article not used, is a gap."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 question has no article",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "q-password.md:12",
+        "title": "Question with no article",
+        "fix": "Write the article"
+      },
+      {
+        "sev": "medium",
+        "where": "q-billing-date.md:19",
+        "title": "Best article not used in three months",
+        "fix": "Retitle or merge the article"
+      },
+      {
+        "sev": "low",
+        "where": "q-warranty.md:26",
+        "title": "Question worded differently from the article",
+        "fix": "Add the customer's wording"
+      }
+    ],
+    "notChecked": "The quality of the articles that exist."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] q-password.md:12  Question with no article.\n       Fix: Write the article.\n[medium] q-billing-date.md:19  Best article not used in three months.\n       Fix: Retitle or merge the article.\n[low] q-warranty.md:26  Question worded differently from the article.\n       Fix: Add the customer's wording.\nNot checked: The quality of the articles that exist.",
+  "pros": [
+    "Checks a question with no article, and a question whose best article was not used in the last three months."
+  ],
+  "cons": [
+    "Not checked: The quality of the articles that exist."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-cs-knowledge-base-gaps skill on the records for this review."
+}

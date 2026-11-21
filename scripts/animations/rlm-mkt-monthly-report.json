@@ -1,0 +1,121 @@
+{
+  "items": [
+    "mkt-search.csv",
+    "mkt-social.csv",
+    "mkt-email.csv",
+    "mkt-events.csv",
+    "mkt-pr.csv",
+    "mkt-display.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "warn",
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "funnel",
+      "note": "Compute. Each channel is added into the monthly pack with its month-on-month change."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 channel is missing from the pack",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "mkt-pr.csv:12",
+        "title": "Channel missing from the pack",
+        "fix": "Add the channel's row"
+      },
+      {
+        "sev": "medium",
+        "where": "mkt-email.csv:19",
+        "title": "Change with no note",
+        "fix": "Explain the change in one line"
+      },
+      {
+        "sev": "low",
+        "where": "mkt-display.csv:26",
+        "title": "Total does not match the channel rows",
+        "fix": "Recompute the total"
+      }
+    ],
+    "notChecked": "Business outcome; forecasts."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] mkt-pr.csv:12  Channel missing from the pack.\n       Fix: Add the channel's row.\n[medium] mkt-email.csv:19  Change with no note.\n       Fix: Explain the change in one line.\n[low] mkt-display.csv:26  Total does not match the channel rows.\n       Fix: Recompute the total.\nNot checked: Business outcome; forecasts.",
+  "pros": [
+    "Checks a channel missing from the pack."
+  ],
+  "cons": [
+    "Not checked: Business outcome; forecasts."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mkt-monthly-report skill on the records for this review."
+}

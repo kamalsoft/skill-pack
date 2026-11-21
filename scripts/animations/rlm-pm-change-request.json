@@ -1,0 +1,129 @@
+{
+  "items": [
+    "pmchg-31.md",
+    "pmchg-32.md",
+    "pmchg-33.md",
+    "pmchg-34.md",
+    "pmchg-35.md",
+    "pmchg-36.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "bad",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        false,
+        true,
+        false,
+        true
+      ],
+      "note": "Gate. A change needs its effect on scope, cost and date, and an approver."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 change has no approver",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "pmchg-33.md:12",
+        "title": "Change with no approver",
+        "fix": "Name the approver before the change"
+      },
+      {
+        "sev": "medium",
+        "where": "pmchg-32.md:19",
+        "title": "No effect on cost stated",
+        "fix": "State the effect on cost"
+      },
+      {
+        "sev": "low",
+        "where": "pmchg-35.md:26",
+        "title": "No effect on date stated",
+        "fix": "State the effect on the date"
+      }
+    ],
+    "notChecked": "Whether the change is needed."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] pmchg-33.md:12  Change with no approver.\n       Fix: Name the approver before the change.\n[medium] pmchg-32.md:19  No effect on cost stated.\n       Fix: State the effect on cost.\n[low] pmchg-35.md:26  No effect on date stated.\n       Fix: State the effect on the date.\nNot checked: Whether the change is needed.",
+  "pros": [
+    "Checks a change with no effect stated on one of scope, cost or date, and a change with no approver."
+  ],
+  "cons": [
+    "Not checked: Whether the change is needed."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-pm-change-request skill on the records for this review."
+}

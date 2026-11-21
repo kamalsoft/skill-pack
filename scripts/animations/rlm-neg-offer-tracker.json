@@ -1,0 +1,129 @@
+{
+  "items": [
+    "offer-01.md",
+    "offer-02.md",
+    "offer-03.md",
+    "offer-04.md",
+    "offer-05.md",
+    "offer-06.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.0
+      ],
+      "note": "Order. Each offer and counter-offer is placed in the order they were exchanged."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 concession was given for nothing",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "offer-03.md:12",
+        "title": "Concession given with nothing asked in return",
+        "fix": "Ask for a return or record the reason"
+      },
+      {
+        "sev": "medium",
+        "where": "offer-05.md:19",
+        "title": "Offer reopens an agreed term",
+        "fix": "Hold to the agreed term"
+      },
+      {
+        "sev": "low",
+        "where": "offer-02.md:26",
+        "title": "Missing date or sender role",
+        "fix": "Record the date and the sender's role"
+      }
+    ],
+    "notChecked": "Verbal agreements that are not in the correspondence."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] offer-03.md:12  Concession given with nothing asked in return.\n       Fix: Ask for a return or record the reason.\n[medium] offer-05.md:19  Offer reopens an agreed term.\n       Fix: Hold to the agreed term.\n[low] offer-02.md:26  Missing date or sender role.\n       Fix: Record the date and the sender's role.\nNot checked: Verbal agreements that are not in the correspondence.",
+  "pros": [
+    "Checks a concession given with nothing asked in return, an offer that reopens an agreed term, and a missing date or sender role."
+  ],
+  "cons": [
+    "Not checked: Verbal agreements that are not in the correspondence."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-neg-offer-tracker skill on the records for this review."
+}

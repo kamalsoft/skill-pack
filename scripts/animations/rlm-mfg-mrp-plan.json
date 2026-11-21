@@ -1,0 +1,139 @@
+{
+  "items": [
+    "req-part-01.md",
+    "req-part-02.md",
+    "req-part-03.md",
+    "bom-line-04.md",
+    "planned-order-05.md",
+    "planned-order-06.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "ok",
+        "bad",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "requirement matches",
+        "no requirement",
+        "no bill of materials line"
+      ],
+      "pairs": [
+        0,
+        0,
+        0,
+        2,
+        1,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "warn",
+        "bad"
+      ],
+      "note": "Compare. Each requirement is recomputed from the schedule and bill of materials, and each planned order is matched to a requirement."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 part has no bill of materials line",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "bom-line-04.md:12",
+        "title": "Part with no bill of materials line",
+        "fix": "Add the part to the bill of materials"
+      },
+      {
+        "sev": "medium",
+        "where": "planned-order-05.md:19",
+        "title": "Planned order with no requirement behind it",
+        "fix": "Remove the order or find its requirement"
+      },
+      {
+        "sev": "low",
+        "where": "req-part-02.md:26",
+        "title": "Requirement does not match the recomputed value",
+        "fix": "Recompute the requirement"
+      }
+    ],
+    "notChecked": "Scrap allowances outside the bill."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] bom-line-04.md:12  Part with no bill of materials line.\n       Fix: Add the part to the bill of materials.\n[medium] planned-order-05.md:19  Planned order with no requirement behind it.\n       Fix: Remove the order or find its requirement.\n[low] req-part-02.md:26  Requirement does not match the recomputed value.\n       Fix: Recompute the requirement.\nNot checked: Scrap allowances outside the bill.",
+  "pros": [
+    "Checks a requirement that does not match the recomputed value, a part with no bill of materials line, and a planned order with no requirement behind it."
+  ],
+  "cons": [
+    "Not checked: Scrap allowances outside the bill."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mfg-mrp-plan skill on the records for this review."
+}

@@ -1,0 +1,134 @@
+{
+  "items": [
+    "price-req-01.md",
+    "price-req-02.md",
+    "price-req-03.md",
+    "price-req-04.md",
+    "price-req-05.md",
+    "price-req-06.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "within limit",
+        "above approver limit",
+        "below floor"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        2,
+        0
+      ],
+      "note": "Rank. Each request is placed by its discount against the approver's limit and the floor price."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 deal is priced below the floor",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "price-req-05.md:12",
+        "title": "Deal priced below the floor price",
+        "fix": "Stop the deal and send it for approval"
+      },
+      {
+        "sev": "medium",
+        "where": "price-req-02.md:19",
+        "title": "Discount above the approver's limit",
+        "fix": "Send to the next approver"
+      },
+      {
+        "sev": "low",
+        "where": "price-req-06.md:26",
+        "title": "Request with no reason",
+        "fix": "Record the reason for the discount"
+      }
+    ],
+    "notChecked": "Whether the deal is worth the discount."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] price-req-05.md:12  Deal priced below the floor price.\n       Fix: Stop the deal and send it for approval.\n[medium] price-req-02.md:19  Discount above the approver's limit.\n       Fix: Send to the next approver.\n[low] price-req-06.md:26  Request with no reason.\n       Fix: Record the reason for the discount.\nNot checked: Whether the deal is worth the discount.",
+  "pros": [
+    "Checks a discount above the approver's limit, a request with no reason, and a deal priced below the floor price."
+  ],
+  "cons": [
+    "Not checked: Whether the deal is worth the discount."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-sales-pricing-request skill on the records for this review."
+}

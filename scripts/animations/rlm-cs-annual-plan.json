@@ -1,0 +1,129 @@
+{
+  "items": [
+    "cs-plan-phone.md",
+    "cs-plan-chat.md",
+    "cs-plan-email.md",
+    "cs-plan-levels.md",
+    "cs-plan-staffing.md",
+    "cs-plan-self-serve.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "baseline set",
+        "no baseline",
+        "no volume behind it"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        1
+      ],
+      "note": "Rank. Each plan item is placed by its baseline and the volume behind it."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 targets need a baseline or a measure",
+    "tone": "warn",
+    "bars": [
+      [
+        "medium",
+        2,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "medium",
+        "where": "cs-plan-chat.md:12",
+        "title": "Target with no baseline",
+        "fix": "Record last year's actual as the baseline"
+      },
+      {
+        "sev": "medium",
+        "where": "cs-plan-levels.md:19",
+        "title": "Service level with no measure",
+        "fix": "Name the measure and its source"
+      },
+      {
+        "sev": "low",
+        "where": "cs-plan-self-serve.md:26",
+        "title": "Channel in the plan with no volume",
+        "fix": "Give the expected volume"
+      }
+    ],
+    "notChecked": "Market or product changes not in the notes."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 medium, 1 low).\n[medium] cs-plan-chat.md:12  Target with no baseline.\n       Fix: Record last year's actual as the baseline.\n[medium] cs-plan-levels.md:19  Service level with no measure.\n       Fix: Name the measure and its source.\n[low] cs-plan-self-serve.md:26  Channel in the plan with no volume.\n       Fix: Give the expected volume.\nNot checked: Market or product changes not in the notes.",
+  "pros": [
+    "Checks a target with no baseline, a service level with no measure, and a channel in the plan with no volume behind it."
+  ],
+  "cons": [
+    "Not checked: Market or product changes not in the notes."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-cs-annual-plan skill on the records for this review."
+}

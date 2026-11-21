@@ -1,0 +1,121 @@
+{
+  "items": [
+    "req-fill-01.csv",
+    "req-fill-02.csv",
+    "req-fill-03.csv",
+    "req-fill-04.csv",
+    "submissions.csv",
+    "hires.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "bad",
+        "ok",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "funnel",
+      "note": "Divide. Fill rate and submission-to-hire are computed from the requisitions and submissions."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 filled requisition has no fill date",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "req-fill-01.csv:12",
+        "title": "Filled requisition with no fill date",
+        "fix": "Record the fill date from the offer"
+      },
+      {
+        "sev": "medium",
+        "where": "submissions.csv:19",
+        "title": "Ratio computed on zero submissions",
+        "fix": "Show the ratio as not available"
+      },
+      {
+        "sev": "low",
+        "where": "req-fill-04.csv:26",
+        "title": "Time to fill not dated",
+        "fix": "Date the measure"
+      }
+    ],
+    "notChecked": "Quality of hires."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] req-fill-01.csv:12  Filled requisition with no fill date.\n       Fix: Record the fill date from the offer.\n[medium] submissions.csv:19  Ratio computed on zero submissions.\n       Fix: Show the ratio as not available.\n[low] req-fill-04.csv:26  Time to fill not dated.\n       Fix: Date the measure.\nNot checked: Quality of hires.",
+  "pros": [
+    "Checks a filled requisition with no fill date, and a ratio computed on zero submissions."
+  ],
+  "cons": [
+    "Not checked: Quality of hires."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-fill-rate-report skill on the records for this review."
+}

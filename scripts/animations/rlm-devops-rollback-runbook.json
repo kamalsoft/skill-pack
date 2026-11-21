@@ -1,0 +1,143 @@
+{
+  "items": [
+    "step-01-drain.md",
+    "step-02-revert.md",
+    "step-03-db.md",
+    "step-04-cache.md",
+    "step-05-verify.md",
+    "step-06-notify.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "graph",
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "note": "Order. Each step depends on the one before it. A step that is not listed breaks the chain."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 database step cannot be reversed",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "step-03-db.md:12",
+        "title": "Database change with no reverse step",
+        "fix": "Write the reverse migration"
+      },
+      {
+        "sev": "medium",
+        "where": "step-04-cache.md:19",
+        "title": "Cache step has no verification",
+        "fix": "Add a check that the cache is cleared"
+      },
+      {
+        "sev": "low",
+        "where": "step-06-notify.md:26",
+        "title": "Notify step depends on a step not listed",
+        "fix": "List the step it depends on"
+      }
+    ],
+    "notChecked": "Whether the rollback works in production."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] step-03-db.md:12  Database change with no reverse step.\n       Fix: Write the reverse migration.\n[medium] step-04-cache.md:19  Cache step has no verification.\n       Fix: Add a check that the cache is cleared.\n[low] step-06-notify.md:26  Notify step depends on a step not listed.\n       Fix: List the step it depends on.\nNot checked: Whether the rollback works in production.",
+  "pros": [
+    "Flags a step with no verification, a step that depends on a step not yet listed, and a database change with no reverse step."
+  ],
+  "cons": [
+    "Not checked: Whether the rollback works in production."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-devops-rollback-runbook skill on the records for this review."
+}

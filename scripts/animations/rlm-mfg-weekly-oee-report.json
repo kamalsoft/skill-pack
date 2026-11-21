@@ -1,0 +1,121 @@
+{
+  "items": [
+    "oee-line-a.csv",
+    "oee-line-b.csv",
+    "oee-line-c.csv",
+    "oee-avail.csv",
+    "oee-perf.csv",
+    "oee-quality.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "funnel",
+      "note": "Multiply. Availability, performance and quality are multiplied into OEE, and each is checked to 100 percent."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 component is above 100 percent",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "oee-avail.csv:12",
+        "title": "Component above 100 percent",
+        "fix": "Correct the component"
+      },
+      {
+        "sev": "medium",
+        "where": "oee-quality.csv:19",
+        "title": "OEE with a missing component",
+        "fix": "Add the missing component"
+      },
+      {
+        "sev": "low",
+        "where": "oee-line-b.csv:26",
+        "title": "Week with missing data",
+        "fix": "Add the data for the week"
+      }
+    ],
+    "notChecked": "Whether the definition matches the client's."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] oee-avail.csv:12  Component above 100 percent.\n       Fix: Correct the component.\n[medium] oee-quality.csv:19  OEE with a missing component.\n       Fix: Add the missing component.\n[low] oee-line-b.csv:26  Week with missing data.\n       Fix: Add the data for the week.\nNot checked: Whether the definition matches the client's.",
+  "pros": [
+    "Checks a component above 100 percent, an OEE with a missing component, and a week with missing data."
+  ],
+  "cons": [
+    "Not checked: Whether the definition matches the client's."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mfg-weekly-oee-report skill on the records for this review."
+}

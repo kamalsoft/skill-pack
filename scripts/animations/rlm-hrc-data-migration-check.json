@@ -1,0 +1,124 @@
+{
+  "items": [
+    "map-employee.md",
+    "map-pay.md",
+    "map-absence.md",
+    "transform-dates.md",
+    "recon-counts.csv",
+    "test-cases.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "bad",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Gate. Each field needs a target, each transform a test, and each count must reconcile."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 migration checks fail",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        2,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "map-pay.md:12",
+        "title": "Field with no target",
+        "fix": "Map the field to a target"
+      },
+      {
+        "sev": "high",
+        "where": "recon-counts.csv:19",
+        "title": "Count does not reconcile between source and target",
+        "fix": "Find the missing records before go-live"
+      },
+      {
+        "sev": "medium",
+        "where": "transform-dates.md:26",
+        "title": "Transform with no test",
+        "fix": "Write the test"
+      }
+    ],
+    "notChecked": "Data quality beyond the reconciliation."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 high, 1 medium).\n[high] map-pay.md:12  Field with no target.\n       Fix: Map the field to a target.\n[high] recon-counts.csv:19  Count does not reconcile between source and target.\n       Fix: Find the missing records before go-live.\n[medium] transform-dates.md:26  Transform with no test.\n       Fix: Write the test.\nNot checked: Data quality beyond the reconciliation.",
+  "pros": [
+    "Checks a field with no target, a transform with no test, and a count that does not reconcile between source and target."
+  ],
+  "cons": [
+    "Not checked: Data quality beyond the reconciliation."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-data-migration-check skill on the records for this review."
+}

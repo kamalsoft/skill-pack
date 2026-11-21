@@ -1,0 +1,134 @@
+{
+  "items": [
+    "supplier-alpha.md",
+    "supplier-beta.md",
+    "supplier-gamma.md",
+    "supplier-delta.md",
+    "supplier-epsilon.md",
+    "supplier-zeta.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "terms met",
+        "term missed",
+        "credit not claimed"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "note": "Rank. Each supplier is placed by its terms for the quarter and whether a credit is due."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 term was missed for the quarter",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "supplier-beta.md:12",
+        "title": "Term missed for the quarter",
+        "fix": "Raise the miss with the supplier"
+      },
+      {
+        "sev": "medium",
+        "where": "supplier-zeta.md:19",
+        "title": "Credit due but not claimed",
+        "fix": "Claim the credit by the deadline"
+      },
+      {
+        "sev": "low",
+        "where": "supplier-delta.md:26",
+        "title": "Scorecard missing",
+        "fix": "Get the scorecard from the supplier"
+      }
+    ],
+    "notChecked": "Supplier performance outside the recorded measures."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] supplier-beta.md:12  Term missed for the quarter.\n       Fix: Raise the miss with the supplier.\n[medium] supplier-zeta.md:19  Credit due but not claimed.\n       Fix: Claim the credit by the deadline.\n[low] supplier-delta.md:26  Scorecard missing.\n       Fix: Get the scorecard from the supplier.\nNot checked: Supplier performance outside the recorded measures.",
+  "pros": [
+    "Checks a term missed for the quarter, a measure with no source, a missing scorecard, and a credit or penalty due but not claimed."
+  ],
+  "cons": [
+    "Not checked: Supplier performance outside the recorded measures."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-neg-supplier-review skill on the records for this review."
+}

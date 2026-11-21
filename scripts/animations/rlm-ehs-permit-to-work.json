@@ -1,0 +1,129 @@
+{
+  "items": [
+    "ptw-0801.md",
+    "ptw-0802.md",
+    "ptw-0803.md",
+    "ptw-0804.md",
+    "ptw-0805.md",
+    "ptw-0806.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "bad",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "valid",
+        "overlapping",
+        "expired but active"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        1
+      ],
+      "note": "Rank. Each permit is placed by whether it overlaps another in its area or is past its expiry."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 permits conflict or are out of date",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        2,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "ptw-0802.md:12",
+        "title": "Two active permits for overlapping work in one area",
+        "fix": "Suspend one permit until the work is separated"
+      },
+      {
+        "sev": "high",
+        "where": "ptw-0804.md:19",
+        "title": "Permit past its expiry still marked active",
+        "fix": "Close the permit and record it"
+      },
+      {
+        "sev": "medium",
+        "where": "ptw-0806.md:26",
+        "title": "Permit with no isolation reference",
+        "fix": "Add the isolation reference"
+      }
+    ],
+    "notChecked": "Whether the work is carried out as the permit states; the physical isolation."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 high, 1 medium).\n[high] ptw-0802.md:12  Two active permits for overlapping work in one area.\n       Fix: Suspend one permit until the work is separated.\n[high] ptw-0804.md:19  Permit past its expiry still marked active.\n       Fix: Close the permit and record it.\n[medium] ptw-0806.md:26  Permit with no isolation reference.\n       Fix: Add the isolation reference.\nNot checked: Whether the work is carried out as the permit states; the physical isolation.",
+  "pros": [
+    "Checks two active permits for overlapping work in one area, a permit past its expiry still marked active, a permit with no isolation reference where the work type needs one, and a suspended permit with no re."
+  ],
+  "cons": [
+    "Not checked: Whether the work is carried out as the permit states; the physical isolation."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ehs-permit-to-work skill on the records for this review."
+}

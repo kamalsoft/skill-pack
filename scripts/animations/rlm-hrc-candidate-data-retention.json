@@ -1,0 +1,134 @@
+{
+  "items": [
+    "records-q1-batch.csv",
+    "records-q2-batch.csv",
+    "consent-status.csv",
+    "deletion-log.csv",
+    "retention-rules.md",
+    "records-old-batch.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "within retention",
+        "past retention",
+        "no consent status"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        2,
+        1
+      ],
+      "note": "Rank. Each record batch is placed by its retention period and its consent status."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 batch is past its retention period",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "records-q2-batch.csv:12",
+        "title": "Record past its retention period",
+        "fix": "Delete the record under the retention rule"
+      },
+      {
+        "sev": "medium",
+        "where": "retention-rules.md:19",
+        "title": "Record with no consent status where consent is needed",
+        "fix": "Record the consent status or delete the record"
+      },
+      {
+        "sev": "low",
+        "where": "deletion-log.csv:26",
+        "title": "Deletion done with no record of it",
+        "fix": "Log the deletion"
+      }
+    ],
+    "notChecked": "Whether a record is needed for a legal reason."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] records-q2-batch.csv:12  Record past its retention period.\n       Fix: Delete the record under the retention rule.\n[medium] retention-rules.md:19  Record with no consent status where consent is needed.\n       Fix: Record the consent status or delete the record.\n[low] deletion-log.csv:26  Deletion done with no record of it.\n       Fix: Log the deletion.\nNot checked: Whether a record is needed for a legal reason.",
+  "pros": [
+    "Checks a record past its retention period, a record with no consent status where consent is needed, and a deletion already done with no record."
+  ],
+  "cons": [
+    "Not checked: Whether a record is needed for a legal reason."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-candidate-data-retention skill on the records for this review."
+}

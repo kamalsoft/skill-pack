@@ -1,0 +1,137 @@
+{
+  "items": [
+    "skill-procurement.md",
+    "skill-web-security.md",
+    "skill-quality.md",
+    "skill-hr.md",
+    "skill-it.md",
+    "skill-finance.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "warn",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "in the map",
+        "not in the map"
+      ],
+      "pairs": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad"
+      ],
+      "note": "Compare. Each cited standard is matched to the map with its edition and clause."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 citation has no edition",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "skill-web-security.md:12",
+        "title": "Citation has no edition",
+        "fix": "Add the edition the map lists"
+      },
+      {
+        "sev": "medium",
+        "where": "skill-quality.md:19",
+        "title": "Clause not in the map",
+        "fix": "Check the clause against the published standard"
+      },
+      {
+        "sev": "low",
+        "where": "skill-finance.md:26",
+        "title": "Edition differs from the map",
+        "fix": "Update the citation to the mapped edition"
+      }
+    ],
+    "notChecked": "the current edition of any standard, unless a reviewer has checked it against the publisher; whether a clause means what the skill says; standards not in the map at all."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] skill-web-security.md:12  Citation has no edition.\n       Fix: Add the edition the map lists.\n[medium] skill-quality.md:19  Clause not in the map.\n       Fix: Check the clause against the published standard.\n[low] skill-finance.md:26  Edition differs from the map.\n       Fix: Update the citation to the mapped edition.\nNot checked: the current edition of any standard, unless a reviewer has checked it against the publisher; whether a clause means what the skill says; standards not in the map at all.",
+  "pros": [
+    "Flags a citation with no edition, a clause not in the map, an edition different from the map, or a standard not in the map at all."
+  ],
+  "cons": [
+    "Not checked: the current edition of any standard, unless a reviewer has checked it against the publisher; whether a clause means what the skill says; standards not in the map at all."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-core-standards-map skill on the records for this review."
+}

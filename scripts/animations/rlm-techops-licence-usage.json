@@ -1,0 +1,134 @@
+{
+  "items": [
+    "pool-office.csv",
+    "pool-design.csv",
+    "pool-dev.csv",
+    "pool-crm.csv",
+    "pool-bi.csv",
+    "pool-vpn.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "in use",
+        "unused, costs money",
+        "use above held"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        2,
+        0
+      ],
+      "note": "Rank. Each pool is placed by its use against the licences held."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 pool is used above what is held",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "pool-bi.csv:12",
+        "title": "Use above the licences held",
+        "fix": "Buy the missing licences"
+      },
+      {
+        "sev": "medium",
+        "where": "pool-design.csv:19",
+        "title": "Unused licences with a cost",
+        "fix": "Reclaim or cancel the unused licences"
+      },
+      {
+        "sev": "low",
+        "where": "pool-crm.csv:26",
+        "title": "Pool with no owner",
+        "fix": "Assign an owner"
+      }
+    ],
+    "notChecked": "The vendor's contract terms."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] pool-bi.csv:12  Use above the licences held.\n       Fix: Buy the missing licences.\n[medium] pool-design.csv:19  Unused licences with a cost.\n       Fix: Reclaim or cancel the unused licences.\n[low] pool-crm.csv:26  Pool with no owner.\n       Fix: Assign an owner.\nNot checked: The vendor's contract terms.",
+  "pros": [
+    "Flags use above the licences held, and unused licences with a cost."
+  ],
+  "cons": [
+    "Not checked: The vendor's contract terms."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-techops-licence-usage skill on the records for this review."
+}

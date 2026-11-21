@@ -1,0 +1,121 @@
+{
+  "items": [
+    "budget-salaries.csv",
+    "budget-benefits.csv",
+    "budget-training.csv",
+    "budget-recruit.csv",
+    "budget-consult.csv",
+    "budget-contingency.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "funnel",
+      "note": "Total. Each line is added up, and the total must equal the sum of its lines."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 line is over the 20 percent limit",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "budget-benefits.csv:12",
+        "title": "Line more than 20 percent above last year with no reason",
+        "fix": "Give the reason or reduce the line"
+      },
+      {
+        "sev": "medium",
+        "where": "budget-contingency.csv:19",
+        "title": "Total does not equal the sum of its lines",
+        "fix": "Correct the total"
+      },
+      {
+        "sev": "low",
+        "where": "budget-training.csv:26",
+        "title": "Line with no owner",
+        "fix": "Assign an owner"
+      }
+    ],
+    "notChecked": "Whether the budget is affordable at group level."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] budget-benefits.csv:12  Line more than 20 percent above last year with no reason.\n       Fix: Give the reason or reduce the line.\n[medium] budget-contingency.csv:19  Total does not equal the sum of its lines.\n       Fix: Correct the total.\n[low] budget-training.csv:26  Line with no owner.\n       Fix: Assign an owner.\nNot checked: Whether the budget is affordable at group level.",
+  "pros": [
+    "Checks a line more than 20 percent above last year with no reason, and a total that does not equal its lines."
+  ],
+  "cons": [
+    "Not checked: Whether the budget is affordable at group level."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hr-budget skill on the records for this review."
+}

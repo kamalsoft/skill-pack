@@ -1,0 +1,124 @@
+{
+  "items": [
+    "test-payroll-01.md",
+    "test-absence-02.md",
+    "test-reports-03.md",
+    "test-hire-04.md",
+    "retest-log.csv",
+    "signoff.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "bad"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        false
+      ],
+      "note": "Gate. Each requirement needs a test case, each failed test a retest, and sign-off comes before go-live."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        false
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 gates are not passed",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        2,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "test-absence-02.md:12",
+        "title": "Failed test with no retest",
+        "fix": "Retest before go-live"
+      },
+      {
+        "sev": "high",
+        "where": "signoff.md:19",
+        "title": "Sign-off missing before go-live",
+        "fix": "Do not go live until sign-off"
+      },
+      {
+        "sev": "medium",
+        "where": "retest-log.csv:26",
+        "title": "Requirement with no test case",
+        "fix": "Write the test case"
+      }
+    ],
+    "notChecked": "Behaviour in production."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 high, 1 medium).\n[high] test-absence-02.md:12  Failed test with no retest.\n       Fix: Retest before go-live.\n[high] signoff.md:19  Sign-off missing before go-live.\n       Fix: Do not go live until sign-off.\n[medium] retest-log.csv:26  Requirement with no test case.\n       Fix: Write the test case.\nNot checked: Behaviour in production.",
+  "pros": [
+    "Checks a requirement with no test case, a failed test with no retest, and a sign-off missing before go-live."
+  ],
+  "cons": [
+    "Not checked: Behaviour in production."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-hris-uat-checklist skill on the records for this review."
+}

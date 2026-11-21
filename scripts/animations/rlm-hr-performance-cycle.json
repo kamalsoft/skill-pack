@@ -1,0 +1,139 @@
+{
+  "items": [
+    "goals-team-a.csv",
+    "goals-team-b.csv",
+    "checkin-q2.csv",
+    "review-calendar.md",
+    "goal-measure.md",
+    "goal-owner.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "warn",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "goal measured",
+        "goal with no measure",
+        "review has goal"
+      ],
+      "pairs": [
+        0,
+        1,
+        2,
+        0,
+        1,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Compare. Each goal is matched to a measure. A goal with no measure is flagged."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 goal has no measure",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "goals-team-b.csv:12",
+        "title": "Goal with no measure",
+        "fix": "Set a measure for the goal"
+      },
+      {
+        "sev": "medium",
+        "where": "checkin-q2.csv:19",
+        "title": "Check-in missed for the quarter",
+        "fix": "Schedule the check-in"
+      },
+      {
+        "sev": "low",
+        "where": "goal-owner.md:26",
+        "title": "Review due with no goal recorded",
+        "fix": "Record the goal"
+      }
+    ],
+    "notChecked": "Quality of the goals set."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] goals-team-b.csv:12  Goal with no measure.\n       Fix: Set a measure for the goal.\n[medium] checkin-q2.csv:19  Check-in missed for the quarter.\n       Fix: Schedule the check-in.\n[low] goal-owner.md:26  Review due with no goal recorded.\n       Fix: Record the goal.\nNot checked: Quality of the goals set.",
+  "pros": [
+    "Checks a goal with no measure, a check-in missed for the quarter, and a review due with no goal recorded."
+  ],
+  "cons": [
+    "Not checked: Quality of the goals set."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hr-performance-cycle skill on the records for this review."
+}

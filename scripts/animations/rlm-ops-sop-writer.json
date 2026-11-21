@@ -1,0 +1,121 @@
+{
+  "items": [
+    "sop-receiving.md",
+    "sop-picking.md",
+    "sop-dispatch.md",
+    "sop-returns.md",
+    "sop-cleaning.md",
+    "sop-safety.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "bad",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "stack",
+      "note": "List. Each step is stacked with its owner and its check."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 step has no check",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "sop-returns.md:12",
+        "title": "Step with no check",
+        "fix": "Add a check the step can be verified by"
+      },
+      {
+        "sev": "medium",
+        "where": "sop-picking.md:19",
+        "title": "Step with no owner",
+        "fix": "Assign an owner to the step"
+      },
+      {
+        "sev": "low",
+        "where": "sop-dispatch.md:26",
+        "title": "Step refers to a form not named in the procedure",
+        "fix": "Name the form"
+      }
+    ],
+    "notChecked": "Whether the procedure works in practice."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] sop-returns.md:12  Step with no check.\n       Fix: Add a check the step can be verified by.\n[medium] sop-picking.md:19  Step with no owner.\n       Fix: Assign an owner to the step.\n[low] sop-dispatch.md:26  Step refers to a form not named in the procedure.\n       Fix: Name the form.\nNot checked: Whether the procedure works in practice.",
+  "pros": [
+    "Checks a step with no owner, a step with no check, and a step that refers to a form or system not named in the procedure."
+  ],
+  "cons": [
+    "Not checked: Whether the procedure works in practice."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ops-sop-writer skill on the records for this review."
+}

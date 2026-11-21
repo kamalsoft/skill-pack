@@ -1,0 +1,134 @@
+{
+  "items": [
+    "leave-bal-a.csv",
+    "leave-bal-b.csv",
+    "leave-req-1.csv",
+    "leave-req-2.csv",
+    "cover-plan.csv",
+    "rules.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "balance and approval ok",
+        "negative balance",
+        "absence with no cover"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        2,
+        0
+      ],
+      "note": "Rank. Each balance and request is placed by its approval, its balance and its cover."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 balance is negative with no rule",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "leave-bal-b.csv:12",
+        "title": "Balance negative without a rule allowing it",
+        "fix": "Stop the leave or record the rule"
+      },
+      {
+        "sev": "medium",
+        "where": "cover-plan.csv:19",
+        "title": "Absence with no cover",
+        "fix": "Arrange the cover"
+      },
+      {
+        "sev": "low",
+        "where": "leave-req-1.csv:26",
+        "title": "Request with no approval",
+        "fix": "Chase the approver"
+      }
+    ],
+    "notChecked": "Entitlements not in the ledger."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] leave-bal-b.csv:12  Balance negative without a rule allowing it.\n       Fix: Stop the leave or record the rule.\n[medium] cover-plan.csv:19  Absence with no cover.\n       Fix: Arrange the cover.\n[low] leave-req-1.csv:26  Request with no approval.\n       Fix: Chase the approver.\nNot checked: Entitlements not in the ledger.",
+  "pros": [
+    "Checks a balance that goes negative without a rule allowing it, a request with no approval, and an absence with no cover."
+  ],
+  "cons": [
+    "Not checked: Entitlements not in the ledger."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hr-leave-tracking skill on the records for this review."
+}

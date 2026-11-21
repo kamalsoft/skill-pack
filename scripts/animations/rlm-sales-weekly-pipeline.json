@@ -1,0 +1,121 @@
+{
+  "items": [
+    "stage-prospect.csv",
+    "stage-qualify.csv",
+    "stage-propose.csv",
+    "stage-negotiate.csv",
+    "stage-commit.csv",
+    "week-history.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "bad",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "funnel",
+      "note": "Sum. Each stage is totalled and checked against its rows and the movement since last week."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 stage total does not match its rows",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "stage-prospect.csv:12",
+        "title": "Stage total does not match its rows",
+        "fix": "Recompute the stage total"
+      },
+      {
+        "sev": "medium",
+        "where": "week-history.csv:19",
+        "title": "Stage change with no history entry",
+        "fix": "Record the history entry"
+      },
+      {
+        "sev": "low",
+        "where": "stage-commit.csv:26",
+        "title": "Missing week in the history",
+        "fix": "Add the week"
+      }
+    ],
+    "notChecked": "Forecast accuracy; deals outside the export."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] stage-prospect.csv:12  Stage total does not match its rows.\n       Fix: Recompute the stage total.\n[medium] week-history.csv:19  Stage change with no history entry.\n       Fix: Record the history entry.\n[low] stage-commit.csv:26  Missing week in the history.\n       Fix: Add the week.\nNot checked: Forecast accuracy; deals outside the export.",
+  "pros": [
+    "Checks a stage total that does not match its rows, an opportunity with a stage change and no history entry, and a missing week."
+  ],
+  "cons": [
+    "Not checked: Forecast accuracy; deals outside the export."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-sales-weekly-pipeline skill on the records for this review."
+}

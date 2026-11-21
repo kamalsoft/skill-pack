@@ -1,0 +1,124 @@
+{
+  "items": [
+    "obj-pay.md",
+    "obj-benefit.md",
+    "alt-external-offer.md",
+    "walkaway-pay.md",
+    "interest-union.md",
+    "concessions.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "bad",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Gate. Each objective needs a measure, each alternative a value, and each walk-away point a basis."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 brief items are unsupported",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        2,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "obj-benefit.md:12",
+        "title": "Objective with no measure",
+        "fix": "Set the measure before the meeting"
+      },
+      {
+        "sev": "high",
+        "where": "walkaway-pay.md:19",
+        "title": "Walk-away point with no basis",
+        "fix": "Give the basis from the alternative's value"
+      },
+      {
+        "sev": "medium",
+        "where": "interest-union.md:26",
+        "title": "Alternative with no value",
+        "fix": "Put a value on the alternative"
+      }
+    ],
+    "notChecked": "The other party's position; the legal effect of any term."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 high, 1 medium).\n[high] obj-benefit.md:12  Objective with no measure.\n       Fix: Set the measure before the meeting.\n[high] walkaway-pay.md:19  Walk-away point with no basis.\n       Fix: Give the basis from the alternative's value.\n[medium] interest-union.md:26  Alternative with no value.\n       Fix: Put a value on the alternative.\nNot checked: The other party's position; the legal effect of any term.",
+  "pros": [
+    "Checks an objective with no measure, an alternative with no value, and a walk-away point with no basis."
+  ],
+  "cons": [
+    "Not checked: The other party's position; the legal effect of any term."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hr-negotiation-brief skill on the records for this review."
+}

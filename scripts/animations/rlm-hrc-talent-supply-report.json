@@ -1,0 +1,134 @@
+{
+  "items": [
+    "supply-skill-a.csv",
+    "supply-skill-b.csv",
+    "supply-location-x.csv",
+    "demand-ratio.md",
+    "source-list.md",
+    "as-of.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "sourced and dated",
+        "ratio with no source",
+        "figure with no date"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "note": "Rank. Each supply figure is placed by its source and its date."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 ratio has no source",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "supply-skill-b.csv:12",
+        "title": "Ratio with no source",
+        "fix": "Name the source of the ratio"
+      },
+      {
+        "sev": "medium",
+        "where": "demand-ratio.md:19",
+        "title": "Supply figure with no date",
+        "fix": "Date the figure"
+      },
+      {
+        "sev": "low",
+        "where": "as-of.md:26",
+        "title": "Skill with no location",
+        "fix": "Add the location"
+      }
+    ],
+    "notChecked": "Future supply."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] supply-skill-b.csv:12  Ratio with no source.\n       Fix: Name the source of the ratio.\n[medium] demand-ratio.md:19  Supply figure with no date.\n       Fix: Date the figure.\n[low] as-of.md:26  Skill with no location.\n       Fix: Add the location.\nNot checked: Future supply.",
+  "pros": [
+    "Checks a ratio with no source, and a supply figure with no date."
+  ],
+  "cons": [
+    "Not checked: Future supply."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-talent-supply-report skill on the records for this review."
+}

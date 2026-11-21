@@ -1,0 +1,134 @@
+{
+  "items": [
+    "dispute-0101.md",
+    "dispute-0102.md",
+    "dispute-0103.md",
+    "dispute-0104.md",
+    "dispute-0105.md",
+    "dispute-0106.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "bad",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "exposure and deadline set",
+        "no exposure",
+        "deadline passed"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "note": "Rank. Each dispute is placed by its exposure figure and its next deadline."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 dispute's next deadline has passed",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "dispute-0104.md:12",
+        "title": "Next deadline past",
+        "fix": "Act on the deadline or ask counsel for an extension"
+      },
+      {
+        "sev": "medium",
+        "where": "dispute-0102.md:19",
+        "title": "Dispute with no exposure figure",
+        "fix": "Add the exposure with its source"
+      },
+      {
+        "sev": "low",
+        "where": "dispute-0106.md:26",
+        "title": "Exposure changed with no note of the reason",
+        "fix": "Note the reason for the change"
+      }
+    ],
+    "notChecked": "The merits; the likely outcome."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] dispute-0104.md:12  Next deadline past.\n       Fix: Act on the deadline or ask counsel for an extension.\n[medium] dispute-0102.md:19  Dispute with no exposure figure.\n       Fix: Add the exposure with its source.\n[low] dispute-0106.md:26  Exposure changed with no note of the reason.\n       Fix: Note the reason for the change.\nNot checked: The merits; the likely outcome.",
+  "pros": [
+    "Checks a dispute with no exposure figure, a next deadline past, and an exposure figure that changed with no note of the reason."
+  ],
+  "cons": [
+    "Not checked: The merits; the likely outcome."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-legal-disputes-log skill on the records for this review."
+}

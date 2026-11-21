@@ -1,0 +1,137 @@
+{
+  "items": [
+    "req-login.md",
+    "req-export.md",
+    "req-search.md",
+    "req-audit.md",
+    "req-reports.md",
+    "req-api.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "warn",
+        "bad",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "has a source",
+        "no source"
+      ],
+      "pairs": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      "targetState": [
+        "ok",
+        "bad"
+      ],
+      "note": "Compare. Each requirement is matched to its source. A requirement with no source is a gap."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 criterion cannot be tested",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "req-audit.md:12",
+        "title": "Criterion cannot be tested",
+        "fix": "Rewrite the criterion as a test"
+      },
+      {
+        "sev": "medium",
+        "where": "req-search.md:19",
+        "title": "Requirement with no source",
+        "fix": "Name the source of the requirement"
+      },
+      {
+        "sev": "low",
+        "where": "req-api.md:26",
+        "title": "Requirement with no business need",
+        "fix": "Name the need it serves"
+      }
+    ],
+    "notChecked": "Whether the requirement is feasible."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] req-audit.md:12  Criterion cannot be tested.\n       Fix: Rewrite the criterion as a test.\n[medium] req-search.md:19  Requirement with no source.\n       Fix: Name the source of the requirement.\n[low] req-api.md:26  Requirement with no business need.\n       Fix: Name the need it serves.\nNot checked: Whether the requirement is feasible.",
+  "pros": [
+    "Checks a requirement with no source, a criterion that cannot be tested, and a requirement with no business need."
+  ],
+  "cons": [
+    "Not checked: Whether the requirement is feasible."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-pm-requirements-spec skill on the records for this review."
+}

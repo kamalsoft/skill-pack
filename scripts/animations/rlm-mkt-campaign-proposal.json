@@ -1,0 +1,132 @@
+{
+  "items": [
+    "return-sales.md",
+    "cost-media.csv",
+    "cost-creative.csv",
+    "risk-market.md",
+    "return-brand.md",
+    "risk-compliance.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "warn",
+        "ok",
+        "ok",
+        "bad",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "source: pilot data",
+        "source: quote",
+        "no source"
+      ],
+      "pairs": [
+        0,
+        1,
+        1,
+        2,
+        0,
+        2
+      ],
+      "targetState": [
+        "ok",
+        "ok",
+        "bad"
+      ],
+      "note": "Compare. Each return and cost is matched to its assumption and source."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 risk has no mitigation",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        2,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "risk-market.md:12",
+        "title": "Risk with no mitigation",
+        "fix": "Name a mitigation and its owner"
+      },
+      {
+        "sev": "medium",
+        "where": "return-sales.md:19",
+        "title": "Return with no stated assumption",
+        "fix": "State the assumption and its source"
+      },
+      {
+        "sev": "medium",
+        "where": "return-brand.md:26",
+        "title": "Cost line not matching the brief",
+        "fix": "Reconcile the cost to the brief"
+      }
+    ],
+    "notChecked": "Market response; actual return."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 2 medium).\n[high] risk-market.md:12  Risk with no mitigation.\n       Fix: Name a mitigation and its owner.\n[medium] return-sales.md:19  Return with no stated assumption.\n       Fix: State the assumption and its source.\n[medium] return-brand.md:26  Cost line not matching the brief.\n       Fix: Reconcile the cost to the brief.\nNot checked: Market response; actual return.",
+  "pros": [],
+  "cons": [
+    "Not checked: Market response; actual return."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mkt-campaign-proposal skill on the records for this review."
+}

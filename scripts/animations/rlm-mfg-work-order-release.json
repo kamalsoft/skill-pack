@@ -1,0 +1,129 @@
+{
+  "items": [
+    "wo-4411.md",
+    "wo-4412.md",
+    "wo-4413.md",
+    "wo-4414.md",
+    "wo-4415.md",
+    "wo-4416.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Gate. A work order needs its materials, a routing and a capacity figure with a source before release."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 work order cannot be released",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "wo-4412.md:12",
+        "title": "Material short for the run",
+        "fix": "Hold the order until the material is in"
+      },
+      {
+        "sev": "medium",
+        "where": "wo-4415.md:19",
+        "title": "Routing missing",
+        "fix": "Attach the routing"
+      },
+      {
+        "sev": "low",
+        "where": "wo-4413.md:26",
+        "title": "Capacity figure with no source",
+        "fix": "Name the source of the capacity"
+      }
+    ],
+    "notChecked": "Whether the routing matches the product's current design."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] wo-4412.md:12  Material short for the run.\n       Fix: Hold the order until the material is in.\n[medium] wo-4415.md:19  Routing missing.\n       Fix: Attach the routing.\n[low] wo-4413.md:26  Capacity figure with no source.\n       Fix: Name the source of the capacity.\nNot checked: Whether the routing matches the product's current design.",
+  "pros": [
+    "Checks a material short for the run, a routing missing, and a capacity figure with no source."
+  ],
+  "cons": [
+    "Not checked: Whether the routing matches the product's current design."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mfg-work-order-release skill on the records for this review."
+}

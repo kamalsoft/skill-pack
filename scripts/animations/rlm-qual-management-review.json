@@ -1,0 +1,116 @@
+{
+  "items": [
+    "input-audit.md",
+    "input-complaints.md",
+    "input-objectives.md",
+    "input-capa.md",
+    "decisions.md",
+    "actions.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "bad",
+        "ok",
+        "ok",
+        "ok",
+        "warn",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "stack",
+      "note": "List. Each input, decision and action is stacked for the annual review."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 required input is missing",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        2,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "input-audit.md:12",
+        "title": "Required input missing",
+        "fix": "Add the input before the review"
+      },
+      {
+        "sev": "medium",
+        "where": "decisions.md:19",
+        "title": "Decision with no reason",
+        "fix": "Record the reason"
+      },
+      {
+        "sev": "medium",
+        "where": "actions.md:26",
+        "title": "Action with no owner",
+        "fix": "Assign an owner"
+      }
+    ],
+    "notChecked": "Whether the decisions were carried out."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 2 medium).\n[high] input-audit.md:12  Required input missing.\n       Fix: Add the input before the review.\n[medium] decisions.md:19  Decision with no reason.\n       Fix: Record the reason.\n[medium] actions.md:26  Action with no owner.\n       Fix: Assign an owner.\nNot checked: Whether the decisions were carried out.",
+  "pros": [
+    "Checks a missing required input, a decision with no reason, and an action with no owner."
+  ],
+  "cons": [
+    "Not checked: Whether the decisions were carried out."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-qual-management-review skill on the records for this review."
+}

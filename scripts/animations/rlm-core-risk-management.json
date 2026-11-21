@@ -1,0 +1,137 @@
+{
+  "items": [
+    "rule-scoring.md",
+    "rule-register.md",
+    "rule-escalation.md",
+    "domain-it-risk.md",
+    "domain-hr-risk.md",
+    "domain-safety.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "warn",
+        "bad"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "rulebook section",
+        "not in rulebook"
+      ],
+      "pairs": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad"
+      ],
+      "note": "Compare. Each domain's risk scores are matched to the shared rulebook sections."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 score is outside the 1 to 5 range",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "domain-safety.md:12",
+        "title": "Likelihood score outside 1 to 5",
+        "fix": "Correct the score to the 1 to 5 scale"
+      },
+      {
+        "sev": "medium",
+        "where": "domain-hr-risk.md:19",
+        "title": "Rating band does not match the score",
+        "fix": "Apply the rulebook band"
+      },
+      {
+        "sev": "low",
+        "where": "rule-escalation.md:26",
+        "title": "Escalation cadence not stated",
+        "fix": "State the cadence in the rulebook"
+      }
+    ],
+    "notChecked": "the organisation's risk appetite, unless it was given; whether a control works in practice; the domain's own rules, which the domain skill owns."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] domain-safety.md:12  Likelihood score outside 1 to 5.\n       Fix: Correct the score to the 1 to 5 scale.\n[medium] domain-hr-risk.md:19  Rating band does not match the score.\n       Fix: Apply the rulebook band.\n[low] rule-escalation.md:26  Escalation cadence not stated.\n       Fix: State the cadence in the rulebook.\nNot checked: the organisation's risk appetite, unless it was given; whether a control works in practice; the domain's own rules, which the domain skill owns.",
+  "pros": [
+    "Checks a likelihood or impact score outside 1 to 5, or a rating band that does not match the bands in the Method (1 to 4 low, 5 to 9 medium, 10 to 15 high, 16 to 25 critical); a register that lacks a require."
+  ],
+  "cons": [
+    "Not checked: the organisation's risk appetite, unless it was given; whether a control works in practice; the domain's own rules, which the domain skill owns."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-core-risk-management skill on the records for this review."
+}

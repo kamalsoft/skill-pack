@@ -1,0 +1,129 @@
+{
+  "items": [
+    "req-eng-14.md",
+    "req-sales-07.md",
+    "req-ops-03.md",
+    "req-fin-09.md",
+    "req-support-11.md",
+    "req-legal-02.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "warn",
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.0
+      ],
+      "note": "Order. Each requisition is placed by its stage and the time spent there."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 offer has had no decision for 10 days",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "req-ops-03.md:12",
+        "title": "Offer with no decision after 10 days",
+        "fix": "Chase the decision today"
+      },
+      {
+        "sev": "medium",
+        "where": "req-eng-14.md:19",
+        "title": "Candidate more than 14 days in one stage",
+        "fix": "Move the candidate on or close the stage"
+      },
+      {
+        "sev": "low",
+        "where": "req-legal-02.md:26",
+        "title": "Requisition with no candidates",
+        "fix": "Review the sourcing plan"
+      }
+    ],
+    "notChecked": "Candidate quality."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] req-ops-03.md:12  Offer with no decision after 10 days.\n       Fix: Chase the decision today.\n[medium] req-eng-14.md:19  Candidate more than 14 days in one stage.\n       Fix: Move the candidate on or close the stage.\n[low] req-legal-02.md:26  Requisition with no candidates.\n       Fix: Review the sourcing plan.\nNot checked: Candidate quality.",
+  "pros": [
+    "Checks a candidate with more than 14 days in one stage, an offer with no decision after 10 days, and a requisition with no candidates."
+  ],
+  "cons": [
+    "Not checked: Candidate quality."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hr-hiring-pipeline skill on the records for this review."
+}

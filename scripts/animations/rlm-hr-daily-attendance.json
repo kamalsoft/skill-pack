@@ -1,0 +1,134 @@
+{
+  "items": [
+    "att-line-a.csv",
+    "att-line-b.csv",
+    "att-line-c.csv",
+    "timesheets.csv",
+    "overtime.csv",
+    "punches.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "bad",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "clean",
+        "missing punch",
+        "unapproved or over limit"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        1
+      ],
+      "note": "Rank. Each record is placed by its punch, its approval and its overtime against the limit."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 overtime figure is above the limit",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "timesheets.csv:12",
+        "title": "Overtime above the stated limit",
+        "fix": "Stop the overtime or get the approval"
+      },
+      {
+        "sev": "medium",
+        "where": "att-line-b.csv:19",
+        "title": "Missing punch",
+        "fix": "Ask for the correction"
+      },
+      {
+        "sev": "low",
+        "where": "punches.csv:26",
+        "title": "Timesheet not approved",
+        "fix": "Chase the approver"
+      }
+    ],
+    "notChecked": "Work done outside the clock."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] timesheets.csv:12  Overtime above the stated limit.\n       Fix: Stop the overtime or get the approval.\n[medium] att-line-b.csv:19  Missing punch.\n       Fix: Ask for the correction.\n[low] punches.csv:26  Timesheet not approved.\n       Fix: Chase the approver.\nNot checked: Work done outside the clock.",
+  "pros": [
+    "Checks a missing punch, an unapproved timesheet, and overtime above the stated limit."
+  ],
+  "cons": [
+    "Not checked: Work done outside the clock."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hr-daily-attendance skill on the records for this review."
+}

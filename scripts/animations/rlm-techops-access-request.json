@@ -1,0 +1,134 @@
+{
+  "items": [
+    "req-1041.md",
+    "req-1042.md",
+    "req-1043.md",
+    "req-1044.md",
+    "req-1045.md",
+    "req-1046.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "approved",
+        "no approver",
+        "no expiry"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "note": "Rank. Each request is placed by its approver and its expiry."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 request has no approver",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "req-1042.md:12",
+        "title": "Access requested with no approver",
+        "fix": "Record the approver before the grant"
+      },
+      {
+        "sev": "medium",
+        "where": "req-1046.md:19",
+        "title": "Access above the role's standard",
+        "fix": "Reduce the access to the role's standard"
+      },
+      {
+        "sev": "low",
+        "where": "req-1044.md:26",
+        "title": "Grant with no expiry",
+        "fix": "Set an expiry date"
+      }
+    ],
+    "notChecked": "Whether the access is used."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] req-1042.md:12  Access requested with no approver.\n       Fix: Record the approver before the grant.\n[medium] req-1046.md:19  Access above the role's standard.\n       Fix: Reduce the access to the role's standard.\n[low] req-1044.md:26  Grant with no expiry.\n       Fix: Set an expiry date.\nNot checked: Whether the access is used.",
+  "pros": [
+    "Flags a request with no approver, access above the role's standard, and a grant with no expiry."
+  ],
+  "cons": [
+    "Not checked: Whether the access is used."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-techops-access-request skill on the records for this review."
+}

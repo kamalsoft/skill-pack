@@ -1,0 +1,137 @@
+{
+  "items": [
+    "charter-purpose.md",
+    "charter-scope.md",
+    "charter-success.md",
+    "charter-owner.md",
+    "charter-constraints.md",
+    "charter-milestones.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "bad",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "element present",
+        "element missing"
+      ],
+      "pairs": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad"
+      ],
+      "note": "Compare. Each charter element is matched against the required list. A missing element is flagged."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 success measure has no target",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "charter-success.md:12",
+        "title": "Success measure with no target",
+        "fix": "Set a target the project can be closed against"
+      },
+      {
+        "sev": "medium",
+        "where": "charter-scope.md:19",
+        "title": "Scope item both in and out",
+        "fix": "Decide whether the item is in scope"
+      },
+      {
+        "sev": "low",
+        "where": "charter-constraints.md:26",
+        "title": "Constraints element missing",
+        "fix": "Add the constraints"
+      }
+    ],
+    "notChecked": "Whether the project should be done."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] charter-success.md:12  Success measure with no target.\n       Fix: Set a target the project can be closed against.\n[medium] charter-scope.md:19  Scope item both in and out.\n       Fix: Decide whether the item is in scope.\n[low] charter-constraints.md:26  Constraints element missing.\n       Fix: Add the constraints.\nNot checked: Whether the project should be done.",
+  "pros": [
+    "Checks a missing element, a success measure with no target, and a scope item that is both in and out."
+  ],
+  "cons": [
+    "Not checked: Whether the project should be done."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-pm-project-charter skill on the records for this review."
+}

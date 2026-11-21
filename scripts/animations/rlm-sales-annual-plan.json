@@ -1,0 +1,134 @@
+{
+  "items": [
+    "plan-target-north.md",
+    "plan-target-south.md",
+    "plan-quota-west.md",
+    "plan-quota-east.md",
+    "plan-hiring-ae.md",
+    "plan-hiring-se.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "warn",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "baseline and territory",
+        "no baseline",
+        "no territory"
+      ],
+      "pairs": [
+        0,
+        1,
+        2,
+        0,
+        0,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "warn"
+      ],
+      "note": "Compare. Each target and quota is matched to a baseline and a territory."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 plan items lack a baseline or a territory",
+    "tone": "warn",
+    "bars": [
+      [
+        "medium",
+        2,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "medium",
+        "where": "plan-target-south.md:12",
+        "title": "Target with no baseline",
+        "fix": "Record last year's result as the baseline"
+      },
+      {
+        "sev": "medium",
+        "where": "plan-quota-west.md:19",
+        "title": "Quota with no territory",
+        "fix": "Assign the quota to a territory"
+      },
+      {
+        "sev": "low",
+        "where": "plan-hiring-ae.md:26",
+        "title": "Hiring need with no capacity figure",
+        "fix": "Add the capacity figure"
+      }
+    ],
+    "notChecked": "Market forecasts not in the notes."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 medium, 1 low).\n[medium] plan-target-south.md:12  Target with no baseline.\n       Fix: Record last year's result as the baseline.\n[medium] plan-quota-west.md:19  Quota with no territory.\n       Fix: Assign the quota to a territory.\n[low] plan-hiring-ae.md:26  Hiring need with no capacity figure.\n       Fix: Add the capacity figure.\nNot checked: Market forecasts not in the notes.",
+  "pros": [
+    "Checks a target with no baseline, a quota with no territory, and a hiring need with no capacity figure."
+  ],
+  "cons": [
+    "Not checked: Market forecasts not in the notes."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-sales-annual-plan skill on the records for this review."
+}

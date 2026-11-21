@@ -1,0 +1,134 @@
+{
+  "items": [
+    "eng-acme.csv",
+    "eng-brightline.csv",
+    "eng-corvus.csv",
+    "eng-delta.csv",
+    "billing-extract.csv",
+    "cost-lines.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "above floor",
+        "below floor",
+        "cost with no engagement"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        2
+      ],
+      "note": "Rank. Each engagement is placed by its margin against the floor, and each cost by its engagement."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 engagement is below the margin floor",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "eng-brightline.csv:12",
+        "title": "Engagement below the margin floor",
+        "fix": "Re-price or re-scope the engagement"
+      },
+      {
+        "sev": "medium",
+        "where": "billing-extract.csv:19",
+        "title": "Fee differs from the billing",
+        "fix": "Reconcile the fee to the billing"
+      },
+      {
+        "sev": "low",
+        "where": "cost-lines.csv:26",
+        "title": "Cost with no engagement",
+        "fix": "Attach the cost to an engagement"
+      }
+    ],
+    "notChecked": "Whether the fee is fair to the client."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] eng-brightline.csv:12  Engagement below the margin floor.\n       Fix: Re-price or re-scope the engagement.\n[medium] billing-extract.csv:19  Fee differs from the billing.\n       Fix: Reconcile the fee to the billing.\n[low] cost-lines.csv:26  Cost with no engagement.\n       Fix: Attach the cost to an engagement.\nNot checked: Whether the fee is fair to the client.",
+  "pros": [
+    "Checks an engagement below the margin floor, a fee that differs from the billing, and a cost with no engagement."
+  ],
+  "cons": [
+    "Not checked: Whether the fee is fair to the client."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-fee-margin-review skill on the records for this review."
+}

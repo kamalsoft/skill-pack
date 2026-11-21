@@ -1,0 +1,143 @@
+{
+  "items": [
+    "job-tank-clean.md",
+    "job-pipe-replace.md",
+    "job-vessel-inspect.md",
+    "job-motor-overhaul.md",
+    "job-crane-test.md",
+    "critical-path.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "graph",
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "note": "Order. Each job waits for the one before it on the critical path. A job with no permit or owner is flagged."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 job has no permit",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "job-vessel-inspect.md:12",
+        "title": "Job with no permit",
+        "fix": "Get the permit before the job starts"
+      },
+      {
+        "sev": "medium",
+        "where": "critical-path.md:19",
+        "title": "Critical-path resource with no named owner",
+        "fix": "Name the owner"
+      },
+      {
+        "sev": "low",
+        "where": "job-pipe-replace.md:26",
+        "title": "Job with no duration",
+        "fix": "Estimate the duration"
+      }
+    ],
+    "notChecked": "Whether the estimates are right."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] job-vessel-inspect.md:12  Job with no permit.\n       Fix: Get the permit before the job starts.\n[medium] critical-path.md:19  Critical-path resource with no named owner.\n       Fix: Name the owner.\n[low] job-pipe-replace.md:26  Job with no duration.\n       Fix: Estimate the duration.\nNot checked: Whether the estimates are right.",
+  "pros": [
+    "Checks a job with no duration, a job with no permit, and a resource needed on the critical path with no named owner."
+  ],
+  "cons": [
+    "Not checked: Whether the estimates are right."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ind-shutdown-plan skill on the records for this review."
+}

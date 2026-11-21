@@ -1,0 +1,139 @@
+{
+  "items": [
+    "sla-q1.md",
+    "sla-q2.md",
+    "sla-q3.md",
+    "improvement-1.md",
+    "improvement-2.md",
+    "owners.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "SLA met",
+        "SLA missed, improvement set",
+        "improvement with owner"
+      ],
+      "pairs": [
+        0,
+        1,
+        2,
+        0,
+        2,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "warn"
+      ],
+      "note": "Compare. Each missed SLA is matched to an improvement, and each improvement to an owner."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 SLA missed with no improvement",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "sla-q2.md:12",
+        "title": "SLA missed with no improvement",
+        "fix": "Set the improvement and its date"
+      },
+      {
+        "sev": "medium",
+        "where": "improvement-2.md:19",
+        "title": "Improvement with no owner",
+        "fix": "Assign an owner"
+      },
+      {
+        "sev": "low",
+        "where": "owners.csv:26",
+        "title": "Quarter with no review",
+        "fix": "Hold the review"
+      }
+    ],
+    "notChecked": "The client's own priorities."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] sla-q2.md:12  SLA missed with no improvement.\n       Fix: Set the improvement and its date.\n[medium] improvement-2.md:19  Improvement with no owner.\n       Fix: Assign an owner.\n[low] owners.csv:26  Quarter with no review.\n       Fix: Hold the review.\nNot checked: The client's own priorities.",
+  "pros": [
+    "Checks an SLA missed with no improvement, and an improvement with no owner."
+  ],
+  "cons": [
+    "Not checked: The client's own priorities."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-service-review skill on the records for this review."
+}

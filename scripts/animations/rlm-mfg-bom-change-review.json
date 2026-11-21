@@ -1,0 +1,129 @@
+{
+  "items": [
+    "bom-rev-07.md",
+    "bom-rev-08.md",
+    "bom-rev-09.md",
+    "bom-rev-10.md",
+    "bom-rev-11.md",
+    "bom-rev-12.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.0
+      ],
+      "note": "Order. Each revision is placed by its effective date against its approval date."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 revision takes effect before it is approved",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "bom-rev-09.md:12",
+        "title": "Effective date before the approval date",
+        "fix": "Correct the date or re-approve the change"
+      },
+      {
+        "sev": "medium",
+        "where": "bom-rev-11.md:19",
+        "title": "Changed part with no stock plan",
+        "fix": "Write the stock plan for the old and new part"
+      },
+      {
+        "sev": "low",
+        "where": "bom-rev-07.md:26",
+        "title": "Revision with no effective date",
+        "fix": "Set the effective date"
+      }
+    ],
+    "notChecked": "Engineering correctness of the change."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] bom-rev-09.md:12  Effective date before the approval date.\n       Fix: Correct the date or re-approve the change.\n[medium] bom-rev-11.md:19  Changed part with no stock plan.\n       Fix: Write the stock plan for the old and new part.\n[low] bom-rev-07.md:26  Revision with no effective date.\n       Fix: Set the effective date.\nNot checked: Engineering correctness of the change.",
+  "pros": [
+    "Checks a revision with no effective date, a changed part with no stock plan, and an effective date before the approval date."
+  ],
+  "cons": [
+    "Not checked: Engineering correctness of the change."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mfg-bom-change-review skill on the records for this review."
+}

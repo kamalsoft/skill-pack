@@ -1,0 +1,124 @@
+{
+  "items": [
+    "signin.ts",
+    "csp-header.conf",
+    "sanitize.ts",
+    "comments.tsx",
+    "passkey.ts",
+    "postmessage.ts"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "bad",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Gate. Each control is checked: passkeys, the CSP, sanitizing and cross-origin messages."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 injection or CSP issues",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        2,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "comments.tsx:12",
+        "title": "User HTML rendered without sanitizing",
+        "fix": "Sanitize the HTML before rendering"
+      },
+      {
+        "sev": "high",
+        "where": "csp-header.conf:19",
+        "title": "CSP allows unsafe-inline scripts",
+        "fix": "Remove unsafe-inline and use nonces"
+      },
+      {
+        "sev": "medium",
+        "where": "postmessage.ts:26",
+        "title": "Message origin is not checked",
+        "fix": "Check event.origin against an allow-list"
+      }
+    ],
+    "notChecked": "Server-side verification code outside the scope, headers added by infrastructure not in the repository, third-party script contents, and browser support for newer features."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 high, 1 medium).\n[high] comments.tsx:12  User HTML rendered without sanitizing.\n       Fix: Sanitize the HTML before rendering.\n[high] csp-header.conf:19  CSP allows unsafe-inline scripts.\n       Fix: Remove unsafe-inline and use nonces.\n[medium] postmessage.ts:26  Message origin is not checked.\n       Fix: Check event.origin against an allow-list.\nNot checked: Server-side verification code outside the scope, headers added by infrastructure not in the repository, third-party script contents, and browser support for newer features.",
+  "pros": [
+    "Checks passkey code (registration with a fresh single-use challenge, a correct rp.id, an opaque random user.id with no personal data, residentKey required, excludeCredentials; sign-in offering passkeys throu."
+  ],
+  "cons": [
+    "Not checked: Server-side verification code outside the scope, headers added by infrastructure not in the repository, third-party script contents, and browser support for newer features."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-web-client-security skill on the records for this review."
+}

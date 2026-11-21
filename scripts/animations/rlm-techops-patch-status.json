@@ -1,0 +1,134 @@
+{
+  "items": [
+    "host-web-01",
+    "host-web-02",
+    "host-db-01",
+    "host-app-03",
+    "host-app-04",
+    "host-file-02"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "on target",
+        "below target",
+        "exception"
+      ],
+      "binOf": [
+        0,
+        0,
+        1,
+        0,
+        2,
+        1
+      ],
+      "note": "Rank. Each host is placed by its patch status against the target."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 host is below target with no exception",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "host-db-01:12",
+        "title": "Below target with no exception recorded",
+        "fix": "Patch the host this week"
+      },
+      {
+        "sev": "medium",
+        "where": "host-app-04:19",
+        "title": "Exception past its expiry",
+        "fix": "Patch the host or renew the exception"
+      },
+      {
+        "sev": "low",
+        "where": "host-file-02:26",
+        "title": "Host below target",
+        "fix": "Schedule the patch window"
+      }
+    ],
+    "notChecked": "Whether the patch installed correctly."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] host-db-01:12  Below target with no exception recorded.\n       Fix: Patch the host this week.\n[medium] host-app-04:19  Exception past its expiry.\n       Fix: Patch the host or renew the exception.\n[low] host-file-02:26  Host below target.\n       Fix: Schedule the patch window.\nNot checked: Whether the patch installed correctly.",
+  "pros": [
+    "Flags a host below the target with no exception recorded, and an exception past its expiry."
+  ],
+  "cons": [
+    "Not checked: Whether the patch installed correctly."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-techops-patch-status skill on the records for this review."
+}

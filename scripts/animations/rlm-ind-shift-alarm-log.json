@@ -1,0 +1,129 @@
+{
+  "items": [
+    "alarm-pump-a.md",
+    "alarm-tank-b.md",
+    "alarm-trip-c.md",
+    "alarm-kiln-d.md",
+    "alarm-ack-e.md",
+    "alarm-trip-f.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.0
+      ],
+      "note": "Order. Each alarm and trip is placed in the order it happened on the shift."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 trip has no cause recorded",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "alarm-trip-c.md:12",
+        "title": "Trip with no cause recorded",
+        "fix": "Record the cause of the trip"
+      },
+      {
+        "sev": "medium",
+        "where": "alarm-ack-e.md:19",
+        "title": "Alarm acknowledged but not cleared for over an hour",
+        "fix": "Check the alarm and clear it"
+      },
+      {
+        "sev": "low",
+        "where": "alarm-pump-a.md:26",
+        "title": "Alarm with no action",
+        "fix": "Record the action taken"
+      }
+    ],
+    "notChecked": "Alarms not in the log."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] alarm-trip-c.md:12  Trip with no cause recorded.\n       Fix: Record the cause of the trip.\n[medium] alarm-ack-e.md:19  Alarm acknowledged but not cleared for over an hour.\n       Fix: Check the alarm and clear it.\n[low] alarm-pump-a.md:26  Alarm with no action.\n       Fix: Record the action taken.\nNot checked: Alarms not in the log.",
+  "pros": [
+    "Checks an alarm with no action, an alarm acknowledged but not cleared for more than an hour, and a trip with no cause recorded."
+  ],
+  "cons": [
+    "Not checked: Alarms not in the log."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ind-shift-alarm-log skill on the records for this review."
+}

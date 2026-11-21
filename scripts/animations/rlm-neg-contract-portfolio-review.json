@@ -1,0 +1,134 @@
+{
+  "items": [
+    "contract-cloud.md",
+    "contract-logistics.md",
+    "contract-print.md",
+    "contract-software.md",
+    "contract-facilities.md",
+    "contract-legal.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "reviewed in 12 months",
+        "no review in 12 months",
+        "non-standard terms"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        1
+      ],
+      "note": "Rank. Each contract is placed by its last review and whether its liability and termination terms are standard."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 high-risk contract has not been reviewed in 12 months",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "contract-logistics.md:12",
+        "title": "High-value, high-risk contract with no review in 12 months",
+        "fix": "Review the contract and decide whether to reopen"
+      },
+      {
+        "sev": "medium",
+        "where": "contract-software.md:19",
+        "title": "Non-standard liability or termination terms",
+        "fix": "Take the terms to counsel"
+      },
+      {
+        "sev": "low",
+        "where": "contract-legal.md:26",
+        "title": "Contract with no owner",
+        "fix": "Assign an owner"
+      }
+    ],
+    "notChecked": "Commercial value beyond the register; legal interpretation of terms, which counsel confirms."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] contract-logistics.md:12  High-value, high-risk contract with no review in 12 months.\n       Fix: Review the contract and decide whether to reopen.\n[medium] contract-software.md:19  Non-standard liability or termination terms.\n       Fix: Take the terms to counsel.\n[low] contract-legal.md:26  Contract with no owner.\n       Fix: Assign an owner.\nNot checked: Commercial value beyond the register; legal interpretation of terms, which counsel confirms.",
+  "pros": [
+    "Checks a high-value, high-risk contract with no review in the last 12 months; a contract with non-standard liability or termination terms; a contract with no owner."
+  ],
+  "cons": [
+    "Not checked: Commercial value beyond the register; legal interpretation of terms, which counsel confirms."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-neg-contract-portfolio-review skill on the records for this review."
+}

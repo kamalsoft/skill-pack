@@ -1,0 +1,134 @@
+{
+  "items": [
+    "vendor-a.csv",
+    "vendor-b.csv",
+    "vendor-c.csv",
+    "vendor-d.csv",
+    "vendor-e.csv",
+    "vendor-f.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "within contract",
+        "above contract",
+        "no contract"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "note": "Rank. Each vendor is placed by its spend against its contract limit."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 vendor is above its contract limit",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "vendor-b.csv:12",
+        "title": "Spend above the contract limit",
+        "fix": "Stop the spend or agree a change in writing"
+      },
+      {
+        "sev": "medium",
+        "where": "vendor-d.csv:19",
+        "title": "Spend with no contract",
+        "fix": "Put the vendor under contract"
+      },
+      {
+        "sev": "low",
+        "where": "vendor-f.csv:26",
+        "title": "Spend total does not match its invoices",
+        "fix": "Recompute from the invoices"
+      }
+    ],
+    "notChecked": "Whether the goods or services were received."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] vendor-b.csv:12  Spend above the contract limit.\n       Fix: Stop the spend or agree a change in writing.\n[medium] vendor-d.csv:19  Spend with no contract.\n       Fix: Put the vendor under contract.\n[low] vendor-f.csv:26  Spend total does not match its invoices.\n       Fix: Recompute from the invoices.\nNot checked: Whether the goods or services were received.",
+  "pros": [
+    "Checks spend above the contract limit, a vendor with spend and no contract, and a spend total that does not match its invoices."
+  ],
+  "cons": [
+    "Not checked: Whether the goods or services were received."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ops-vendor-spend-review skill on the records for this review."
+}

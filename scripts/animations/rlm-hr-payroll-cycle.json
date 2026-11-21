@@ -1,0 +1,134 @@
+{
+  "items": [
+    "pay-inputs-a.csv",
+    "pay-inputs-b.csv",
+    "pay-total.csv",
+    "cut-off.md",
+    "recon-bank.md",
+    "pay-line-01.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "bad",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "input matches source",
+        "input differs",
+        "line before cut-off"
+      ],
+      "pairs": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        2
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "warn"
+      ],
+      "note": "Compare. Each pay input is matched to its source, and each line to the cut-off date."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 pay input differs from its source",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        2,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "pay-inputs-b.csv:12",
+        "title": "Pay input differs from its source",
+        "fix": "Correct the input before the run"
+      },
+      {
+        "sev": "high",
+        "where": "pay-total.csv:19",
+        "title": "Total does not reconcile",
+        "fix": "Reconcile the total to the bank"
+      },
+      {
+        "sev": "medium",
+        "where": "pay-line-01.csv:26",
+        "title": "Line after the cut-off date",
+        "fix": "Move the line to the next cycle"
+      }
+    ],
+    "notChecked": "The statutory deductions and their rules, which a payroll specialist confirms."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 high, 1 medium).\n[high] pay-inputs-b.csv:12  Pay input differs from its source.\n       Fix: Correct the input before the run.\n[high] pay-total.csv:19  Total does not reconcile.\n       Fix: Reconcile the total to the bank.\n[medium] pay-line-01.csv:26  Line after the cut-off date.\n       Fix: Move the line to the next cycle.\nNot checked: The statutory deductions and their rules, which a payroll specialist confirms.",
+  "pros": [
+    "Checks a line whose input differs from its source, a total that does not reconcile, and a line after the cut-off date."
+  ],
+  "cons": [
+    "Not checked: The statutory deductions and their rules, which a payroll specialist confirms."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hr-payroll-cycle skill on the records for this review."
+}

@@ -1,0 +1,134 @@
+{
+  "items": [
+    "gauge-calip-01.csv",
+    "gauge-scale-02.csv",
+    "gauge-torque-03.csv",
+    "gauge-caliper-04.csv",
+    "gauge-thermo-05.csv",
+    "gauge-gauge-06.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "in calibration",
+        "out of tolerance",
+        "due or no date"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        2
+      ],
+      "note": "Rank. Each item is placed by its calibration status and its last result against tolerance."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 item measured outside tolerance",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "gauge-scale-02.csv:12",
+        "title": "Last result outside tolerance",
+        "fix": "Quarantine the item and check the product it measured"
+      },
+      {
+        "sev": "medium",
+        "where": "gauge-caliper-04.csv:19",
+        "title": "Item past its due date",
+        "fix": "Calibrate the item before use"
+      },
+      {
+        "sev": "low",
+        "where": "gauge-gauge-06.csv:26",
+        "title": "Certificate missing from the index",
+        "fix": "Add the certificate"
+      }
+    ],
+    "notChecked": "The physical state of the equipment; the calibration itself."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] gauge-scale-02.csv:12  Last result outside tolerance.\n       Fix: Quarantine the item and check the product it measured.\n[medium] gauge-caliper-04.csv:19  Item past its due date.\n       Fix: Calibrate the item before use.\n[low] gauge-gauge-06.csv:26  Certificate missing from the index.\n       Fix: Add the certificate.\nNot checked: The physical state of the equipment; the calibration itself.",
+  "pros": [
+    "Checks an item past its due date, an item with a last result outside tolerance, an item with no due date, and an item whose certificate is missing from the index."
+  ],
+  "cons": [
+    "Not checked: The physical state of the equipment; the calibration itself."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-qual-calibration-status skill on the records for this review."
+}

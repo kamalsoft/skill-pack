@@ -1,0 +1,134 @@
+{
+  "items": [
+    "neg-q-cloud.md",
+    "neg-q-freight.md",
+    "neg-q-print.md",
+    "neg-q-renewal.md",
+    "neg-q-services.md",
+    "neg-q-raw.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "bad",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "owned, on time",
+        "no owner",
+        "priority conflicts notice"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "note": "Rank. Each negotiation is placed by its owner and whether its priority fits its notice date."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 priority conflicts with a notice date",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "neg-q-renewal.md:12",
+        "title": "Priority conflicts with the notice date",
+        "fix": "Move the negotiation earlier"
+      },
+      {
+        "sev": "medium",
+        "where": "neg-q-freight.md:19",
+        "title": "Negotiation with no owner",
+        "fix": "Assign an owner"
+      },
+      {
+        "sev": "low",
+        "where": "neg-q-raw.md:26",
+        "title": "Renewal due next quarter with no negotiation",
+        "fix": "Plan the negotiation"
+      }
+    ],
+    "notChecked": "Market conditions and supplier strategy beyond the pipeline given."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] neg-q-renewal.md:12  Priority conflicts with the notice date.\n       Fix: Move the negotiation earlier.\n[medium] neg-q-freight.md:19  Negotiation with no owner.\n       Fix: Assign an owner.\n[low] neg-q-raw.md:26  Renewal due next quarter with no negotiation.\n       Fix: Plan the negotiation.\nNot checked: Market conditions and supplier strategy beyond the pipeline given.",
+  "pros": [
+    "Checks a negotiation with no owner, a priority that conflicts with its notice date, and a renewal due next quarter with no negotiation planned."
+  ],
+  "cons": [
+    "Not checked: Market conditions and supplier strategy beyond the pipeline given."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-neg-quarterly-plan skill on the records for this review."
+}

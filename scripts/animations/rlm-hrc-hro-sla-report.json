@@ -1,0 +1,139 @@
+{
+  "items": [
+    "sla-timeliness.csv",
+    "sla-accuracy.csv",
+    "sla-queries.csv",
+    "sla-payroll.csv",
+    "sla-definitions.md",
+    "monthly-claim.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "figure matches rows",
+        "figure does not match",
+        "SLA defined"
+      ],
+      "pairs": [
+        0,
+        1,
+        0,
+        0,
+        2,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Compare. Each stated SLA figure is matched to its rows, and each SLA to its definition."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 stated figure does not match its rows",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "sla-accuracy.csv:12",
+        "title": "Stated figure does not match its rows",
+        "fix": "Correct the figure to the rows"
+      },
+      {
+        "sev": "medium",
+        "where": "sla-definitions.md:19",
+        "title": "SLA with no definition",
+        "fix": "Write the definition"
+      },
+      {
+        "sev": "low",
+        "where": "monthly-claim.md:26",
+        "title": "Figure with no source",
+        "fix": "Name the source"
+      }
+    ],
+    "notChecked": "Client views outside the survey."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] sla-accuracy.csv:12  Stated figure does not match its rows.\n       Fix: Correct the figure to the rows.\n[medium] sla-definitions.md:19  SLA with no definition.\n       Fix: Write the definition.\n[low] monthly-claim.md:26  Figure with no source.\n       Fix: Name the source.\nNot checked: Client views outside the survey.",
+  "pros": [
+    "Checks a stated figure that does not match its rows, and an SLA with no definition."
+  ],
+  "cons": [
+    "Not checked: Client views outside the survey."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-hro-sla-report skill on the records for this review."
+}

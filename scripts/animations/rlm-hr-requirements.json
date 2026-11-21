@@ -1,0 +1,129 @@
+{
+  "items": [
+    "req-hris-01.md",
+    "req-hris-02.md",
+    "req-hris-03.md",
+    "data-field-list.md",
+    "req-hris-05.md",
+    "req-hris-06.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Gate. Each requirement needs a criterion and a source, and each data item a classification."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 requirements need a criterion or a classification",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "req-hris-02.md:12",
+        "title": "Requirement with no criterion",
+        "fix": "Write the criterion as a test"
+      },
+      {
+        "sev": "medium",
+        "where": "data-field-list.md:19",
+        "title": "Data item with no classification",
+        "fix": "Classify the data before the system is built"
+      },
+      {
+        "sev": "low",
+        "where": "req-hris-05.md:26",
+        "title": "Requirement with no source",
+        "fix": "Name the source of the requirement"
+      }
+    ],
+    "notChecked": "Technical feasibility."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] req-hris-02.md:12  Requirement with no criterion.\n       Fix: Write the criterion as a test.\n[medium] data-field-list.md:19  Data item with no classification.\n       Fix: Classify the data before the system is built.\n[low] req-hris-05.md:26  Requirement with no source.\n       Fix: Name the source of the requirement.\nNot checked: Technical feasibility.",
+  "pros": [
+    "Checks a requirement with no criterion, a data item with no classification, and a requirement with no source."
+  ],
+  "cons": [
+    "Not checked: Technical feasibility."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hr-requirements skill on the records for this review."
+}

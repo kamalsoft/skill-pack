@@ -1,0 +1,134 @@
+{
+  "items": [
+    "grant-1.yaml",
+    "grant-2.yaml",
+    "grant-3.yaml",
+    "grant-4.yaml",
+    "grant-5.yaml",
+    "grant-6.yaml"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "bad",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "roster: deployer",
+        "roster: approver",
+        "roster: admin"
+      ],
+      "pairs": [
+        0,
+        0,
+        2,
+        -1,
+        0,
+        1
+      ],
+      "targetState": [
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Compare. Each grant is matched to a roster role. A grant with no match is a gap."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 grants need an owner's decision",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        2,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "grant-4.yaml:12",
+        "title": "Deploy grant with no roster match",
+        "fix": "Remove the grant or add the holder to the roster"
+      },
+      {
+        "sev": "high",
+        "where": "grant-3.yaml:19",
+        "title": "Production grant with no approver reference",
+        "fix": "Record the approver or revoke the grant"
+      },
+      {
+        "sev": "medium",
+        "where": "grant-6.yaml:26",
+        "title": "Staging role not needed for this team",
+        "fix": "Confirm the need with the team lead"
+      }
+    ],
+    "notChecked": "Access granted outside the list."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 high, 1 medium).\n[high] grant-4.yaml:12  Deploy grant with no roster match.\n       Fix: Remove the grant or add the holder to the roster.\n[high] grant-3.yaml:19  Production grant with no approver reference.\n       Fix: Record the approver or revoke the grant.\n[medium] grant-6.yaml:26  Staging role not needed for this team.\n       Fix: Confirm the need with the team lead.\nNot checked: Access granted outside the list.",
+  "pros": [
+    "Flags a grant with no roster match, a production grant with no approver, and a grant unused for 90 days."
+  ],
+  "cons": [
+    "Not checked: Access granted outside the list."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-devops-access-review skill on the records for this review."
+}

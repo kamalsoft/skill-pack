@@ -1,0 +1,134 @@
+{
+  "items": [
+    "demand-team-a.md",
+    "demand-team-b.md",
+    "supply-skills.csv",
+    "gap-role-1.md",
+    "gap-role-2.md",
+    "plan-document.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "bad",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "gap with action",
+        "gap, no action",
+        "skill with no one holding it"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        1,
+        2
+      ],
+      "note": "Rank. Each role is placed by its gap and whether an action closes it, and each skill by who holds it."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 role gap has no action",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "gap-role-2.md:12",
+        "title": "Role gap with no action",
+        "fix": "Name the hiring or development action"
+      },
+      {
+        "sev": "medium",
+        "where": "plan-document.md:19",
+        "title": "Demand with no source",
+        "fix": "Name the source of the demand"
+      },
+      {
+        "sev": "low",
+        "where": "supply-skills.csv:26",
+        "title": "Skill no one holds",
+        "fix": "Plan a hire or training for the skill"
+      }
+    ],
+    "notChecked": "Market supply beyond the data."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] gap-role-2.md:12  Role gap with no action.\n       Fix: Name the hiring or development action.\n[medium] plan-document.md:19  Demand with no source.\n       Fix: Name the source of the demand.\n[low] supply-skills.csv:26  Skill no one holds.\n       Fix: Plan a hire or training for the skill.\nNot checked: Market supply beyond the data.",
+  "pros": [
+    "Checks a role with a gap and no action, a demand with no source, and a skill with no one holding it."
+  ],
+  "cons": [
+    "Not checked: Market supply beyond the data."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hr-workforce-plan skill on the records for this review."
+}

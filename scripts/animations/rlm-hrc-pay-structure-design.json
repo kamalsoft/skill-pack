@@ -1,0 +1,134 @@
+{
+  "items": [
+    "band-grade-a.md",
+    "band-grade-b.md",
+    "band-grade-c.md",
+    "progression.md",
+    "spread.csv",
+    "market-source.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "sourced, in range",
+        "no source",
+        "spread out of range"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "note": "Rank. Each band is placed by its source and its spread against the client's stated range."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 band has no source",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "band-grade-b.md:12",
+        "title": "Band with no source",
+        "fix": "Cite the source of the band"
+      },
+      {
+        "sev": "medium",
+        "where": "progression.md:19",
+        "title": "Spread outside the client's stated range",
+        "fix": "Adjust the spread to the range"
+      },
+      {
+        "sev": "low",
+        "where": "market-source.md:26",
+        "title": "Progression rule with no basis",
+        "fix": "State the basis"
+      }
+    ],
+    "notChecked": "Whether the structure is lawful in each jurisdiction."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] band-grade-b.md:12  Band with no source.\n       Fix: Cite the source of the band.\n[medium] progression.md:19  Spread outside the client's stated range.\n       Fix: Adjust the spread to the range.\n[low] market-source.md:26  Progression rule with no basis.\n       Fix: State the basis.\nNot checked: Whether the structure is lawful in each jurisdiction.",
+  "pros": [
+    "Checks a band with no source, a spread outside the client's stated range, and a progression rule with no basis."
+  ],
+  "cons": [
+    "Not checked: Whether the structure is lawful in each jurisdiction."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-pay-structure-design skill on the records for this review."
+}

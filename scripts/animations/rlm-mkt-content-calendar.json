@@ -1,0 +1,129 @@
+{
+  "items": [
+    "post-0601.md",
+    "post-0602.md",
+    "post-0603.md",
+    "post-0604.md",
+    "post-0605.md",
+    "post-0606.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.0
+      ],
+      "note": "Order. Each item is placed by its publish date."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 item is past its publish date",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "post-0602.md:12",
+        "title": "Item past its publish date not marked published",
+        "fix": "Publish it or move the date"
+      },
+      {
+        "sev": "medium",
+        "where": "post-0604.md:19",
+        "title": "Item waiting for approval more than 3 working days",
+        "fix": "Chase the approver"
+      },
+      {
+        "sev": "low",
+        "where": "post-0606.md:26",
+        "title": "Item with no owner",
+        "fix": "Assign an owner"
+      }
+    ],
+    "notChecked": "Content quality, brand fit and claims (see `rlm-mkt-compliance-review`)."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] post-0602.md:12  Item past its publish date not marked published.\n       Fix: Publish it or move the date.\n[medium] post-0604.md:19  Item waiting for approval more than 3 working days.\n       Fix: Chase the approver.\n[low] post-0606.md:26  Item with no owner.\n       Fix: Assign an owner.\nNot checked: Content quality, brand fit and claims (see `rlm-mkt-compliance-review`).",
+  "pros": [
+    "Checks an item past its publish date that is not marked published; an item with no owner; an item waiting for approval more than 3 working days; a gap of more than 5 working days with no scheduled item for a."
+  ],
+  "cons": [
+    "Not checked: Content quality, brand fit and claims (see `rlm-mkt-compliance-review`)."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mkt-content-calendar skill on the records for this review."
+}

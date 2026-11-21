@@ -1,0 +1,121 @@
+{
+  "items": [
+    "wk-headcount.csv",
+    "wk-hires.csv",
+    "wk-leavers.csv",
+    "wk-absence.csv",
+    "wk-open-roles.csv",
+    "wk-summary.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "bad",
+        "ok",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "funnel",
+      "note": "Compute. Each weekly figure is recomputed from its rows and compared with last week."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 figure does not match its rows",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "wk-headcount.csv:12",
+        "title": "Figure does not match its rows",
+        "fix": "Recompute the figure"
+      },
+      {
+        "sev": "medium",
+        "where": "wk-open-roles.csv:19",
+        "title": "Change above 25 percent with no note",
+        "fix": "Explain the change"
+      },
+      {
+        "sev": "low",
+        "where": "wk-leavers.csv:26",
+        "title": "Missing week",
+        "fix": "Add the week"
+      }
+    ],
+    "notChecked": "Figures outside the exports."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] wk-headcount.csv:12  Figure does not match its rows.\n       Fix: Recompute the figure.\n[medium] wk-open-roles.csv:19  Change above 25 percent with no note.\n       Fix: Explain the change.\n[low] wk-leavers.csv:26  Missing week.\n       Fix: Add the week.\nNot checked: Figures outside the exports.",
+  "pros": [
+    "Checks a figure that does not match its rows, a missing week, and a change above 25 percent with no note."
+  ],
+  "cons": [
+    "Not checked: Figures outside the exports."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hr-weekly-report skill on the records for this review."
+}

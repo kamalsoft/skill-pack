@@ -1,0 +1,134 @@
+{
+  "items": [
+    "stake-sponsor.md",
+    "stake-union.md",
+    "stake-managers.md",
+    "stake-staff.md",
+    "concerns.md",
+    "owners.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "bad",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "rated and owned",
+        "no influence rating",
+        "high influence, no owner"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "note": "Rank. Each stakeholder is placed by its influence rating and whether a high-influence one has an owner."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 high-influence stakeholder has no owner",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "stake-staff.md:12",
+        "title": "High-influence stakeholder with no owner",
+        "fix": "Assign an owner for the engagement"
+      },
+      {
+        "sev": "medium",
+        "where": "stake-union.md:19",
+        "title": "Stakeholder with no influence rating",
+        "fix": "Rate the influence"
+      },
+      {
+        "sev": "low",
+        "where": "concerns.md:26",
+        "title": "Concern with no source",
+        "fix": "Name the source of the concern"
+      }
+    ],
+    "notChecked": "Views not in the notes."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] stake-staff.md:12  High-influence stakeholder with no owner.\n       Fix: Assign an owner for the engagement.\n[medium] stake-union.md:19  Stakeholder with no influence rating.\n       Fix: Rate the influence.\n[low] concerns.md:26  Concern with no source.\n       Fix: Name the source of the concern.\nNot checked: Views not in the notes.",
+  "pros": [
+    "Checks a stakeholder with no influence rating, a concern with no source, and a high-influence stakeholder with no owner."
+  ],
+  "cons": [
+    "Not checked: Views not in the notes."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-stakeholder-map skill on the records for this review."
+}

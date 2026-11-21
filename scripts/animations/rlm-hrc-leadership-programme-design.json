@@ -1,0 +1,139 @@
+{
+  "items": [
+    "module-strategy.md",
+    "module-coaching.md",
+    "module-feedback.md",
+    "module-change.md",
+    "cohort-plan.md",
+    "measures.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "competency and target",
+        "no competency",
+        "measure with target"
+      ],
+      "pairs": [
+        0,
+        1,
+        0,
+        0,
+        2,
+        2
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Compare. Each module is matched to a competency. A module with no competency is flagged."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 module has no competency",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "module-coaching.md:12",
+        "title": "Module with no competency",
+        "fix": "Link the module to a competency"
+      },
+      {
+        "sev": "medium",
+        "where": "measures.md:19",
+        "title": "Measure with no target",
+        "fix": "Set the target for the measure"
+      },
+      {
+        "sev": "low",
+        "where": "cohort-plan.md:26",
+        "title": "Cohort with no size",
+        "fix": "Set the cohort size"
+      }
+    ],
+    "notChecked": "Effect on behaviour after the programme."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] module-coaching.md:12  Module with no competency.\n       Fix: Link the module to a competency.\n[medium] measures.md:19  Measure with no target.\n       Fix: Set the target for the measure.\n[low] cohort-plan.md:26  Cohort with no size.\n       Fix: Set the cohort size.\nNot checked: Effect on behaviour after the programme.",
+  "pros": [
+    "Checks a module with no competency, a measure with no target, and a cohort with no size."
+  ],
+  "cons": [
+    "Not checked: Effect on behaviour after the programme."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-leadership-programme-design skill on the records for this review."
+}

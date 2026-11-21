@@ -1,0 +1,124 @@
+{
+  "items": [
+    "claim-0901.md",
+    "claim-0902.md",
+    "claim-0903.md",
+    "claim-0904.md",
+    "claim-0905.md",
+    "claim-0906.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "warn",
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Gate. A claim must be within the limit, have a receipt reference and not be a duplicate."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 claims fail the policy",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        2,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "claim-0902.md:12",
+        "title": "Claim over the limit",
+        "fix": "Return the claim or get the approval"
+      },
+      {
+        "sev": "high",
+        "where": "claim-0905.md:19",
+        "title": "Duplicate claim",
+        "fix": "Reject the duplicate"
+      },
+      {
+        "sev": "medium",
+        "where": "claim-0903.md:26",
+        "title": "Claim with no receipt reference",
+        "fix": "Attach the receipt"
+      }
+    ],
+    "notChecked": "Whether the expense was business-related."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 high, 1 medium).\n[high] claim-0902.md:12  Claim over the limit.\n       Fix: Return the claim or get the approval.\n[high] claim-0905.md:19  Duplicate claim.\n       Fix: Reject the duplicate.\n[medium] claim-0903.md:26  Claim with no receipt reference.\n       Fix: Attach the receipt.\nNot checked: Whether the expense was business-related.",
+  "pros": [
+    "Checks a claim over the limit, a claim with no receipt reference, and a duplicate claim."
+  ],
+  "cons": [
+    "Not checked: Whether the expense was business-related."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-fin-expense-policy-check skill on the records for this review."
+}

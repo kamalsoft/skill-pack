@@ -1,0 +1,124 @@
+{
+  "items": [
+    "service-payroll.md",
+    "service-absence.md",
+    "service-benefits.md",
+    "data-transfer.md",
+    "people-moves.md",
+    "notice-date.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "bad",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Gate. Each service needs a transition step, each data item a transfer method, and the date must follow the agreed notice."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 transition checks fail",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        2,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "service-absence.md:12",
+        "title": "Service with no transition step",
+        "fix": "Write the transition step"
+      },
+      {
+        "sev": "high",
+        "where": "data-transfer.md:19",
+        "title": "Data item with no transfer method",
+        "fix": "Name the transfer method and its test"
+      },
+      {
+        "sev": "medium",
+        "where": "notice-date.md:26",
+        "title": "Transition date before the agreed notice",
+        "fix": "Move the date after the notice"
+      }
+    ],
+    "notChecked": "Data quality in the source system."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 high, 1 medium).\n[high] service-absence.md:12  Service with no transition step.\n       Fix: Write the transition step.\n[high] data-transfer.md:19  Data item with no transfer method.\n       Fix: Name the transfer method and its test.\n[medium] notice-date.md:26  Transition date before the agreed notice.\n       Fix: Move the date after the notice.\nNot checked: Data quality in the source system.",
+  "pros": [
+    "Checks a service with no transition step, a data item with no transfer method, and a transition date before the agreed notice."
+  ],
+  "cons": [
+    "Not checked: Data quality in the source system."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-hro-transition-plan skill on the records for this review."
+}

@@ -1,0 +1,129 @@
+{
+  "items": [
+    "contract-acme.pdf",
+    "contract-build.pdf",
+    "contract-cloud.pdf",
+    "contract-lease.pdf",
+    "contract-supply.pdf",
+    "contract-vendor.pdf"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Gate. Each contract needs a signed copy, a signature date and a note of any departure from the standard."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 contracts lack a signed copy or a date",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "contract-build.pdf:12",
+        "title": "Contract with no signed copy",
+        "fix": "Find the signed copy or re-execute the contract"
+      },
+      {
+        "sev": "medium",
+        "where": "contract-supply.pdf:19",
+        "title": "Signature date missing",
+        "fix": "Record the date from the signed copy"
+      },
+      {
+        "sev": "low",
+        "where": "contract-cloud.pdf:26",
+        "title": "Departure from the standard not noted",
+        "fix": "Note the departure in the file"
+      }
+    ],
+    "notChecked": "Whether a contract is enforceable; the signature itself."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] contract-build.pdf:12  Contract with no signed copy.\n       Fix: Find the signed copy or re-execute the contract.\n[medium] contract-supply.pdf:19  Signature date missing.\n       Fix: Record the date from the signed copy.\n[low] contract-cloud.pdf:26  Departure from the standard not noted.\n       Fix: Note the departure in the file.\nNot checked: Whether a contract is enforceable; the signature itself.",
+  "pros": [
+    "Checks a contract with no signed copy, a signature date missing, and a departure from the standard that is not noted."
+  ],
+  "cons": [
+    "Not checked: Whether a contract is enforceable; the signature itself."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-legal-contract-portfolio-audit skill on the records for this review."
+}

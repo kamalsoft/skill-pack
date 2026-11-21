@@ -1,0 +1,121 @@
+{
+  "items": [
+    "q-var-sales.csv",
+    "q-var-costs.csv",
+    "reforecast-total.csv",
+    "assumption-a.md",
+    "next-q-line-1.md",
+    "next-q-line-2.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "funnel",
+      "note": "Reforecast. The year is re-totalled from the quarter's results and its assumptions."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 variance over the threshold is unexplained",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "q-var-sales.csv:12",
+        "title": "Variance over the threshold with no explanation",
+        "fix": "Explain the variance"
+      },
+      {
+        "sev": "medium",
+        "where": "reforecast-total.csv:19",
+        "title": "Reforecast total does not follow from its assumptions",
+        "fix": "Recompute the total"
+      },
+      {
+        "sev": "low",
+        "where": "next-q-line-1.md:26",
+        "title": "Next-quarter line with no owner",
+        "fix": "Assign an owner"
+      }
+    ],
+    "notChecked": "Events after the cut-off."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] q-var-sales.csv:12  Variance over the threshold with no explanation.\n       Fix: Explain the variance.\n[medium] reforecast-total.csv:19  Reforecast total does not follow from its assumptions.\n       Fix: Recompute the total.\n[low] next-q-line-1.md:26  Next-quarter line with no owner.\n       Fix: Assign an owner.\nNot checked: Events after the cut-off.",
+  "pros": [
+    "Checks a variance over the threshold with no explanation, a reforecast total that does not follow from its assumptions, and a next-quarter plan line with no owner."
+  ],
+  "cons": [
+    "Not checked: Events after the cut-off."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-fin-quarterly-reforecast skill on the records for this review."
+}

@@ -1,0 +1,143 @@
+{
+  "items": [
+    "step-data-erase.md",
+    "step-access-revoke.md",
+    "step-licences.md",
+    "step-records.md",
+    "step-dependency-db.md",
+    "step-archive.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "ok",
+        "warn",
+        "bad",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "graph",
+      "edges": [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          4,
+          0
+        ]
+      ],
+      "note": "Order. A step waits for the steps it depends on. A dependency still in use blocks the chain."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 dependency is still in use, so do not retire yet",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "step-dependency-db.md:12",
+        "title": "Dependency still in use",
+        "fix": "Move the dependency before retiring the system"
+      },
+      {
+        "sev": "medium",
+        "where": "step-records.md:19",
+        "title": "Step with no record",
+        "fix": "Record the step and its date"
+      },
+      {
+        "sev": "low",
+        "where": "step-licences.md:26",
+        "title": "Licence step with no owner",
+        "fix": "Assign an owner"
+      }
+    ],
+    "notChecked": "Whether the data was really deleted."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] step-dependency-db.md:12  Dependency still in use.\n       Fix: Move the dependency before retiring the system.\n[medium] step-records.md:19  Step with no record.\n       Fix: Record the step and its date.\n[low] step-licences.md:26  Licence step with no owner.\n       Fix: Assign an owner.\nNot checked: Whether the data was really deleted.",
+  "pros": [
+    "Flags a step with no owner, a step with no record, and a dependency still in use."
+  ],
+  "cons": [
+    "Not checked: Whether the data was really deleted."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-techops-decommission-checklist skill on the records for this review."
+}

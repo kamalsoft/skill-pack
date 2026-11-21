@@ -1,0 +1,139 @@
+{
+  "items": [
+    "quote-medical.pdf",
+    "quote-dental.pdf",
+    "eligibility-rules.md",
+    "renewal-broker.md",
+    "cost-per-head.csv",
+    "benefit-design.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "quote supports cost",
+        "cost does not follow",
+        "eligibility rule present"
+      ],
+      "pairs": [
+        0,
+        1,
+        2,
+        0,
+        1,
+        2
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Compare. Each benefit's cost is matched to its quote, and each benefit to its eligibility rule."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 cost per head does not follow from its quote",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "quote-dental.pdf:12",
+        "title": "Cost per head does not follow from the quote",
+        "fix": "Recompute the cost from the quote"
+      },
+      {
+        "sev": "medium",
+        "where": "renewal-broker.md:19",
+        "title": "Renewal change with no reason",
+        "fix": "Ask the broker for the reason in writing"
+      },
+      {
+        "sev": "low",
+        "where": "eligibility-rules.md:26",
+        "title": "Benefit with no eligibility rule",
+        "fix": "Write the rule"
+      }
+    ],
+    "notChecked": "Insurance terms beyond the quote."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] quote-dental.pdf:12  Cost per head does not follow from the quote.\n       Fix: Recompute the cost from the quote.\n[medium] renewal-broker.md:19  Renewal change with no reason.\n       Fix: Ask the broker for the reason in writing.\n[low] eligibility-rules.md:26  Benefit with no eligibility rule.\n       Fix: Write the rule.\nNot checked: Insurance terms beyond the quote.",
+  "pros": [
+    "Checks a cost per head that does not follow from the quote, a renewal change with no reason, and a benefit with no eligibility rule."
+  ],
+  "cons": [
+    "Not checked: Insurance terms beyond the quote."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-benefits-review skill on the records for this review."
+}

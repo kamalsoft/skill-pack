@@ -1,0 +1,132 @@
+{
+  "items": [
+    "acct-01.csv",
+    "acct-02.csv",
+    "acct-03.csv",
+    "acct-04.csv",
+    "acct-05.csv",
+    "acct-06.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "bad",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "roster: staff",
+        "roster: contractor"
+      ],
+      "pairs": [
+        0,
+        0,
+        -1,
+        1,
+        0,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "ok"
+      ],
+      "note": "Compare. Each account is matched to the roster. An account not on the roster is flagged."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 accounts need review",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        2,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "acct-03.csv:12",
+        "title": "Account not on the roster",
+        "fix": "Remove the account or add it to the roster"
+      },
+      {
+        "sev": "high",
+        "where": "acct-05.csv:19",
+        "title": "Privileged right with no approval",
+        "fix": "Record the approval or revoke the right"
+      },
+      {
+        "sev": "medium",
+        "where": "acct-06.csv:26",
+        "title": "Dormant privileged account",
+        "fix": "Disable the account or record why it is needed"
+      }
+    ],
+    "notChecked": "Access granted outside the list."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 high, 1 medium).\n[high] acct-03.csv:12  Account not on the roster.\n       Fix: Remove the account or add it to the roster.\n[high] acct-05.csv:19  Privileged right with no approval.\n       Fix: Record the approval or revoke the right.\n[medium] acct-06.csv:26  Dormant privileged account.\n       Fix: Disable the account or record why it is needed.\nNot checked: Access granted outside the list.",
+  "pros": [
+    "Flags an account not on the roster, a privileged right with no approval, and a dormant privileged account."
+  ],
+  "cons": [
+    "Not checked: Access granted outside the list."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-techops-access-review skill on the records for this review."
+}

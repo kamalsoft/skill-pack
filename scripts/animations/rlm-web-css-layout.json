@@ -1,0 +1,132 @@
+{
+  "items": [
+    "layout.css",
+    "cards.css",
+    "nav.css",
+    "forms.css",
+    "theme.css",
+    "print.css"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "container query",
+        "viewport query"
+      ],
+      "pairs": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "warn"
+      ],
+      "note": "Compare. Each rule is matched to the layout approach it uses: container or viewport."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 component uses a viewport query",
+    "tone": "warn",
+    "bars": [
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        2,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "medium",
+        "where": "cards.css:12",
+        "title": "Viewport query on a component that adapts to its container",
+        "fix": "Use a container query"
+      },
+      {
+        "sev": "low",
+        "where": "theme.css:19",
+        "title": "Dark-mode colours hardcoded",
+        "fix": "Use colour tokens"
+      },
+      {
+        "sev": "low",
+        "where": "nav.css:26",
+        "title": "Fixed pixel width breaks at narrow widths",
+        "fix": "Use a fluid width"
+      }
+    ],
+    "notChecked": "Rendering in real browsers and devices, styles generated at run time, third-party widget styles, and visual design quality beyond these checks."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 medium, 2 low).\n[medium] cards.css:12  Viewport query on a component that adapts to its container.\n       Fix: Use a container query.\n[low] theme.css:19  Dark-mode colours hardcoded.\n       Fix: Use colour tokens.\n[low] nav.css:26  Fixed pixel width breaks at narrow widths.\n       Fix: Use a fluid width.\nNot checked: Rendering in real browsers and devices, styles generated at run time, third-party widget styles, and visual design quality beyond these checks.",
+  "pros": [
+    "Checks layout (container queries, not viewport queries or resize listeners, for components that adapt to their container; grid for two-dimensional layout and subgrid where supported; intrinsic sizing and cla."
+  ],
+  "cons": [
+    "Not checked: Rendering in real browsers and devices, styles generated at run time, third-party widget styles, and visual design quality beyond these checks."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-web-css-layout skill on the records for this review."
+}

@@ -1,0 +1,134 @@
+{
+  "items": [
+    "spare-bearing.md",
+    "spare-seal.md",
+    "spare-belt.md",
+    "spare-filter.md",
+    "spare-valve.md",
+    "spare-sensor.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "above minimum",
+        "below minimum, ordered",
+        "below minimum, no order"
+      ],
+      "binOf": [
+        0,
+        2,
+        0,
+        1,
+        0,
+        1
+      ],
+      "note": "Rank. Each critical spare is placed by its stock against its minimum and whether an order is open."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 critical spare is below minimum with no order",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "spare-seal.md:12",
+        "title": "Critical spare below minimum with no order",
+        "fix": "Order the spare now"
+      },
+      {
+        "sev": "medium",
+        "where": "spare-sensor.md:19",
+        "title": "Lead time with no source",
+        "fix": "Name the source of the lead time"
+      },
+      {
+        "sev": "low",
+        "where": "spare-filter.md:26",
+        "title": "Spare with no minimum set",
+        "fix": "Set the minimum"
+      }
+    ],
+    "notChecked": "Supplier reliability."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] spare-seal.md:12  Critical spare below minimum with no order.\n       Fix: Order the spare now.\n[medium] spare-sensor.md:19  Lead time with no source.\n       Fix: Name the source of the lead time.\n[low] spare-filter.md:26  Spare with no minimum set.\n       Fix: Set the minimum.\nNot checked: Supplier reliability.",
+  "pros": [
+    "Checks a critical spare below its minimum with no order, and a lead time with no source."
+  ],
+  "cons": [
+    "Not checked: Supplier reliability."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ind-spares-check skill on the records for this review."
+}

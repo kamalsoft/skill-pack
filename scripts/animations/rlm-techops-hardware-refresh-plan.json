@@ -1,0 +1,129 @@
+{
+  "items": [
+    "asset-fw-2019",
+    "asset-server-old-4",
+    "asset-laptops-2018",
+    "asset-switch-14",
+    "asset-ups-9",
+    "asset-san-2017"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "warn",
+        "bad",
+        "ok",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0.1,
+        0.3,
+        0.5,
+        0.6,
+        0.8,
+        0.9
+      ],
+      "note": "Order. Each asset is placed by its end-of-support date."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 asset is past end of support",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "asset-server-old-4:12",
+        "title": "Past end of support and still in service",
+        "fix": "Replace it or plan the replacement now"
+      },
+      {
+        "sev": "medium",
+        "where": "asset-fw-2019:19",
+        "title": "Critical asset with no replacement plan",
+        "fix": "Write a replacement plan with a date"
+      },
+      {
+        "sev": "low",
+        "where": "asset-ups-9:26",
+        "title": "Replacement cost with no source",
+        "fix": "Attach the quote"
+      }
+    ],
+    "notChecked": "Whether the replacement will fit the workload."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] asset-server-old-4:12  Past end of support and still in service.\n       Fix: Replace it or plan the replacement now.\n[medium] asset-fw-2019:19  Critical asset with no replacement plan.\n       Fix: Write a replacement plan with a date.\n[low] asset-ups-9:26  Replacement cost with no source.\n       Fix: Attach the quote.\nNot checked: Whether the replacement will fit the workload.",
+  "pros": [
+    "Flags an asset past its end of support in service, a critical asset with no replacement plan, and a cost with no source."
+  ],
+  "cons": [
+    "Not checked: Whether the replacement will fit the workload."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-techops-hardware-refresh-plan skill on the records for this review."
+}

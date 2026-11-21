@@ -1,0 +1,121 @@
+{
+  "items": [
+    "asset-state-a.md",
+    "asset-state-b.md",
+    "wo-open-1.md",
+    "wo-open-2.md",
+    "permit-open-1.md",
+    "permit-open-2.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "warn",
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "stack",
+      "note": "List. Asset states, open work orders and open permits are stacked for the next shift."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 open permit has no expiry",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "permit-open-1.md:12",
+        "title": "Permit with no expiry",
+        "fix": "Set the permit's expiry"
+      },
+      {
+        "sev": "medium",
+        "where": "wo-open-1.md:19",
+        "title": "Work order with no owner",
+        "fix": "Assign an owner before the shift ends"
+      },
+      {
+        "sev": "low",
+        "where": "asset-state-a.md:26",
+        "title": "Asset state with no time",
+        "fix": "Record the time of the state"
+      }
+    ],
+    "notChecked": "Assets not in the log."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] permit-open-1.md:12  Permit with no expiry.\n       Fix: Set the permit's expiry.\n[medium] wo-open-1.md:19  Work order with no owner.\n       Fix: Assign an owner before the shift ends.\n[low] asset-state-a.md:26  Asset state with no time.\n       Fix: Record the time of the state.\nNot checked: Assets not in the log.",
+  "pros": [
+    "Checks a permit with no expiry, a work order with no owner, and an asset state with no time."
+  ],
+  "cons": [
+    "Not checked: Assets not in the log."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ind-shift-handover skill on the records for this review."
+}

@@ -1,0 +1,134 @@
+{
+  "items": [
+    "contract-types.md",
+    "claims-open.csv",
+    "pension-scheme.md",
+    "accrued-leave.csv",
+    "tribunal-cases.md",
+    "policy-set.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "warn",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "standard and valued",
+        "no standard",
+        "no valuation date"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        2,
+        0
+      ],
+      "note": "Rank. Each HR item of the target is placed by its standard, its value and its valuation date."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 contract type has no standard to compare",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "claims-open.csv:12",
+        "title": "Contract type with no standard to compare",
+        "fix": "Get the standard or flag the risk"
+      },
+      {
+        "sev": "medium",
+        "where": "pension-scheme.md:19",
+        "title": "Pension scheme with no valuation date",
+        "fix": "Get the valuation before signing"
+      },
+      {
+        "sev": "low",
+        "where": "accrued-leave.csv:26",
+        "title": "Open claim with no value",
+        "fix": "Estimate the value"
+      }
+    ],
+    "notChecked": "The valuation of pensions and claims."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] claims-open.csv:12  Contract type with no standard to compare.\n       Fix: Get the standard or flag the risk.\n[medium] pension-scheme.md:19  Pension scheme with no valuation date.\n       Fix: Get the valuation before signing.\n[low] accrued-leave.csv:26  Open claim with no value.\n       Fix: Estimate the value.\nNot checked: The valuation of pensions and claims.",
+  "pros": [
+    "Checks a contract type with no standard, an open claim with no value, and a pension scheme with no valuation date."
+  ],
+  "cons": [
+    "Not checked: The valuation of pensions and claims."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-hr-due-diligence skill on the records for this review."
+}

@@ -1,0 +1,129 @@
+{
+  "items": [
+    "policy-scope.md",
+    "policy-owner.md",
+    "policy-review.md",
+    "clause-leave.md",
+    "clause-conduct.md",
+    "existing-policies.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "bad",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Gate. A policy needs a scope and an owner, and each clause must not conflict with an existing policy or state a duty without a source."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 policy checks fail",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "clause-leave.md:12",
+        "title": "Clause conflicts with an existing policy",
+        "fix": "Resolve the conflict before the policy is issued"
+      },
+      {
+        "sev": "medium",
+        "where": "policy-owner.md:19",
+        "title": "Missing scope",
+        "fix": "Write the scope"
+      },
+      {
+        "sev": "low",
+        "where": "clause-conduct.md:26",
+        "title": "Clause states a legal duty with no source",
+        "fix": "Cite the source of the duty"
+      }
+    ],
+    "notChecked": "Whether the policy is lawful in each jurisdiction."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] clause-leave.md:12  Clause conflicts with an existing policy.\n       Fix: Resolve the conflict before the policy is issued.\n[medium] policy-owner.md:19  Missing scope.\n       Fix: Write the scope.\n[low] clause-conduct.md:26  Clause states a legal duty with no source.\n       Fix: Cite the source of the duty.\nNot checked: Whether the policy is lawful in each jurisdiction.",
+  "pros": [
+    "Checks a missing scope, a clause that conflicts with an existing policy, and a clause that states a legal duty with no source."
+  ],
+  "cons": [
+    "Not checked: Whether the policy is lawful in each jurisdiction."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-policy-drafting skill on the records for this review."
+}

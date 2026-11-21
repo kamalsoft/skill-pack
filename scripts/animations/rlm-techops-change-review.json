@@ -1,0 +1,129 @@
+{
+  "items": [
+    "chg-wk1-db.md",
+    "chg-wk1-net.md",
+    "chg-wk2-app.md",
+    "chg-wk2-os.md",
+    "chg-wk2-sec.md",
+    "chg-wk2-dns.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.0
+      ],
+      "note": "Order. Each scheduled change is placed in the order it runs in the fortnight."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 high-risk change has no approver",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "chg-wk2-app.md:12",
+        "title": "High-risk change with no approver",
+        "fix": "Get an approver before the change runs"
+      },
+      {
+        "sev": "medium",
+        "where": "chg-wk2-sec.md:19",
+        "title": "Failed change with no review",
+        "fix": "Review the failure and record the cause"
+      },
+      {
+        "sev": "low",
+        "where": "chg-wk2-dns.md:26",
+        "title": "Change with no rollback",
+        "fix": "Add a rollback step"
+      }
+    ],
+    "notChecked": "Whether the change worked as intended."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] chg-wk2-app.md:12  High-risk change with no approver.\n       Fix: Get an approver before the change runs.\n[medium] chg-wk2-sec.md:19  Failed change with no review.\n       Fix: Review the failure and record the cause.\n[low] chg-wk2-dns.md:26  Change with no rollback.\n       Fix: Add a rollback step.\nNot checked: Whether the change worked as intended.",
+  "pros": [
+    "Flags a high-risk change with no approver, a change with no rollback, and a failed change with no review."
+  ],
+  "cons": [
+    "Not checked: Whether the change worked as intended."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-techops-change-review skill on the records for this review."
+}

@@ -1,0 +1,129 @@
+{
+  "items": [
+    "req-bearing.md",
+    "req-motor.md",
+    "req-pump-seal.md",
+    "req-control-card.md",
+    "req-belt.md",
+    "req-filter.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Gate. A request needs a criticality, a quantity with a basis, and a lead time with a source."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 requests need a criticality or a source",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "req-motor.md:12",
+        "title": "Request with no criticality",
+        "fix": "Set the criticality from the asset register"
+      },
+      {
+        "sev": "medium",
+        "where": "req-belt.md:19",
+        "title": "Lead time with no source",
+        "fix": "Name the source of the lead time"
+      },
+      {
+        "sev": "low",
+        "where": "req-pump-seal.md:26",
+        "title": "Quantity with no basis",
+        "fix": "State the basis for the quantity"
+      }
+    ],
+    "notChecked": "Supplier availability."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] req-motor.md:12  Request with no criticality.\n       Fix: Set the criticality from the asset register.\n[medium] req-belt.md:19  Lead time with no source.\n       Fix: Name the source of the lead time.\n[low] req-pump-seal.md:26  Quantity with no basis.\n       Fix: State the basis for the quantity.\nNot checked: Supplier availability.",
+  "pros": [
+    "Checks a request with no criticality, a quantity with no basis, and a lead time with no source."
+  ],
+  "cons": [
+    "Not checked: Supplier availability."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ind-spares-requisition skill on the records for this review."
+}

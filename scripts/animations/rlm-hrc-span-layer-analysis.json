@@ -1,0 +1,134 @@
+{
+  "items": [
+    "unit-a-span.csv",
+    "unit-b-span.csv",
+    "unit-c-span.csv",
+    "unit-d-span.csv",
+    "target-range.md",
+    "layers.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "in target range",
+        "span outside range",
+        "layers above target"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        2
+      ],
+      "note": "Rank. Each unit is placed by its span of control against the target range and its layer count against the target."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 span is outside the target range",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "unit-b-span.csv:12",
+        "title": "Span outside the target range",
+        "fix": "Review the unit's structure"
+      },
+      {
+        "sev": "medium",
+        "where": "layers.csv:19",
+        "title": "Layer count above the target",
+        "fix": "Remove a layer or justify it"
+      },
+      {
+        "sev": "low",
+        "where": "unit-d-span.csv:26",
+        "title": "Unit with no span figure",
+        "fix": "Add the span"
+      }
+    ],
+    "notChecked": "Work content behind each span."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] unit-b-span.csv:12  Span outside the target range.\n       Fix: Review the unit's structure.\n[medium] layers.csv:19  Layer count above the target.\n       Fix: Remove a layer or justify it.\n[low] unit-d-span.csv:26  Unit with no span figure.\n       Fix: Add the span.\nNot checked: Work content behind each span.",
+  "pros": [
+    "Checks a span outside the target range, and a layer count above the target."
+  ],
+  "cons": [
+    "Not checked: Work content behind each span."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-span-layer-analysis skill on the records for this review."
+}

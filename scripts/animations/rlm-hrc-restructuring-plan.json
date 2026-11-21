@@ -1,0 +1,124 @@
+{
+  "items": [
+    "criteria-selection.md",
+    "criteria-skills.md",
+    "consult-step.md",
+    "timeline.md",
+    "pool-list.csv",
+    "legal-notes.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "bad",
+        "ok",
+        "bad",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        false,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Gate. Each selection criterion must be job-related, the consultation step must be present, and the timeline must allow the consultation period."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        false,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "3 restructuring checks fail",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        2,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "criteria-selection.md:12",
+        "title": "Selection criterion not job-related",
+        "fix": "Replace the criterion with a job-related one"
+      },
+      {
+        "sev": "high",
+        "where": "consult-step.md:19",
+        "title": "Consultation step missing",
+        "fix": "Add the consultation step before any decision"
+      },
+      {
+        "sev": "medium",
+        "where": "timeline.md:26",
+        "title": "Timeline date before the required consultation period",
+        "fix": "Move the date after the period"
+      }
+    ],
+    "notChecked": "Whether the restructuring is lawful."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 high, 1 medium).\n[high] criteria-selection.md:12  Selection criterion not job-related.\n       Fix: Replace the criterion with a job-related one.\n[high] consult-step.md:19  Consultation step missing.\n       Fix: Add the consultation step before any decision.\n[medium] timeline.md:26  Timeline date before the required consultation period.\n       Fix: Move the date after the period.\nNot checked: Whether the restructuring is lawful.",
+  "pros": [
+    "Checks a criterion that is not job-related, a consultation step missing, and a timeline date before a required consultation period."
+  ],
+  "cons": [
+    "Not checked: Whether the restructuring is lawful."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-restructuring-plan skill on the records for this review."
+}

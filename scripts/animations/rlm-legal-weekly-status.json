@@ -1,0 +1,134 @@
+{
+  "items": [
+    "matter-0701.md",
+    "matter-0702.md",
+    "matter-0703.md",
+    "matter-0704.md",
+    "matter-0705.md",
+    "matter-0706.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "active",
+        "no action 14 days",
+        "status unchanged 3 weeks"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        2,
+        0
+      ],
+      "note": "Rank. Each matter is placed by its owner, its last action and its status."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 matter has had no action for 14 days",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "matter-0702.md:12",
+        "title": "No action for 14 days",
+        "fix": "Set the next action and its date"
+      },
+      {
+        "sev": "medium",
+        "where": "matter-0706.md:19",
+        "title": "Status unchanged for three weeks",
+        "fix": "Confirm the status with the owner"
+      },
+      {
+        "sev": "low",
+        "where": "matter-0704.md:26",
+        "title": "Matter with no owner",
+        "fix": "Assign an owner"
+      }
+    ],
+    "notChecked": "The merits of each matter."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] matter-0702.md:12  No action for 14 days.\n       Fix: Set the next action and its date.\n[medium] matter-0706.md:19  Status unchanged for three weeks.\n       Fix: Confirm the status with the owner.\n[low] matter-0704.md:26  Matter with no owner.\n       Fix: Assign an owner.\nNot checked: The merits of each matter.",
+  "pros": [
+    "Checks a matter with no owner, a matter with no action for 14 days, and a status that did not change for three weeks."
+  ],
+  "cons": [
+    "Not checked: The merits of each matter."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-legal-weekly-status skill on the records for this review."
+}

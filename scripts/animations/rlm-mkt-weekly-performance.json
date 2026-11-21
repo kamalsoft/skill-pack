@@ -1,0 +1,134 @@
+{
+  "items": [
+    "chan-search.csv",
+    "chan-social.csv",
+    "chan-email.csv",
+    "chan-display.csv",
+    "chan-affiliate.csv",
+    "chan-video.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "on track",
+        "cost per lead up 20 percent",
+        "spend with no leads"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        2,
+        0
+      ],
+      "note": "Rank. Each channel is placed by its cost per lead and whether its spend is producing leads."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 channel's cost per lead rose more than 20 percent",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "chan-social.csv:12",
+        "title": "Cost per lead up more than 20 percent week on week",
+        "fix": "Review the bids and the targeting"
+      },
+      {
+        "sev": "medium",
+        "where": "chan-affiliate.csv:19",
+        "title": "Channel with spend and no leads",
+        "fix": "Pause the spend and check tracking"
+      },
+      {
+        "sev": "low",
+        "where": "chan-video.csv:26",
+        "title": "Week with a missing channel export",
+        "fix": "Get the export and recompute"
+      }
+    ],
+    "notChecked": "Lead quality (see `rlm-mkt-lead-quality`); attribution; sources not supplied."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] chan-social.csv:12  Cost per lead up more than 20 percent week on week.\n       Fix: Review the bids and the targeting.\n[medium] chan-affiliate.csv:19  Channel with spend and no leads.\n       Fix: Pause the spend and check tracking.\n[low] chan-video.csv:26  Week with a missing channel export.\n       Fix: Get the export and recompute.\nNot checked: Lead quality (see `rlm-mkt-lead-quality`); attribution; sources not supplied.",
+  "pros": [
+    "Checks a channel whose cost per lead rose more than 20 percent week on week; a channel with spend and no leads; a week with a missing channel export."
+  ],
+  "cons": [
+    "Not checked: Lead quality (see `rlm-mkt-lead-quality`); attribution; sources not supplied."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mkt-weekly-performance skill on the records for this review."
+}

@@ -1,0 +1,134 @@
+{
+  "items": [
+    "manifest.json",
+    "sw.js",
+    "index.html",
+    "app-shell.js",
+    "icons/192.png",
+    "locale.ts"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "bad",
+        "warn",
+        "ok",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "installable",
+        "offline gap",
+        "locale issue"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        2
+      ],
+      "note": "Rank. Each file is placed by its effect on install, offline use and locale handling."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 manifest is not installable",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "manifest.json:12",
+        "title": "Manifest missing the 512 pixel icon",
+        "fix": "Add the 512 pixel icon with its purpose"
+      },
+      {
+        "sev": "medium",
+        "where": "sw.js:19",
+        "title": "Cache holds a stale page",
+        "fix": "Version the cache and remove the old entry"
+      },
+      {
+        "sev": "low",
+        "where": "locale.ts:26",
+        "title": "Date shown in the server time zone",
+        "fix": "Format the date in the user's time zone"
+      }
+    ],
+    "notChecked": "Behaviour on each platform's install flow unless tested, server-side date handling outside the scope, and time zone database updates on the server."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] manifest.json:12  Manifest missing the 512 pixel icon.\n       Fix: Add the 512 pixel icon with its purpose.\n[medium] sw.js:19  Cache holds a stale page.\n       Fix: Version the cache and remove the old entry.\n[low] locale.ts:26  Date shown in the server time zone.\n       Fix: Format the date in the user's time zone.\nNot checked: Behaviour on each platform's install flow unless tested, server-side date handling outside the scope, and time zone database updates on the server.",
+  "pros": [
+    "Checks a manifest missing name, short_name, id, start_url, scope, display, theme_color, background_color, or 192 and 512 pixel icons including a maskable one; an install button that relies on beforeinstallpr."
+  ],
+  "cons": [
+    "Not checked: Behaviour on each platform's install flow unless tested, server-side date handling outside the scope, and time zone database updates on the server."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-web-app-platform skill on the records for this review."
+}

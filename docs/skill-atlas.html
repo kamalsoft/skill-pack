@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
-<title>RLM Skill Atlas</title>
+<title>Skill Atlas</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cstyle%3E.t%7Bfill%3A%231c6d75%7D.f%7Bfill%3A%23fff%7D.k%7Bstroke%3A%23fff%7D%40media%20%28prefers-color-scheme%3Adark%29%7B.t%7Bfill%3A%235fcbd5%7D.f%7Bfill%3A%230e1318%7D.k%7Bstroke%3A%230e1318%7D%7D%3C/style%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2260%22%20height%3D%2260%22%20rx%3D%2214%22%20class%3D%22t%22/%3E%3Ctext%20x%3D%2232%22%20y%3D%2236%22%20text-anchor%3D%22middle%22%20class%3D%22f%22%20style%3D%22font%3A700%2021px%20%27IBM%20Plex%20Sans%27%2C%27Segoe%20UI%27%2CHelvetica%2CArial%2Csans-serif%3Bletter-spacing%3A.02em%22%3ERLM%3C/text%3E%3Cpath%20d%3D%22M17%2047%20H47%22%20class%3D%22k%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22/%3E%3Ccircle%20cx%3D%2217%22%20cy%3D%2247%22%20r%3D%223.5%22%20class%3D%22f%22/%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2247%22%20r%3D%223.5%22%20class%3D%22f%22/%3E%3Ccircle%20cx%3D%2247%22%20cy%3D%2247%22%20r%3D%223.5%22%20class%3D%22f%22/%3E%3C/svg%3E">
 <meta name="description" content="Pick the RLM agent skill you need. A 3D pipeline for each of the 33 skills, with its grade and tier, with install steps for the VS Code extension.">
 <meta name="theme-color" content="#13808a">
@@ -77,7 +77,7 @@ button:disabled { opacity: .5; cursor: default; }
 .mark .i { fill: var(--ink); } .mark .a { fill: var(--accent); }
 .wordmark { font-weight: 700; font-size: 16px; white-space: nowrap; }
 .brand-sub { color: var(--muted); font-size: 13px; padding-left: 10px; border-left: 1px solid var(--line); white-space: nowrap; }
-.topnav { display: flex; gap: 2px; margin-left: auto; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.topnav { display: flex; gap: 2px; margin-left: auto; flex: 1 1 0; min-width: 0; justify-content: flex-end; overflow-x: auto; scrollbar-width: none; }
 .topnav a { font-size: 14px; color: var(--muted); text-decoration: none; padding: 6px 11px; border-radius: 8px; white-space: nowrap; }
 .topnav a:hover { color: var(--ink); background: var(--chip); }
 .iconbtn { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; cursor: pointer; color: var(--ink); }
@@ -87,7 +87,7 @@ button:disabled { opacity: .5; cursor: default; }
 @media (max-width: 560px) { .topnav a.opt { display: none; } .wordmark { display: none; } .topbar { gap: 8px; } }
 
 /* Shell */
-.shell { display: grid; grid-template-columns: 300px minmax(0, 1fr); align-items: start; }
+.shell { display: block; }
 .rail {
   position: sticky; top: var(--top); height: calc(100dvh - var(--top)); overflow-y: auto; overscroll-behavior: contain;
   border-right: 1px solid var(--line); background: color-mix(in srgb, var(--surface) 55%, transparent);
@@ -184,6 +184,17 @@ button:disabled { opacity: .5; cursor: default; }
 .dtabs button { border: 0; background: none; padding: 10px 12px; font-size: 14px; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
 .dtabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
 .dpanel { padding: 20px 24px 24px; }
+.no-walk .stage-head .viewsw, .no-walk .stage:not(.flowing), .no-walk .controls { display: none; }
+.stage.flowing { height: auto; min-height: 0; padding: 22px 24px; }
+.stage.flowing > :not(.protocol) { display: none; }
+.protocol { list-style: none; margin: 0; padding: 0; counter-reset: step; display: grid; font-size: 14.5px; }
+.protocol:empty { display: none; }
+.protocol li { position: relative; margin: 0; padding: 0 0 20px 48px; min-height: 40px; }
+.protocol li:last-child { padding-bottom: 0; }
+.protocol li::before { counter-increment: step; content: counter(step); position: absolute; left: 0; top: 0; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 13px; color: var(--accent-ink); background: var(--accent); }
+.protocol li::after { content: ""; position: absolute; left: 15px; top: 34px; bottom: 2px; width: 2px; background: var(--line); }
+.protocol li:last-child::after { display: none; }
+.protocol b { color: var(--ink); }
 
 /* Pipeline */
 .stage-head { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: space-between; margin-bottom: 10px; }
@@ -413,19 +424,42 @@ details.qa summary { cursor: pointer; font-weight: 600; }
 details.qa p { margin: 6px 0 0; color: var(--muted); }
 footer { font-size: 13px; color: var(--muted); padding: 4px 4px 0; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+.main { margin: 0 auto; grid-template-columns: minmax(0, 1fr); }
+.browse-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 20px 0 14px; }
+.browse-bar .search { flex: 1 1 260px; position: relative; }
+.browse-bar .seg-ctl { flex: 0 1 auto; min-width: 300px; }
+.browse-bar .viewsw { flex: none; }
+.fam-tabs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid var(--line); margin-bottom: 16px; }
+.fam-tabs button { flex: none; display: inline-flex; align-items: center; gap: 7px; border: 0; background: none; padding: 10px 12px; font-size: 14px; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+.fam-tabs button span { font-size: 12px; background: var(--chip); border-radius: 999px; padding: 1px 7px; }
+.fam-tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+#tabs { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
+.skill-card { display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 10px; align-items: start; text-align: left; font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; cursor: pointer; min-width: 0; }
+.skill-card:hover { border-color: var(--tc); }
+.skill-card .gchip { width: 38px; height: 32px; }
+.sc-body { display: grid; gap: 4px; min-width: 0; }
+.sc-body .g { font-size: 14.5px; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
+.sc-body .i { font: 11.5px "IBM Plex Mono", monospace; color: var(--muted); overflow-wrap: anywhere; }
+.sc-meta { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.glance { margin-top: 22px; }
+.glance h2 { font-size: 20px; margin: 0 0 14px; }
+.detail-dialog { width: min(1120px, calc(100vw - 24px)); max-height: calc(100vh - 24px); padding: 0; border: 0; background: transparent; color: var(--ink); overflow: visible; }
+.detail-dialog::backdrop { background: rgba(5, 10, 15, .55); }
+.detail-dialog .detail { position: relative; max-height: calc(100vh - 24px); overflow: auto; }
+.dlg-close { position: absolute; right: 12px; top: 12px; z-index: 5; }
+@media (max-width: 560px) { .browse-bar .seg-ctl { min-width: 0; width: 100%; } .browse-bar .viewsw { width: 100%; } .browse-bar .viewsw button { flex: 1; } }
 </style>
 </head>
 <body>
 <header class="topbar">
-  <button type="button" class="iconbtn" id="railBtn" aria-label="Show the skill list" aria-expanded="false" aria-controls="rail"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
   <a class="brand" href="#overview">
     <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="4" width="26" height="26" rx="6" class="i"/><rect x="34" y="4" width="26" height="26" rx="6" class="i" opacity=".78"/><rect x="4" y="34" width="26" height="26" rx="6" class="i" opacity=".78"/><rect x="34" y="34" width="11.5" height="11.5" rx="3" class="i" opacity=".55"/><rect x="48.5" y="34" width="11.5" height="11.5" rx="3" class="i" opacity=".55"/><rect x="34" y="48.5" width="11.5" height="11.5" rx="3" class="i" opacity=".55"/><rect x="48.5" y="48.5" width="11.5" height="11.5" rx="3" class="a"/></svg>
-    <span class="wordmark">RLM Agent Skills</span>
-    <span class="brand-sub">Skill atlas</span>
+    <span class="wordmark">Skill Atlas</span>
   </a>
   <nav class="topnav" aria-label="Page sections">
     <a href="#overview" class="opt">Overview</a>
-    <a href="#skills">Skill</a>
+    <a href="#overview">Browse</a>
     <a href="#diagrams" class="opt">Diagrams</a>
     <a href="#grades">Grades</a>
     <a href="#install">Install</a>
@@ -436,21 +470,42 @@ footer { font-size: 13px; color: var(--muted); padding: 4px 4px 0; }
 </header>
 
 <div class="shell">
-  <aside class="rail" id="rail" aria-label="Skills">
-    <label class="search"><span hidden>Search skills</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="q" type="search" placeholder="Search by goal or name" autocomplete="off" aria-label="Search skills"><kbd aria-hidden="true">/</kbd>
-    </label>
-    <div class="seg-ctl" id="tiers" role="group" aria-label="Filter by tier"></div>
-    <div class="list" id="tabs"></div>
-  </aside>
-  <div class="scrim" id="scrim"></div>
 
   <main class="main">
     <section class="card hero" id="overview" aria-labelledby="ov-title">
-      <p class="eyebrow">Skill atlas · graded 2026-11-19</p>
-      <h1 id="ov-title">Which skill do I need?</h1>
-      <p class="lede">Each skill is shown as a pipeline: what goes in, the steps the agent takes, and what comes out. Every skill is graded A+ to D on how well it serves a project, and the grade sets its tier. Pick a skill from the list or the chart.</p>
+      <p class="eyebrow">Skill Atlas · <span id="count"></span></p>
+      <h1 id="ov-title">Every skill has a starting point. Find yours.</h1>
+      <p class="lede">The skills installed in this project, grouped by family and graded A+ to D. Search or filter, then open a skill to read its steps, grade and folder.</p>
+      <div class="browse-bar">
+        <label class="search"><span hidden>Search skills</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="q" type="search" placeholder="Search by goal or name" autocomplete="off" aria-label="Search skills"><kbd aria-hidden="true">/</kbd>
+        </label>
+        <div class="seg-ctl" id="tiers" role="group" aria-label="Filter by tier"></div>
+        <div class="viewsw" id="modes" role="group" aria-label="Choose a view">
+          <button type="button" data-mode="cards" aria-pressed="true">Cards</button>
+          <button type="button" data-mode="table" aria-pressed="false">Table</button>
+        </div>
+      </div>
+      <div class="fam-tabs" id="fams" role="tablist" aria-label="Skill families"></div>
+      <div class="list" id="tabs"></div>
+      <div class="tbl-scroll" id="tblWrap" hidden>
+        <table class="t" id="skTable">
+          <thead><tr>
+            <th><button type="button" data-key="goal">Skill</button></th>
+            <th><button type="button" data-key="fam">Family</button></th>
+            <th><button type="button" data-key="tier">Tier</button></th>
+            <th class="n"><button type="button" data-key="score">Score</button></th>
+            <th class="n"><button type="button" data-key="grade">Grade</button></th>
+          </tr></thead>
+          <tbody id="skRows"></tbody>
+        </table>
+      </div>
+      <p class="none" id="empty" hidden>No skill matches. Clear the search, or choose another family or tier.</p>
+    </section>
+
+    <section class="card hero glance" id="glance" aria-labelledby="gl-title">
+      <h2 id="gl-title">At a glance</h2>
       <div class="kpis" id="kpis"></div>
       <div class="land-head">
         <h3>Grade landscape</h3>
@@ -459,7 +514,9 @@ footer { font-size: 13px; color: var(--muted); padding: 4px 4px 0; }
       <div id="land"></div>
     </section>
 
+    <dialog id="detail" class="detail-dialog" aria-labelledby="sname">
     <section class="card detail" id="skills" aria-label="Skill viewer">
+      <button type="button" class="iconbtn dlg-close" id="closeDetail" aria-label="Close skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       <div class="d-head">
         <div class="ring" id="ring"></div>
         <div>
@@ -484,6 +541,7 @@ footer { font-size: 13px; color: var(--muted); padding: 4px 4px 0; }
           </div>
         </div>
         <div class="stage" id="stage">
+          <ol class="protocol" id="protocol"></ol>
           <canvas id="cv" aria-label="Animated data flow for the selected skill"></canvas>
           <div class="flat" id="flat" tabindex="0" aria-label="Diagram of the current step. Drag or use the arrow keys to pan, plus and minus to zoom, 0 to fit."><div class="flat-layer" id="flatLayer"><svg class="flat-lines" id="flatSvg" aria-hidden="true"></svg></div></div>
           <div class="stage-tools" role="toolbar" aria-label="Diagram view">
@@ -535,6 +593,8 @@ footer { font-size: 13px; color: var(--muted); padding: 4px 4px 0; }
         <div id="gradePanel"></div>
       </div>
     </section>
+
+    </dialog>
 
     <section class="card doc" id="diagrams" aria-labelledby="diagrams-title">
       <p class="eyebrow">How to read the diagrams</p>
@@ -5841,13 +5901,14 @@ footer { font-size: 13px; color: var(--muted); padding: 4px 4px 0; }
  ]
 }
 </script>
+<script src="skills-index.js"></script>
 <script type="module">
 const THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const STEP_SEC = 5; // seconds per step
 const COL = { todo: 0x64748b, ok: 0x1f9d6b, bad: 0xd6456a, warn: 0xd9962b, hit: 0x2f6fd6 };
 const BINS = [0x7c5ce0, 0x13a3a3, 0xe0702a, 0x2f6fd6, 0xd9962b, 0x1f9d6b];
-const CATS = ['Overview', 'Analysis', 'Engineering', 'Security', 'Web', 'Domain', 'Operations', 'Compliance', 'Memory', 'Efficiency'];
+const CATS = ['Overview', 'Analysis', 'Engineering', 'Security', 'Web', 'Domain', 'Operations', 'Compliance', 'Memory', 'Efficiency', 'Installed'];
 const CAT_NAME = { Overview: 'Start here', Analysis: 'Analysis (chunked)', Engineering: 'Engineering review', Security: 'Security and risk', Web: 'Web platform', Domain: 'Domain review' };
 const TIERS = ['All tiers', 'premium', 'pro', 'essentials'];
 const CRIT = ['Support strength', 'Importance', 'Severity', 'Usage', 'Presence'];
@@ -5870,12 +5931,21 @@ const HOWTO = {
 };
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-// The skills are input data: they come from the JSON block, or from ?data=<url>.
+// The skills are input data: they come from the JSON block, from ?data=<url>, or from the installed skills index.
 const params = new URLSearchParams(location.search);
 const EMBEDDED = JSON.parse(document.getElementById('skill-data').textContent);
+// Lists the installed skills. A curated entry with the same id replaces the plain one. The pack overview stays first.
+function mergeIndex(index) {
+  const curated = new Map(EMBEDDED.skills.map((s) => [s.id, s]));
+  // A curated entry keeps its walkthrough, outcome and text, but its grade comes from the index, which applies the same rules to every skill.
+  const merged = index.skills.map((s) => (curated.has(s.id) ? { ...curated.get(s.id), grade: s.grade } : s));
+  return { skills: [...EMBEDDED.skills.filter((s) => s.cat === 'Overview'), ...merged] };
+}
 let DATA = EMBEDDED;
 if (params.get('data')) {
   try { DATA = await (await fetch(params.get('data'))).json(); } catch (e) { DATA = EMBEDDED; }
+} else if (window.SKILL_INDEX) {
+  DATA = mergeIndex(window.SKILL_INDEX);
 }
 const SKILLS = DATA.skills;
 
@@ -6044,7 +6114,7 @@ const RUNS = { example: 'Example run', clean: 'Clean run', large: 'Large input' 
 const NO_CLEAN = new Set(['pack-overview', 'rlm-refactor-planner', 'rlm-doc-generator', 'rlm-migration-planner', 'rlm-log-triage',
   'release-notes', 'incident-postmortem', 'audit-evidence-collector', 'memory-manager', 'token-saver']);
 const FINE = /fine|pass|no issue|no finding|covered|compatible|present|permissive|stable|controlled|documented|kept|fresh/i;
-const runsOf = (s) => ['example', ...(NO_CLEAN.has(s.id) ? [] : ['clean']), 'large'];
+const runsOf = (s) => (s.steps.length && s.outcome ? ['example', ...(NO_CLEAN.has(s.id) ? [] : ['clean']), 'large'] : ['example']);
 const fileOf = (w) => String(w).split(':')[0].trim();
 
 // The item a finding points at, matched on its file name; -1 when none.
@@ -6243,21 +6313,67 @@ function renderGallery() {
 // ---------- Panel ----------
 const stepTitle = (st) => st.note.split('.')[0];
 const GRADED = SKILLS.filter((s) => s.grade);
-const tp = (s) => 'tp-' + (s.grade ? s.grade.tier : 'none');
-const AVG = CRIT.map((_, i) => GRADED.reduce((a, s) => a + s.grade.scores[i], 0) / Math.max(GRADED.length, 1));
+// Skills with the five criteria scores (docs/skill-grade.md); the others show their grade only.
+const SCORED = GRADED.filter((s) => s.grade.scores);
+const tierOf = (s) => (s.grade ? s.grade.tier : s.tier);
+const tp = (s) => 'tp-' + (tierOf(s) || 'none');
+const AVG = CRIT.map((_, i) => SCORED.reduce((a, s) => a + s.grade.scores[i], 0) / Math.max(SCORED.length, 1));
+
+// Browse state: family tab, cards or table, and the table's sort.
+let fam = 'all', mode = 'cards', sortKey = 'grade', sortDir = -1;
+const FAMILY_TABS = [['all', 'All'], ['software', 'Software'], ['ops', 'Operations'], ['business', 'Business'], ['people', 'People'], ['legal', 'Legal and risk'], ['other', 'Other']];
+const GROUP_OF_FAMILY = {
+  devops: 'software', techops: 'software', web: 'software', core: 'software',
+  ops: 'ops', pm: 'ops', ind: 'ops', mfg: 'ops', ehs: 'ops', qual: 'ops',
+  sales: 'business', mkt: 'business', neg: 'business', fin: 'business', cs: 'business',
+  hr: 'people', hrc: 'people', legal: 'legal',
+};
+const GROUP_OF_CAT = { Analysis: 'software', Engineering: 'software', Security: 'software', Web: 'software', Domain: 'software', Operations: 'ops' };
+const familyOf = (s) => (s.id.startsWith('rlm-') ? s.id.slice(4).split('-')[0] : s.id);
+const labelOf = (s) => (s.cat === 'Installed' ? familyOf(s) : CAT_NAME[s.cat] || s.cat);
+const groupOf = (s) => (s.cat === 'Installed' ? GROUP_OF_FAMILY[familyOf(s)] : GROUP_OF_CAT[s.cat]) || 'other';
+const scoreOf = (s) => (s.grade ? Number(s.grade.score) : 0);
+const SORT_KEYS = { goal: (s) => s.goal.toLowerCase(), fam: labelOf, tier: (s) => TIERS.indexOf(tierOf(s)), score: scoreOf, grade: scoreOf };
+const tierBadge = (s) => (tierOf(s) ? `<span class="tier ${tp(s)}">${esc(tierOf(s))}</span>` : '');
+const card = (s) => `<button type="button" class="skill-card ${tp(s)}" data-id="${esc(s.id)}">
+  <span class="gchip" aria-hidden="true">${s.grade ? esc(s.grade.grade) : '◎'}</span>
+  <span class="sc-body"><span class="g">${esc(s.goal)}</span><span class="i">${esc(s.id)}</span></span>
+  <span class="sc-meta">${tierBadge(s)}<span class="pill">${esc(labelOf(s))}</span></span>
+</button>`;
+const row = (s) => `<tr>
+  <td><button type="button" class="skill-link" data-id="${esc(s.id)}">${esc(s.goal)}</button><br><span class="mono">${esc(s.id)}</span></td>
+  <td>${esc(labelOf(s))}</td>
+  <td>${tierBadge(s) || '—'}</td>
+  <td class="n">${s.grade ? esc(s.grade.score) : '—'}</td>
+  <td class="n gr">${s.grade ? esc(s.grade.grade) : '—'}</td>
+</tr>`;
 
 function renderTabs() {
   const q = query.trim().toLowerCase();
-  const list = SKILLS.filter((s) => (tier === 'All tiers' ? true : s.grade && s.grade.tier === tier) &&
+  const base = SKILLS.filter((s) => (tier === 'All tiers' || tierOf(s) === tier) &&
     (!q || (s.goal + ' ' + s.id + ' ' + s.use).toLowerCase().includes(q)));
-  const row = (s) => `<li><button type="button" class="tab ${tp(s)}" data-id="${esc(s.id)}" aria-pressed="${s.id === current}">
-      <span class="gchip" aria-hidden="true">${s.grade ? esc(s.grade.grade) : '◎'}</span>
-      <span><span class="g">${esc(s.goal)}</span><span class="i">${esc(s.id)}${s.grade ? ' · ' + esc(s.grade.tier) : ''}</span></span>
-    </button></li>`;
-  $('#tabs').innerHTML = CATS.map((c) => {
-    const m = list.filter((s) => s.cat === c);
-    return m.length ? `<div class="grp"><h3>${esc(CAT_NAME[c] || c)}<span>${m.length}</span></h3><ul>${m.map(row).join('')}</ul></div>` : '';
-  }).join('') || '<p class="none">No skill matches. Clear the search or the tier filter.</p>';
+  $('#fams').innerHTML = FAMILY_TABS.map(([id, name]) => {
+    const n = id === 'all' ? base.length : base.filter((s) => groupOf(s) === id).length;
+    return `<button type="button" role="tab" data-fam="${id}" aria-selected="${id === fam}">${esc(name)}<span>${n}</span></button>`;
+  }).join('');
+  const list = fam === 'all' ? base : base.filter((s) => groupOf(s) === fam);
+  $('#empty').hidden = list.length > 0;
+  $('#tabs').hidden = mode !== 'cards';
+  $('#tblWrap').hidden = mode !== 'table';
+  if (mode === 'cards') {
+    $('#tabs').innerHTML = list.map(card).join('');
+  } else {
+    const key = SORT_KEYS[sortKey];
+    $('#skRows').innerHTML = [...list].sort((a, b) => {
+      const x = key(a), y = key(b);
+      return (x < y ? -1 : x > y ? 1 : 0) * sortDir;
+    }).map(row).join('');
+  }
+  document.querySelectorAll('#modes button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mode === mode)));
+  document.querySelectorAll('#skTable th button').forEach((b) => {
+    if (b.dataset.key === sortKey) b.dataset.dir = sortDir > 0 ? 'asc' : 'desc'; else delete b.dataset.dir;
+  });
+  $('#count').textContent = `${SKILLS.filter((s) => tierOf(s)).length} skills`;
 }
 
 function renderCats() {
@@ -6265,12 +6381,12 @@ function renderCats() {
 }
 
 function renderKpis() {
-  const n = (t) => GRADED.filter((s) => s.grade.tier === t).length;
+  const n = (t) => SKILLS.filter((s) => tierOf(s) === t).length;
   const cats = new Set(GRADED.map((s) => s.cat)).size;
-  const avg = GRADED.reduce((a, s) => a + Number(s.grade.score), 0) / GRADED.length;
+  const avg = SCORED.reduce((a, s) => a + Number(s.grade.score), 0) / Math.max(SCORED.length, 1);
   const top = GRADED.reduce((a, s) => (s.grade.rank < a.grade.rank ? s : a));
   $('#kpis').innerHTML = `
-    <div class="kpi"><b>${GRADED.length}</b><span>skills, ${SKILLS.filter((s) => s.grade && s.on).length} on by default</span></div>
+    <div class="kpi"><b>${SKILLS.filter((s) => tierOf(s)).length}</b><span>skills, ${SKILLS.filter((s) => s.on).length} on by default</span></div>
     <div class="kpi"><b>${cats}</b><span>categories</span></div>
     <div class="kpi"><b>${avg.toFixed(2)}</b><span>average score of 5 · top: ${esc(top.id)}</span></div>
     <div class="kpi"><span>Tier split</span>
@@ -6301,7 +6417,7 @@ function renderLand() {
     const y = top + r * rowH + rowH / 2;
     h += `<line class="rule" x1="${left}" x2="${W - right}" y1="${y}" y2="${y}"/>
       <text class="row-l" x="${left - 12}" y="${y + 4}" text-anchor="end">${esc(W < 560 ? c : (CAT_NAME[c] || c))}</text>`;
-    const m = GRADED.filter((s) => s.cat === c).sort((a, b) => a.grade.score - b.grade.score);
+    const m = SCORED.filter((s) => s.cat === c).sort((a, b) => a.grade.score - b.grade.score);
     let lastX = -99, k = 0;
     m.forEach((s) => {
       const x = X(Number(s.grade.score));
@@ -6320,16 +6436,21 @@ function landTip(id) {
   const s = SKILLS.find((x) => x.id === id);
   if (!s) return;
   const g = s.grade;
-  $('#landTip').innerHTML = `<b>${esc(s.id)}</b> · ${esc(g.grade)} · ${esc(g.score)} · <span class="tier ${tp(s)}">${esc(g.tier)}</span> · ${esc(s.goal)}`;
+  $('#landTip').innerHTML = `<b>${esc(s.id)}</b> · ${esc(g.grade)} · ${g.score ? esc(g.score) + ' · ' : ''}<span class="tier ${tp(s)}">${esc(g.tier)}</span> · ${esc(s.goal)}`;
 }
 
 function ring(s) {
   const r = 38, c = 2 * Math.PI * r;
   if (!s.grade) {
-    return `<svg viewBox="0 0 92 92" role="img" aria-label="Pack overview"><circle class="rt" cx="46" cy="46" r="${r}"/>
+    return `<svg viewBox="0 0 92 92" role="img" aria-label="${s.cat === 'Installed' ? 'Installed skill' : 'Pack overview'}"><circle class="rt" cx="46" cy="46" r="${r}"/>
       <text class="rg" x="46" y="52">◎</text></svg>`;
   }
-  const g = s.grade, f = Number(g.score) / 5;
+  const g = s.grade;
+  if (!g.score) {
+    return `<svg viewBox="0 0 92 92" role="img" aria-label="Grade ${esc(g.grade)}"><circle class="rt" cx="46" cy="46" r="${r}"/>
+      <text class="rg" x="46" y="56">${esc(g.grade)}</text></svg>`;
+  }
+  const f = Number(g.score) / 5;
   return `<svg viewBox="0 0 92 92" role="img" aria-label="Grade ${esc(g.grade)}, score ${esc(g.score)} of 5">
     <circle class="rt" cx="46" cy="46" r="${r}"/>
     <circle class="rv" cx="46" cy="46" r="${r}" stroke-dasharray="${(f * c).toFixed(1)} ${c.toFixed(1)}" transform="rotate(-90 46 46)"/>
@@ -6359,28 +6480,28 @@ function renderGradePanel() {
   const g = skill.grade;
   if (!g) { $('#gradePanel').innerHTML = ''; return; }
   $('#gradePanel').innerHTML = `<div class="gp ${tp(skill)}">
-    <div class="radar">${radar(g.scores)}
+    <div class="radar">${g.scores ? radar(g.scores) : ''}
       <div class="radar-key"><span><i></i>${esc(skill.id)}</span><span><i class="d"></i>pack average</span></div>
     </div>
     <div>
       <div class="gsum">
         <div><b>${esc(g.grade)}</b><span>grade</span></div>
-        <div><b>${esc(g.score)}</b><span>score of 5</span></div>
+        ${g.score ? `<div><b>${esc(g.score)}</b><span>score of 5</span></div>` : ''}
         <div><b>${g.rank}<small> / ${GRADED.length}</small></b><span>rank</span></div>
         <div><b><span class="tier ${tp(skill)}">${esc(g.tier)}</span></b><span>tier</span></div>
       </div>
-      <ul class="crit">${g.scores.map((v, i) => `<li><span>${CRIT[i]}</span>
+      ${g.scores ? `<ul class="crit">${g.scores.map((v, i) => `<li><span>${CRIT[i]}</span>
         <span class="meter" role="img" aria-label="${CRIT[i]} ${v} of 5"><i style="width:${v * 20}%"></i></span><b>${v}</b>
-        <small title="weighted points">+${(v * WEIGHT[i]).toFixed(2)}</small></li>`).join('')}</ul>
-      <p>${esc(g.why)}</p>
-      <p class="raise"><b>To raise the grade:</b> ${esc(g.raise)}</p>
+        <small title="weighted points">+${(v * WEIGHT[i]).toFixed(2)}</small></li>`).join('')}</ul>` : '<p class="none">The five criteria scores are not recorded for this skill. The grade and tier come from the registry.</p>'}
+      ${g.why ? `<p>${esc(g.why)}</p>` : ''}
+      ${g.raise ? `<p class="raise"><b>To raise the grade:</b> ${esc(g.raise)}</p>` : ''}
     </div></div>`;
 }
 
 const SORT = { key: 'rank', dir: 'asc' };
 function renderGrades() {
   const val = (s, k) => k === 'rank' ? s.grade.rank : k === 'id' ? s.id : k === 'cat' ? s.cat : k === 'tier' ? TIERS.indexOf(s.grade.tier)
-    : k === 'score' ? Number(s.grade.score) : s.grade.scores[Number(k)];
+    : k === 'score' ? Number(s.grade.score) || -1 : (s.grade.scores || [])[Number(k)] ?? -1;
   const rows = [...GRADED].sort((a, b) => {
     const x = val(a, SORT.key), y = val(b, SORT.key);
     const d = x < y ? -1 : x > y ? 1 : 0;
@@ -6393,7 +6514,7 @@ function renderGrades() {
     const g = s.grade;
     return `<tr class="${tp(s)}"><td class="n">${g.rank}</td><td><button type="button" class="skill-link" data-id="${esc(s.id)}">${esc(s.id)}</button></td>
       <td>${esc(CAT_NAME[s.cat] || s.cat)}</td><td><span class="tier ${tp(s)}">${esc(g.tier)}</span></td>
-      ${g.scores.map((v) => `<td class="n heat" style="--v:${v}">${v}</td>`).join('')}<td class="n">${esc(g.score)}</td><td class="n gr">${esc(g.grade)}</td></tr>`;
+      ${(g.scores || [null, null, null, null, null]).map((v) => `<td class="n heat" style="--v:${v ?? 0}">${v ?? '—'}</td>`).join('')}<td class="n">${esc(g.score || '—')}</td><td class="n gr">${esc(g.grade)}</td></tr>`;
   }).join('');
 }
 
@@ -6402,25 +6523,27 @@ function renderInfo() {
   $('#ring').className = 'ring ' + tp(skill);
   $('#ring').innerHTML = ring(skill);
   $('#sbadges').innerHTML = `<span class="mono">${esc(skill.id)}</span><span class="pill">${esc(CAT_NAME[skill.cat] || skill.cat)}</span>` +
-    (skill.cat === 'Overview' ? '' : `<span class="pill">${skill.on ? 'On by default' : 'Off by default'}</span>`) +
-    (skill.grade ? `<span class="tier ${tp(skill)}">${esc(skill.grade.tier)}</span>` : '');
+    (skill.cat === 'Overview' || skill.cat === 'Installed' ? '' : `<span class="pill">${skill.on ? 'On by default' : 'Off by default'}</span>`) +
+    (tierOf(skill) ? `<span class="tier ${tp(skill)}">${esc(tierOf(skill))}</span>` : '');
   $('#info').innerHTML = `<div class="use">
     <div>
       <p class="lead">${esc(skill.use)}</p>
       <h4>Example prompt</h4>
       <div class="prompt"><pre><code>${esc(skill.prompt)}</code></pre><button type="button" class="copy" data-copy="${esc(skill.prompt)}">Copy</button></div>
       <dl class="facts">
-        <dt>Input</dt><dd>${esc(skill.input)}</dd>
-        <dt>Output</dt><dd>${esc(skill.output)}</dd>
-        <dt>Items</dt><dd class="items">${skill.items.map((x) => `<code>${esc(x)}</code>`).join('')}</dd>
+        ${skill.input ? `<dt>Input</dt><dd>${esc(skill.input)}</dd>` : ''}
+        ${skill.output ? `<dt>Output</dt><dd>${esc(skill.output)}</dd>` : ''}
+        ${skill.items.length ? `<dt>Items</dt><dd class="items">${skill.items.map((x) => `<code>${esc(x)}</code>`).join('')}</dd>` : ''}
+        ${skill.path ? `<dt>Folder</dt><dd><code>${esc(skill.path)}</code></dd>` : ''}
       </dl>
     </div>
     <div>
-      <h4>Pros</h4><ul class="pc">${skill.pros.map((p) => `<li>${esc(p)}</li>`).join('')}</ul>
-      <h4>Cons</h4><ul class="pc con">${skill.cons.map((p) => `<li>${esc(p)}</li>`).join('')}</ul>
+      ${skill.pros.length ? `<h4>Pros</h4><ul class="pc">${skill.pros.map((p) => `<li>${esc(p)}</li>`).join('')}</ul>` : ''}
+      ${skill.cons.length ? `<h4>Cons</h4><ul class="pc con">${skill.cons.map((p) => `<li>${esc(p)}</li>`).join('')}</ul>` : ''}
     </div></div>`;
   renderGradePanel();
   $('#t-grade').hidden = !skill.grade;
+  $('#t-out').hidden = !skill.outcome;
 }
 
 function showTab(name) {
@@ -7037,7 +7160,19 @@ function select(id) {
   renderIdea();
   buildChips();
   if (T) buildTokens(skill.items);
-  applyStep(0);
+  const walk = skill.steps.length > 0;
+  $('#p-how').classList.toggle('no-walk', !walk);
+  const plan = skill.protocol || [];
+  $('#protocol').innerHTML = walk ? '' : plan.map((p) => `<li><b>${esc(p.title)}.</b> ${esc(p.text)}</li>`).join('');
+  $('#stage').classList.toggle('flowing', !walk && plan.length > 0);
+  if (walk) {
+    $('#note').closest('.note').hidden = false;
+    applyStep(0);
+  } else {
+    ['#cap', '#like', '#howto', '#counts'].forEach((q) => { $(q).textContent = ''; });
+    $('#note').textContent = plan.length ? '' : 'No steps are written for this skill. Its description and example prompt are in the Use it tab.';
+    $('#note').closest('.note').hidden = plan.length > 0;
+  }
 }
 
 // Fits the camera to the step as the viewer sees it: tilted and turned, with gems and tags included.
@@ -7222,19 +7357,17 @@ async function init3D() {
 }
 
 // ---------- Controls ----------
-const rail = $('#rail');
-function setRail(open) {
-  rail.classList.toggle('open', open);
-  $('#scrim').classList.toggle('open', open);
-  $('#railBtn').setAttribute('aria-expanded', String(open));
-}
-// Opens a skill from the list, the chart or the table, and brings the detail pane into view.
+const detail = $('#detail');
+// Opens a skill in the detail dialog, from a card, a table row, the chart or the grade table.
 function openSkill(id) {
   select(id);
-  setRail(false);
-  const r = $('#skills').getBoundingClientRect();
-  if (r.top > innerHeight * 0.5 || r.bottom < 120) $('#skills').scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth' });
+  if (!detail.open) detail.showModal();
+  requestAnimationFrame(() => {
+    if (view === '3d' && T) resize();
+    if (view === 'simple' && stepIdx >= 0) renderFlat(skill.steps[stepIdx]);
+  });
 }
+$('#closeDetail').addEventListener('click', () => detail.close());
 $('#tabs').addEventListener('click', (e) => {
   const b = e.target.closest('button[data-id]');
   if (b) openSkill(b.dataset.id);
@@ -7283,11 +7416,32 @@ document.querySelector('.dtabs').addEventListener('keydown', (e) => {
 });
 $('#q').addEventListener('input', (e) => { query = e.target.value; renderTabs(); });
 document.addEventListener('keydown', (e) => {
-  if (e.key === '/' && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) { e.preventDefault(); setRail(true); $('#q').focus(); }
-  if (e.key === 'Escape') setRail(false);
+  if (e.key === '/' && !/INPUT|TEXTAREA/.test(document.activeElement.tagName) && !detail.open) { e.preventDefault(); $('#q').focus(); }
 });
-$('#railBtn').addEventListener('click', () => setRail(!rail.classList.contains('open')));
-$('#scrim').addEventListener('click', () => setRail(false));
+$('#modes').addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-mode]');
+  if (!b) return;
+  mode = b.dataset.mode;
+  renderTabs();
+});
+$('#fams').addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-fam]');
+  if (!b) return;
+  fam = b.dataset.fam;
+  renderTabs();
+});
+$('#skTable thead').addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-key]');
+  if (!b) return;
+  const k = b.dataset.key;
+  sortDir = sortKey === k ? -sortDir : (k === 'score' || k === 'grade' ? -1 : 1);
+  sortKey = k;
+  renderTabs();
+});
+$('#skRows').addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-id]');
+  if (b) openSkill(b.dataset.id);
+});
 $('#steps').addEventListener('click', (e) => {
   const b = e.target.closest('button[data-step]');
   if (b) goTo(Number(b.dataset.step), true);

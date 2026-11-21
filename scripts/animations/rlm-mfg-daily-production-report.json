@@ -1,0 +1,121 @@
+{
+  "items": [
+    "line-a-shift1.csv",
+    "line-a-shift2.csv",
+    "line-b-shift1.csv",
+    "line-b-shift2.csv",
+    "line-c-shift1.csv",
+    "day-total.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "warn",
+        "ok",
+        "ok",
+        "bad"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "funnel",
+      "note": "Compute. Each line's shifts are added up, and yield is checked against output and scrap."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 day total does not match its shifts",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "day-total.csv:12",
+        "title": "Day total does not match its shifts",
+        "fix": "Recompute the day total"
+      },
+      {
+        "sev": "medium",
+        "where": "line-b-shift1.csv:19",
+        "title": "Yield does not follow from output and scrap",
+        "fix": "Recompute the yield"
+      },
+      {
+        "sev": "low",
+        "where": "line-c-shift1.csv:26",
+        "title": "Day missing from the report",
+        "fix": "Add the day"
+      }
+    ],
+    "notChecked": "Output outside the logs."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] day-total.csv:12  Day total does not match its shifts.\n       Fix: Recompute the day total.\n[medium] line-b-shift1.csv:19  Yield does not follow from output and scrap.\n       Fix: Recompute the yield.\n[low] line-c-shift1.csv:26  Day missing from the report.\n       Fix: Add the day.\nNot checked: Output outside the logs.",
+  "pros": [
+    "Checks a total that does not match its shifts, a yield that does not follow from output and scrap, and a day missing."
+  ],
+  "cons": [
+    "Not checked: Output outside the logs."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mfg-daily-production-report skill on the records for this review."
+}

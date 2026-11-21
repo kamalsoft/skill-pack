@@ -1,0 +1,134 @@
+{
+  "items": [
+    "accel-tier-1.md",
+    "accel-tier-2.md",
+    "mix-variable.md",
+    "threshold-quota.md",
+    "cost-of-sale.md",
+    "plan-rules.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "capped and costed",
+        "no cap",
+        "threshold above last year's data"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "note": "Rank. Each accelerator and threshold is placed by its cap and its cost against last year's data."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 accelerator has no cap",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "accel-tier-2.md:12",
+        "title": "Accelerator with no cap and no cost estimate",
+        "fix": "Cap the accelerator and estimate its cost"
+      },
+      {
+        "sev": "medium",
+        "where": "threshold-quota.md:19",
+        "title": "Threshold above what last year's data shows",
+        "fix": "Reset the threshold to the data"
+      },
+      {
+        "sev": "low",
+        "where": "cost-of-sale.md:26",
+        "title": "Mix pays more than the cost of sale allows",
+        "fix": "Rebalance the mix"
+      }
+    ],
+    "notChecked": "Whether the plan is lawful; its effect on behaviour beyond the data."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] accel-tier-2.md:12  Accelerator with no cap and no cost estimate.\n       Fix: Cap the accelerator and estimate its cost.\n[medium] threshold-quota.md:19  Threshold above what last year's data shows.\n       Fix: Reset the threshold to the data.\n[low] cost-of-sale.md:26  Mix pays more than the cost of sale allows.\n       Fix: Rebalance the mix.\nNot checked: Whether the plan is lawful; its effect on behaviour beyond the data.",
+  "pros": [
+    "Checks an accelerator with no cap and no cost estimate, a mix that pays more than the cost of sale allows, and a threshold that the last year's data shows is unreachable."
+  ],
+  "cons": [
+    "Not checked: Whether the plan is lawful; its effect on behaviour beyond the data."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-sales-compensation-plan-review skill on the records for this review."
+}

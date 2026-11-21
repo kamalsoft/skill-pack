@@ -1,0 +1,134 @@
+{
+  "items": [
+    "role-dev",
+    "role-design",
+    "role-qa",
+    "role-data",
+    "role-pm",
+    "role-ops"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "bad",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "within 100 percent",
+        "over-allocated",
+        "no demand"
+      ],
+      "binOf": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        2
+      ],
+      "note": "Rank. Each role is placed by its allocation against 100 percent and whether demand exists behind it."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 role is over 100 percent allocated",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "role-data:12",
+        "title": "Role over-allocated above 100 percent",
+        "fix": "Move work or add capacity"
+      },
+      {
+        "sev": "medium",
+        "where": "role-design:19",
+        "title": "Skill needed with no one holding it",
+        "fix": "Hire or train for the skill"
+      },
+      {
+        "sev": "low",
+        "where": "role-ops:26",
+        "title": "Demand with no project behind it",
+        "fix": "Name the project or remove the demand"
+      }
+    ],
+    "notChecked": "Individual performance and availability beyond the sheet."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] role-data:12  Role over-allocated above 100 percent.\n       Fix: Move work or add capacity.\n[medium] role-design:19  Skill needed with no one holding it.\n       Fix: Hire or train for the skill.\n[low] role-ops:26  Demand with no project behind it.\n       Fix: Name the project or remove the demand.\nNot checked: Individual performance and availability beyond the sheet.",
+  "pros": [
+    "Checks a role over-allocated above 100 percent, a demand with no project behind it, and a skill needed with no one holding it."
+  ],
+  "cons": [
+    "Not checked: Individual performance and availability beyond the sheet."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-pm-resource-plan skill on the records for this review."
+}
