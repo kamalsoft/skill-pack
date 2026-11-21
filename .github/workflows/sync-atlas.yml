@@ -51,10 +51,12 @@ jobs:
           rm -rf site/skillpack
           mkdir -p site/skillpack
           cp -R out/. site/skillpack/
+          # GitHub Pages runs Jekyll, which skips folders starting with an underscore (_next). This file turns it off.
+          touch site/.nojekyll
           cd site
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A skillpack
+          git add -A skillpack .nojekyll
           if git diff --cached --quiet; then
             echo "Live site already matches this build"
             exit 0
