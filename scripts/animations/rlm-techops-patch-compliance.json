@@ -1,0 +1,134 @@
+{
+  "items": [
+    "group-finance.csv",
+    "group-sales.csv",
+    "group-dev.csv",
+    "group-servers.csv",
+    "group-kiosks.csv",
+    "group-lab.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "bad",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "at policy",
+        "below policy",
+        "exception"
+      ],
+      "binOf": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        1
+      ],
+      "note": "Rank. Each system group is placed by its patch share against the policy."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 host is outside policy with no exception",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "group-kiosks.csv:12",
+        "title": "Host outside policy with no exception",
+        "fix": "Patch the host or record an exception"
+      },
+      {
+        "sev": "medium",
+        "where": "group-lab.csv:19",
+        "title": "Group below the policy share",
+        "fix": "Set a date to reach the policy share"
+      },
+      {
+        "sev": "low",
+        "where": "group-sales.csv:26",
+        "title": "Exception recorded without an expiry",
+        "fix": "Set an expiry for the exception"
+      }
+    ],
+    "notChecked": "Whether the patches work."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] group-kiosks.csv:12  Host outside policy with no exception.\n       Fix: Patch the host or record an exception.\n[medium] group-lab.csv:19  Group below the policy share.\n       Fix: Set a date to reach the policy share.\n[low] group-sales.csv:26  Exception recorded without an expiry.\n       Fix: Set an expiry for the exception.\nNot checked: Whether the patches work.",
+  "pros": [
+    "Flags a group below the policy share, and a host outside policy with no exception."
+  ],
+  "cons": [
+    "Not checked: Whether the patches work."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-techops-patch-compliance skill on the records for this review."
+}

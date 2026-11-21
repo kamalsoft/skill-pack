@@ -1,0 +1,134 @@
+{
+  "items": [
+    "course-induction.md",
+    "course-first-aid.md",
+    "course-forklift.md",
+    "course-spill.md",
+    "course-chemical.md",
+    "matrix.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "warn",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "current",
+        "overdue",
+        "no matrix entry"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        2,
+        0
+      ],
+      "note": "Rank. Each course is placed by whether its records are current, overdue or missing from the matrix."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 required course has no record",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "course-first-aid.md:12",
+        "title": "Required course with no record for a role",
+        "fix": "Book the course for the role"
+      },
+      {
+        "sev": "medium",
+        "where": "course-forklift.md:19",
+        "title": "Record past its refresh date",
+        "fix": "Book the refresher"
+      },
+      {
+        "sev": "low",
+        "where": "course-chemical.md:26",
+        "title": "Person in the role with no matrix entry",
+        "fix": "Add the matrix entry"
+      }
+    ],
+    "notChecked": "The quality of the training; whether the training was applied on the job."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] course-first-aid.md:12  Required course with no record for a role.\n       Fix: Book the course for the role.\n[medium] course-forklift.md:19  Record past its refresh date.\n       Fix: Book the refresher.\n[low] course-chemical.md:26  Person in the role with no matrix entry.\n       Fix: Add the matrix entry.\nNot checked: The quality of the training; whether the training was applied on the job.",
+  "pros": [
+    "Checks a required course with no record, a record past its refresh date, and a person in the role with no matrix entry."
+  ],
+  "cons": [
+    "Not checked: The quality of the training; whether the training was applied on the job."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ehs-training-compliance skill on the records for this review."
+}

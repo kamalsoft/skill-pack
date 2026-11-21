@@ -1,0 +1,124 @@
+{
+  "items": [
+    "lic-office.md",
+    "lic-crm.csv",
+    "lic-design.csv",
+    "lic-vpn.csv",
+    "lic-analytics.csv",
+    "lic-backup.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "warn",
+        "ok",
+        "bad",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0.05,
+        0.2,
+        0.35,
+        0.5,
+        0.7,
+        0.9
+      ],
+      "note": "Order. Each renewal is placed by its date in the coming year."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 renewal due within 60 days has no decision",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        2,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "lic-analytics.csv:12",
+        "title": "Renews within 60 days with no decision",
+        "fix": "Decide renew or cancel this week"
+      },
+      {
+        "sev": "medium",
+        "where": "lic-design.csv:19",
+        "title": "Renewal with no cost recorded",
+        "fix": "Record the cost from the quote"
+      },
+      {
+        "sev": "medium",
+        "where": "lic-backup.csv:26",
+        "title": "Licence renewed with no use in the last year",
+        "fix": "Check the use before renewing"
+      }
+    ],
+    "notChecked": "Vendor price changes not in the register."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 2 medium).\n[high] lic-analytics.csv:12  Renews within 60 days with no decision.\n       Fix: Decide renew or cancel this week.\n[medium] lic-design.csv:19  Renewal with no cost recorded.\n       Fix: Record the cost from the quote.\n[medium] lic-backup.csv:26  Licence renewed with no use in the last year.\n       Fix: Check the use before renewing.\nNot checked: Vendor price changes not in the register.",
+  "pros": [
+    "Flags a renewal within 60 days with no decision, a renewal with no cost, and a licence renewed with no use in the last year."
+  ],
+  "cons": [
+    "Not checked: Vendor price changes not in the register."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-techops-licence-renewal skill on the records for this review."
+}

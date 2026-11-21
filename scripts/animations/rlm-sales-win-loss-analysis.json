@@ -1,0 +1,134 @@
+{
+  "items": [
+    "deal-won-1.md",
+    "deal-won-2.md",
+    "deal-lost-1.md",
+    "deal-lost-2.md",
+    "deal-lost-3.md",
+    "reason-codes.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "warn",
+        "bad",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "coded",
+        "no reason code",
+        "reason not in list"
+      ],
+      "binOf": [
+        0,
+        0,
+        2,
+        1,
+        0,
+        0
+      ],
+      "note": "Rank. Each closed deal is placed by its reason code and whether the code is on the list."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 closed deal has no reason code",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "deal-lost-2.md:12",
+        "title": "Closed deal with no reason code",
+        "fix": "Record the reason the deal closed the way it did"
+      },
+      {
+        "sev": "medium",
+        "where": "deal-lost-1.md:19",
+        "title": "Reason not in the code list",
+        "fix": "Map the reason to the list"
+      },
+      {
+        "sev": "low",
+        "where": "deal-lost-3.md:26",
+        "title": "One reason accounts for over half of losses with no note",
+        "fix": "Explain the concentration"
+      }
+    ],
+    "notChecked": "The true reason; deals not coded."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] deal-lost-2.md:12  Closed deal with no reason code.\n       Fix: Record the reason the deal closed the way it did.\n[medium] deal-lost-1.md:19  Reason not in the code list.\n       Fix: Map the reason to the list.\n[low] deal-lost-3.md:26  One reason accounts for over half of losses with no note.\n       Fix: Explain the concentration.\nNot checked: The true reason; deals not coded.",
+  "pros": [
+    "Checks a closed deal with no reason code, a reason not in the code list, and a reason that accounts for more than 50 percent of losses with no note."
+  ],
+  "cons": [
+    "Not checked: The true reason; deals not coded."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-sales-win-loss-analysis skill on the records for this review."
+}

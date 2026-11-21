@@ -1,0 +1,129 @@
+{
+  "items": [
+    "plan-contracts.md",
+    "plan-disputes.md",
+    "plan-policies.md",
+    "plan-training.md",
+    "plan-budget.md",
+    "plan-tools.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "volume and owner",
+        "no volume source",
+        "no matter behind it"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        2,
+        1
+      ],
+      "note": "Rank. Each planned area is placed by its volume source and whether matters sit behind it."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 plan items lack a volume source or a matter",
+    "tone": "warn",
+    "bars": [
+      [
+        "medium",
+        2,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "medium",
+        "where": "plan-disputes.md:12",
+        "title": "Work area with no volume source",
+        "fix": "Name the source of the volume"
+      },
+      {
+        "sev": "medium",
+        "where": "plan-budget.md:19",
+        "title": "Budget line with no matter behind it",
+        "fix": "Tie the budget to a matter or remove it"
+      },
+      {
+        "sev": "low",
+        "where": "plan-tools.md:26",
+        "title": "Planned change with no owner",
+        "fix": "Assign an owner"
+      }
+    ],
+    "notChecked": "Changes in the law not in the notes."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 medium, 1 low).\n[medium] plan-disputes.md:12  Work area with no volume source.\n       Fix: Name the source of the volume.\n[medium] plan-budget.md:19  Budget line with no matter behind it.\n       Fix: Tie the budget to a matter or remove it.\n[low] plan-tools.md:26  Planned change with no owner.\n       Fix: Assign an owner.\nNot checked: Changes in the law not in the notes.",
+  "pros": [
+    "Checks a work area with no volume source, a planned change with no owner, and a budget line with no matter behind it."
+  ],
+  "cons": [
+    "Not checked: Changes in the law not in the notes."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-legal-annual-plan skill on the records for this review."
+}

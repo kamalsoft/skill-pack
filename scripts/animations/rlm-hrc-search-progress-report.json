@@ -1,0 +1,134 @@
+{
+  "items": [
+    "cand-exec-01.md",
+    "cand-exec-02.md",
+    "cand-exec-03.md",
+    "cand-exec-04.md",
+    "cand-exec-05.md",
+    "cand-exec-06.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "next step set",
+        "no next step",
+        "stage stuck 3 weeks"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        2,
+        0
+      ],
+      "note": "Rank. Each candidate is placed by its next step and whether its stage has moved in three weeks."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 candidate has no next step",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "cand-exec-02.md:12",
+        "title": "Candidate with no next step",
+        "fix": "Set the next step this week"
+      },
+      {
+        "sev": "medium",
+        "where": "cand-exec-05.md:19",
+        "title": "Stage not moved for three weeks",
+        "fix": "Chase the candidate or close the stage"
+      },
+      {
+        "sev": "low",
+        "where": "cand-exec-06.md:26",
+        "title": "Candidate with no contact date",
+        "fix": "Record the date of the last contact"
+      }
+    ],
+    "notChecked": "The candidate's view."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] cand-exec-02.md:12  Candidate with no next step.\n       Fix: Set the next step this week.\n[medium] cand-exec-05.md:19  Stage not moved for three weeks.\n       Fix: Chase the candidate or close the stage.\n[low] cand-exec-06.md:26  Candidate with no contact date.\n       Fix: Record the date of the last contact.\nNot checked: The candidate's view.",
+  "pros": [
+    "Checks a candidate with no next step, and a stage that has not moved for three weeks."
+  ],
+  "cons": [
+    "Not checked: The candidate's view."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-search-progress-report skill on the records for this review."
+}

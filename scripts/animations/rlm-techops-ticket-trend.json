@@ -1,0 +1,134 @@
+{
+  "items": [
+    "cat-hardware",
+    "cat-email",
+    "cat-access",
+    "cat-software",
+    "cat-network",
+    "cat-uncategorised"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "steady",
+        "up over 25 percent",
+        "no category"
+      ],
+      "binOf": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        2
+      ],
+      "note": "Rank. Each category is placed by its change on last week and whether it is categorised."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 category is up 27 percent",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "cat-access:12",
+        "title": "Category up 27 percent with no note",
+        "fix": "Explain the rise and name the cause"
+      },
+      {
+        "sev": "medium",
+        "where": "cat-uncategorised:19",
+        "title": "Tickets with no category",
+        "fix": "Categorise the tickets"
+      },
+      {
+        "sev": "low",
+        "where": "cat-network:26",
+        "title": "Recurring cause not recorded",
+        "fix": "Record the cause of the recurring ticket"
+      }
+    ],
+    "notChecked": "The cause of recurring tickets."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] cat-access:12  Category up 27 percent with no note.\n       Fix: Explain the rise and name the cause.\n[medium] cat-uncategorised:19  Tickets with no category.\n       Fix: Categorise the tickets.\n[low] cat-network:26  Recurring cause not recorded.\n       Fix: Record the cause of the recurring ticket.\nNot checked: The cause of recurring tickets.",
+  "pros": [
+    "Flags a category up more than 25 percent with no note, and a ticket with no category."
+  ],
+  "cons": [
+    "Not checked: The cause of recurring tickets."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-techops-ticket-trend skill on the records for this review."
+}

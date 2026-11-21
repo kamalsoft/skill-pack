@@ -1,0 +1,134 @@
+{
+  "items": [
+    "csat-phone.csv",
+    "csat-chat.csv",
+    "csat-email.csv",
+    "csat-web.csv",
+    "csat-nps.csv",
+    "csat-trend.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "sample ok",
+        "below minimum sample",
+        "change with no sample"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        2
+      ],
+      "note": "Rank. Each score is placed by its sample size against the minimum of 30."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 score is reported on too small a sample",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "csat-chat.csv:12",
+        "title": "Score reported on a sample below 30",
+        "fix": "Withhold the score or add responses"
+      },
+      {
+        "sev": "medium",
+        "where": "csat-trend.csv:19",
+        "title": "Change reported with no sample size",
+        "fix": "Add the sample size beside the change"
+      },
+      {
+        "sev": "low",
+        "where": "csat-web.csv:26",
+        "title": "NPS by channel not aggregated",
+        "fix": "Aggregate the channel results"
+      }
+    ],
+    "notChecked": "Survey design; response bias."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] csat-chat.csv:12  Score reported on a sample below 30.\n       Fix: Withhold the score or add responses.\n[medium] csat-trend.csv:19  Change reported with no sample size.\n       Fix: Add the sample size beside the change.\n[low] csat-web.csv:26  NPS by channel not aggregated.\n       Fix: Aggregate the channel results.\nNot checked: Survey design; response bias.",
+  "pros": [
+    "Checks a score reported with a sample below the minimum (default 30), and a change reported with no sample size."
+  ],
+  "cons": [
+    "Not checked: Survey design; response bias."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-cs-csat-report skill on the records for this review."
+}

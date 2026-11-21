@@ -1,0 +1,129 @@
+{
+  "items": [
+    "wo-planned-1.md",
+    "wo-planned-2.md",
+    "wo-slipped-3.md",
+    "wo-corrective-4.md",
+    "wo-corrective-5.md",
+    "wo-noasset-6.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.0
+      ],
+      "note": "Order. Each work order is placed on the day, with its slip shown against the plan."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 planned order slipped",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "wo-slipped-3.md:12",
+        "title": "Planned order that slipped",
+        "fix": "Re-plan the order for a day the asset can stop"
+      },
+      {
+        "sev": "medium",
+        "where": "wo-corrective-4.md:19",
+        "title": "Corrective order with no owner",
+        "fix": "Assign an owner"
+      },
+      {
+        "sev": "low",
+        "where": "wo-noasset-6.md:26",
+        "title": "Work order with no asset",
+        "fix": "Name the asset"
+      }
+    ],
+    "notChecked": "Work not raised in the CMMS."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] wo-slipped-3.md:12  Planned order that slipped.\n       Fix: Re-plan the order for a day the asset can stop.\n[medium] wo-corrective-4.md:19  Corrective order with no owner.\n       Fix: Assign an owner.\n[low] wo-noasset-6.md:26  Work order with no asset.\n       Fix: Name the asset.\nNot checked: Work not raised in the CMMS.",
+  "pros": [
+    "Checks a planned order that slipped, a corrective order with no owner, and a work order with no asset."
+  ],
+  "cons": [
+    "Not checked: Work not raised in the CMMS."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ind-maintenance-schedule skill on the records for this review."
+}

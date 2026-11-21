@@ -1,0 +1,129 @@
+{
+  "items": [
+    "acct-main.csv",
+    "acct-payroll.csv",
+    "acct-tax.csv",
+    "acct-usd.csv",
+    "payments-due.csv",
+    "projection.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "warn",
+        "ok",
+        "ok",
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.0
+      ],
+      "note": "Order. Each account's balance is placed through the day against its movements."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 projected balance falls below the minimum",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "payments-due.csv:12",
+        "title": "Projected balance below the minimum",
+        "fix": "Arrange funding before the date"
+      },
+      {
+        "sev": "medium",
+        "where": "acct-main.csv:19",
+        "title": "Balance not equal to yesterday plus movements",
+        "fix": "Recompute the balance from the movements"
+      },
+      {
+        "sev": "low",
+        "where": "acct-tax.csv:26",
+        "title": "Payment due with no source",
+        "fix": "Name the source of the payment"
+      }
+    ],
+    "notChecked": "Uncleared items; bank-side errors."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] payments-due.csv:12  Projected balance below the minimum.\n       Fix: Arrange funding before the date.\n[medium] acct-main.csv:19  Balance not equal to yesterday plus movements.\n       Fix: Recompute the balance from the movements.\n[low] acct-tax.csv:26  Payment due with no source.\n       Fix: Name the source of the payment.\nNot checked: Uncleared items; bank-side errors.",
+  "pros": [
+    "Checks an account balance that does not match the previous day's balance plus the movements, a payment due with no source, and a projected balance below the stated minimum."
+  ],
+  "cons": [
+    "Not checked: Uncleared items; bank-side errors."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-fin-cash-position skill on the records for this review."
+}

@@ -1,0 +1,139 @@
+{
+  "items": [
+    "screen-role-a.md",
+    "screen-role-b.md",
+    "screen-role-c.md",
+    "screen-role-d.md",
+    "criteria.md",
+    "decisions.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "bad",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "job-related reason",
+        "no reason",
+        "protected characteristic used"
+      ],
+      "pairs": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "bad"
+      ],
+      "note": "Compare. Each rejection is matched to a job-related reason. A reason that uses a protected characteristic is flagged."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 screening decision uses a protected characteristic",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "screen-role-d.md:12",
+        "title": "Decision uses a protected characteristic",
+        "fix": "Remove the characteristic and re-run the screen"
+      },
+      {
+        "sev": "medium",
+        "where": "screen-role-b.md:19",
+        "title": "Rejection with no job-related reason",
+        "fix": "Record the job-related reason"
+      },
+      {
+        "sev": "low",
+        "where": "decisions.csv:26",
+        "title": "Requirement with no weight",
+        "fix": "Set the weight"
+      }
+    ],
+    "notChecked": "The candidate's ability beyond the recorded evidence."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] screen-role-d.md:12  Decision uses a protected characteristic.\n       Fix: Remove the characteristic and re-run the screen.\n[medium] screen-role-b.md:19  Rejection with no job-related reason.\n       Fix: Record the job-related reason.\n[low] decisions.csv:26  Requirement with no weight.\n       Fix: Set the weight.\nNot checked: The candidate's ability beyond the recorded evidence.",
+  "pros": [
+    "Checks a rejection with no job-related reason, a decision that uses a protected characteristic, age, family status or a name, and a requirement not in the job description."
+  ],
+  "cons": [
+    "Not checked: The candidate's ability beyond the recorded evidence."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-candidate-screening skill on the records for this review."
+}

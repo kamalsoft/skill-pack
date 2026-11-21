@@ -1,0 +1,139 @@
+{
+  "items": [
+    "po-2281.md",
+    "po-2282.md",
+    "po-2290.md",
+    "po-2294.md",
+    "po-2301.md",
+    "po-2305.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "approver has authority",
+        "approver lacks authority",
+        "approval after order"
+      ],
+      "pairs": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "warn"
+      ],
+      "note": "Compare. Each approval is matched to the buying policy: the approver's authority and the timing."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 purchase approved without authority",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "po-2282.md:12",
+        "title": "Approved by someone without authority for the amount",
+        "fix": "Re-approve by an authorised approver"
+      },
+      {
+        "sev": "medium",
+        "where": "po-2294.md:19",
+        "title": "Approval recorded after the order",
+        "fix": "Record the approval date and explain the order"
+      },
+      {
+        "sev": "low",
+        "where": "po-2301.md:26",
+        "title": "Supplier with no onboarding record",
+        "fix": "Complete the supplier onboarding"
+      }
+    ],
+    "notChecked": "whether the goods or services were delivered as described; whether the price is fair against the market; purchases with no record; sanctions and anti-bribery checks beyond what the records show, which a qualified adviser covers."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] po-2282.md:12  Approved by someone without authority for the amount.\n       Fix: Re-approve by an authorised approver.\n[medium] po-2294.md:19  Approval recorded after the order.\n       Fix: Record the approval date and explain the order.\n[low] po-2301.md:26  Supplier with no onboarding record.\n       Fix: Complete the supplier onboarding.\nNot checked: whether the goods or services were delivered as described; whether the price is fair against the market; purchases with no record; sanctions and anti-bribery checks beyond what the records show, which a qualified adviser covers.",
+  "pros": [
+    "Checks an approval whose approver lacks authority for the amount, or that came after the order; a purchase above the quote threshold with no quotes or no recorded exception; a supplier that is not approved o."
+  ],
+  "cons": [
+    "Not checked: whether the goods or services were delivered as described; whether the price is fair against the market; purchases with no record; sanctions and anti-bribery checks beyond what the records show, which a qualified adviser covers."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-core-procurement-cycle skill on the records for this review."
+}

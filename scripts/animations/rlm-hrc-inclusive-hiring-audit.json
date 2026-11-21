@@ -1,0 +1,121 @@
+{
+  "items": [
+    "funnel-applied.csv",
+    "funnel-screened.csv",
+    "funnel-interviewed.csv",
+    "funnel-offered.csv",
+    "group-sizes.csv",
+    "stage-drop.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "ok",
+        "warn",
+        "bad",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "funnel",
+      "note": "Measure. Each stage is counted by group in aggregate, and the drop between stages is compared."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 group is below the minimum size",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "group-sizes.csv:12",
+        "title": "Group below the minimum size of five",
+        "fix": "Merge the group before reporting"
+      },
+      {
+        "sev": "medium",
+        "where": "funnel-offered.csv:19",
+        "title": "Large drop at a stage with no review",
+        "fix": "Review the stage for bias"
+      },
+      {
+        "sev": "low",
+        "where": "funnel-screened.csv:26",
+        "title": "Count does not follow from the stage before",
+        "fix": "Recount the stage"
+      }
+    ],
+    "notChecked": "The reasons for each drop-out."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] group-sizes.csv:12  Group below the minimum size of five.\n       Fix: Merge the group before reporting.\n[medium] funnel-offered.csv:19  Large drop at a stage with no review.\n       Fix: Review the stage for bias.\n[low] funnel-screened.csv:26  Count does not follow from the stage before.\n       Fix: Recount the stage.\nNot checked: The reasons for each drop-out.",
+  "pros": [
+    "Checks a group below the minimum size (default 5), a stage with a large drop and no review, and a count that does not follow from the stage before."
+  ],
+  "cons": [
+    "Not checked: The reasons for each drop-out."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-inclusive-hiring-audit skill on the records for this review."
+}

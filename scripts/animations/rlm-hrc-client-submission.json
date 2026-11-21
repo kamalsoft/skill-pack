@@ -1,0 +1,139 @@
+{
+  "items": [
+    "candidate-summary.md",
+    "fit-statement.md",
+    "availability.md",
+    "claim-experience.md",
+    "requirements.md",
+    "record-source.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "warn",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "claim sourced",
+        "claim unsourced",
+        "date matches record"
+      ],
+      "pairs": [
+        0,
+        1,
+        2,
+        0,
+        0,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Compare. Each claim in the submission is matched to its source, and each date to the record."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 claim has no source in the record",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "fit-statement.md:12",
+        "title": "Claim with no source in the record",
+        "fix": "Remove the claim or source it"
+      },
+      {
+        "sev": "medium",
+        "where": "availability.md:19",
+        "title": "Availability date differs from the record",
+        "fix": "Correct the date to the record"
+      },
+      {
+        "sev": "low",
+        "where": "requirements.md:26",
+        "title": "Fit statement with no requirement",
+        "fix": "Link it to a requirement"
+      }
+    ],
+    "notChecked": "The candidate's own account."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] fit-statement.md:12  Claim with no source in the record.\n       Fix: Remove the claim or source it.\n[medium] availability.md:19  Availability date differs from the record.\n       Fix: Correct the date to the record.\n[low] requirements.md:26  Fit statement with no requirement.\n       Fix: Link it to a requirement.\nNot checked: The candidate's own account.",
+  "pros": [
+    "Checks a claim with no source in the record, a fit statement with no requirement, and an availability date that differs from the record."
+  ],
+  "cons": [
+    "Not checked: The candidate's own account."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-client-submission skill on the records for this review."
+}

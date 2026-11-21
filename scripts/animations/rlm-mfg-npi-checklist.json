@@ -1,0 +1,119 @@
+{
+  "items": [
+    "npi-tooling-a.md",
+    "npi-tooling-b.md",
+    "npi-trial-1.md",
+    "npi-trial-2.md",
+    "npi-signoff.md",
+    "npi-drawing.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "bad",
+        "bad",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        false,
+        false,
+        true
+      ],
+      "note": "Gate. Each tooling item must be ready for its trial, each trial needs a result, and sign-off comes before production."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        false,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "3 gates are not passed",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        3,
+        "high"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "npi-tooling-b.md:12",
+        "title": "Tooling item not ready for its trial",
+        "fix": "Hold the trial until the tooling is ready"
+      },
+      {
+        "sev": "high",
+        "where": "npi-trial-2.md:19",
+        "title": "Trial with no result",
+        "fix": "Record the result before the next gate"
+      },
+      {
+        "sev": "high",
+        "where": "npi-signoff.md:26",
+        "title": "Sign-off missing before production",
+        "fix": "Do not start production until sign-off"
+      }
+    ],
+    "notChecked": "Whether the product meets the customer's specification."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (3 high).\n[high] npi-tooling-b.md:12  Tooling item not ready for its trial.\n       Fix: Hold the trial until the tooling is ready.\n[high] npi-trial-2.md:19  Trial with no result.\n       Fix: Record the result before the next gate.\n[high] npi-signoff.md:26  Sign-off missing before production.\n       Fix: Do not start production until sign-off.\nNot checked: Whether the product meets the customer's specification.",
+  "pros": [
+    "Checks a tooling item not ready for its trial, a trial with no result, and a sign-off missing before production."
+  ],
+  "cons": [
+    "Not checked: Whether the product meets the customer's specification."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mfg-npi-checklist skill on the records for this review."
+}

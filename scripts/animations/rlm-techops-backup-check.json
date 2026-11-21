@@ -1,0 +1,124 @@
+{
+  "items": [
+    "job-db-nightly",
+    "job-files",
+    "job-mail",
+    "job-crm",
+    "job-logs",
+    "job-config"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "warn",
+        "bad",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.0
+      ],
+      "note": "Order. Each backup job is placed by the age of its last good copy."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 backup is older than its target",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        2,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "job-crm:12",
+        "title": "Last good copy older than its target",
+        "fix": "Run the job and check it completes"
+      },
+      {
+        "sev": "medium",
+        "where": "job-mail:19",
+        "title": "Failed job with no ticket",
+        "fix": "Open a ticket for the failure"
+      },
+      {
+        "sev": "medium",
+        "where": "job-config:26",
+        "title": "Job with no record",
+        "fix": "Record the job in the backup register"
+      }
+    ],
+    "notChecked": "Whether the backup restores."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 2 medium).\n[high] job-crm:12  Last good copy older than its target.\n       Fix: Run the job and check it completes.\n[medium] job-mail:19  Failed job with no ticket.\n       Fix: Open a ticket for the failure.\n[medium] job-config:26  Job with no record.\n       Fix: Record the job in the backup register.\nNot checked: Whether the backup restores.",
+  "pros": [
+    "Flags a failed job with no ticket, a last good copy older than its target, and a job with no record."
+  ],
+  "cons": [
+    "Not checked: Whether the backup restores."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-techops-backup-check skill on the records for this review."
+}

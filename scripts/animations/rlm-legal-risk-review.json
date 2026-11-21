@@ -1,0 +1,134 @@
+{
+  "items": [
+    "risk-legal-01.md",
+    "risk-legal-02.md",
+    "risk-legal-03.md",
+    "risk-legal-04.md",
+    "matter-q3-07.md",
+    "matter-q3-08.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "rated and current",
+        "no rating",
+        "review date passed"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        1
+      ],
+      "note": "Rank. Each risk is placed by its rating and its review date."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 legal risk review is overdue",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "risk-legal-03.md:12",
+        "title": "Review date passed",
+        "fix": "Review the risk and set the next date"
+      },
+      {
+        "sev": "medium",
+        "where": "matter-q3-08.md:19",
+        "title": "Matter in the quarter with no risk entry",
+        "fix": "Add a risk entry for the matter"
+      },
+      {
+        "sev": "low",
+        "where": "risk-legal-02.md:26",
+        "title": "Risk with no rating",
+        "fix": "Rate the risk"
+      }
+    ],
+    "notChecked": "The legal assessment of each risk."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] risk-legal-03.md:12  Review date passed.\n       Fix: Review the risk and set the next date.\n[medium] matter-q3-08.md:19  Matter in the quarter with no risk entry.\n       Fix: Add a risk entry for the matter.\n[low] risk-legal-02.md:26  Risk with no rating.\n       Fix: Rate the risk.\nNot checked: The legal assessment of each risk.",
+  "pros": [
+    "Checks a risk with no rating, a review date passed, and a matter in the quarter with no risk entry."
+  ],
+  "cons": [
+    "Not checked: The legal assessment of each risk."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-legal-risk-review skill on the records for this review."
+}

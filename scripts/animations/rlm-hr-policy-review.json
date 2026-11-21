@@ -1,0 +1,134 @@
+{
+  "items": [
+    "policy-conduct.md",
+    "policy-leave.md",
+    "policy-flexible.md",
+    "policy-data.md",
+    "policy-expenses.md",
+    "policy-grievance.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "bad",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "current and approved",
+        "past review date",
+        "conflicts with another policy"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "note": "Rank. Each policy is placed by its review date, its approval and whether it conflicts with another."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 clause contradicts another policy",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "policy-data.md:12",
+        "title": "Clause contradicts another policy",
+        "fix": "Resolve the conflict and republish"
+      },
+      {
+        "sev": "medium",
+        "where": "policy-leave.md:19",
+        "title": "Policy past its review date",
+        "fix": "Review it and set the next date"
+      },
+      {
+        "sev": "low",
+        "where": "policy-grievance.md:26",
+        "title": "Policy with no approval",
+        "fix": "Get the approval"
+      }
+    ],
+    "notChecked": "Whether the policy is lawful in each jurisdiction."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] policy-data.md:12  Clause contradicts another policy.\n       Fix: Resolve the conflict and republish.\n[medium] policy-leave.md:19  Policy past its review date.\n       Fix: Review it and set the next date.\n[low] policy-grievance.md:26  Policy with no approval.\n       Fix: Get the approval.\nNot checked: Whether the policy is lawful in each jurisdiction.",
+  "pros": [
+    "Checks a policy past its review date, a policy with no approval, and a clause that contradicts another policy."
+  ],
+  "cons": [
+    "Not checked: Whether the policy is lawful in each jurisdiction."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hr-policy-review skill on the records for this review."
+}

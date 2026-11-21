@@ -1,0 +1,134 @@
+{
+  "items": [
+    "team-intake.csv",
+    "team-field.csv",
+    "team-admin.csv",
+    "team-audit.csv",
+    "team-support.csv",
+    "team-planning.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "within band",
+        "over 95 percent",
+        "under 60 percent"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        2
+      ],
+      "note": "Rank. Each team is placed by its utilisation against the planned band."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 team is above 95 percent utilisation",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "team-field.csv:12",
+        "title": "Utilisation at 97 percent",
+        "fix": "Add cover or move work to a team with headroom"
+      },
+      {
+        "sev": "medium",
+        "where": "team-audit.csv:19",
+        "title": "Hours recorded with no planned capacity",
+        "fix": "Add the planned capacity or stop the hours"
+      },
+      {
+        "sev": "low",
+        "where": "team-planning.csv:26",
+        "title": "Utilisation under 60 percent",
+        "fix": "Review the team's plan"
+      }
+    ],
+    "notChecked": "Quality of the hours recorded."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] team-field.csv:12  Utilisation at 97 percent.\n       Fix: Add cover or move work to a team with headroom.\n[medium] team-audit.csv:19  Hours recorded with no planned capacity.\n       Fix: Add the planned capacity or stop the hours.\n[low] team-planning.csv:26  Utilisation under 60 percent.\n       Fix: Review the team's plan.\nNot checked: Quality of the hours recorded.",
+  "pros": [
+    "Checks a utilisation above 95 percent or below 60 percent, and a team with recorded hours and no planned capacity."
+  ],
+  "cons": [
+    "Not checked: Quality of the hours recorded."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ops-capacity-utilisation skill on the records for this review."
+}

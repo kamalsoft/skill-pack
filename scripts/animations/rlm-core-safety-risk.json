@@ -1,0 +1,134 @@
+{
+  "items": [
+    "obs-0412",
+    "incident-0098",
+    "hazard-forklift",
+    "hazard-chemical",
+    "nearmiss-0231",
+    "lockout-pump-3"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "scored",
+        "not scored",
+        "no immediate action"
+      ],
+      "binOf": [
+        0,
+        2,
+        0,
+        1,
+        0,
+        0
+      ],
+      "note": "Rank. Each record is placed by its hazard score and whether immediate action is recorded."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "stop: one incident has no immediate action",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "incident-0098:12",
+        "title": "Incident with no immediate action recorded",
+        "fix": "Record the immediate action now"
+      },
+      {
+        "sev": "medium",
+        "where": "hazard-chemical:19",
+        "title": "Hazard with no score",
+        "fix": "Score the hazard under the rulebook"
+      },
+      {
+        "sev": "low",
+        "where": "obs-0412:26",
+        "title": "Observation with no owner",
+        "fix": "Assign an owner and a close date"
+      }
+    ],
+    "notChecked": "whether the controls work on the floor; whether people follow the procedure; the jurisdiction's requirements, which a qualified adviser confirms; records that were never made."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] incident-0098:12  Incident with no immediate action recorded.\n       Fix: Record the immediate action now.\n[medium] hazard-chemical:19  Hazard with no score.\n       Fix: Score the hazard under the rulebook.\n[low] obs-0412:26  Observation with no owner.\n       Fix: Assign an owner and a close date.\nNot checked: whether the controls work on the floor; whether people follow the procedure; the jurisdiction's requirements, which a qualified adviser confirms; records that were never made.",
+  "pros": [
+    "Checks a hazard with no score under the shared rulebook; an observation with no action, owner or close date; an incident with no immediate containment, no root cause, no corrective action, no owner, or no ve."
+  ],
+  "cons": [
+    "Not checked: whether the controls work on the floor; whether people follow the procedure; the jurisdiction's requirements, which a qualified adviser confirms; records that were never made."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-core-safety-risk skill on the records for this review."
+}

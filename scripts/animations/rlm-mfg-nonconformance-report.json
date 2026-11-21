@@ -1,0 +1,129 @@
+{
+  "items": [
+    "nc-line-a.md",
+    "nc-line-b.md",
+    "nc-lot-17.md",
+    "nc-lot-18.md",
+    "nc-lot-19.md",
+    "nc-lot-20.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Gate. Each nonconformance needs a containment time, a quantity that matches the lot list, and a line on the list."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 nonconformance has no containment time",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "nc-line-b.md:12",
+        "title": "Nonconformance with no containment time",
+        "fix": "Record when containment started"
+      },
+      {
+        "sev": "medium",
+        "where": "nc-lot-19.md:19",
+        "title": "Quantity does not match the lot list",
+        "fix": "Reconcile the quantity to the lot"
+      },
+      {
+        "sev": "low",
+        "where": "nc-lot-17.md:26",
+        "title": "Location not on the line list",
+        "fix": "Use a location from the list"
+      }
+    ],
+    "notChecked": "The cause."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] nc-line-b.md:12  Nonconformance with no containment time.\n       Fix: Record when containment started.\n[medium] nc-lot-19.md:19  Quantity does not match the lot list.\n       Fix: Reconcile the quantity to the lot.\n[low] nc-lot-17.md:26  Location not on the line list.\n       Fix: Use a location from the list.\nNot checked: The cause.",
+  "pros": [
+    "Checks a nonconformance with no containment time, a quantity that does not match the lot list, and a location not on the line list."
+  ],
+  "cons": [
+    "Not checked: The cause."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mfg-nonconformance-report skill on the records for this review."
+}

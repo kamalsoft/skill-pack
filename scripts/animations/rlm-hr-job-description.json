@@ -1,0 +1,139 @@
+{
+  "items": [
+    "jd-role-a.md",
+    "jd-role-b.md",
+    "jd-role-c.md",
+    "jd-role-d.md",
+    "jd-role-e.md",
+    "jd-role-f.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "fair criterion",
+        "unfair criterion",
+        "requirement sourced"
+      ],
+      "pairs": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Compare. Each requirement is matched to a fair criterion. A requirement that is not job-related is flagged."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 requirement is not related to the job",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "jd-role-b.md:12",
+        "title": "Requirement not related to the job",
+        "fix": "Remove the requirement or justify it"
+      },
+      {
+        "sev": "medium",
+        "where": "jd-role-d.md:19",
+        "title": "Requirement with no source",
+        "fix": "Name the source of the requirement"
+      },
+      {
+        "sev": "low",
+        "where": "jd-role-f.md:26",
+        "title": "Responsibility with no criterion",
+        "fix": "Add the criterion"
+      }
+    ],
+    "notChecked": "Whether the role's requirements are the right ones."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] jd-role-b.md:12  Requirement not related to the job.\n       Fix: Remove the requirement or justify it.\n[medium] jd-role-d.md:19  Requirement with no source.\n       Fix: Name the source of the requirement.\n[low] jd-role-f.md:26  Responsibility with no criterion.\n       Fix: Add the criterion.\nNot checked: Whether the role's requirements are the right ones.",
+  "pros": [
+    "Checks each such requirement with its exact text."
+  ],
+  "cons": [
+    "Not checked: Whether the role's requirements are the right ones."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hr-job-description skill on the records for this review."
+}

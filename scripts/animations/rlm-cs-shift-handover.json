@@ -1,0 +1,116 @@
+{
+  "items": [
+    "case-open-1.md",
+    "case-open-2.md",
+    "promise-1.md",
+    "promise-2.md",
+    "esc-open-1.md",
+    "esc-open-2.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "warn",
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "stack",
+      "note": "List. Open cases, promises and escalations are stacked for the next shift."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 promise to a customer has no due date",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        2,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "promise-1.md:12",
+        "title": "Promise with no due date",
+        "fix": "Give the date the promise is kept by"
+      },
+      {
+        "sev": "medium",
+        "where": "case-open-1.md:19",
+        "title": "Case with no next step",
+        "fix": "Write the next step"
+      },
+      {
+        "sev": "medium",
+        "where": "esc-open-1.md:26",
+        "title": "Escalation with no owner",
+        "fix": "Assign an owner before the shift ends"
+      }
+    ],
+    "notChecked": "Calls and messages not in the log."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 2 medium).\n[high] promise-1.md:12  Promise with no due date.\n       Fix: Give the date the promise is kept by.\n[medium] case-open-1.md:19  Case with no next step.\n       Fix: Write the next step.\n[medium] esc-open-1.md:26  Escalation with no owner.\n       Fix: Assign an owner before the shift ends.\nNot checked: Calls and messages not in the log.",
+  "pros": [
+    "Checks a promise with no due date, a case with no next step, and an escalation with no owner."
+  ],
+  "cons": [
+    "Not checked: Calls and messages not in the log."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-cs-shift-handover skill on the records for this review."
+}

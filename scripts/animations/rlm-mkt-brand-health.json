@@ -1,0 +1,134 @@
+{
+  "items": [
+    "wave-1-awareness.csv",
+    "wave-1-consideration.csv",
+    "wave-2-awareness.csv",
+    "wave-2-consideration.csv",
+    "segment-young.csv",
+    "segment-small.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "sample stated",
+        "no sample size",
+        "below minimum sample"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        2,
+        0
+      ],
+      "note": "Rank. Each result is placed by its sample size against the minimum of 50."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 result has no sample size",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "wave-1-consideration.csv:12",
+        "title": "Result reported with no sample size",
+        "fix": "Add the sample size"
+      },
+      {
+        "sev": "medium",
+        "where": "segment-young.csv:19",
+        "title": "Segment below the minimum sample",
+        "fix": "Merge the segment or report it as indicative"
+      },
+      {
+        "sev": "low",
+        "where": "wave-2-awareness.csv:26",
+        "title": "Change between waves with no significance check",
+        "fix": "Test the change before reporting it"
+      }
+    ],
+    "notChecked": "Survey design quality; sampling method."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] wave-1-consideration.csv:12  Result reported with no sample size.\n       Fix: Add the sample size.\n[medium] segment-young.csv:19  Segment below the minimum sample.\n       Fix: Merge the segment or report it as indicative.\n[low] wave-2-awareness.csv:26  Change between waves with no significance check.\n       Fix: Test the change before reporting it.\nNot checked: Survey design quality; sampling method.",
+  "pros": [
+    "Checks a result reported with no sample size; a change between waves reported with no significance check; a group below the minimum sample size (default 50, set in the brief)."
+  ],
+  "cons": [
+    "Not checked: Survey design quality; sampling method."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mkt-brand-health skill on the records for this review."
+}

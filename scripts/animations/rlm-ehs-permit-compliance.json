@@ -1,0 +1,124 @@
+{
+  "items": [
+    "cond-emissions.md",
+    "cond-waste.md",
+    "cond-water.md",
+    "cond-noise.md",
+    "cond-reporting.md",
+    "cond-monitoring.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "warn",
+        "ok",
+        "bad",
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        false,
+        true
+      ],
+      "note": "Gate. Each permit condition needs evidence, and each reporting date must be met."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 permit conditions are not met",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        2,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "cond-water.md:12",
+        "title": "Permit condition with a breach",
+        "fix": "Report the breach and correct the cause"
+      },
+      {
+        "sev": "high",
+        "where": "cond-reporting.md:19",
+        "title": "Reporting date missed",
+        "fix": "Submit the report and record the late submission"
+      },
+      {
+        "sev": "medium",
+        "where": "cond-emissions.md:26",
+        "title": "Condition with no evidence",
+        "fix": "Attach the evidence for the condition"
+      }
+    ],
+    "notChecked": "The permit's legal effect; conditions not in the records."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 high, 1 medium).\n[high] cond-water.md:12  Permit condition with a breach.\n       Fix: Report the breach and correct the cause.\n[high] cond-reporting.md:19  Reporting date missed.\n       Fix: Submit the report and record the late submission.\n[medium] cond-emissions.md:26  Condition with no evidence.\n       Fix: Attach the evidence for the condition.\nNot checked: The permit's legal effect; conditions not in the records.",
+  "pros": [
+    "Checks a condition with no evidence, a breach, and a reporting date missed."
+  ],
+  "cons": [
+    "Not checked: The permit's legal effect; conditions not in the records."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ehs-permit-compliance skill on the records for this review."
+}

@@ -1,0 +1,121 @@
+{
+  "items": [
+    "scrap-line-a.csv",
+    "scrap-line-b.csv",
+    "rework-line-a.csv",
+    "rework-line-b.csv",
+    "unit-cost.md",
+    "total.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "warn",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "bad"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "funnel",
+      "note": "Cost. Scrap and rework are priced by line and cause, then totalled."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 total does not match its records",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "total.csv:12",
+        "title": "Total does not match its records",
+        "fix": "Recompute the total from the records"
+      },
+      {
+        "sev": "medium",
+        "where": "scrap-line-a.csv:19",
+        "title": "Record with no cause code",
+        "fix": "Code the record"
+      },
+      {
+        "sev": "low",
+        "where": "unit-cost.md:26",
+        "title": "Unit cost with no source",
+        "fix": "Name the source of the unit cost"
+      }
+    ],
+    "notChecked": "Whether the scrap could have been avoided."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] total.csv:12  Total does not match its records.\n       Fix: Recompute the total from the records.\n[medium] scrap-line-a.csv:19  Record with no cause code.\n       Fix: Code the record.\n[low] unit-cost.md:26  Unit cost with no source.\n       Fix: Name the source of the unit cost.\nNot checked: Whether the scrap could have been avoided.",
+  "pros": [
+    "Checks a record with no cause code, a unit cost with no source, and a total that does not match its records."
+  ],
+  "cons": [
+    "Not checked: Whether the scrap could have been avoided."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mfg-scrap-rework-cost skill on the records for this review."
+}

@@ -1,0 +1,132 @@
+{
+  "items": [
+    "model-last-click.md",
+    "model-data-driven.md",
+    "lookback-window.md",
+    "conversion-credit.md",
+    "cross-device.md",
+    "limits.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "named and stated",
+        "not named",
+        "lookback not stated"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "note": "Rank. Each attribution element is placed by whether its model and window are stated."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 attribution model is not named",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "model-data-driven.md:12",
+        "title": "Attribution model not named",
+        "fix": "Name the model in the report"
+      },
+      {
+        "sev": "medium",
+        "where": "conversion-credit.md:19",
+        "title": "Conversion credited to more than one channel without a rule",
+        "fix": "State the crediting rule"
+      },
+      {
+        "sev": "low",
+        "where": "lookback-window.md:26",
+        "title": "Lookback window not stated",
+        "fix": "State the window"
+      }
+    ],
+    "notChecked": "Offline sales not in the export; cross-device tracking limits."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] model-data-driven.md:12  Attribution model not named.\n       Fix: Name the model in the report.\n[medium] conversion-credit.md:19  Conversion credited to more than one channel without a rule.\n       Fix: State the crediting rule.\n[low] lookback-window.md:26  Lookback window not stated.\n       Fix: State the window.\nNot checked: Offline sales not in the export; cross-device tracking limits.",
+  "pros": [],
+  "cons": [
+    "Not checked: Offline sales not in the export; cross-device tracking limits."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mkt-attribution-review skill on the records for this review."
+}

@@ -1,0 +1,134 @@
+{
+  "items": [
+    "deal-stale.md",
+    "deal-no-next.md",
+    "deal-past-close.md",
+    "deal-quiet.md",
+    "deal-no-amount.md",
+    "deal-ok.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "bad",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "clean",
+        "stale or quiet",
+        "missing next step or amount"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        1,
+        2,
+        0
+      ],
+      "note": "Rank. Each deal is placed by its next step, its close date, its activity and its amount."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 deal's close date has passed",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "deal-past-close.md:12",
+        "title": "Close date already past",
+        "fix": "Re-date or close the deal"
+      },
+      {
+        "sev": "medium",
+        "where": "deal-no-next.md:19",
+        "title": "No activity for 21 days",
+        "fix": "Contact the buyer or close the deal"
+      },
+      {
+        "sev": "low",
+        "where": "deal-no-amount.md:26",
+        "title": "Amount missing",
+        "fix": "Add the amount"
+      }
+    ],
+    "notChecked": "Whether the deal is real; the buyer's intent."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] deal-past-close.md:12  Close date already past.\n       Fix: Re-date or close the deal.\n[medium] deal-no-next.md:19  No activity for 21 days.\n       Fix: Contact the buyer or close the deal.\n[low] deal-no-amount.md:26  Amount missing.\n       Fix: Add the amount.\nNot checked: Whether the deal is real; the buyer's intent.",
+  "pros": [
+    "Checks a deal with no next step, a close date already past, a deal with no activity for 21 days, and an amount missing."
+  ],
+  "cons": [
+    "Not checked: Whether the deal is real; the buyer's intent."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-sales-pipeline-hygiene skill on the records for this review."
+}

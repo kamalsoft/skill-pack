@@ -1,0 +1,121 @@
+{
+  "items": [
+    "hr-headcount.csv",
+    "hr-attrition.csv",
+    "hr-absence.csv",
+    "hr-hires.csv",
+    "hr-training.csv",
+    "summary.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "bad",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "funnel",
+      "note": "Compute. Each measure is recomputed from its source and compared with last month."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 figure does not match its source",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "hr-headcount.csv:12",
+        "title": "Figure does not match its source",
+        "fix": "Recompute from the source"
+      },
+      {
+        "sev": "medium",
+        "where": "summary.md:19",
+        "title": "Change above 25 percent with no note",
+        "fix": "Explain the change in one line"
+      },
+      {
+        "sev": "low",
+        "where": "hr-hires.csv:26",
+        "title": "Month missing",
+        "fix": "Add the month"
+      }
+    ],
+    "notChecked": "Business outcomes."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] hr-headcount.csv:12  Figure does not match its source.\n       Fix: Recompute from the source.\n[medium] summary.md:19  Change above 25 percent with no note.\n       Fix: Explain the change in one line.\n[low] hr-hires.csv:26  Month missing.\n       Fix: Add the month.\nNot checked: Business outcomes.",
+  "pros": [
+    "Checks a figure that does not match its source, a missing month, and a change above 25 percent with no note."
+  ],
+  "cons": [
+    "Not checked: Business outcomes."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hr-monthly-report skill on the records for this review."
+}

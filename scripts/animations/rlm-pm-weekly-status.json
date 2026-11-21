@@ -1,0 +1,134 @@
+{
+  "items": [
+    "ws-a.md",
+    "ws-b.md",
+    "ws-c.md",
+    "ws-d.md",
+    "ws-e.md",
+    "ws-f.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "bad",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "green",
+        "amber or red, reason given",
+        "green with a critical issue"
+      ],
+      "binOf": [
+        0,
+        1,
+        2,
+        0,
+        1,
+        0
+      ],
+      "note": "Rank. Each workstream is placed by its rating and whether the rating matches its issues."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 green status has an open critical issue",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "ws-c.md:12",
+        "title": "Green rating with an open critical issue",
+        "fix": "Change the rating to match the issue"
+      },
+      {
+        "sev": "medium",
+        "where": "ws-b.md:19",
+        "title": "Amber rating with no reason",
+        "fix": "Give the reason for the rating"
+      },
+      {
+        "sev": "low",
+        "where": "ws-f.md:26",
+        "title": "Workstream with no update this week",
+        "fix": "Ask the owner for an update"
+      }
+    ],
+    "notChecked": "Whether the work is done as reported."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] ws-c.md:12  Green rating with an open critical issue.\n       Fix: Change the rating to match the issue.\n[medium] ws-b.md:19  Amber rating with no reason.\n       Fix: Give the reason for the rating.\n[low] ws-f.md:26  Workstream with no update this week.\n       Fix: Ask the owner for an update.\nNot checked: Whether the work is done as reported.",
+  "pros": [
+    "Checks a red or amber rating with no reason, a green rating with an open critical issue, and a workstream with no update."
+  ],
+  "cons": [
+    "Not checked: Whether the work is done as reported."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-pm-weekly-status skill on the records for this review."
+}

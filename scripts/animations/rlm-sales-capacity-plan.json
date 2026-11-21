@@ -1,0 +1,121 @@
+{
+  "items": [
+    "ae-ramp-1.md",
+    "ae-ramp-2.md",
+    "productivity.csv",
+    "ramp-time.md",
+    "target.md",
+    "heads.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "funnel",
+      "note": "Fit. Heads, ramp time and productivity are combined to cover the target."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "capacity does not cover the target",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "productivity.csv:12",
+        "title": "Capacity does not cover the target",
+        "fix": "Add heads or raise productivity"
+      },
+      {
+        "sev": "medium",
+        "where": "ramp-time.md:19",
+        "title": "Ramp time missing",
+        "fix": "Record the ramp time"
+      },
+      {
+        "sev": "low",
+        "where": "target.md:26",
+        "title": "Productivity figure with no source",
+        "fix": "Name the source"
+      }
+    ],
+    "notChecked": "Attrition beyond the assumptions."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] productivity.csv:12  Capacity does not cover the target.\n       Fix: Add heads or raise productivity.\n[medium] ramp-time.md:19  Ramp time missing.\n       Fix: Record the ramp time.\n[low] target.md:26  Productivity figure with no source.\n       Fix: Name the source.\nNot checked: Attrition beyond the assumptions.",
+  "pros": [
+    "Checks a productivity figure with no source, a ramp time missing, and a capacity that does not cover the target."
+  ],
+  "cons": [
+    "Not checked: Attrition beyond the assumptions."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-sales-capacity-plan skill on the records for this review."
+}

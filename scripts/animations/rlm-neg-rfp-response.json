@@ -1,0 +1,134 @@
+{
+  "items": [
+    "req-security.md",
+    "req-sla.md",
+    "req-price.md",
+    "req-support.md",
+    "req-data.md",
+    "req-term.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "warn",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "answered and sourced",
+        "no answer",
+        "price differs"
+      ],
+      "pairs": [
+        0,
+        1,
+        2,
+        0,
+        0,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "warn"
+      ],
+      "note": "Compare. Each requirement is matched to its answer and its source. A requirement with no answer is flagged."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 requirement has no answer",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        2,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "req-sla.md:12",
+        "title": "Requirement with no answer",
+        "fix": "Write the answer and its source"
+      },
+      {
+        "sev": "medium",
+        "where": "req-price.md:19",
+        "title": "Price differs from the price notes",
+        "fix": "Reconcile the price to the approved notes"
+      },
+      {
+        "sev": "medium",
+        "where": "req-term.md:26",
+        "title": "Term the RFP asks for that the organisation does not have",
+        "fix": "Flag the term to counsel"
+      }
+    ],
+    "notChecked": "Whether the capability works as described, and the legal effect of any term."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 2 medium).\n[high] req-sla.md:12  Requirement with no answer.\n       Fix: Write the answer and its source.\n[medium] req-price.md:19  Price differs from the price notes.\n       Fix: Reconcile the price to the approved notes.\n[medium] req-term.md:26  Term the RFP asks for that the organisation does not have.\n       Fix: Flag the term to counsel.\nNot checked: Whether the capability works as described, and the legal effect of any term.",
+  "pros": [
+    "Checks a requirement with no answer, an answer with no source, a price that differs from the price notes, and a term the RFP asks for that the organisation has not agreed."
+  ],
+  "cons": [
+    "Not checked: Whether the capability works as described, and the legal effect of any term."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-neg-rfp-response skill on the records for this review."
+}

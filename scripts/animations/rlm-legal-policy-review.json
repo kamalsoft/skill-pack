@@ -1,0 +1,139 @@
+{
+  "items": [
+    "law-change-1.md",
+    "law-change-2.md",
+    "law-change-3.md",
+    "law-change-4.md",
+    "policy-affected.md",
+    "policy-review.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "policy affected and reviewed",
+        "change with no policy",
+        "no review after change"
+      ],
+      "pairs": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "warn"
+      ],
+      "note": "Compare. Each change in the law is matched to the policy it affects and to its review."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 change in the law affects no policy",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "law-change-2.md:12",
+        "title": "Change in the law with no affected policy",
+        "fix": "Name the policy the change affects"
+      },
+      {
+        "sev": "medium",
+        "where": "law-change-4.md:19",
+        "title": "Policy with no review after a change",
+        "fix": "Review the policy now"
+      },
+      {
+        "sev": "low",
+        "where": "law-change-1.md:26",
+        "title": "Change with no source",
+        "fix": "Cite the source of the change"
+      }
+    ],
+    "notChecked": "The effect of each change on the organisation; changes not in the list."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] law-change-2.md:12  Change in the law with no affected policy.\n       Fix: Name the policy the change affects.\n[medium] law-change-4.md:19  Policy with no review after a change.\n       Fix: Review the policy now.\n[low] law-change-1.md:26  Change with no source.\n       Fix: Cite the source of the change.\nNot checked: The effect of each change on the organisation; changes not in the list.",
+  "pros": [
+    "Checks a change with no source, a change with no affected policy, and a policy with no review after a change."
+  ],
+  "cons": [
+    "Not checked: The effect of each change on the organisation; changes not in the list."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-legal-policy-review skill on the records for this review."
+}

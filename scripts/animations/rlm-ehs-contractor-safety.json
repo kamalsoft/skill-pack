@@ -1,0 +1,124 @@
+{
+  "items": [
+    "contractor-acme.csv",
+    "contractor-build.csv",
+    "contractor-clean.csv",
+    "contractor-electric.csv",
+    "contractor-crane.csv",
+    "contractor-haul.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "bad",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Gate. A contractor on site needs a current induction and competence record."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 contractors fail the induction or competence check",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        2,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "contractor-build.csv:12",
+        "title": "Contractor on site with no induction",
+        "fix": "Stop the contractor until the induction is done"
+      },
+      {
+        "sev": "high",
+        "where": "contractor-crane.csv:19",
+        "title": "Competence record expired",
+        "fix": "Renew the competence record before the next shift"
+      },
+      {
+        "sev": "medium",
+        "where": "contractor-haul.csv:26",
+        "title": "Finding open past its due date",
+        "fix": "Escalate the finding to the contractor's manager"
+      }
+    ],
+    "notChecked": "Whether the contractor follows the induction in practice."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 high, 1 medium).\n[high] contractor-build.csv:12  Contractor on site with no induction.\n       Fix: Stop the contractor until the induction is done.\n[high] contractor-crane.csv:19  Competence record expired.\n       Fix: Renew the competence record before the next shift.\n[medium] contractor-haul.csv:26  Finding open past its due date.\n       Fix: Escalate the finding to the contractor's manager.\nNot checked: Whether the contractor follows the induction in practice.",
+  "pros": [
+    "Checks a contractor on site with no induction, a competence record that has expired, and a finding open past its due date."
+  ],
+  "cons": [
+    "Not checked: Whether the contractor follows the induction in practice."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ehs-contractor-safety skill on the records for this review."
+}

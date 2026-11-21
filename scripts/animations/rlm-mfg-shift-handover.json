@@ -1,0 +1,116 @@
+{
+  "items": [
+    "hold-q-0412.md",
+    "hold-q-0413.md",
+    "machine-line-a.md",
+    "machine-line-b.md",
+    "issue-1.md",
+    "issue-2.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "stack",
+      "note": "List. Each quality hold, machine state and open issue is stacked for the next shift."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 quality hold has no reference",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        2,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "hold-q-0412.md:12",
+        "title": "Quality hold with no reference",
+        "fix": "Add the hold reference before the shift ends"
+      },
+      {
+        "sev": "medium",
+        "where": "machine-line-a.md:19",
+        "title": "Machine state with no time",
+        "fix": "Record the time of the state"
+      },
+      {
+        "sev": "medium",
+        "where": "issue-1.md:26",
+        "title": "Issue with no owner",
+        "fix": "Assign an owner"
+      }
+    ],
+    "notChecked": "Machines not in the log."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 2 medium).\n[high] hold-q-0412.md:12  Quality hold with no reference.\n       Fix: Add the hold reference before the shift ends.\n[medium] machine-line-a.md:19  Machine state with no time.\n       Fix: Record the time of the state.\n[medium] issue-1.md:26  Issue with no owner.\n       Fix: Assign an owner.\nNot checked: Machines not in the log.",
+  "pros": [
+    "Checks a quality hold with no reference, a machine state with no time, and an issue with no owner."
+  ],
+  "cons": [
+    "Not checked: Machines not in the log."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mfg-shift-handover skill on the records for this review."
+}

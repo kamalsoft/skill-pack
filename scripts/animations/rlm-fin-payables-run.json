@@ -1,0 +1,124 @@
+{
+  "items": [
+    "pay-0701.md",
+    "pay-0702.md",
+    "pay-0703.md",
+    "pay-0704.md",
+    "pay-0705.md",
+    "pay-0706.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "warn",
+        "ok",
+        "bad",
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        false,
+        true
+      ],
+      "note": "Gate. Each payment needs an invoice, an approver within limit, no duplicate, and a second approval for changed bank details."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 payments need a hold",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        2,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "pay-0703.md:12",
+        "title": "Payment above the approver's limit",
+        "fix": "Hold the payment until the right approver signs"
+      },
+      {
+        "sev": "high",
+        "where": "pay-0705.md:19",
+        "title": "Supplier bank details changed with no second approval",
+        "fix": "Verify the change by phone before paying"
+      },
+      {
+        "sev": "medium",
+        "where": "pay-0701.md:26",
+        "title": "Payment with no invoice",
+        "fix": "Match the payment to an invoice"
+      }
+    ],
+    "notChecked": "Whether the goods or services were received."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 high, 1 medium).\n[high] pay-0703.md:12  Payment above the approver's limit.\n       Fix: Hold the payment until the right approver signs.\n[high] pay-0705.md:19  Supplier bank details changed with no second approval.\n       Fix: Verify the change by phone before paying.\n[medium] pay-0701.md:26  Payment with no invoice.\n       Fix: Match the payment to an invoice.\nNot checked: Whether the goods or services were received.",
+  "pros": [
+    "Checks a payment with no invoice, a payment above the approver's limit, a duplicate payment, and a supplier whose bank details changed with no second approval."
+  ],
+  "cons": [
+    "Not checked: Whether the goods or services were received."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-fin-payables-run skill on the records for this review."
+}

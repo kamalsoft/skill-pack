@@ -1,0 +1,139 @@
+{
+  "items": [
+    "plan-pump.md",
+    "plan-motor.md",
+    "plan-boiler.md",
+    "plan-conveyor.md",
+    "plan-shutdown.md",
+    "plan-resources.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "task and resource set",
+        "no task",
+        "no resource"
+      ],
+      "pairs": [
+        0,
+        2,
+        0,
+        0,
+        1,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "warn"
+      ],
+      "note": "Compare. Each critical asset is matched to a planned task and a resource. A critical asset with no task is flagged."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 critical asset has no planned task",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "plan-motor.md:12",
+        "title": "Critical asset with no planned task",
+        "fix": "Add the planned task and its interval"
+      },
+      {
+        "sev": "medium",
+        "where": "plan-shutdown.md:19",
+        "title": "Task window overlaps a shutdown",
+        "fix": "Move the window or the shutdown"
+      },
+      {
+        "sev": "low",
+        "where": "plan-resources.md:26",
+        "title": "Task with no resource",
+        "fix": "Assign a resource"
+      }
+    ],
+    "notChecked": "Failures that the plan does not foresee."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] plan-motor.md:12  Critical asset with no planned task.\n       Fix: Add the planned task and its interval.\n[medium] plan-shutdown.md:19  Task window overlaps a shutdown.\n       Fix: Move the window or the shutdown.\n[low] plan-resources.md:26  Task with no resource.\n       Fix: Assign a resource.\nNot checked: Failures that the plan does not foresee.",
+  "pros": [
+    "Checks a critical asset with no planned task, a task with no resource, and a window that overlaps a shutdown."
+  ],
+  "cons": [
+    "Not checked: Failures that the plan does not foresee."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ind-maintenance-plan skill on the records for this review."
+}

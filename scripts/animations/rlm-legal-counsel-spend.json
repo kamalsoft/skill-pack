@@ -1,0 +1,134 @@
+{
+  "items": [
+    "inv-2201.md",
+    "inv-2202.md",
+    "inv-2203.md",
+    "inv-2204.md",
+    "inv-2205.md",
+    "inv-2206.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "bad",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "within budget",
+        "over budget",
+        "no matter"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "note": "Rank. Each invoice is placed by its matter and its budget."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 invoice has no matter",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "inv-2204.md:12",
+        "title": "Invoice with no matter",
+        "fix": "Assign the invoice to a matter before paying"
+      },
+      {
+        "sev": "medium",
+        "where": "inv-2202.md:19",
+        "title": "Matter fees above its budget",
+        "fix": "Agree a budget change with the matter owner"
+      },
+      {
+        "sev": "low",
+        "where": "inv-2206.md:26",
+        "title": "Invoice duplicates another on amount and date",
+        "fix": "Check and reject the duplicate"
+      }
+    ],
+    "notChecked": "Whether the work was necessary."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] inv-2204.md:12  Invoice with no matter.\n       Fix: Assign the invoice to a matter before paying.\n[medium] inv-2202.md:19  Matter fees above its budget.\n       Fix: Agree a budget change with the matter owner.\n[low] inv-2206.md:26  Invoice duplicates another on amount and date.\n       Fix: Check and reject the duplicate.\nNot checked: Whether the work was necessary.",
+  "pros": [
+    "Checks an invoice with no matter, a matter with fees above its budget, and an invoice that duplicates another on amount and date."
+  ],
+  "cons": [
+    "Not checked: Whether the work was necessary."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-legal-counsel-spend skill on the records for this review."
+}

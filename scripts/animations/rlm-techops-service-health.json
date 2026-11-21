@@ -1,0 +1,129 @@
+{
+  "items": [
+    "svc-checkout",
+    "svc-login",
+    "svc-search",
+    "host-batch-02",
+    "host-mail-01",
+    "svc-reports"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0,
+        0.15,
+        0.4,
+        0.6,
+        0.8,
+        1.0
+      ],
+      "note": "Order. Each service's status is placed in the order it changed during the day."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 service is down with no ticket",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "svc-search:12",
+        "title": "Down for more than 15 minutes with no ticket",
+        "fix": "Open a ticket and start the incident"
+      },
+      {
+        "sev": "medium",
+        "where": "host-mail-01:19",
+        "title": "Host with alerts and no owner",
+        "fix": "Assign an owner"
+      },
+      {
+        "sev": "low",
+        "where": "svc-reports:26",
+        "title": "Status with no timestamp",
+        "fix": "Record when the status was read"
+      }
+    ],
+    "notChecked": "Problems the monitoring does not measure."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] svc-search:12  Down for more than 15 minutes with no ticket.\n       Fix: Open a ticket and start the incident.\n[medium] host-mail-01:19  Host with alerts and no owner.\n       Fix: Assign an owner.\n[low] svc-reports:26  Status with no timestamp.\n       Fix: Record when the status was read.\nNot checked: Problems the monitoring does not measure.",
+  "pros": [
+    "Flags a service down for more than 15 minutes with no ticket, a host with alerts and no owner, and a status with no timestamp."
+  ],
+  "cons": [
+    "Not checked: Problems the monitoring does not measure."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-techops-service-health skill on the records for this review."
+}

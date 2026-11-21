@@ -1,0 +1,134 @@
+{
+  "items": [
+    "esc-0601.md",
+    "esc-0602.md",
+    "esc-0603.md",
+    "esc-0604.md",
+    "esc-0605.md",
+    "esc-0606.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "bad",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "cause, owner and outcome",
+        "missing one",
+        "repeated cause"
+      ],
+      "binOf": [
+        0,
+        1,
+        2,
+        0,
+        1,
+        2
+      ],
+      "note": "Rank. Each escalation is placed by whether its cause, owner and outcome are recorded."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 cause repeats three times this week",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "esc-0603.md:12",
+        "title": "Cause category repeated three times this week",
+        "fix": "Fix the cause, not the case"
+      },
+      {
+        "sev": "medium",
+        "where": "esc-0602.md:19",
+        "title": "Escalation with no owner",
+        "fix": "Assign an owner"
+      },
+      {
+        "sev": "low",
+        "where": "esc-0605.md:26",
+        "title": "Escalation with no outcome",
+        "fix": "Record the outcome"
+      }
+    ],
+    "notChecked": "The customer's view of the outcome."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] esc-0603.md:12  Cause category repeated three times this week.\n       Fix: Fix the cause, not the case.\n[medium] esc-0602.md:19  Escalation with no owner.\n       Fix: Assign an owner.\n[low] esc-0605.md:26  Escalation with no outcome.\n       Fix: Record the outcome.\nNot checked: The customer's view of the outcome.",
+  "pros": [
+    "Checks an escalation with no cause, no owner or no outcome, and a cause category that appears three or more times in the week."
+  ],
+  "cons": [
+    "Not checked: The customer's view of the outcome."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-cs-escalation-review skill on the records for this review."
+}

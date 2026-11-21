@@ -1,0 +1,124 @@
+{
+  "items": [
+    "claim-best.md",
+    "claim-price.md",
+    "offer-terms.md",
+    "list-consent.md",
+    "list-unclear.md",
+    "channel-rules.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "bad",
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        false,
+        true,
+        false,
+        true,
+        false,
+        true
+      ],
+      "note": "Gate. Each claim needs evidence, each offer needs terms, and each message needs a consent record."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        false,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 claims or offers need counsel",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        2,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "claim-best.md:12",
+        "title": "Comparative claim with no evidence reference",
+        "fix": "Add the evidence or remove the claim"
+      },
+      {
+        "sev": "high",
+        "where": "offer-terms.md:19",
+        "title": "Offer with no terms",
+        "fix": "Add the terms of the offer"
+      },
+      {
+        "sev": "medium",
+        "where": "list-unclear.md:26",
+        "title": "Message to a list with an unclear consent record",
+        "fix": "Check the consent before sending"
+      }
+    ],
+    "notChecked": "Whether a claim is true; the law of each jurisdiction; whether a consent was valid."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 high, 1 medium).\n[high] claim-best.md:12  Comparative claim with no evidence reference.\n       Fix: Add the evidence or remove the claim.\n[high] offer-terms.md:19  Offer with no terms.\n       Fix: Add the terms of the offer.\n[medium] list-unclear.md:26  Message to a list with an unclear consent record.\n       Fix: Check the consent before sending.\nNot checked: Whether a claim is true; the law of each jurisdiction; whether a consent was valid.",
+  "pros": [
+    "Checks an absolute or comparative claim with no evidence reference; a price or offer with no terms; a message to a list with no consent record or an unclear consent scope; a channel with a known opt-out rule."
+  ],
+  "cons": [
+    "Not checked: Whether a claim is true; the law of each jurisdiction; whether a consent was valid."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mkt-compliance-review skill on the records for this review."
+}

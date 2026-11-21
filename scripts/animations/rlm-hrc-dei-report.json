@@ -1,0 +1,134 @@
+{
+  "items": [
+    "measure-gender.csv",
+    "measure-age.csv",
+    "measure-disability.csv",
+    "measure-ethnicity.csv",
+    "goal-targets.md",
+    "source-list.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "reported with source",
+        "below minimum group",
+        "no source or target"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        2
+      ],
+      "note": "Rank. Each measure is placed by its group size against the minimum of five, and whether it has a source."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 measure is reported for a group below the minimum",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "measure-age.csv:12",
+        "title": "Measure reported for a group below the minimum size",
+        "fix": "Merge the group or drop the measure"
+      },
+      {
+        "sev": "medium",
+        "where": "measure-ethnicity.csv:19",
+        "title": "Measure with no source",
+        "fix": "Name the source of the measure"
+      },
+      {
+        "sev": "low",
+        "where": "source-list.md:26",
+        "title": "Goal with no target date",
+        "fix": "Set the target date"
+      }
+    ],
+    "notChecked": "Causes beyond the data."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] measure-age.csv:12  Measure reported for a group below the minimum size.\n       Fix: Merge the group or drop the measure.\n[medium] measure-ethnicity.csv:19  Measure with no source.\n       Fix: Name the source of the measure.\n[low] source-list.md:26  Goal with no target date.\n       Fix: Set the target date.\nNot checked: Causes beyond the data.",
+  "pros": [
+    "Checks a measure below the minimum group size, a measure with no source, and a goal with no target date."
+  ],
+  "cons": [
+    "Not checked: Causes beyond the data."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-dei-report skill on the records for this review."
+}

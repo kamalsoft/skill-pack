@@ -1,0 +1,134 @@
+{
+  "items": [
+    "consultant-a.csv",
+    "consultant-b.csv",
+    "consultant-c.csv",
+    "consultant-d.csv",
+    "timesheets.csv",
+    "target.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "within target",
+        "above 100 percent",
+        "no timesheet"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        2
+      ],
+      "note": "Rank. Each consultant is placed by utilisation against target, and whether a timesheet exists."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 consultant is above 100 percent",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "consultant-b.csv:12",
+        "title": "Utilisation above 100 percent",
+        "fix": "Check the hours and correct the record"
+      },
+      {
+        "sev": "medium",
+        "where": "target.md:19",
+        "title": "Consultant with no timesheet",
+        "fix": "Get the timesheet"
+      },
+      {
+        "sev": "low",
+        "where": "consultant-d.csv:26",
+        "title": "Target not stated for the period",
+        "fix": "State the target"
+      }
+    ],
+    "notChecked": "Quality of the work."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] consultant-b.csv:12  Utilisation above 100 percent.\n       Fix: Check the hours and correct the record.\n[medium] target.md:19  Consultant with no timesheet.\n       Fix: Get the timesheet.\n[low] consultant-d.csv:26  Target not stated for the period.\n       Fix: State the target.\nNot checked: Quality of the work.",
+  "pros": [
+    "Checks a utilisation above 100 percent, and a consultant with no timesheet."
+  ],
+  "cons": [
+    "Not checked: Quality of the work."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-utilisation-report skill on the records for this review."
+}

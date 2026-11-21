@@ -1,0 +1,121 @@
+{
+  "items": [
+    "2026-08.csv",
+    "2026-09.csv",
+    "2026-10.csv",
+    "2026-11.csv",
+    "deploys-definition.md",
+    "changes-definition.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "funnel",
+      "note": "Compute. Each measure is recomputed from its records by the published definition."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "Lead time uses a different definition",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "medium",
+        "where": "deploys-definition.md:12",
+        "title": "Lead time uses a different definition from the stated one",
+        "fix": "Use the published definition"
+      },
+      {
+        "sev": "high",
+        "where": "2026-09.csv:19",
+        "title": "September restore measure missing",
+        "fix": "Add the restore records for September"
+      },
+      {
+        "sev": "low",
+        "where": "changes-definition.md:26",
+        "title": "Month-on-month change has no note",
+        "fix": "Explain the change in one line"
+      }
+    ],
+    "notChecked": "Whether the metrics reflect customer value."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[medium] deploys-definition.md:12  Lead time uses a different definition from the stated one.\n       Fix: Use the published definition.\n[high] 2026-09.csv:19  September restore measure missing.\n       Fix: Add the restore records for September.\n[low] changes-definition.md:26  Month-on-month change has no note.\n       Fix: Explain the change in one line.\nNot checked: Whether the metrics reflect customer value.",
+  "pros": [
+    "Flags a month with a missing measure, a measure whose definition differs from the stated one, and a change with no note."
+  ],
+  "cons": [
+    "Not checked: Whether the metrics reflect customer value."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-devops-monthly-dora-report skill on the records for this review."
+}

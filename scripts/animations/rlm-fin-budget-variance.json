@@ -1,0 +1,134 @@
+{
+  "items": [
+    "var-sales.csv",
+    "var-cogs.csv",
+    "var-payroll.csv",
+    "var-rent.csv",
+    "var-it.csv",
+    "var-marketing.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "explained",
+        "unexplained",
+        "no budget"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        1
+      ],
+      "note": "Rank. Each variance is placed by whether it is explained and whether a budget exists."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 material variance is unexplained",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "var-cogs.csv:12",
+        "title": "Material variance with no explanation",
+        "fix": "Explain the variance or correct the forecast"
+      },
+      {
+        "sev": "medium",
+        "where": "var-marketing.csv:19",
+        "title": "Explanation does not match the size of the variance",
+        "fix": "Rewrite it to the figures"
+      },
+      {
+        "sev": "low",
+        "where": "var-rent.csv:26",
+        "title": "Actuals with no budget line",
+        "fix": "Add the budget line"
+      }
+    ],
+    "notChecked": "The true cause of each variance."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] var-cogs.csv:12  Material variance with no explanation.\n       Fix: Explain the variance or correct the forecast.\n[medium] var-marketing.csv:19  Explanation does not match the size of the variance.\n       Fix: Rewrite it to the figures.\n[low] var-rent.csv:26  Actuals with no budget line.\n       Fix: Add the budget line.\nNot checked: The true cause of each variance.",
+  "pros": [
+    "Checks a material variance (above the stated threshold) with no explanation, a line with actuals and no budget, and an explanation that does not match the size of the variance."
+  ],
+  "cons": [
+    "Not checked: The true cause of each variance."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-fin-budget-variance skill on the records for this review."
+}

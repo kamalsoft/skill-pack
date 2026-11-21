@@ -1,0 +1,134 @@
+{
+  "items": [
+    "source-search.csv",
+    "source-social.csv",
+    "source-events.csv",
+    "source-partner.csv",
+    "source-referral.csv",
+    "source-web.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "converting",
+        "rejection above 40 percent",
+        "no opportunities"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "note": "Rank. Each lead source is placed by its rejection rate and whether it produces opportunities."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 lead source rejects more than 40 percent",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "source-social.csv:12",
+        "title": "Rejection rate above 40 percent",
+        "fix": "Review the source's targeting"
+      },
+      {
+        "sev": "medium",
+        "where": "source-partner.csv:19",
+        "title": "Rejection with a blank reason",
+        "fix": "Record the reason"
+      },
+      {
+        "sev": "low",
+        "where": "source-web.csv:26",
+        "title": "Source with leads and no opportunities",
+        "fix": "Check the follow-up"
+      }
+    ],
+    "notChecked": "Why leads were rejected beyond the recorded reason; quality of sales follow-up."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] source-social.csv:12  Rejection rate above 40 percent.\n       Fix: Review the source's targeting.\n[medium] source-partner.csv:19  Rejection with a blank reason.\n       Fix: Record the reason.\n[low] source-web.csv:26  Source with leads and no opportunities.\n       Fix: Check the follow-up.\nNot checked: Why leads were rejected beyond the recorded reason; quality of sales follow-up.",
+  "pros": [
+    "Checks a source with a rejection rate above 40 percent; a rejection with a blank reason; a source with leads and no opportunities over the period."
+  ],
+  "cons": [
+    "Not checked: Why leads were rejected beyond the recorded reason; quality of sales follow-up."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mkt-lead-quality skill on the records for this review."
+}

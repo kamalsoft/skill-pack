@@ -1,0 +1,139 @@
+{
+  "items": [
+    "cycle-design.md",
+    "rating-scale.md",
+    "calibration.md",
+    "pay-cycle.md",
+    "guidance.md",
+    "definitions.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "defined",
+        "no definition",
+        "date clear"
+      ],
+      "pairs": [
+        0,
+        1,
+        2,
+        2,
+        0,
+        1
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "warn"
+      ],
+      "note": "Compare. Each rating level is matched to its definition, and the cycle to the pay cycle."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 rating scale has no definitions",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "rating-scale.md:12",
+        "title": "Rating scale with no definitions",
+        "fix": "Write a definition for each level"
+      },
+      {
+        "sev": "medium",
+        "where": "pay-cycle.md:19",
+        "title": "Cycle date clashes with the pay cycle",
+        "fix": "Move the cycle date"
+      },
+      {
+        "sev": "low",
+        "where": "calibration.md:26",
+        "title": "Calibration step with no owner",
+        "fix": "Assign an owner"
+      }
+    ],
+    "notChecked": "How the design works in practice."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] rating-scale.md:12  Rating scale with no definitions.\n       Fix: Write a definition for each level.\n[medium] pay-cycle.md:19  Cycle date clashes with the pay cycle.\n       Fix: Move the cycle date.\n[low] calibration.md:26  Calibration step with no owner.\n       Fix: Assign an owner.\nNot checked: How the design works in practice.",
+  "pros": [
+    "Checks a rating scale with no definitions, a calibration step with no owner, and a cycle date that clashes with the pay cycle."
+  ],
+  "cons": [
+    "Not checked: How the design works in practice."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-performance-system-design skill on the records for this review."
+}

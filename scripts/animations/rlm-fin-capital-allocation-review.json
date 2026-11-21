@@ -1,0 +1,134 @@
+{
+  "items": [
+    "proposal-plant.md",
+    "proposal-system.md",
+    "proposal-fleet.md",
+    "proposal-site.md",
+    "proposal-tooling.md",
+    "proposal-pilot.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "appraised and ranked",
+        "no appraisal",
+        "ranking does not follow"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "note": "Rank. Each proposal is placed by its appraisal and whether its place in the ranking follows from the criteria."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 proposal has no appraisal",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "proposal-system.md:12",
+        "title": "Proposal with no appraisal",
+        "fix": "Appraise the proposal before funding is decided"
+      },
+      {
+        "sev": "medium",
+        "where": "proposal-site.md:19",
+        "title": "Ranking does not follow from the criteria",
+        "fix": "Re-rank from the stated criteria"
+      },
+      {
+        "sev": "low",
+        "where": "proposal-pilot.md:26",
+        "title": "Return figure with no assumption",
+        "fix": "State the assumption"
+      }
+    ],
+    "notChecked": "Strategic fit beyond the criteria."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] proposal-system.md:12  Proposal with no appraisal.\n       Fix: Appraise the proposal before funding is decided.\n[medium] proposal-site.md:19  Ranking does not follow from the criteria.\n       Fix: Re-rank from the stated criteria.\n[low] proposal-pilot.md:26  Return figure with no assumption.\n       Fix: State the assumption.\nNot checked: Strategic fit beyond the criteria.",
+  "pros": [
+    "Checks a proposal with no appraisal, a return figure with no assumption, and a ranking that does not follow from the stated criteria."
+  ],
+  "cons": [
+    "Not checked: Strategic fit beyond the criteria."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-fin-capital-allocation-review skill on the records for this review."
+}

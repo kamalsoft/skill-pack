@@ -1,0 +1,139 @@
+{
+  "items": [
+    "role-finance-lead.md",
+    "role-ops-manager.md",
+    "role-data-analyst.md",
+    "capability-skills.md",
+    "job-fit.md",
+    "purpose.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "capability job-related",
+        "capability not job-related",
+        "responsibility has capability"
+      ],
+      "pairs": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Compare. Each responsibility is matched to a capability, and each capability to the job."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 capability is not job-related",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "role-ops-manager.md:12",
+        "title": "Capability not job-related",
+        "fix": "Remove it from the profile"
+      },
+      {
+        "sev": "medium",
+        "where": "capability-skills.md:19",
+        "title": "Responsibility with no capability",
+        "fix": "Name the capability it needs"
+      },
+      {
+        "sev": "low",
+        "where": "purpose.md:26",
+        "title": "Purpose statement missing",
+        "fix": "Write the purpose"
+      }
+    ],
+    "notChecked": "Whether the role will work in practice."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] role-ops-manager.md:12  Capability not job-related.\n       Fix: Remove it from the profile.\n[medium] capability-skills.md:19  Responsibility with no capability.\n       Fix: Name the capability it needs.\n[low] purpose.md:26  Purpose statement missing.\n       Fix: Write the purpose.\nNot checked: Whether the role will work in practice.",
+  "pros": [
+    "Checks a responsibility with no capability, and a capability not job-related."
+  ],
+  "cons": [
+    "Not checked: Whether the role will work in practice."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-role-design skill on the records for this review."
+}

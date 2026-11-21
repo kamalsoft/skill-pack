@@ -1,0 +1,134 @@
+{
+  "items": [
+    "team-finance.csv",
+    "team-engineering.csv",
+    "team-sales.csv",
+    "team-support.csv",
+    "group-sizes.csv",
+    "risk-model.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "ok",
+        "ok",
+        "bad"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "reported in aggregate",
+        "group below minimum",
+        "individual identifier"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        2
+      ],
+      "note": "Rank. Each group is placed by its size against the minimum of five, and each row by whether it carries an identifier."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 row carries an individual's identifier",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "risk-model.md:12",
+        "title": "Row carries an individual's identifier",
+        "fix": "Remove the identifier and report the group"
+      },
+      {
+        "sev": "medium",
+        "where": "team-engineering.csv:19",
+        "title": "Group below the minimum size of five",
+        "fix": "Merge the group"
+      },
+      {
+        "sev": "low",
+        "where": "team-support.csv:26",
+        "title": "Risk score with no method",
+        "fix": "State the method"
+      }
+    ],
+    "notChecked": "Individual circumstances."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] risk-model.md:12  Row carries an individual's identifier.\n       Fix: Remove the identifier and report the group.\n[medium] team-engineering.csv:19  Group below the minimum size of five.\n       Fix: Merge the group.\n[low] team-support.csv:26  Risk score with no method.\n       Fix: State the method.\nNot checked: Individual circumstances.",
+  "pros": [
+    "Checks a group below the minimum size (default 5), and any row that carries an individual's identifier."
+  ],
+  "cons": [
+    "Not checked: Individual circumstances."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-retention-risk skill on the records for this review."
+}

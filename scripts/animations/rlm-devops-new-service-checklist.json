@@ -1,0 +1,143 @@
+{
+  "items": [
+    "service.yaml",
+    "Dockerfile",
+    "alerts.tf",
+    "owners.yaml",
+    "pipeline.yml",
+    "logging.ts"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "logging",
+        "metrics",
+        "alerts",
+        "owner",
+        "deploy path"
+      ],
+      "pairs": [
+        3,
+        -1,
+        2,
+        3,
+        4,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Compare. Each file is matched to a go-live requirement. A requirement with no file is missing."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 go-live requirement is missing",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "alerts.tf:12",
+        "title": "No alert for the error rate",
+        "fix": "Add an alert on the error rate"
+      },
+      {
+        "sev": "medium",
+        "where": "logging.ts:19",
+        "title": "Request path logs are not structured",
+        "fix": "Use structured logging on the request path"
+      },
+      {
+        "sev": "low",
+        "where": "pipeline.yml:26",
+        "title": "Deploy path has no rollback step",
+        "fix": "Add a rollback step to the pipeline"
+      }
+    ],
+    "notChecked": "The runtime behaviour; the alert thresholds' suitability."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] alerts.tf:12  No alert for the error rate.\n       Fix: Add an alert on the error rate.\n[medium] logging.ts:19  Request path logs are not structured.\n       Fix: Use structured logging on the request path.\n[low] pipeline.yml:26  Deploy path has no rollback step.\n       Fix: Add a rollback step to the pipeline.\nNot checked: The runtime behaviour; the alert thresholds' suitability.",
+  "pros": [
+    "Flags each missing item with its expected location."
+  ],
+  "cons": [
+    "Not checked: The runtime behaviour; the alert thresholds' suitability."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-devops-new-service-checklist skill on the records for this review."
+}

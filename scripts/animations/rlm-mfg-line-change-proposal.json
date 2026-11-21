@@ -1,0 +1,134 @@
+{
+  "items": [
+    "claim-cycle.md",
+    "cost-equipment.csv",
+    "risk-training.md",
+    "benefit-scrap.md",
+    "cost-install.csv",
+    "risk-downtime.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "warn",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "source: pilot data",
+        "source: quote",
+        "no source"
+      ],
+      "pairs": [
+        0,
+        1,
+        2,
+        2,
+        1,
+        2
+      ],
+      "targetState": [
+        "ok",
+        "ok",
+        "bad"
+      ],
+      "note": "Compare. Each effect and cost is matched to its source. A risk with no mitigation is flagged."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 effects or risks lack a basis",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        2,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "risk-training.md:12",
+        "title": "Risk with no mitigation",
+        "fix": "Name a mitigation and its owner"
+      },
+      {
+        "sev": "medium",
+        "where": "benefit-scrap.md:19",
+        "title": "Effect with no basis",
+        "fix": "Give the basis for the effect"
+      },
+      {
+        "sev": "medium",
+        "where": "cost-install.csv:26",
+        "title": "Cost line with no estimate source",
+        "fix": "Attach the estimate"
+      }
+    ],
+    "notChecked": "The actual effect."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 2 medium).\n[high] risk-training.md:12  Risk with no mitigation.\n       Fix: Name a mitigation and its owner.\n[medium] benefit-scrap.md:19  Effect with no basis.\n       Fix: Give the basis for the effect.\n[medium] cost-install.csv:26  Cost line with no estimate source.\n       Fix: Attach the estimate.\nNot checked: The actual effect.",
+  "pros": [
+    "Checks an effect with no basis, a cost line with no estimate source, and a risk with no mitigation."
+  ],
+  "cons": [
+    "Not checked: The actual effect."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mfg-line-change-proposal skill on the records for this review."
+}

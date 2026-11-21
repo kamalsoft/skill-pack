@@ -1,0 +1,129 @@
+{
+  "items": [
+    "check-accruals.md",
+    "check-recon-bank.md",
+    "check-recon-payroll.md",
+    "check-depreciation.md",
+    "check-signoff.md",
+    "check-cutoff.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Gate. Each close item needs a sign-off, each reconciliation must be explained, and each accrual needs a basis."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 close items are not complete",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "check-recon-bank.md:12",
+        "title": "Reconciliation with an unexplained difference",
+        "fix": "Explain the difference before close"
+      },
+      {
+        "sev": "medium",
+        "where": "check-signoff.md:19",
+        "title": "Item with no sign-off",
+        "fix": "Get the sign-off"
+      },
+      {
+        "sev": "low",
+        "where": "check-accruals.md:26",
+        "title": "Accrual with no basis",
+        "fix": "Give the basis for the accrual"
+      }
+    ],
+    "notChecked": "The accuracy of the underlying ledger."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] check-recon-bank.md:12  Reconciliation with an unexplained difference.\n       Fix: Explain the difference before close.\n[medium] check-signoff.md:19  Item with no sign-off.\n       Fix: Get the sign-off.\n[low] check-accruals.md:26  Accrual with no basis.\n       Fix: Give the basis for the accrual.\nNot checked: The accuracy of the underlying ledger.",
+  "pros": [
+    "Checks an item with no sign-off, a reconciliation with an unexplained difference, and an accrual with no basis."
+  ],
+  "cons": [
+    "Not checked: The accuracy of the underlying ledger."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-fin-month-end-close skill on the records for this review."
+}

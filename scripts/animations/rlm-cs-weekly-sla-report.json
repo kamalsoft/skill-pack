@@ -1,0 +1,129 @@
+{
+  "items": [
+    "sla-w40.csv",
+    "sla-w41.csv",
+    "sla-w42.csv",
+    "sla-w43.csv",
+    "sla-w44.csv",
+    "sla-w45.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
+      "note": "Gate. First response and resolution are checked against target each week, with complete records."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 week is below the service level",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "sla-w42.csv:12",
+        "title": "Combined service level below target",
+        "fix": "Recover the week's backlog"
+      },
+      {
+        "sev": "medium",
+        "where": "sla-w45.csv:19",
+        "title": "Week with missing records",
+        "fix": "Add the missing records and recompute"
+      },
+      {
+        "sev": "low",
+        "where": "sla-w43.csv:26",
+        "title": "Cases closed with no recorded resolution",
+        "fix": "Record the resolution"
+      }
+    ],
+    "notChecked": "Cases closed without a recorded resolution; customer satisfaction."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] sla-w42.csv:12  Combined service level below target.\n       Fix: Recover the week's backlog.\n[medium] sla-w45.csv:19  Week with missing records.\n       Fix: Add the missing records and recompute.\n[low] sla-w43.csv:26  Cases closed with no recorded resolution.\n       Fix: Record the resolution.\nNot checked: Cases closed without a recorded resolution; customer satisfaction.",
+  "pros": [
+    "Checks a combination below its service level, and a week with missing records."
+  ],
+  "cons": [
+    "Not checked: Cases closed without a recorded resolution; customer satisfaction."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-cs-weekly-sla-report skill on the records for this review."
+}

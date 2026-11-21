@@ -1,0 +1,139 @@
+{
+  "items": [
+    "final-price.md",
+    "final-terms.md",
+    "concession-discount.md",
+    "concession-term.md",
+    "lesson-1.md",
+    "lesson-2.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "change recorded",
+        "change not recorded",
+        "lesson sourced"
+      ],
+      "pairs": [
+        0,
+        1,
+        0,
+        1,
+        2,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Compare. Each final term is matched to the last offer. A term that changed with no record is flagged."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 final term changed with no record",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "final-terms.md:12",
+        "title": "Final term differs from the last offer with no record",
+        "fix": "Record the change and who agreed it"
+      },
+      {
+        "sev": "medium",
+        "where": "concession-term.md:19",
+        "title": "Concession with no recorded return",
+        "fix": "Record what was asked in return"
+      },
+      {
+        "sev": "low",
+        "where": "lesson-1.md:26",
+        "title": "Lesson with no source",
+        "fix": "Name the negotiation it came from"
+      }
+    ],
+    "notChecked": "What the counterparty privately thought, and outcomes after the close."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] final-terms.md:12  Final term differs from the last offer with no record.\n       Fix: Record the change and who agreed it.\n[medium] concession-term.md:19  Concession with no recorded return.\n       Fix: Record what was asked in return.\n[low] lesson-1.md:26  Lesson with no source.\n       Fix: Name the negotiation it came from.\nNot checked: What the counterparty privately thought, and outcomes after the close.",
+  "pros": [
+    "Checks a final term that differs from the last offer with no recorded change, a concession with no recorded return, and a lesson with no source."
+  ],
+  "cons": [
+    "Not checked: What the counterparty privately thought, and outcomes after the close."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-neg-debrief skill on the records for this review."
+}

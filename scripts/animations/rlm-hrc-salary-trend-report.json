@@ -1,0 +1,139 @@
+{
+  "items": [
+    "trend-role-a.csv",
+    "trend-role-b.csv",
+    "trend-location-x.csv",
+    "trend-location-y.csv",
+    "periods.md",
+    "sample-sizes.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "same periods",
+        "different periods",
+        "sample above 10"
+      ],
+      "pairs": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Compare. Each trend is matched to the periods it covers. A change computed across different periods is flagged."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 trend is computed across different periods",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "trend-role-b.csv:12",
+        "title": "Change computed across different periods",
+        "fix": "Recompute on the same periods"
+      },
+      {
+        "sev": "medium",
+        "where": "trend-location-y.csv:19",
+        "title": "Sample size below ten",
+        "fix": "Report the trend as indicative"
+      },
+      {
+        "sev": "low",
+        "where": "sample-sizes.csv:26",
+        "title": "Trend with no source",
+        "fix": "Name the source"
+      }
+    ],
+    "notChecked": "Future market movement."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] trend-role-b.csv:12  Change computed across different periods.\n       Fix: Recompute on the same periods.\n[medium] trend-location-y.csv:19  Sample size below ten.\n       Fix: Report the trend as indicative.\n[low] sample-sizes.csv:26  Trend with no source.\n       Fix: Name the source.\nNot checked: Future market movement.",
+  "pros": [
+    "Checks a trend with no source, a change computed on different periods, and a sample size below the minimum (default 10)."
+  ],
+  "cons": [
+    "Not checked: Future market movement."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-salary-trend-report skill on the records for this review."
+}

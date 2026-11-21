@@ -1,0 +1,134 @@
+{
+  "items": [
+    "svc-compute.csv",
+    "svc-database.csv",
+    "svc-storage.csv",
+    "svc-batch.csv",
+    "svc-dev-env.csv",
+    "svc-logs.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "ok",
+        "bad",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "in use",
+        "idle under 5%",
+        "no owner"
+      ],
+      "binOf": [
+        0,
+        0,
+        1,
+        2,
+        1,
+        0
+      ],
+      "note": "Rank. Each service is placed by its owner and its utilisation."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 services spend without an owner or without use",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "svc-batch.csv:12",
+        "title": "Spend with no owner team",
+        "fix": "Assign an owning team"
+      },
+      {
+        "sev": "medium",
+        "where": "svc-dev-env.csv:19",
+        "title": "Resource at 3% utilisation for 30 days",
+        "fix": "Stop or resize the environment"
+      },
+      {
+        "sev": "low",
+        "where": "svc-logs.csv:26",
+        "title": "Spend total differs from the billing lines",
+        "fix": "Recompute from the billing export"
+      }
+    ],
+    "notChecked": "Whether the resource is needed for a future event."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] svc-batch.csv:12  Spend with no owner team.\n       Fix: Assign an owning team.\n[medium] svc-dev-env.csv:19  Resource at 3% utilisation for 30 days.\n       Fix: Stop or resize the environment.\n[low] svc-logs.csv:26  Spend total differs from the billing lines.\n       Fix: Recompute from the billing export.\nNot checked: Whether the resource is needed for a future event.",
+  "pros": [
+    "Flags a service with spend and no owner, a resource with utilisation under 5 percent for 30 days, and a spend total that does not match the billing lines."
+  ],
+  "cons": [
+    "Not checked: Whether the resource is needed for a future event."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-devops-cloud-cost skill on the records for this review."
+}

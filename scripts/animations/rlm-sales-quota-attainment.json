@@ -1,0 +1,134 @@
+{
+  "items": [
+    "rep-chen.csv",
+    "rep-okafor.csv",
+    "rep-lopez.csv",
+    "rep-smith.csv",
+    "territory-west.csv",
+    "rep-new.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "attainment matches",
+        "booking credited twice",
+        "no quota"
+      ],
+      "binOf": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        2
+      ],
+      "note": "Rank. Each holder is placed by whether the attainment matches bookings over quota and whether a quota exists."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 booking is credited to two holders",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "rep-lopez.csv:12",
+        "title": "Booking credited to two holders",
+        "fix": "Credit the booking to one holder"
+      },
+      {
+        "sev": "medium",
+        "where": "rep-new.csv:19",
+        "title": "Holder with no quota",
+        "fix": "Set the quota or record why there is none"
+      },
+      {
+        "sev": "low",
+        "where": "rep-okafor.csv:26",
+        "title": "Attainment does not equal bookings over quota",
+        "fix": "Recompute the attainment"
+      }
+    ],
+    "notChecked": "Pay calculations; quota setting."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] rep-lopez.csv:12  Booking credited to two holders.\n       Fix: Credit the booking to one holder.\n[medium] rep-new.csv:19  Holder with no quota.\n       Fix: Set the quota or record why there is none.\n[low] rep-okafor.csv:26  Attainment does not equal bookings over quota.\n       Fix: Recompute the attainment.\nNot checked: Pay calculations; quota setting.",
+  "pros": [
+    "Checks an attainment that does not equal bookings over quota, a booking credited to two holders, and a holder with no quota."
+  ],
+  "cons": [
+    "Not checked: Pay calculations; quota setting."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-sales-quota-attainment skill on the records for this review."
+}

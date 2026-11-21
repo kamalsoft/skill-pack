@@ -1,0 +1,129 @@
+{
+  "items": [
+    "audit-q1-sales.md",
+    "audit-q1-supply.md",
+    "audit-q2-lab.md",
+    "audit-q2-design.md",
+    "audit-q3-hr.md",
+    "audit-q4-it.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.0
+      ],
+      "note": "Order. Each audit is placed in the cycle by its due date."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 audit is more than 30 days overdue",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "audit-q2-lab.md:12",
+        "title": "Audit more than 30 days overdue",
+        "fix": "Schedule the audit this month"
+      },
+      {
+        "sev": "medium",
+        "where": "audit-q3-hr.md:19",
+        "title": "Auditor audited their own process",
+        "fix": "Assign a different auditor"
+      },
+      {
+        "sev": "low",
+        "where": "audit-q4-it.md:26",
+        "title": "Process with no audit in the cycle",
+        "fix": "Add the process to the cycle"
+      }
+    ],
+    "notChecked": "The quality of each audit; processes not in the programme."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] audit-q2-lab.md:12  Audit more than 30 days overdue.\n       Fix: Schedule the audit this month.\n[medium] audit-q3-hr.md:19  Auditor audited their own process.\n       Fix: Assign a different auditor.\n[low] audit-q4-it.md:26  Process with no audit in the cycle.\n       Fix: Add the process to the cycle.\nNot checked: The quality of each audit; processes not in the programme.",
+  "pros": [
+    "Checks an audit overdue by more than 30 days, a process with no audit in the cycle, and an auditor who audited their own process."
+  ],
+  "cons": [
+    "Not checked: The quality of each audit; processes not in the programme."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-qual-internal-audit-schedule skill on the records for this review."
+}

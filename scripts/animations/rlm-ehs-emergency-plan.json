@@ -1,0 +1,139 @@
+{
+  "items": [
+    "scenario-fire.md",
+    "scenario-spill.md",
+    "scenario-medical.md",
+    "scenario-power.md",
+    "contacts.md",
+    "drills.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "role assigned",
+        "no role",
+        "contact with number"
+      ],
+      "pairs": [
+        0,
+        0,
+        1,
+        0,
+        2,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Compare. Each scenario and contact is matched to a role and a working number."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 scenario has no role",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "scenario-spill.md:12",
+        "title": "Spill scenario with no role",
+        "fix": "Assign the role that acts first"
+      },
+      {
+        "sev": "medium",
+        "where": "contacts.md:19",
+        "title": "Contact with no working number",
+        "fix": "Add the working number"
+      },
+      {
+        "sev": "low",
+        "where": "drills.md:26",
+        "title": "Drill past its planned interval",
+        "fix": "Schedule the next drill"
+      }
+    ],
+    "notChecked": "Whether the staff know the plan; whether the contacts answer."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] scenario-spill.md:12  Spill scenario with no role.\n       Fix: Assign the role that acts first.\n[medium] contacts.md:19  Contact with no working number.\n       Fix: Add the working number.\n[low] drills.md:26  Drill past its planned interval.\n       Fix: Schedule the next drill.\nNot checked: Whether the staff know the plan; whether the contacts answer.",
+  "pros": [
+    "Checks a scenario with no role, a contact with no working number or no role, and a drill date past the planned interval."
+  ],
+  "cons": [
+    "Not checked: Whether the staff know the plan; whether the contacts answer."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ehs-emergency-plan skill on the records for this review."
+}

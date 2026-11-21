@@ -1,0 +1,134 @@
+{
+  "items": [
+    "oblig-supplier-q1.md",
+    "oblig-lease-rent.md",
+    "oblig-licence-report.md",
+    "oblig-data-audit.md",
+    "oblig-insurance.md",
+    "oblig-notice.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "done or not due",
+        "overdue, not marked done",
+        "no owner role"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        2,
+        0
+      ],
+      "note": "Rank. Each obligation is placed by whether it is done, overdue or unowned."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 obligation is overdue and not marked done",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "oblig-lease-rent.md:12",
+        "title": "Obligation past its due date not marked done",
+        "fix": "Confirm whether it was done and record it"
+      },
+      {
+        "sev": "medium",
+        "where": "oblig-insurance.md:19",
+        "title": "Obligation with no owner role",
+        "fix": "Assign an owner role"
+      },
+      {
+        "sev": "low",
+        "where": "oblig-notice.md:26",
+        "title": "Obligation with no clause reference",
+        "fix": "Cite the clause"
+      }
+    ],
+    "notChecked": "Obligations not extracted; whether the party performed."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] oblig-lease-rent.md:12  Obligation past its due date not marked done.\n       Fix: Confirm whether it was done and record it.\n[medium] oblig-insurance.md:19  Obligation with no owner role.\n       Fix: Assign an owner role.\n[low] oblig-notice.md:26  Obligation with no clause reference.\n       Fix: Cite the clause.\nNot checked: Obligations not extracted; whether the party performed.",
+  "pros": [
+    "Checks an obligation with no clause reference, an obligation past its due date that is not marked done, and an obligation with no owner role."
+  ],
+  "cons": [
+    "Not checked: Obligations not extracted; whether the party performed."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-legal-obligations-tracker skill on the records for this review."
+}

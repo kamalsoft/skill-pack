@@ -1,0 +1,129 @@
+{
+  "items": [
+    "visa-p01.md",
+    "visa-p02.md",
+    "visa-p03.md",
+    "visa-p04.md",
+    "adviser-log.csv",
+    "expiries.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0.05,
+        0.2,
+        0.35,
+        0.5,
+        0.7,
+        0.9
+      ],
+      "note": "Order. Each permit is placed by its expiry date."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 permit expires within 90 days with no decision",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "visa-p01.md:12",
+        "title": "Expiry within 90 days with no adviser decision",
+        "fix": "Decide with the adviser this week"
+      },
+      {
+        "sev": "medium",
+        "where": "visa-p04.md:19",
+        "title": "Permit with no expiry date",
+        "fix": "Record the expiry from the permit"
+      },
+      {
+        "sev": "low",
+        "where": "expiries.csv:26",
+        "title": "Adviser decision with no date",
+        "fix": "Date the decision"
+      }
+    ],
+    "notChecked": "Whether the person is eligible to renew."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] visa-p01.md:12  Expiry within 90 days with no adviser decision.\n       Fix: Decide with the adviser this week.\n[medium] visa-p04.md:19  Permit with no expiry date.\n       Fix: Record the expiry from the permit.\n[low] expiries.csv:26  Adviser decision with no date.\n       Fix: Date the decision.\nNot checked: Whether the person is eligible to renew.",
+  "pros": [
+    "Checks an expiry within 90 days with no adviser decision, and a permit with no expiry date."
+  ],
+  "cons": [
+    "Not checked: Whether the person is eligible to renew."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-visa-expiry-tracker skill on the records for this review."
+}

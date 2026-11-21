@@ -1,0 +1,129 @@
+{
+  "items": [
+    "cat-packaging.md",
+    "cat-logistics.md",
+    "cat-it.md",
+    "cat-facilities.md",
+    "cat-services.md",
+    "cat-raw.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "baseline and approach",
+        "no baseline",
+        "no owner"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        1
+      ],
+      "note": "Rank. Each category is placed by its baseline, its approach and its owner."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 categories need a baseline or an owner",
+    "tone": "warn",
+    "bars": [
+      [
+        "medium",
+        2,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "medium",
+        "where": "cat-logistics.md:12",
+        "title": "Category target with no baseline",
+        "fix": "Record last year's spend as the baseline"
+      },
+      {
+        "sev": "medium",
+        "where": "cat-facilities.md:19",
+        "title": "Category with spend and no owner",
+        "fix": "Assign an owner"
+      },
+      {
+        "sev": "low",
+        "where": "cat-raw.md:26",
+        "title": "Strategy note conflicts with a contract",
+        "fix": "Reconcile the note to the contract"
+      }
+    ],
+    "notChecked": "Market forecasts, and strategy beyond the notes given."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (2 medium, 1 low).\n[medium] cat-logistics.md:12  Category target with no baseline.\n       Fix: Record last year's spend as the baseline.\n[medium] cat-facilities.md:19  Category with spend and no owner.\n       Fix: Assign an owner.\n[low] cat-raw.md:26  Strategy note conflicts with a contract.\n       Fix: Reconcile the note to the contract.\nNot checked: Market forecasts, and strategy beyond the notes given.",
+  "pros": [
+    "Checks a category with a target and no baseline, a target with no approach, a category with spend and no owner, and a strategy note that conflicts with a contract term."
+  ],
+  "cons": [
+    "Not checked: Market forecasts, and strategy beyond the notes given."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-neg-annual-strategy skill on the records for this review."
+}

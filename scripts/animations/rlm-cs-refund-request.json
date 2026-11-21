@@ -1,0 +1,129 @@
+{
+  "items": [
+    "refund-5501.md",
+    "refund-5502.md",
+    "refund-5503.md",
+    "refund-5504.md",
+    "refund-5505.md",
+    "refund-5506.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Gate. A request is checked against the approver's limit, its reason code and duplicates."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 refund is above the approver's limit",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "refund-5502.md:12",
+        "title": "Amount above the approver's limit",
+        "fix": "Send the request to the next approver"
+      },
+      {
+        "sev": "medium",
+        "where": "refund-5505.md:19",
+        "title": "Duplicate request for the same case",
+        "fix": "Merge the requests and refund once"
+      },
+      {
+        "sev": "low",
+        "where": "refund-5503.md:26",
+        "title": "Request with no reason code",
+        "fix": "Add the reason code"
+      }
+    ],
+    "notChecked": "Whether the refund is deserved; the payment itself."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] refund-5502.md:12  Amount above the approver's limit.\n       Fix: Send the request to the next approver.\n[medium] refund-5505.md:19  Duplicate request for the same case.\n       Fix: Merge the requests and refund once.\n[low] refund-5503.md:26  Request with no reason code.\n       Fix: Add the reason code.\nNot checked: Whether the refund is deserved; the payment itself.",
+  "pros": [
+    "Checks an amount above the approver's limit, a request with no reason code, and a duplicate request for the same case."
+  ],
+  "cons": [
+    "Not checked: Whether the refund is deserved; the payment itself."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-cs-refund-request skill on the records for this review."
+}

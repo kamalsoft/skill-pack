@@ -1,0 +1,134 @@
+{
+  "items": [
+    "signal-job-post.md",
+    "signal-press.md",
+    "signal-filing.md",
+    "signal-event.md",
+    "source-list.md",
+    "signal-private.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "ok",
+        "ok",
+        "bad"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "public source",
+        "no public source",
+        "private detail"
+      ],
+      "binOf": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        2
+      ],
+      "note": "Rank. Each signal is placed by its source, and a private or personal detail is removed."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 signal uses a private detail",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "signal-private.md:12",
+        "title": "Signal uses a private or personal detail",
+        "fix": "Remove the detail and keep the public fact"
+      },
+      {
+        "sev": "medium",
+        "where": "signal-press.md:19",
+        "title": "Signal with no public source",
+        "fix": "Name the public source"
+      },
+      {
+        "sev": "low",
+        "where": "signal-event.md:26",
+        "title": "Signal not dated",
+        "fix": "Date the signal"
+      }
+    ],
+    "notChecked": "Whether the signal is real."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] signal-private.md:12  Signal uses a private or personal detail.\n       Fix: Remove the detail and keep the public fact.\n[medium] signal-press.md:19  Signal with no public source.\n       Fix: Name the public source.\n[low] signal-event.md:26  Signal not dated.\n       Fix: Date the signal.\nNot checked: Whether the signal is real.",
+  "pros": [
+    "Checks a signal with no public source, and a signal that uses a private or personal detail."
+  ],
+  "cons": [
+    "Not checked: Whether the signal is real."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-competitor-hiring-watch skill on the records for this review."
+}

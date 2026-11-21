@@ -1,0 +1,134 @@
+{
+  "items": [
+    "account-acme.md",
+    "account-brightline.md",
+    "account-corvus.md",
+    "account-delta.md",
+    "renewals.csv",
+    "risks.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "green",
+        "red with action",
+        "red, no action"
+      ],
+      "binOf": [
+        0,
+        2,
+        0,
+        1,
+        0,
+        2
+      ],
+      "note": "Rank. Each account is placed by its status and whether a red status has an action."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 account is red with no action",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "account-corvus.md:12",
+        "title": "Account red with no action",
+        "fix": "Name the action and its owner this week"
+      },
+      {
+        "sev": "medium",
+        "where": "risks.csv:19",
+        "title": "Renewal within 90 days with no plan",
+        "fix": "Write the renewal plan"
+      },
+      {
+        "sev": "low",
+        "where": "renewals.csv:26",
+        "title": "Risk with no owner",
+        "fix": "Assign an owner"
+      }
+    ],
+    "notChecked": "The client's own view."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] account-corvus.md:12  Account red with no action.\n       Fix: Name the action and its owner this week.\n[medium] risks.csv:19  Renewal within 90 days with no plan.\n       Fix: Write the renewal plan.\n[low] renewals.csv:26  Risk with no owner.\n       Fix: Assign an owner.\nNot checked: The client's own view.",
+  "pros": [
+    "Checks an account with a red status and no action, a risk with no owner, and a renewal within 90 days with no plan."
+  ],
+  "cons": [
+    "Not checked: The client's own view."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hrc-client-health-report skill on the records for this review."
+}

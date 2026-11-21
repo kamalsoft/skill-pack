@@ -1,0 +1,134 @@
+{
+  "items": [
+    "tkt-8812",
+    "tkt-8815",
+    "tkt-8820",
+    "tkt-8821",
+    "tkt-8823",
+    "tkt-8830"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "within target",
+        "over target",
+        "no owner"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        2
+      ],
+      "note": "Rank. Each ticket is placed by its age against its priority target and by its owner."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 ticket is over its priority target",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "tkt-8815:12",
+        "title": "Older than its priority target",
+        "fix": "Escalate and assign the ticket today"
+      },
+      {
+        "sev": "medium",
+        "where": "tkt-8823:19",
+        "title": "No update for two working days",
+        "fix": "Update the requester"
+      },
+      {
+        "sev": "low",
+        "where": "tkt-8830:26",
+        "title": "Ticket with no owner",
+        "fix": "Assign an owner"
+      }
+    ],
+    "notChecked": "Tickets not in the export."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] tkt-8815:12  Older than its priority target.\n       Fix: Escalate and assign the ticket today.\n[medium] tkt-8823:19  No update for two working days.\n       Fix: Update the requester.\n[low] tkt-8830:26  Ticket with no owner.\n       Fix: Assign an owner.\nNot checked: Tickets not in the export.",
+  "pros": [
+    "Flags a ticket older than its priority target, a ticket with no owner, and a ticket with no update for two working days."
+  ],
+  "cons": [
+    "Not checked: Tickets not in the export."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-techops-ticket-queue skill on the records for this review."
+}

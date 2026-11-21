@@ -1,0 +1,134 @@
+{
+  "items": [
+    "area-press-shop.csv",
+    "area-paint.csv",
+    "area-welding.csv",
+    "area-stores.csv",
+    "limits.md",
+    "units.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "within limit",
+        "above limit",
+        "no measurement"
+      ],
+      "binOf": [
+        0,
+        0,
+        0,
+        2,
+        1,
+        0
+      ],
+      "note": "Rank. Each area's result is placed against its exposure limit, or noted as unmeasured."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 exposure result is above its limit",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "area-paint.csv:12",
+        "title": "Result above the exposure limit",
+        "fix": "Reduce the exposure and re-measure"
+      },
+      {
+        "sev": "medium",
+        "where": "area-stores.csv:19",
+        "title": "Area with no measurement in the period",
+        "fix": "Measure the area this period"
+      },
+      {
+        "sev": "low",
+        "where": "units.csv:26",
+        "title": "Result with no unit",
+        "fix": "Record the unit"
+      }
+    ],
+    "notChecked": "Individual exposure; the health effect of any result."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] area-paint.csv:12  Result above the exposure limit.\n       Fix: Reduce the exposure and re-measure.\n[medium] area-stores.csv:19  Area with no measurement in the period.\n       Fix: Measure the area this period.\n[low] units.csv:26  Result with no unit.\n       Fix: Record the unit.\nNot checked: Individual exposure; the health effect of any result.",
+  "pros": [
+    "Checks a result above its limit, a result with no limit, an area with no measurement in the period, and a missing unit."
+  ],
+  "cons": [
+    "Not checked: Individual exposure; the health effect of any result."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ehs-exposure-monitoring skill on the records for this review."
+}

@@ -1,0 +1,121 @@
+{
+  "items": [
+    "unit-line-a.csv",
+    "unit-line-b.csv",
+    "unit-line-c.csv",
+    "unit-site-1.csv",
+    "unit-site-2.csv",
+    "unit-site-3.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "funnel",
+      "note": "Divide. Each cost is divided by its units, and a zero unit count with cost is flagged."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 unit count of zero carries cost",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "unit-line-b.csv:12",
+        "title": "Unit count of zero carries cost",
+        "fix": "Correct the count or move the cost"
+      },
+      {
+        "sev": "medium",
+        "where": "unit-site-2.csv:19",
+        "title": "Cost category with no allocation basis",
+        "fix": "State the allocation basis"
+      },
+      {
+        "sev": "low",
+        "where": "unit-line-c.csv:26",
+        "title": "Month with a missing cost",
+        "fix": "Add the missing cost"
+      }
+    ],
+    "notChecked": "Whether the allocation basis is fair."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] unit-line-b.csv:12  Unit count of zero carries cost.\n       Fix: Correct the count or move the cost.\n[medium] unit-site-2.csv:19  Cost category with no allocation basis.\n       Fix: State the allocation basis.\n[low] unit-line-c.csv:26  Month with a missing cost.\n       Fix: Add the missing cost.\nNot checked: Whether the allocation basis is fair.",
+  "pros": [
+    "Checks a cost category with no allocation basis, a unit count of zero with cost, and a month with a missing cost."
+  ],
+  "cons": [
+    "Not checked: Whether the allocation basis is fair."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ops-unit-cost skill on the records for this review."
+}

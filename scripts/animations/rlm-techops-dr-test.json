@@ -1,0 +1,117 @@
+{
+  "items": [
+    "scenario-ad.md",
+    "scenario-vm-restore.md",
+    "scenario-network.md",
+    "scenario-backup-db.md",
+    "scenario-dns.md",
+    "scenario-storage.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "bad",
+        "warn",
+        "warn",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "store",
+      "storeLabel": "test record",
+      "note": "Record. Each measured time is written to the test record against its target."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 test has no measured restore time",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        2,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "scenario-ad.md:12",
+        "title": "Restore time not measured",
+        "fix": "Measure the restore and record the time"
+      },
+      {
+        "sev": "medium",
+        "where": "scenario-vm-restore.md:19",
+        "title": "Result does not match the measured time",
+        "fix": "Correct the result"
+      },
+      {
+        "sev": "medium",
+        "where": "scenario-network.md:26",
+        "title": "Gap with no action",
+        "fix": "Name the action and its owner"
+      }
+    ],
+    "notChecked": "Recovery of real data at scale."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 2 medium).\n[high] scenario-ad.md:12  Restore time not measured.\n       Fix: Measure the restore and record the time.\n[medium] scenario-vm-restore.md:19  Result does not match the measured time.\n       Fix: Correct the result.\n[medium] scenario-network.md:26  Gap with no action.\n       Fix: Name the action and its owner.\nNot checked: Recovery of real data at scale.",
+  "pros": [
+    "Flags a test with no measured time, a result that does not match the measured time, and a gap with no action."
+  ],
+  "cons": [
+    "Not checked: Recovery of real data at scale."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-techops-dr-test skill on the records for this review."
+}

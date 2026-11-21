@@ -1,0 +1,129 @@
+{
+  "items": [
+    "camp-spring.csv",
+    "camp-search.csv",
+    "camp-social.csv",
+    "camp-email.csv",
+    "camp-display.csv",
+    "camp-video.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "timeline",
+      "at": [
+        0,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.0
+      ],
+      "note": "Order. Each live campaign's pacing is placed through the day."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 campaign spends with no results",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "camp-search.csv:12",
+        "title": "Result count zero while spend continues",
+        "fix": "Pause the campaign and check tracking"
+      },
+      {
+        "sev": "medium",
+        "where": "camp-email.csv:19",
+        "title": "Spend more than 20 percent off the daily plan",
+        "fix": "Adjust the pacing"
+      },
+      {
+        "sev": "low",
+        "where": "camp-video.csv:26",
+        "title": "Cost per result more than 30 percent off target",
+        "fix": "Review the targeting"
+      }
+    ],
+    "notChecked": "Platform data quality; attribution; creative performance; campaigns with no export."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] camp-search.csv:12  Result count zero while spend continues.\n       Fix: Pause the campaign and check tracking.\n[medium] camp-email.csv:19  Spend more than 20 percent off the daily plan.\n       Fix: Adjust the pacing.\n[low] camp-video.csv:26  Cost per result more than 30 percent off target.\n       Fix: Review the targeting.\nNot checked: Platform data quality; attribution; creative performance; campaigns with no export.",
+  "pros": [
+    "Checks spend more than 20 percent ahead of or behind the daily plan; cost per result more than 30 percent off target; a result count of zero while spend continues; a live campaign with no budget set; a campa."
+  ],
+  "cons": [
+    "Not checked: Platform data quality; attribution; creative performance; campaigns with no export."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mkt-campaign-monitor skill on the records for this review."
+}

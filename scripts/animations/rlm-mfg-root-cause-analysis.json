@@ -1,0 +1,121 @@
+{
+  "items": [
+    "why-1-what.md",
+    "why-2-why.md",
+    "why-3-why.md",
+    "why-4-why.md",
+    "why-5-cause.md",
+    "evidence.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "stack",
+      "note": "Ask. Each why is stacked on the one before, and each answer needs evidence."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 why answer restates the previous one",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "why-2-why.md:12",
+        "title": "Why answer restates the previous answer",
+        "fix": "Ask a deeper why"
+      },
+      {
+        "sev": "medium",
+        "where": "why-5-cause.md:19",
+        "title": "Cause is a person rather than a process condition",
+        "fix": "Name the process condition that allowed the error"
+      },
+      {
+        "sev": "low",
+        "where": "evidence.md:26",
+        "title": "Step with no evidence",
+        "fix": "Attach the evidence"
+      }
+    ],
+    "notChecked": "Causes that need a test on the line."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] why-2-why.md:12  Why answer restates the previous answer.\n       Fix: Ask a deeper why.\n[medium] why-5-cause.md:19  Cause is a person rather than a process condition.\n       Fix: Name the process condition that allowed the error.\n[low] evidence.md:26  Step with no evidence.\n       Fix: Attach the evidence.\nNot checked: Causes that need a test on the line.",
+  "pros": [
+    "Checks a step with no evidence, a 'why' answer that restates the previous answer, and a cause that is a person rather than a process condition."
+  ],
+  "cons": [
+    "Not checked: Causes that need a test on the line."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mfg-root-cause-analysis skill on the records for this review."
+}

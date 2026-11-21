@@ -1,0 +1,121 @@
+{
+  "items": [
+    "flow-year-1.csv",
+    "flow-year-2.csv",
+    "flow-year-3.csv",
+    "flow-year-4.csv",
+    "discount-rate.md",
+    "result-npv.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "warn",
+        "ok",
+        "ok",
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "funnel",
+      "note": "Discount. Each cash flow is discounted at the stated rate, then net present value is recomputed."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 discount rate has no basis",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "discount-rate.md:12",
+        "title": "Discount rate with no basis",
+        "fix": "State the basis for the rate"
+      },
+      {
+        "sev": "medium",
+        "where": "flow-year-1.csv:19",
+        "title": "Cash flow with no source",
+        "fix": "Name the source of the flow"
+      },
+      {
+        "sev": "low",
+        "where": "result-npv.md:26",
+        "title": "Result does not match the recomputation",
+        "fix": "Use the recomputed result"
+      }
+    ],
+    "notChecked": "Whether the cash flows will occur."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] discount-rate.md:12  Discount rate with no basis.\n       Fix: State the basis for the rate.\n[medium] flow-year-1.csv:19  Cash flow with no source.\n       Fix: Name the source of the flow.\n[low] result-npv.md:26  Result does not match the recomputation.\n       Fix: Use the recomputed result.\nNot checked: Whether the cash flows will occur.",
+  "pros": [
+    "Checks a cash flow with no source, a discount rate with no basis, and a result that does not match the recomputation."
+  ],
+  "cons": [
+    "Not checked: Whether the cash flows will occur."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-fin-investment-appraisal skill on the records for this review."
+}

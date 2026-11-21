@@ -1,0 +1,129 @@
+{
+  "items": [
+    "ops-chg-201.md",
+    "ops-chg-202.md",
+    "ops-chg-203.md",
+    "ops-chg-204.md",
+    "ops-chg-205.md",
+    "ops-chg-206.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        false,
+        true,
+        false,
+        true
+      ],
+      "note": "Gate. A change needs an affected process, an approver for its risk level and a rollback."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 change cannot be approved as written",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "ops-chg-202.md:12",
+        "title": "Approver missing for the risk level",
+        "fix": "Name the approver before the change"
+      },
+      {
+        "sev": "medium",
+        "where": "ops-chg-205.md:19",
+        "title": "Impact names no process",
+        "fix": "Name the processes affected"
+      },
+      {
+        "sev": "low",
+        "where": "ops-chg-203.md:26",
+        "title": "No rollback described",
+        "fix": "Write the rollback steps"
+      }
+    ],
+    "notChecked": "Whether the change works; the approvers' decisions."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] ops-chg-202.md:12  Approver missing for the risk level.\n       Fix: Name the approver before the change.\n[medium] ops-chg-205.md:19  Impact names no process.\n       Fix: Name the processes affected.\n[low] ops-chg-203.md:26  No rollback described.\n       Fix: Write the rollback steps.\nNot checked: Whether the change works; the approvers' decisions.",
+  "pros": [
+    "Checks a request with no rollback, an impact with no affected process named, and an approver missing for the risk level."
+  ],
+  "cons": [
+    "Not checked: Whether the change works; the approvers' decisions."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ops-change-request skill on the records for this review."
+}

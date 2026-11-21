@@ -1,0 +1,134 @@
+{
+  "items": [
+    "invoice-2301.md",
+    "invoice-2302.md",
+    "invoice-2303.md",
+    "spend-line-a.csv",
+    "spend-line-b.csv",
+    "budget-channel.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "warn",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "invoice matches spend",
+        "no spend line",
+        "no invoice"
+      ],
+      "pairs": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "warn",
+        "bad"
+      ],
+      "note": "Compare. Each invoice is matched to a spend line. An invoice with no spend line, or a spend line with no invoice, is a gap."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 invoice has no spend line",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        2,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "invoice-2302.md:12",
+        "title": "Invoice with no spend line",
+        "fix": "Record the spend or query the invoice"
+      },
+      {
+        "sev": "medium",
+        "where": "spend-line-b.csv:19",
+        "title": "Duplicate invoice",
+        "fix": "Reject the duplicate"
+      },
+      {
+        "sev": "medium",
+        "where": "invoice-2303.md:26",
+        "title": "Amount difference between invoice and spend",
+        "fix": "Reconcile the difference"
+      }
+    ],
+    "notChecked": "Whether the media or goods were delivered; tax treatment, which a qualified adviser confirms."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 2 medium).\n[high] invoice-2302.md:12  Invoice with no spend line.\n       Fix: Record the spend or query the invoice.\n[medium] spend-line-b.csv:19  Duplicate invoice.\n       Fix: Reject the duplicate.\n[medium] invoice-2303.md:26  Amount difference between invoice and spend.\n       Fix: Reconcile the difference.\nNot checked: Whether the media or goods were delivered; tax treatment, which a qualified adviser confirms.",
+  "pros": [
+    "Checks an invoice with no spend line; a spend line with no invoice; an amount difference; a duplicate invoice; spend above the budget line for a channel."
+  ],
+  "cons": [
+    "Not checked: Whether the media or goods were delivered; tax treatment, which a qualified adviser confirms."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mkt-spend-reconcile skill on the records for this review."
+}

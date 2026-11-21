@@ -1,0 +1,134 @@
+{
+  "items": [
+    "reading-emissions-a.csv",
+    "reading-emissions-b.csv",
+    "reading-waste.csv",
+    "reading-water.csv",
+    "permit-limits.md",
+    "sampling.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "ok",
+        "bad",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "within limit",
+        "above limit",
+        "no limit in permit"
+      ],
+      "binOf": [
+        0,
+        0,
+        0,
+        1,
+        2,
+        0
+      ],
+      "note": "Rank. Each reading is placed against its permit limit."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 reading is above its permit limit",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "reading-water.csv:12",
+        "title": "Reading above its permit limit",
+        "fix": "Report the exceedance and act on the source"
+      },
+      {
+        "sev": "medium",
+        "where": "permit-limits.md:19",
+        "title": "Parameter with no limit in the permit",
+        "fix": "Check the permit for the limit"
+      },
+      {
+        "sev": "low",
+        "where": "sampling.csv:26",
+        "title": "Missing sampling date",
+        "fix": "Record the sampling date"
+      }
+    ],
+    "notChecked": "Whether the monitoring equipment was calibrated; the permit's legal effect."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] reading-water.csv:12  Reading above its permit limit.\n       Fix: Report the exceedance and act on the source.\n[medium] permit-limits.md:19  Parameter with no limit in the permit.\n       Fix: Check the permit for the limit.\n[low] sampling.csv:26  Missing sampling date.\n       Fix: Record the sampling date.\nNot checked: Whether the monitoring equipment was calibrated; the permit's legal effect.",
+  "pros": [
+    "Checks a reading above its limit, a parameter with no limit in the permit, a reading with no unit, and a missing sampling date."
+  ],
+  "cons": [
+    "Not checked: Whether the monitoring equipment was calibrated; the permit's legal effect."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ehs-environmental-monitoring skill on the records for this review."
+}

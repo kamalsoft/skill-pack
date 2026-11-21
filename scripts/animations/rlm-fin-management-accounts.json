@@ -1,0 +1,139 @@
+{
+  "items": [
+    "pl-revenue.csv",
+    "pl-costs.csv",
+    "bs-assets.csv",
+    "bs-liabilities.csv",
+    "commentary.md",
+    "totals.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "figure behind claim",
+        "claim with no figure",
+        "totals agree"
+      ],
+      "pairs": [
+        0,
+        0,
+        2,
+        0,
+        1,
+        2
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Compare. Each commentary claim is matched to the figure behind it, and each total is checked."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 balance sheet does not balance",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "pl-costs.csv:12",
+        "title": "Balance sheet does not balance",
+        "fix": "Find the imbalance before the pack is issued"
+      },
+      {
+        "sev": "medium",
+        "where": "commentary.md:19",
+        "title": "Commentary claim with no figure behind it",
+        "fix": "Add the figure or remove the claim"
+      },
+      {
+        "sev": "low",
+        "where": "totals.csv:26",
+        "title": "Total does not match its lines",
+        "fix": "Recompute the total"
+      }
+    ],
+    "notChecked": "The statutory accounting treatment; judgements in the accounts."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] pl-costs.csv:12  Balance sheet does not balance.\n       Fix: Find the imbalance before the pack is issued.\n[medium] commentary.md:19  Commentary claim with no figure behind it.\n       Fix: Add the figure or remove the claim.\n[low] totals.csv:26  Total does not match its lines.\n       Fix: Recompute the total.\nNot checked: The statutory accounting treatment; judgements in the accounts.",
+  "pros": [
+    "Checks a total that does not match, an imbalance, and a commentary claim with no figure behind it."
+  ],
+  "cons": [
+    "Not checked: The statutory accounting treatment; judgements in the accounts."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-fin-management-accounts skill on the records for this review."
+}

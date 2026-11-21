@@ -1,0 +1,134 @@
+{
+  "items": [
+    "proc-order.md",
+    "proc-returns.md",
+    "proc-hiring.md",
+    "proc-billing.md",
+    "proc-audit.md",
+    "proc-changes.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "documented, measured, owned",
+        "missing one",
+        "out of date"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        2,
+        1
+      ],
+      "note": "Rank. Each process is placed by whether it is documented, measured and owned."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 process has none of the three",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "proc-returns.md:12",
+        "title": "Process with none of documented, measured or owned",
+        "fix": "Document, measure and assign an owner"
+      },
+      {
+        "sev": "medium",
+        "where": "proc-audit.md:19",
+        "title": "Procedure older than its review date",
+        "fix": "Review and re-date the procedure"
+      },
+      {
+        "sev": "low",
+        "where": "proc-changes.md:26",
+        "title": "Measure with no data source",
+        "fix": "Name the data source"
+      }
+    ],
+    "notChecked": "Whether the procedure is followed."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] proc-returns.md:12  Process with none of documented, measured or owned.\n       Fix: Document, measure and assign an owner.\n[medium] proc-audit.md:19  Procedure older than its review date.\n       Fix: Review and re-date the procedure.\n[low] proc-changes.md:26  Measure with no data source.\n       Fix: Name the data source.\nNot checked: Whether the procedure is followed.",
+  "pros": [
+    "Checks a process with none of the three, a procedure older than its review date, and a measure with no data source."
+  ],
+  "cons": [
+    "Not checked: Whether the procedure is followed."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-ops-process-maturity-review skill on the records for this review."
+}

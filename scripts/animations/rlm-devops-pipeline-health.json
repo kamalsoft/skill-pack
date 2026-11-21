@@ -1,0 +1,134 @@
+{
+  "items": [
+    "pipeline-api.json",
+    "pipeline-web.json",
+    "pipeline-worker.json",
+    "pipeline-unit.json",
+    "pipeline-e2e.json",
+    "pipeline-staging.json"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "warn",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "healthy",
+        "failure above 10%",
+        "queue above target"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "note": "Rank. Each pipeline is placed by its failure rate and its queue time."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "2 pipelines are failing or queueing",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "pipeline-web.json:12",
+        "title": "Failure rate 18 percent today",
+        "fix": "Fix the failing stage"
+      },
+      {
+        "sev": "medium",
+        "where": "pipeline-worker.json:19",
+        "title": "Queue time 14 minutes against a target of 5",
+        "fix": "Add runners or split the job"
+      },
+      {
+        "sev": "low",
+        "where": "pipeline-e2e.json:26",
+        "title": "Test passes and fails on the same commit",
+        "fix": "Quarantine the test and fix it"
+      }
+    ],
+    "notChecked": "Failures outside the export."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] pipeline-web.json:12  Failure rate 18 percent today.\n       Fix: Fix the failing stage.\n[medium] pipeline-worker.json:19  Queue time 14 minutes against a target of 5.\n       Fix: Add runners or split the job.\n[low] pipeline-e2e.json:26  Test passes and fails on the same commit.\n       Fix: Quarantine the test and fix it.\nNot checked: Failures outside the export.",
+  "pros": [
+    "Flags a failure rate above 10 percent for a pipeline in the day, a queue time above the target, and a test that passes and fails on the same commit."
+  ],
+  "cons": [
+    "Not checked: Failures outside the export."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-devops-pipeline-health skill on the records for this review."
+}

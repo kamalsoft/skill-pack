@@ -1,0 +1,132 @@
+{
+  "items": [
+    "dialog-confirm.tsx",
+    "menu-nav.tsx",
+    "tabs-settings.tsx",
+    "tooltip-help.tsx",
+    "toast-save.tsx",
+    "carousel-hero.tsx"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "bad",
+        "ok",
+        "warn",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "platform feature",
+        "custom code to replace",
+        "focus broken"
+      ],
+      "binOf": [
+        2,
+        0,
+        1,
+        0,
+        1,
+        1
+      ],
+      "note": "Rank. Each component is placed by whether it uses platform features and whether focus works."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 dialog loses focus on close",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "dialog-confirm.tsx:12",
+        "title": "Focus not returned to the opener on close",
+        "fix": "Return focus to the button that opened it"
+      },
+      {
+        "sev": "medium",
+        "where": "tabs-settings.tsx:19",
+        "title": "Arrow keys not supported in the tabs",
+        "fix": "Add arrow-key navigation"
+      },
+      {
+        "sev": "low",
+        "where": "toast-save.tsx:26",
+        "title": "Toast rebuilt in custom code",
+        "fix": "Use the platform's popover"
+      }
+    ],
+    "notChecked": "Behaviour in real assistive technology and browsers, third-party component internals, and visual design quality."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] dialog-confirm.tsx:12  Focus not returned to the opener on close.\n       Fix: Return focus to the button that opened it.\n[medium] tabs-settings.tsx:19  Arrow keys not supported in the tabs.\n       Fix: Add arrow-key navigation.\n[low] toast-save.tsx:26  Toast rebuilt in custom code.\n       Fix: Use the platform's popover.\nNot checked: Behaviour in real assistive technology and browsers, third-party component internals, and visual design quality.",
+  "pros": [],
+  "cons": [
+    "Not checked: Behaviour in real assistive technology and browsers, third-party component internals, and visual design quality."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-web-ui-components skill on the records for this review."
+}

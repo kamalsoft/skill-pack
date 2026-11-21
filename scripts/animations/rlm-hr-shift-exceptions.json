@@ -1,0 +1,134 @@
+{
+  "items": [
+    "shift-day-1.csv",
+    "shift-day-2.csv",
+    "shift-night-1.csv",
+    "shift-night-2.csv",
+    "cover-rules.md",
+    "corrections.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "ok",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "covered",
+        "cover gap",
+        "missed punch, no correction"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        0,
+        2,
+        0
+      ],
+      "note": "Rank. Each shift is placed by its cover for the required roles and whether each missed punch was corrected."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 shift has no cover for a required role",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "shift-day-2.csv:12",
+        "title": "Shift with no cover for a required role",
+        "fix": "Arrange cover before the shift starts"
+      },
+      {
+        "sev": "medium",
+        "where": "cover-rules.md:19",
+        "title": "Missed punch with no correction",
+        "fix": "Record the correction"
+      },
+      {
+        "sev": "low",
+        "where": "corrections.csv:26",
+        "title": "Late arrival not explained",
+        "fix": "Record the reason"
+      }
+    ],
+    "notChecked": "Cover arranged outside the roster."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] shift-day-2.csv:12  Shift with no cover for a required role.\n       Fix: Arrange cover before the shift starts.\n[medium] cover-rules.md:19  Missed punch with no correction.\n       Fix: Record the correction.\n[low] corrections.csv:26  Late arrival not explained.\n       Fix: Record the reason.\nNot checked: Cover arranged outside the roster.",
+  "pros": [
+    "Checks a shift with no cover for a required role, and a missed punch with no correction."
+  ],
+  "cons": [
+    "Not checked: Cover arranged outside the roster."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-hr-shift-exceptions skill on the records for this review."
+}

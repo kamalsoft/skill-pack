@@ -1,0 +1,143 @@
+{
+  "items": [
+    "step-1-stop.md",
+    "step-2-clean.md",
+    "step-3-tooling.md",
+    "step-4-setup.md",
+    "step-5-trial.md",
+    "step-6-start.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "ok",
+        "warn",
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "graph",
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "note": "Order. Each step waits for the step before it. A step that depends on a later step is flagged."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 step depends on a later step",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "step-5-trial.md:12",
+        "title": "Step depends on a later step",
+        "fix": "Move the step after the one it needs"
+      },
+      {
+        "sev": "medium",
+        "where": "step-3-tooling.md:19",
+        "title": "Step with no time",
+        "fix": "Estimate the time from the last changeover"
+      },
+      {
+        "sev": "low",
+        "where": "step-2-clean.md:26",
+        "title": "Step with no owner",
+        "fix": "Assign an owner"
+      }
+    ],
+    "notChecked": "Actual changeover times on the floor."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] step-5-trial.md:12  Step depends on a later step.\n       Fix: Move the step after the one it needs.\n[medium] step-3-tooling.md:19  Step with no time.\n       Fix: Estimate the time from the last changeover.\n[low] step-2-clean.md:26  Step with no owner.\n       Fix: Assign an owner.\nNot checked: Actual changeover times on the floor.",
+  "pros": [
+    "Checks a step with no time, a step with no owner, and a step that depends on a later step."
+  ],
+  "cons": [
+    "Not checked: Actual changeover times on the floor."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-mfg-changeover-plan skill on the records for this review."
+}

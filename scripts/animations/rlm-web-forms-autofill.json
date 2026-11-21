@@ -1,0 +1,127 @@
+{
+  "items": [
+    "signup.html",
+    "checkout.html",
+    "login.html",
+    "address.html",
+    "otp.html",
+    "payment.html"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "warn",
+        "ok",
+        "warn",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "autocomplete set",
+        "autocomplete missing",
+        "one-time code"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        1,
+        2,
+        0
+      ],
+      "note": "Rank. Each form is placed by whether its fields carry autocomplete tokens."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 checkout form cannot be autofilled",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        2,
+        "medium"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "checkout.html:12",
+        "title": "Payment fields with no autocomplete token",
+        "fix": "Add the autocomplete tokens for card fields"
+      },
+      {
+        "sev": "medium",
+        "where": "login.html:19",
+        "title": "Password field with no autocomplete",
+        "fix": "Add autocomplete set to current-password"
+      },
+      {
+        "sev": "medium",
+        "where": "otp.html:26",
+        "title": "One-time code not marked",
+        "fix": "Add autocomplete one-time-code"
+      }
+    ],
+    "notChecked": "Behaviour in specific password managers and browsers, server-side validation outside the scope, and SMS delivery for one-time codes."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 2 medium).\n[high] checkout.html:12  Payment fields with no autocomplete token.\n       Fix: Add the autocomplete tokens for card fields.\n[medium] login.html:19  Password field with no autocomplete.\n       Fix: Add autocomplete set to current-password.\n[medium] otp.html:26  One-time code not marked.\n       Fix: Add autocomplete one-time-code.\nNot checked: Behaviour in specific password managers and browsers, server-side validation outside the scope, and SMS delivery for one-time codes.",
+  "pros": [],
+  "cons": [
+    "Not checked: Behaviour in specific password managers and browsers, server-side validation outside the scope, and SMS delivery for one-time codes."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-web-forms-autofill skill on the records for this review."
+}

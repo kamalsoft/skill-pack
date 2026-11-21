@@ -1,0 +1,139 @@
+{
+  "items": [
+    "prop-scope-1.md",
+    "prop-scope-2.md",
+    "prop-price.md",
+    "prop-terms.md",
+    "prop-references.md",
+    "prop-summary.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "bad",
+        "warn",
+        "ok",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "match",
+      "targets": [
+        "in standard terms",
+        "not in standard terms",
+        "price approved"
+      ],
+      "pairs": [
+        0,
+        1,
+        2,
+        0,
+        0,
+        0
+      ],
+      "targetState": [
+        "ok",
+        "bad",
+        "ok"
+      ],
+      "note": "Compare. Each scope item, price and term is matched to the standard terms or an approval."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 term is not in the standard terms",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "prop-scope-2.md:12",
+        "title": "Term not in the standard terms",
+        "fix": "Take the term to legal before sending"
+      },
+      {
+        "sev": "medium",
+        "where": "prop-price.md:19",
+        "title": "Price differs from the list with no approval",
+        "fix": "Get the price approved"
+      },
+      {
+        "sev": "low",
+        "where": "prop-scope-1.md:26",
+        "title": "Scope item with no source",
+        "fix": "Name the source of the scope item"
+      }
+    ],
+    "notChecked": "Whether the customer accepts; the legal effect of any term."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] prop-scope-2.md:12  Term not in the standard terms.\n       Fix: Take the term to legal before sending.\n[medium] prop-price.md:19  Price differs from the list with no approval.\n       Fix: Get the price approved.\n[low] prop-scope-1.md:26  Scope item with no source.\n       Fix: Name the source of the scope item.\nNot checked: Whether the customer accepts; the legal effect of any term.",
+  "pros": [
+    "Checks a price that differs from the list with no approval, a scope item with no source, and a term that is not in the standard terms."
+  ],
+  "cons": [
+    "Not checked: Whether the customer accepts; the legal effect of any term."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-sales-proposal skill on the records for this review."
+}

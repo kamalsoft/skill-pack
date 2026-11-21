@@ -1,0 +1,134 @@
+{
+  "items": [
+    "wp-01.csv",
+    "wp-02.csv",
+    "wp-03.csv",
+    "wp-04.csv",
+    "wp-05.csv",
+    "wp-06.csv"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "ok",
+        "warn",
+        "ok",
+        "bad",
+        "ok",
+        "ok"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "bins",
+      "bins": [
+        "on plan",
+        "cost over plan",
+        "over 100 percent"
+      ],
+      "binOf": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        1
+      ],
+      "note": "Rank. Each work package is placed by its planned value, its actual cost and its percent complete."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 work package reports over 100 percent",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "wp-04.csv:12",
+        "title": "Percent complete over 100",
+        "fix": "Correct the percent complete"
+      },
+      {
+        "sev": "medium",
+        "where": "wp-02.csv:19",
+        "title": "Actual cost with no planned value",
+        "fix": "Add the planned value"
+      },
+      {
+        "sev": "low",
+        "where": "wp-06.csv:26",
+        "title": "Variance does not follow from the figures",
+        "fix": "Recompute the variance"
+      }
+    ],
+    "notChecked": "Whether the percent complete is accurate."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] wp-04.csv:12  Percent complete over 100.\n       Fix: Correct the percent complete.\n[medium] wp-02.csv:19  Actual cost with no planned value.\n       Fix: Add the planned value.\n[low] wp-06.csv:26  Variance does not follow from the figures.\n       Fix: Recompute the variance.\nNot checked: Whether the percent complete is accurate.",
+  "pros": [
+    "Checks a package with percent complete over 100, an actual cost with no planned value, and a variance that does not follow from the figures."
+  ],
+  "cons": [
+    "Not checked: Whether the percent complete is accurate."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-pm-budget-burn skill on the records for this review."
+}

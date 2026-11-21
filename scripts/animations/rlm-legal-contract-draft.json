@@ -1,0 +1,121 @@
+{
+  "items": [
+    "deal-terms.md",
+    "template-main.md",
+    "template-annex.md",
+    "variation-1.md",
+    "variation-2.md",
+    "variation-3.md"
+  ],
+  "steps": [
+    {
+      "layout": "row",
+      "note": "Inspect. The records in scope are listed, and any skipped file is reported."
+    },
+    {
+      "layout": "chunks",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "note": "Partition. The records are cut into chunks, each read on its own."
+    },
+    {
+      "layout": "parallel",
+      "groups": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2
+      ],
+      "state": [
+        "bad",
+        "ok",
+        "ok",
+        "ok",
+        "ok",
+        "warn"
+      ],
+      "note": "Map. Each chunk is checked against this skill's rules, one chunk at a time."
+    },
+    {
+      "layout": "funnel",
+      "note": "Combine. Deal terms are placed into the approved template, and each variation is listed."
+    },
+    {
+      "layout": "gate",
+      "pass": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "note": "Verify. Each cited line is re-read, and a finding that does not hold is dropped."
+    },
+    {
+      "layout": "doc",
+      "docLabel": "draft report",
+      "note": "Report. Status: draft for the owner to review. It is not a decision."
+    }
+  ],
+  "outcome": {
+    "verdict": "1 deal term has no place in the template",
+    "tone": "bad",
+    "bars": [
+      [
+        "high",
+        1,
+        "high"
+      ],
+      [
+        "medium",
+        1,
+        "medium"
+      ],
+      [
+        "low",
+        1,
+        "low"
+      ]
+    ],
+    "findings": [
+      {
+        "sev": "high",
+        "where": "deal-terms.md:12",
+        "title": "Deal term with no place in the template",
+        "fix": "Add the term to the template or as a variation"
+      },
+      {
+        "sev": "medium",
+        "where": "variation-3.md:19",
+        "title": "Variation with no reason stated",
+        "fix": "State the reason for the variation"
+      },
+      {
+        "sev": "low",
+        "where": "template-annex.md:26",
+        "title": "Template clause left unchanged that the deal contradicts",
+        "fix": "Change the clause to match the deal"
+      }
+    ],
+    "notChecked": "Whether the draft is enforceable; the law of the jurisdiction."
+  },
+  "example": "Illustrative example: the items and results are made up, not real output.\nSummary: 3 findings (1 high, 1 medium, 1 low).\n[high] deal-terms.md:12  Deal term with no place in the template.\n       Fix: Add the term to the template or as a variation.\n[medium] variation-3.md:19  Variation with no reason stated.\n       Fix: State the reason for the variation.\n[low] template-annex.md:26  Template clause left unchanged that the deal contradicts.\n       Fix: Change the clause to match the deal.\nNot checked: Whether the draft is enforceable; the law of the jurisdiction.",
+  "pros": [
+    "Checks a deal term with no place in the template, a template clause left unchanged that the deal terms contradict, and a variation with no reason stated."
+  ],
+  "cons": [
+    "Not checked: Whether the draft is enforceable; the law of the jurisdiction."
+  ],
+  "input": "The records for this review, as text or CSV",
+  "output": "A draft report: findings with location, fix and a not-checked list",
+  "prompt": "Use the rlm-legal-contract-draft skill on the records for this review."
+}
