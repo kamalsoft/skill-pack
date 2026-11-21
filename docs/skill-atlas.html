@@ -449,6 +449,23 @@ footer { font-size: 13px; color: var(--muted); padding: 4px 4px 0; }
 .detail-dialog .detail { position: relative; max-height: calc(100vh - 24px); overflow: auto; }
 .dlg-close { position: absolute; right: 12px; top: 12px; z-index: 5; }
 @media (max-width: 560px) { .browse-bar .seg-ctl { min-width: 0; width: 100%; } .browse-bar .viewsw { width: 100%; } .browse-bar .viewsw button { flex: 1; } }
+
+.trust { font-size: 13.5px; color: var(--muted); margin: 0 0 12px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: -4px 0 14px; }
+.chip-q { font-size: 12.5px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); border-radius: 999px; padding: 3px 10px; cursor: pointer; }
+.chip-q:hover { color: var(--ink); }
+.sort-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 0 0 12px; font-size: 13.5px; color: var(--muted); }
+.sort-row select { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 4px 8px; }
+.more-row { display: flex; justify-content: center; margin-top: 14px; }
+.more { font: inherit; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 10px; padding: 8px 16px; cursor: pointer; }
+.skill-cell { position: relative; }
+.card-copy { position: absolute; right: 10px; bottom: 10px; font-size: 11.5px; padding: 2px 8px; }
+.crumbs { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; padding: 14px 24px 0; font-size: 13px; color: var(--muted); }
+.crumb-back { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 4px 10px; cursor: pointer; font: inherit; font-size: 13px; }
+.pill.design { text-decoration: none; color: var(--muted); }
+.files { margin-top: 14px; }
+.files summary { cursor: pointer; color: var(--ink); font-weight: 600; font-size: 14px; }
+.files pre { margin-top: 8px; font-size: 12px; }
 </style>
 </head>
 <body>
@@ -476,6 +493,7 @@ footer { font-size: 13px; color: var(--muted); padding: 4px 4px 0; }
       <p class="eyebrow">Skill Atlas · <span id="count"></span></p>
       <h1 id="ov-title">Every skill has a starting point. Find yours.</h1>
       <p class="lede">The skills installed in this project, grouped by family and graded A+ to D. Search or filter, then open a skill to read its steps, grade and folder.</p>
+      <p class="trust" id="trust"></p>
       <div class="browse-bar">
         <label class="search"><span hidden>Search skills</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -487,7 +505,17 @@ footer { font-size: 13px; color: var(--muted); padding: 4px 4px 0; }
           <button type="button" data-mode="table" aria-pressed="false">Table</button>
         </div>
       </div>
+      <div class="chips" id="qchips" aria-label="Suggested searches"></div>
       <div class="fam-tabs" id="fams" role="tablist" aria-label="Skill families"></div>
+      <div class="sort-row">
+        <label>Sort <select id="sortSel">
+          <option value="grade|-1">Grade (best first)</option>
+          <option value="goal|1">Name (A to Z)</option>
+          <option value="fam|1">Family</option>
+          <option value="tier|1">Tier</option>
+        </select></label>
+        <span class="count-note" id="shownNote"></span>
+      </div>
       <div class="list" id="tabs"></div>
       <div class="tbl-scroll" id="tblWrap" hidden>
         <table class="t" id="skTable">
@@ -501,6 +529,7 @@ footer { font-size: 13px; color: var(--muted); padding: 4px 4px 0; }
           <tbody id="skRows"></tbody>
         </table>
       </div>
+      <div class="more-row"><button type="button" class="more" id="more" hidden></button></div>
       <p class="none" id="empty" hidden>No skill matches. Clear the search, or choose another family or tier.</p>
     </section>
 
@@ -517,6 +546,10 @@ footer { font-size: 13px; color: var(--muted); padding: 4px 4px 0; }
     <dialog id="detail" class="detail-dialog" aria-labelledby="sname">
     <section class="card detail" id="skills" aria-label="Skill viewer">
       <button type="button" class="iconbtn dlg-close" id="closeDetail" aria-label="Close skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <button type="button" class="crumb-back" id="backList">&larr; Back to list</button>
+        <span id="crumb"></span>
+      </nav>
       <div class="d-head">
         <div class="ring" id="ring"></div>
         <div>
@@ -5938,7 +5971,9 @@ const EMBEDDED = JSON.parse(document.getElementById('skill-data').textContent);
 function mergeIndex(index) {
   const curated = new Map(EMBEDDED.skills.map((s) => [s.id, s]));
   // A curated entry keeps its walkthrough, outcome and text, but its grade comes from the index, which applies the same rules to every skill.
-  const merged = index.skills.map((s) => (curated.has(s.id) ? { ...curated.get(s.id), grade: s.grade } : s));
+  const merged = index.skills.map((s) => (curated.has(s.id)
+    ? { ...curated.get(s.id), grade: s.grade, files: s.files, helperScripts: s.helperScripts, notChecked: s.notChecked, path: s.path }
+    : s));
   return { skills: [...EMBEDDED.skills.filter((s) => s.cat === 'Overview'), ...merged] };
 }
 let DATA = EMBEDDED;
@@ -6335,11 +6370,14 @@ const groupOf = (s) => (s.cat === 'Installed' ? GROUP_OF_FAMILY[familyOf(s)] : G
 const scoreOf = (s) => (s.grade ? Number(s.grade.score) : 0);
 const SORT_KEYS = { goal: (s) => s.goal.toLowerCase(), fam: labelOf, tier: (s) => TIERS.indexOf(tierOf(s)), score: scoreOf, grade: scoreOf };
 const tierBadge = (s) => (tierOf(s) ? `<span class="tier ${tp(s)}">${esc(tierOf(s))}</span>` : '');
-const card = (s) => `<button type="button" class="skill-card ${tp(s)}" data-id="${esc(s.id)}">
-  <span class="gchip" aria-hidden="true">${s.grade ? esc(s.grade.grade) : '◎'}</span>
-  <span class="sc-body"><span class="g">${esc(s.goal)}</span><span class="i">${esc(s.id)}</span></span>
-  <span class="sc-meta">${tierBadge(s)}<span class="pill">${esc(labelOf(s))}</span></span>
-</button>`;
+const card = (s) => `<div class="skill-cell">
+  <button type="button" class="skill-card ${tp(s)}" data-id="${esc(s.id)}">
+    <span class="gchip" aria-hidden="true">${s.grade ? esc(s.grade.grade) : '◎'}</span>
+    <span class="sc-body"><span class="g">${esc(s.goal)}</span><span class="i">${esc(s.id)}</span></span>
+    <span class="sc-meta">${tierBadge(s)}<span class="pill">${esc(labelOf(s))}</span></span>
+  </button>
+  ${s.path ? `<button type="button" class="copy card-copy" data-copy="${esc(s.path)}" aria-label="Copy the folder path of ${esc(s.id)}">Copy path</button>` : ''}
+</div>`;
 const row = (s) => `<tr>
   <td><button type="button" class="skill-link" data-id="${esc(s.id)}">${esc(s.goal)}</button><br><span class="mono">${esc(s.id)}</span></td>
   <td>${esc(labelOf(s))}</td>
@@ -6348,6 +6386,8 @@ const row = (s) => `<tr>
   <td class="n gr">${s.grade ? esc(s.grade.grade) : '—'}</td>
 </tr>`;
 
+let shown = 60;
+const SUGGESTIONS = ['code review', 'contract', 'payroll', 'incident', 'forecast', 'security', 'audit', 'onboarding'];
 function renderTabs() {
   const q = query.trim().toLowerCase();
   const base = SKILLS.filter((s) => (tier === 'All tiers' || tierOf(s) === tier) &&
@@ -6356,24 +6396,35 @@ function renderTabs() {
     const n = id === 'all' ? base.length : base.filter((s) => groupOf(s) === id).length;
     return `<button type="button" role="tab" data-fam="${id}" aria-selected="${id === fam}">${esc(name)}<span>${n}</span></button>`;
   }).join('');
+  $('#qchips').innerHTML = SUGGESTIONS.map((t) => `<button type="button" class="chip-q" data-q="${esc(t)}">${esc(t)}</button>`).join('');
   const list = fam === 'all' ? base : base.filter((s) => groupOf(s) === fam);
+  const sorted = [...list].sort((a, b) => {
+    const key = SORT_KEYS[sortKey];
+    const x = key(a), y = key(b);
+    return (x < y ? -1 : x > y ? 1 : 0) * sortDir;
+  });
+  const page = mode === 'cards' ? sorted.slice(0, shown) : sorted;
   $('#empty').hidden = list.length > 0;
   $('#tabs').hidden = mode !== 'cards';
   $('#tblWrap').hidden = mode !== 'table';
+  $('#more').hidden = mode !== 'cards' || sorted.length <= shown;
+  $('#more').textContent = `Show ${Math.min(60, sorted.length - shown)} more (${sorted.length - shown} left)`;
+  $('#shownNote').textContent = `${page.length} of ${list.length} shown`;
   if (mode === 'cards') {
-    $('#tabs').innerHTML = list.map(card).join('');
+    $('#tabs').innerHTML = page.map(card).join('');
   } else {
-    const key = SORT_KEYS[sortKey];
-    $('#skRows').innerHTML = [...list].sort((a, b) => {
-      const x = key(a), y = key(b);
-      return (x < y ? -1 : x > y ? 1 : 0) * sortDir;
-    }).map(row).join('');
+    $('#skRows').innerHTML = page.map(row).join('');
   }
   document.querySelectorAll('#modes button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mode === mode)));
   document.querySelectorAll('#skTable th button').forEach((b) => {
     if (b.dataset.key === sortKey) b.dataset.dir = sortDir > 0 ? 'asc' : 'desc'; else delete b.dataset.dir;
   });
+  const sel = `${sortKey}|${sortDir}`;
+  if ([...$('#sortSel').options].some((o) => o.value === sel)) $('#sortSel').value = sel;
   $('#count').textContent = `${SKILLS.filter((s) => tierOf(s)).length} skills`;
+  const walk = SKILLS.filter((s) => tierOf(s) && s.steps && s.steps.length).length;
+  const scored = SKILLS.filter((s) => tierOf(s) && s.grade && s.grade.scores).length;
+  $('#trust').textContent = `${SKILLS.filter((s) => tierOf(s)).length} skills installed in this project. ${walk} have a walkthrough, ${scored} have criteria scores. Every grade is a design grade, not validated against a model.`;
 }
 
 function renderCats() {
@@ -6522,22 +6573,35 @@ function renderInfo() {
   $('#sname').textContent = skill.goal;
   $('#ring').className = 'ring ' + tp(skill);
   $('#ring').innerHTML = ring(skill);
+  $('#crumb').textContent = `${CAT_NAME[skill.cat] || skill.cat} / ${skill.id}`;
   $('#sbadges').innerHTML = `<span class="mono">${esc(skill.id)}</span><span class="pill">${esc(CAT_NAME[skill.cat] || skill.cat)}</span>` +
     (skill.cat === 'Overview' || skill.cat === 'Installed' ? '' : `<span class="pill">${skill.on ? 'On by default' : 'Off by default'}</span>`) +
-    (tierOf(skill) ? `<span class="tier ${tp(skill)}">${esc(tierOf(skill))}</span>` : '');
+    (tierOf(skill) ? `<span class="tier ${tp(skill)}">${esc(tierOf(skill))}</span>` : '') +
+    (skill.grade && skill.grade.design ? `<a class="pill design" href="#grades" title="How grades work">Design grade</a>` : '');
+  const steps = skill.protocol ? skill.protocol.length : skill.steps.length;
+  const files = skill.files || [];
   $('#info').innerHTML = `<div class="use">
     <div>
       <p class="lead">${esc(skill.use)}</p>
       <h4>Example prompt</h4>
-      <div class="prompt"><pre><code>${esc(skill.prompt)}</code></pre><button type="button" class="copy" data-copy="${esc(skill.prompt)}">Copy</button></div>
+      <div class="prompt"><pre><code>${esc(skill.prompt)}</code></pre><button type="button" class="copy" data-copy="${esc(skill.prompt)}">Copy prompt</button></div>
       <dl class="facts">
         ${skill.input ? `<dt>Input</dt><dd>${esc(skill.input)}</dd>` : ''}
         ${skill.output ? `<dt>Output</dt><dd>${esc(skill.output)}</dd>` : ''}
         ${skill.items.length ? `<dt>Items</dt><dd class="items">${skill.items.map((x) => `<code>${esc(x)}</code>`).join('')}</dd>` : ''}
-        ${skill.path ? `<dt>Folder</dt><dd><code>${esc(skill.path)}</code></dd>` : ''}
+        ${skill.path ? `<dt>Folder</dt><dd><code>${esc(skill.path)}</code> <button type="button" class="copy" data-copy="${esc(skill.path)}">Copy path</button></dd>` : ''}
       </dl>
     </div>
     <div>
+      <h4>Quick stats</h4>
+      <dl class="facts">
+        <dt>Tier</dt><dd>${esc(tierOf(skill) || '—')}</dd>
+        <dt>Grade</dt><dd>${esc(skill.grade ? skill.grade.grade : '—')}${skill.grade && skill.grade.design ? ' (design grade)' : ''}</dd>
+        <dt>Protocol steps</dt><dd>${steps}</dd>
+        <dt>Helper scripts</dt><dd>${skill.helperScripts ?? 0}</dd>
+        <dt>Not-checked list</dt><dd>${skill.notChecked ? 'Yes' : 'No'}</dd>
+      </dl>
+      ${files.length ? `<details class="files"><summary>Bundled files (${files.length})</summary><pre><code>${esc(files.join('\n'))}</code></pre></details>` : ''}
       ${skill.pros.length ? `<h4>Pros</h4><ul class="pc">${skill.pros.map((p) => `<li>${esc(p)}</li>`).join('')}</ul>` : ''}
       ${skill.cons.length ? `<h4>Cons</h4><ul class="pc con">${skill.cons.map((p) => `<li>${esc(p)}</li>`).join('')}</ul>` : ''}
     </div></div>`;
@@ -7368,6 +7432,21 @@ function openSkill(id) {
   });
 }
 $('#closeDetail').addEventListener('click', () => detail.close());
+$('#backList').addEventListener('click', () => detail.close());
+$('#qchips').addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-q]');
+  if (!b) return;
+  $('#q').value = b.dataset.q;
+  query = b.dataset.q;
+  shown = 60;
+  renderTabs();
+});
+$('#more').addEventListener('click', () => { shown += 60; renderTabs(); });
+$('#sortSel').addEventListener('change', (e) => {
+  [sortKey, sortDir] = e.target.value.split('|');
+  sortDir = Number(sortDir);
+  renderTabs();
+});
 $('#tabs').addEventListener('click', (e) => {
   const b = e.target.closest('button[data-id]');
   if (b) openSkill(b.dataset.id);
@@ -7376,6 +7455,7 @@ $('#tiers').addEventListener('click', (e) => {
   const b = e.target.closest('button[data-tier]');
   if (!b) return;
   tier = b.dataset.tier;
+  shown = 60;
   document.querySelectorAll('#tiers button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
   renderTabs();
 });
@@ -7414,20 +7494,23 @@ document.querySelector('.dtabs').addEventListener('keydown', (e) => {
   n.focus();
   showTab(n.dataset.tab);
 });
-$('#q').addEventListener('input', (e) => { query = e.target.value; renderTabs(); });
+$('#q').addEventListener('input', (e) => { query = e.target.value; shown = 60; renderTabs(); });
 document.addEventListener('keydown', (e) => {
   if (e.key === '/' && !/INPUT|TEXTAREA/.test(document.activeElement.tagName) && !detail.open) { e.preventDefault(); $('#q').focus(); }
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); $('#q').focus(); $('#q').select(); }
 });
 $('#modes').addEventListener('click', (e) => {
   const b = e.target.closest('button[data-mode]');
   if (!b) return;
   mode = b.dataset.mode;
+  shown = 60;
   renderTabs();
 });
 $('#fams').addEventListener('click', (e) => {
   const b = e.target.closest('button[data-fam]');
   if (!b) return;
   fam = b.dataset.fam;
+  shown = 60;
   renderTabs();
 });
 $('#skTable thead').addEventListener('click', (e) => {

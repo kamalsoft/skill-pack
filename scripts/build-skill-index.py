@@ -104,6 +104,16 @@ def criteria_scores(registry):
     return found
 
 
+def bundled_files(folder, limit=40):
+    """Files under the skill's scripts/, references/ and assets/ folders, relative to the skill folder."""
+    found = []
+    for sub in ("scripts", "references", "assets"):
+        base = folder / sub
+        if base.is_dir():
+            found += [p.relative_to(folder).as_posix() for p in sorted(base.rglob("*")) if p.is_file()]
+    return found if limit is None else found[:limit]
+
+
 def skill_entry(folder, grades, criteria):
     text = (folder / "SKILL.md").read_text(encoding="utf-8")
     meta = frontmatter(text)
@@ -129,10 +139,14 @@ def skill_entry(folder, grades, criteria):
         "why": "",
         "protocol": steps,
         "path": folder.relative_to(ROOT).as_posix() if folder.is_relative_to(ROOT) else str(folder),
+        "files": bundled_files(folder),
+        "helperScripts": len([f for f in bundled_files(folder, limit=None) if f.startswith("scripts/")]),
+        "notChecked": "Not checked" in text,
     }
     if registered:
         extra = criteria.get(name, {})
-        entry["grade"] = {"grade": registered["grade"], "tier": registered["tier"], "score": extra.get("score"), "scores": extra.get("scores")}
+        # No skill has been validated against a model, so every grade is a design grade.
+        entry["grade"] = {"grade": registered["grade"], "tier": registered["tier"], "score": extra.get("score"), "scores": extra.get("scores"), "design": True}
         entry["tier"] = registered["tier"]
     else:
         entry["grade"] = None
