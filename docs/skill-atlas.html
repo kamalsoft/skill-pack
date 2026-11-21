@@ -5989,7 +5989,7 @@ let skill = SKILLS.find((s) => s.id === current);
 let frameGlass = [], flows3 = [];
 let tier = 'All tiers';
 let run = params.get('run') || 'example';
-let query = '';
+let query = params.get('q') || '';
 let time = 0;
 let playing = !REDUCED;
 let stepIdx = -1;
@@ -7494,6 +7494,7 @@ document.querySelector('.dtabs').addEventListener('keydown', (e) => {
   n.focus();
   showTab(n.dataset.tab);
 });
+$('#q').value = query;
 $('#q').addEventListener('input', (e) => { query = e.target.value; shown = 60; renderTabs(); });
 document.addEventListener('keydown', (e) => {
   if (e.key === '/' && !/INPUT|TEXTAREA/.test(document.activeElement.tagName) && !detail.open) { e.preventDefault(); $('#q').focus(); }

@@ -34,3 +34,12 @@ coverage/
 .github/skills
 .windsurf
 
+
+# Next.js build output and dependencies
+node_modules/
+.next/
+out/
+next-env.d.ts
+public/atlas.html
+public/skills-index.js
+*.tsbuildinfo

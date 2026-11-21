@@ -2285,10 +2285,10 @@ window.SKILL_INDEX = {
   },
   {
    "id": "rlm-cs-annual-plan",
-   "goal": "Drafts next year's service plan channels, service levels and resourcing.",
+   "goal": "Drafts next year's service plan: channels, service levels and resourcing.",
    "cat": "Installed",
    "on": false,
-   "use": "Drafts next year's service plan channels, service levels and resourcing. Use when planning customer service for next year.",
+   "use": "Drafts next year's service plan: channels, service levels and resourcing. Use when planning customer service for next year.",
    "prompt": "Use the rlm-cs-annual-plan skill on the records for this review.",
    "input": "The records for this review, as text or CSV",
    "output": "A draft report: findings with location, fix and a not-checked list",

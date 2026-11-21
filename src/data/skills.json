@@ -1,0 +1,3298 @@
+[
+ {
+  "id": "memory-manager",
+  "goal": "Keep a compact, searchable memory graph of requests and responses for this project.",
+  "family": "memory-manager",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-accessibility-audit",
+  "goal": "Audit a large front end for accessibility using Recursive Language Model (RLM) decomposition: semantics, name…",
+  "family": "accessibility",
+  "tier": "premium",
+  "grade": "A",
+  "design": true
+ },
+ {
+  "id": "rlm-api-contract-review",
+  "goal": "Review API contract changes (OpenAPI, protobuf, GraphQL schemas and their route handlers) for breaking change…",
+  "family": "api",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-audit-evidence-collector",
+  "goal": "Collect and index audit evidence for a defined period or control: change history with review records, CI run…",
+  "family": "audit",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-browser-extension-review",
+  "goal": "Review and build Manifest V3 browser extensions: service worker lifecycle, permissions, messaging and sender…",
+  "family": "browser",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-cicd-pipeline-review",
+  "goal": "Review CI/CD pipeline definitions (GitHub Actions, GitLab CI, Jenkins, Azure Pipelines, CircleCI) for secret…",
+  "family": "cicd",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-code-review",
+  "goal": "Enterprise code review of a branch, pull request or diff for correctness, security, data safety, tests and ma…",
+  "family": "code",
+  "tier": "premium",
+  "grade": "A+",
+  "design": true
+ },
+ {
+  "id": "rlm-compliance-control-check",
+  "goal": "Check a repository against a compliance control set supplied by the user (for example SOC 2, ISO 27001, PCI D…",
+  "family": "compliance",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-core-procurement-cycle",
+  "goal": "Sourcing, purchase order, goods receipt, invoice matching and supplier onboarding, checked against the buying…",
+  "family": "core",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-core-quality-method",
+  "goal": "Shared quality method: nonconformance, corrective and preventive action, and audit findings, using each domai…",
+  "family": "core",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-core-risk-management",
+  "goal": "Rulebook for risk in every domain: the process, scoring, register format, escalation, review cadence, domain…",
+  "family": "core",
+  "tier": "premium",
+  "grade": "A-",
+  "design": true
+ },
+ {
+  "id": "rlm-core-risk-register",
+  "goal": "Maintains a risk register in the shared format, with owners, ratings, responses and review dates.",
+  "family": "core",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-core-safety-risk",
+  "goal": "Hazard identification, safety observations, incident and near-miss records, safety statistics and lockout rev…",
+  "family": "core",
+  "tier": "premium",
+  "grade": "A-",
+  "design": true
+ },
+ {
+  "id": "rlm-core-standards-map",
+  "goal": "Index of the standards each domain uses, with edition and clause, checked before a skill cites them.",
+  "family": "core",
+  "tier": "essentials",
+  "grade": "C",
+  "design": true
+ },
+ {
+  "id": "rlm-cs-adhoc-triage",
+  "goal": "Intake, priority, owner and deadline for unplanned customer support requests.",
+  "family": "cs",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-cs-annual-plan",
+  "goal": "Drafts next year's service plan: channels, service levels and resourcing.",
+  "family": "cs",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-cs-channel-review",
+  "goal": "Reviews the channel mix, cost per contact and customer preference each half-year.",
+  "family": "cs",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-cs-complaint-handling",
+  "goal": "Records a formal customer complaint: facts, response, outcome and follow-up.",
+  "family": "cs",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-cs-csat-report",
+  "goal": "Reports customer satisfaction and NPS by channel each month, aggregated, with the month-on-month change.",
+  "family": "cs",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-cs-daily-backlog",
+  "goal": "Reports open customer cases by age and priority each day, with the day-on-day change.",
+  "family": "cs",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-cs-escalation-review",
+  "goal": "Reviews customer escalations each week: cause, owner and outcome.",
+  "family": "cs",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-cs-knowledge-base-gaps",
+  "goal": "Finds customer questions with no answer, or a weak answer, in the knowledge base each month.",
+  "family": "cs",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-cs-quality-assurance",
+  "goal": "Scores a sample of customer interactions against the quality form each quarter.",
+  "family": "cs",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-cs-quarterly-review",
+  "goal": "Reviews last quarter's service results and drafts the plan for next quarter.",
+  "family": "cs",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-cs-queue-monitor",
+  "goal": "Monitors the customer queue hourly and daily: contacts waiting, answer time and abandonment.",
+  "family": "cs",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-cs-refund-request",
+  "goal": "Checks a refund or credit request against the approval path and the limit.",
+  "family": "cs",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-cs-shift-handover",
+  "goal": "Records open cases, promises made to customers and escalations for the next shift.",
+  "family": "cs",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-cs-staffing-model",
+  "goal": "Calculates the staff needed for forecast volume and the service level, with the assumptions shown.",
+  "family": "cs",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-cs-top-issues",
+  "goal": "Lists the main reasons customers contact support each month, with volume and trend.",
+  "family": "cs",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-cs-weekly-sla-report",
+  "goal": "Reports first response and resolution times against target each week, with the week-on-week change.",
+  "family": "cs",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-cs-ytd-report",
+  "goal": "Reports year-to-date service levels and satisfaction against plan.",
+  "family": "cs",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-db-migration-safety",
+  "goal": "Review database schema migrations before they run in production: table locks and rewrites, destructive or irr…",
+  "family": "db",
+  "tier": "premium",
+  "grade": "A-",
+  "design": true
+ },
+ {
+  "id": "rlm-dependency-audit",
+  "goal": "Audit dependency manifests and lock files for known vulnerabilities, end-of-life or unmaintained packages, ri…",
+  "family": "dependency",
+  "tier": "premium",
+  "grade": "A",
+  "design": true
+ },
+ {
+  "id": "rlm-devops-access-review",
+  "goal": "Checks who can deploy to which environment against the current roster each month.",
+  "family": "devops",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-devops-annual-plan",
+  "goal": "Drafts next year's delivery and platform plan from this year's records.",
+  "family": "devops",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-devops-budget",
+  "goal": "Builds the cloud and tooling budget with its variance, using the finance method.",
+  "family": "devops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-devops-cloud-cost",
+  "goal": "Reviews cloud spend by service and team each month, with idle resources.",
+  "family": "devops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-devops-deploy-log",
+  "goal": "Checks the deployment log each day: deploys, rollbacks and failed deploys, with their cause.",
+  "family": "devops",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-devops-dr-test",
+  "goal": "Records a restore and failover test each quarter, with its result.",
+  "family": "devops",
+  "tier": "premium",
+  "grade": "A-",
+  "design": true
+ },
+ {
+  "id": "rlm-devops-flaky-test-review",
+  "goal": "Lists the tests that fail intermittently each week, with a cause and an owner.",
+  "family": "devops",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-devops-monthly-dora-report",
+  "goal": "Reports the delivery metrics each month, with the month-on-month trend.",
+  "family": "devops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-devops-new-service-checklist",
+  "goal": "Checks a new service for logging, metrics, alerts, ownership and its deploy path before go-live.",
+  "family": "devops",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-devops-on-call-handover",
+  "goal": "Records open alerts, pending deploys and known risks for the next on-call engineer.",
+  "family": "devops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-devops-pipeline-health",
+  "goal": "Checks pipeline health each day: failing builds, flaky tests, queue time, with the day-on-day change.",
+  "family": "devops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-devops-pipeline-proposal",
+  "goal": "Drafts a business case for a pipeline or platform change: the problem, the cost, the risk and the effect.",
+  "family": "devops",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-devops-platform-roadmap",
+  "goal": "Reviews platform work done last quarter and drafts the platform roadmap for next quarter.",
+  "family": "devops",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-devops-release-checklist",
+  "goal": "Runs the pre-release checks: owners, gates and sign-off, against the release notes.",
+  "family": "devops",
+  "tier": "premium",
+  "grade": "A-",
+  "design": true
+ },
+ {
+  "id": "rlm-devops-reliability-review",
+  "goal": "Reviews service level objective attainment and error budget use each quarter.",
+  "family": "devops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-devops-rollback-runbook",
+  "goal": "Writes or checks the rollback steps for a service, with verification at each step.",
+  "family": "devops",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-devops-sprint-release-plan",
+  "goal": "Plans the release scope for a sprint, the gates it must pass and its rollback plan.",
+  "family": "devops",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-devops-toolchain-review",
+  "goal": "Reviews the pipeline and tooling costs, maintenance and replacements each half-year.",
+  "family": "devops",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-devops-triage",
+  "goal": "Intake, priority, owner and deadline for unplanned DevOps requests.",
+  "family": "devops",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-devops-vulnerability-triage",
+  "goal": "Ranks new vulnerability findings from dependency and image scans each week by exposure.",
+  "family": "devops",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-devops-weekly-delivery-report",
+  "goal": "Reports deploy frequency, lead time, change failure rate and time to restore each week, with the week-on-week…",
+  "family": "devops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-devops-ytd-delivery-report",
+  "goal": "Reports year-to-date delivery and reliability against plan.",
+  "family": "devops",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-doc-generator",
+  "goal": "Generate developer documentation for a large repository using Recursive Language Model (RLM) decomposition.",
+  "family": "doc",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-ehs-adhoc-triage",
+  "goal": "Intake, priority, owner and deadline for unplanned EHS requests.",
+  "family": "ehs",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-ehs-annual-plan",
+  "goal": "Drafts next year's EHS plan: objectives, audits, training, resources and permit reviews.",
+  "family": "ehs",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-ehs-business-case",
+  "goal": "Drafts a business case for an EHS investment: the risk, the cost, the expected effect and the alternatives.",
+  "family": "ehs",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-ehs-certification-readiness",
+  "goal": "Gap check before an external environmental or safety management audit: which clauses have evidence, and which…",
+  "family": "ehs",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-ehs-contractor-safety",
+  "goal": "Checks contractor inductions, competence records and safety findings each week.",
+  "family": "ehs",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ehs-emergency-plan",
+  "goal": "Checks an emergency response plan for roles, drill dates and contacts.",
+  "family": "ehs",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ehs-environmental-aspects-review",
+  "goal": "Reviews the environmental aspects and impacts register against last quarter's changes.",
+  "family": "ehs",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-ehs-environmental-incident",
+  "goal": "Records a spill, release or emission event: containment, reporting duty and actions.",
+  "family": "ehs",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-ehs-environmental-monitoring",
+  "goal": "Checks emissions, waste and water readings against the permit limits each month, with the month-on-month chan…",
+  "family": "ehs",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-ehs-exposure-monitoring",
+  "goal": "Checks noise, dust and chemical exposure results against their limits each month.",
+  "family": "ehs",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-ehs-health-surveillance",
+  "goal": "Summarises occupational health surveillance results for the half-year, aggregated by group.",
+  "family": "ehs",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-ehs-management-review",
+  "goal": "Prepares the annual management review of the safety and environmental systems: inputs, decisions and actions.",
+  "family": "ehs",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-ehs-permit-compliance",
+  "goal": "Checks each permit condition each quarter: conditions met, breaches and reporting dates.",
+  "family": "ehs",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ehs-permit-to-work",
+  "goal": "Checks the permit-to-work register daily: permits issued, open, expiring, and any suspended.",
+  "family": "ehs",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-ehs-regulatory-calendar",
+  "goal": "Lists environmental and safety obligations and their deadlines for each jurisdiction.",
+  "family": "ehs",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ehs-training-compliance",
+  "goal": "Checks safety and environmental training: records due, overdue and missing for each role.",
+  "family": "ehs",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ehs-ytd-report",
+  "goal": "Reports year-to-date EHS results against objectives.",
+  "family": "ehs",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-fin-adhoc-triage",
+  "goal": "Intake, priority, owner and deadline for unplanned finance requests.",
+  "family": "fin",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-fin-annual-budget",
+  "goal": "Builds the annual budget from the plan and last year's actuals, with the method the domain packs use.",
+  "family": "fin",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-fin-bank-reconciliation",
+  "goal": "Matches bank transactions to the ledger each month and lists the unmatched items.",
+  "family": "fin",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-fin-budget-variance",
+  "goal": "Compares actuals with budget each month and explains each material variance.",
+  "family": "fin",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-fin-business-case",
+  "goal": "Drafts a financial business case for an investment or change: cost, benefit, risk and the decision asked.",
+  "family": "fin",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-fin-capital-allocation-review",
+  "goal": "Ranks investment proposals by return and risk each half-year, and lists the ones to fund or pause.",
+  "family": "fin",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-fin-cash-position",
+  "goal": "Reports cash by account each day, with the day-on-day change and the funding need for the next days.",
+  "family": "fin",
+  "tier": "premium",
+  "grade": "A-",
+  "design": true
+ },
+ {
+  "id": "rlm-fin-covenant-check",
+  "goal": "Tests the lender covenants each quarter and shows the headroom.",
+  "family": "fin",
+  "tier": "premium",
+  "grade": "A-",
+  "design": true
+ },
+ {
+  "id": "rlm-fin-expense-policy-check",
+  "goal": "Checks expense claims against the expense policy.",
+  "family": "fin",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-fin-investment-appraisal",
+  "goal": "Calculates net present value, internal rate of return and payback for an investment, with the assumptions sta…",
+  "family": "fin",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-fin-management-accounts",
+  "goal": "Builds the monthly management accounts pack: the profit and loss and balance sheet, with commentary, and the…",
+  "family": "fin",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-fin-month-end-close",
+  "goal": "Checks the month-end close: the checklist, the accruals and the reconciliations, with sign-off.",
+  "family": "fin",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-fin-next-year-plan",
+  "goal": "Drafts the financial plan for next year from the budget, the forecast and the strategy notes.",
+  "family": "fin",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-fin-payables-run",
+  "goal": "Checks the weekly payment run: approvals, due dates and the match of each payment to an invoice.",
+  "family": "fin",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-fin-quarterly-reforecast",
+  "goal": "Reviews last quarter's results and reforecasts the year, with the next quarter's plan.",
+  "family": "fin",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-fin-receivables-tracker",
+  "goal": "Reports receivables by age, overdue accounts and collections each week, with the week-on-week change.",
+  "family": "fin",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-fin-rolling-forecast",
+  "goal": "Updates the rolling forecast each month: the assumptions, the changes and the effect on the year.",
+  "family": "fin",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-fin-tax-provision-review",
+  "goal": "Reviews the tax provision estimate each quarter and its assumptions.",
+  "family": "fin",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-fin-variance-explanation",
+  "goal": "Explains one unusual figure from the ledger when asked.",
+  "family": "fin",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-fin-year-end-prep",
+  "goal": "Prepares the year-end pack for the external auditor: schedules, support and open items.",
+  "family": "fin",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-fin-ytd-financial-report",
+  "goal": "Reports year-to-date results against budget and forecast.",
+  "family": "fin",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-adhoc-triage",
+  "goal": "Intake, priority, owner and deadline for unplanned HR requests.",
+  "family": "hr",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-attrition-trend",
+  "goal": "Reports leavers and turnover rate each month, including regretted attrition, with the month-on-month trend.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-budget",
+  "goal": "Builds the HR budget for the year using the finance method.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-budget-variance",
+  "goal": "Compares HR actuals with budget each month and explains material variances.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-compensation-review",
+  "goal": "Reviews pay bands, the merit cycle and pay equity checks each year.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-compliance-calendar",
+  "goal": "Lists the HR statutory returns and deadlines for the year for each jurisdiction.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-daily-attendance",
+  "goal": "Checks daily attendance, timesheet approvals and overtime, with the day-on-day change.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-grievance-log",
+  "goal": "Records a grievance with its timeline, its outcome and its owner, without the personal detail.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-headcount-plan",
+  "goal": "Compares approved headcount with actual headcount each month, and the open roles.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-hiring-pipeline",
+  "goal": "Reports candidates by stage each week, with time in stage and offers out.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-job-description",
+  "goal": "Checks a job description for its requirements, responsibilities and fair criteria.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-leave-tracking",
+  "goal": "Tracks leave requests and balances each day, with the cover for each absence.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-monthly-report",
+  "goal": "Monthly HR pack with the month-on-month change in headcount, attrition and key measures.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-negotiation-brief",
+  "goal": "Prepares a negotiation brief for a people matter: salary offer, benefit renewal or a union or employee negoti…",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-offboarding-exit",
+  "goal": "Lists the leaver tasks, the exit interview and the access removal.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-onboarding-checklist",
+  "goal": "Lists the joiner tasks for a start date, with owners and due dates.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-payroll-cycle",
+  "goal": "Checks the payroll cycle each two weeks: inputs, cut-off and reconciliation.",
+  "family": "hr",
+  "tier": "premium",
+  "grade": "A-",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-performance-cycle",
+  "goal": "Tracks goals, check-ins and the review calendar each quarter.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-policy-review",
+  "goal": "Checks HR policies for review dates, approvals and consistency with current practice.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-proposal",
+  "goal": "Drafts a business case for an HR change: cost, benefit, risk and the decision asked.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-quarterly-review",
+  "goal": "Reviews last quarter's HR results and drafts the plan for next quarter.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-requirements",
+  "goal": "Writes requirements for an HR system or process change, with acceptance criteria.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-requisition",
+  "goal": "Writes a role requisition with its approvals, budget link and start date.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-shift-exceptions",
+  "goal": "Lists late arrivals, missed punches and cover gaps for each shift.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-talent-review",
+  "goal": "Reviews key roles each half-year and names the successors and their readiness.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-training-plan",
+  "goal": "Builds the training calendar, the certifications and their cost for the year.",
+  "family": "hr",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-weekly-report",
+  "goal": "Weekly HR status with the week-on-week change in key figures.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-workforce-plan",
+  "goal": "Drafts next year's workforce plan and the planning document from demand and supply.",
+  "family": "hr",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hr-ytd-report",
+  "goal": "Reports year-to-date HR measures against plan.",
+  "family": "hr",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-benefits-review",
+  "goal": "Reviews the benefit design, its cost and the broker's renewal each year.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-candidate-data-retention",
+  "goal": "Checks candidate records against the retention and consent rules each quarter, and lists the records to delet…",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-candidate-screening",
+  "goal": "Screens candidates against the job requirements, with a reason for each decision.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-candidate-sourcing",
+  "goal": "Builds a sourcing plan for a role each week: search strings, the market map and the channels.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-change-impact-assessment",
+  "goal": "Assesses the impact of a change on each group and role: what changes, how much and for whom.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-client-health-report",
+  "goal": "Reports the health of each client account each month: the engagement status, the risks and the renewal.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-client-payroll-run",
+  "goal": "Checks a client's payroll run each cycle: the inputs, the variance and the client-level checks.",
+  "family": "hrc",
+  "tier": "premium",
+  "grade": "A-",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-client-submission",
+  "goal": "Prepares the submission pack for a client: the candidate summary, the fit against the requirements and the av…",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-communication-plan",
+  "goal": "Plans the communication for a change: the audiences, the messages, the channels and the timing.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-competency-framework",
+  "goal": "Builds a competency framework with behaviour levels for a client.",
+  "family": "hrc",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-competitor-hiring-watch",
+  "goal": "Watches competitor hiring signals each month from public sources only.",
+  "family": "hrc",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-consultation-log",
+  "goal": "Records each consultation meeting in a restructuring: the attendees by role, the points raised and the respon…",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-contract-staffing-billing",
+  "goal": "Checks contractor timesheets and billing each month, and the margin on each placement.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-data-migration-check",
+  "goal": "Checks the mapping, cleansing and reconciliation of HR data moved to a new system.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-dei-report",
+  "goal": "Reports the client's diversity, equity and inclusion measures each year, against the client's own goals.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-deployment-tracker",
+  "goal": "Tracks placed contractors each week: start and end dates, extensions and the placement status.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-disciplinary-process-check",
+  "goal": "Checks a disciplinary case's steps, the documentation and the timing against the client's process.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-employment-contract-review",
+  "goal": "Checks an employment contract's clauses against the client's standard, and flags the clauses for counsel.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-engagement-survey-analysis",
+  "goal": "Analyses an engagement survey each quarter: themes, aggregated, with a minimum group size.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-eor-onboarding",
+  "goal": "Checks the set-up of an employment in a country under an employer-of-record arrangement.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-fee-margin-review",
+  "goal": "Reviews the fee and margin of each engagement each month.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-fill-rate-report",
+  "goal": "Reports fill rate, time to fill and submission-to-hire ratio each month, with the month-on-month change.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-hr-due-diligence",
+  "goal": "Checks the HR position of a target company for a transaction: contracts, accrued leave, pensions and liabilit…",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-hr-helpdesk-queue",
+  "goal": "Reports the outsourced HR service desk queue each day: age, SLA position and volume.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-hris-project-status",
+  "goal": "Reports an HR system project each week: milestones, risks and the decisions needed.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-hris-selection",
+  "goal": "Scores HR system vendors against the client's requirements.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-hris-uat-checklist",
+  "goal": "Lists the test cases, the expected results and the sign-off for an HR system acceptance test.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-hro-sla-report",
+  "goal": "Reports SLA attainment for an HR outsourcing client each month, with the client satisfaction.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-hro-transition-plan",
+  "goal": "Plans the transition of HR services in or out: the data, the people, the risks and the steps.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-inclusive-hiring-audit",
+  "goal": "Audits the hiring funnel each quarter by group, in aggregate, to find where candidates drop out.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-integration-plan",
+  "goal": "Plans the HR integration after a transaction: the first day, the first hundred days and the risks.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-job-evaluation",
+  "goal": "Scores jobs under a named evaluation method, with the evidence for each factor.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-labour-law-calendar",
+  "goal": "Lists the employment law obligations and their dates for each jurisdiction, for the year.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-leadership-programme-design",
+  "goal": "Outlines a leadership programme: its cohorts, content and measures.",
+  "family": "hrc",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-liability-summary",
+  "goal": "Summarises the HR liabilities of a transaction: the exposure list, the owners and the effect on value.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-longlist-assessment",
+  "goal": "Assesses each candidate on the longlist against the success profile, with the evidence.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-org-design-review",
+  "goal": "Reviews a client's organisation structure and reporting lines against its design principles.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-outplacement-tracker",
+  "goal": "Tracks the people supported by an outplacement service each month: their support and placements.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-pay-equity-analysis",
+  "goal": "Analyses pay gaps across groups each year, in aggregate, with the method stated.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-pay-structure-design",
+  "goal": "Designs pay bands, grades and progression for a client.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-performance-system-design",
+  "goal": "Designs a performance system for a client: the cycle, the rating scale and the calibration.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-placement-guarantee-tracker",
+  "goal": "Tracks placed candidates against the guarantee window, and any replacement due each month.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-policy-drafting",
+  "goal": "Drafts an HR policy with its scope, owner and review date.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-proposal-hr-consulting",
+  "goal": "Drafts a consulting proposal: scope, team, fees and the client's terms summary.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-quality-review",
+  "goal": "Checks the quality of each engagement each quarter against the practice's standards.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-readiness-survey-analysis",
+  "goal": "Analyses change readiness survey results each quarter, aggregated by group.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-relocation-cost-estimate",
+  "goal": "Estimates the cost of a relocation: the lines, the assumptions and the total.",
+  "family": "hrc",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-restructuring-plan",
+  "goal": "Checks a restructuring plan: the selection criteria, the timeline and the consultation steps.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-retention-risk",
+  "goal": "Reports attrition risk by group each month, aggregated, with no individual score.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-role-design",
+  "goal": "Writes role profiles for a client's new or changed roles: purpose, responsibilities and capabilities.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-salary-benchmark",
+  "goal": "Benchmarks roles against cited salary survey data, with the match quality.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-salary-trend-report",
+  "goal": "Reports salary trends by role and location each quarter, with the source and the date of each figure.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-search-mandate",
+  "goal": "Writes the search mandate for an executive role: the role specification, the success profile and the search p…",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-search-progress-report",
+  "goal": "Reports each candidate's stage in an executive search each week, with the next steps.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-service-review",
+  "goal": "Prepares the quarterly service review for an HR outsourcing client, with the improvements.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-span-layer-analysis",
+  "goal": "Calculates spans of control and layers each quarter, against the client's targets.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-stakeholder-map",
+  "goal": "Maps the stakeholders of a change: their influence, their concerns and their support.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-statutory-filing-calendar",
+  "goal": "Lists each client's statutory filing dates for the year, by jurisdiction.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-succession-consult",
+  "goal": "Names successors for key roles, with readiness and development.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-talent-supply-report",
+  "goal": "Reports the supply of talent by skill and location each quarter.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-training-needs-analysis",
+  "goal": "Finds the training gaps from role and competency data each year.",
+  "family": "hrc",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-utilisation-report",
+  "goal": "Reports consultant utilisation against target each week, with the week-on-week change.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-visa-expiry-tracker",
+  "goal": "Tracks work visa and permit expiry dates each month for the people a client sponsors.",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-hrc-workforce-scenario",
+  "goal": "Models workforce scenarios for a client: the demand, the headcount needed and the cost, under stated assumpti…",
+  "family": "hrc",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-incident-postmortem",
+  "goal": "Write a blameless incident postmortem: sourced timeline, impact, root cause and contributing factors, detecti…",
+  "family": "incident",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-asset-criticality-review",
+  "goal": "Reviews the asset criticality ranking each half-year, and the maintenance strategy for each asset.",
+  "family": "ind",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-audit-readiness",
+  "goal": "Checks readiness for an asset management audit against the standard the plant uses.",
+  "family": "ind",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-breakdown-review",
+  "goal": "Reviews breakdowns each week: their duration, and the change in mean time between failures and mean time to r…",
+  "family": "ind",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-capex-plan",
+  "goal": "Builds the plant capital plan with its justification and payback.",
+  "family": "ind",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-capex-proposal",
+  "goal": "Drafts a business case for an equipment purchase or upgrade: cost, benefit, risk and payback.",
+  "family": "ind",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-commissioning-checklist",
+  "goal": "Checks what must be in place before a new or modified asset goes into service.",
+  "family": "ind",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-energy-target-review",
+  "goal": "Compares energy results with the targets each quarter, and sets out the next quarter's plan.",
+  "family": "ind",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-energy-use",
+  "goal": "Reports energy and utility use per unit of output each month, against target.",
+  "family": "ind",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-failure-analysis",
+  "goal": "Finds the cause of an asset failure using the evidence, and records it.",
+  "family": "ind",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-lockout-review",
+  "goal": "Checks a lockout and tagout procedure for a task: isolation, lock and tag steps and zero-energy verification.",
+  "family": "ind",
+  "tier": "premium",
+  "grade": "A-",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-maintenance-plan",
+  "goal": "Drafts next year's maintenance plan, shutdowns and resources.",
+  "family": "ind",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-maintenance-schedule",
+  "goal": "Lists the planned and corrective work orders for the day, and what slipped from the day before.",
+  "family": "ind",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-monthly-maintenance-kpi",
+  "goal": "Reports planned maintenance compliance, backlog size and backlog age each month, with the trend.",
+  "family": "ind",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-preventive-plan-revision",
+  "goal": "Proposes changes to preventive maintenance intervals, with the failure data behind each change.",
+  "family": "ind",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-reliability-review",
+  "goal": "Reviews the failure modes of critical assets each quarter, and what changed.",
+  "family": "ind",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-safety-observations",
+  "goal": "Records safety observations and near misses each day, with the action taken.",
+  "family": "ind",
+  "tier": "premium",
+  "grade": "A",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-safety-statistics",
+  "goal": "Reports recordable and lost-time incidents each month, with their rates and trend.",
+  "family": "ind",
+  "tier": "premium",
+  "grade": "A-",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-shift-alarm-log",
+  "goal": "Checks the alarms and trips on each asset during a shift, with what was done.",
+  "family": "ind",
+  "tier": "premium",
+  "grade": "A-",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-shift-handover",
+  "goal": "Records the asset state, open work orders and permits for the next shift.",
+  "family": "ind",
+  "tier": "premium",
+  "grade": "A-",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-shutdown-plan",
+  "goal": "Checks a shutdown or turnaround plan: scope, duration, resources and risks.",
+  "family": "ind",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-spares-check",
+  "goal": "Lists critical spares below their minimum, with the expected lead time.",
+  "family": "ind",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-spares-requisition",
+  "goal": "Writes a spares request with its criticality, stock position and lead time.",
+  "family": "ind",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-triage",
+  "goal": "Intake, priority, owner and deadline for unplanned plant requests.",
+  "family": "ind",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-work-order-request",
+  "goal": "Writes a corrective or project work order with its scope, permits and parts.",
+  "family": "ind",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-ind-ytd-plant-report",
+  "goal": "Reports year-to-date reliability, cost and safety against plan.",
+  "family": "ind",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-legal-adhoc-triage",
+  "goal": "Intake, priority, owner and deadline for unplanned legal requests.",
+  "family": "legal",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-legal-annual-plan",
+  "goal": "Drafts next year's legal work plan and resourcing from this year's matters.",
+  "family": "legal",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-legal-clause-review",
+  "goal": "Checks each clause of a contract against the approved position, and flags the clauses that need counsel.",
+  "family": "legal",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-legal-contract-draft",
+  "goal": "Produces a first draft of a contract from the approved template, with the variations listed.",
+  "family": "legal",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-legal-contract-intake",
+  "goal": "Triages new requests for contract review each day by type and urgency.",
+  "family": "legal",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-legal-contract-portfolio-audit",
+  "goal": "Checks the contract portfolio for missing signatures, unsigned copies and non-standard terms each half-year.",
+  "family": "legal",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-legal-counsel-spend",
+  "goal": "Checks external counsel fees each month against budget and by matter.",
+  "family": "legal",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-legal-deadline-watch",
+  "goal": "Lists notice periods, expiries and statutory deadlines due in the next thirty days.",
+  "family": "legal",
+  "tier": "premium",
+  "grade": "A-",
+  "design": true
+ },
+ {
+  "id": "rlm-legal-dispute-summary",
+  "goal": "Prepares a summary of a dispute for counsel: facts, documents, dates and exposure.",
+  "family": "legal",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-legal-disputes-log",
+  "goal": "Reports disputes and claims each month, with exposure and status.",
+  "family": "legal",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-legal-nda-review",
+  "goal": "Checks a non-disclosure agreement for term, scope, exclusions and governing terms.",
+  "family": "legal",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-legal-obligations-tracker",
+  "goal": "Tracks obligations under signed contracts each month: who must do what, and by when.",
+  "family": "legal",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-legal-policy-calendar",
+  "goal": "Lists the review dates for policies and the regulatory reviews due each year.",
+  "family": "legal",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-legal-policy-review",
+  "goal": "Tracks changes to policy and law that the organisation must follow, each quarter.",
+  "family": "legal",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-legal-risk-review",
+  "goal": "Reviews legal risks in the risk register against last quarter's changes.",
+  "family": "legal",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-legal-weekly-status",
+  "goal": "Reports open legal matters and contracts in review each week, with status and owner.",
+  "family": "legal",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-legal-ytd-report",
+  "goal": "Reports year-to-date legal matters, spend and outcomes against plan.",
+  "family": "legal",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-license-attribution",
+  "goal": "Check the licences of direct and transitive dependencies against a stated licence policy, flag copyleft, unkn…",
+  "family": "license",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-llm-app-review",
+  "goal": "Review a large codebase that calls language models, using Recursive Language Model (RLM) decomposition: promp…",
+  "family": "llm",
+  "tier": "premium",
+  "grade": "A",
+  "design": true
+ },
+ {
+  "id": "rlm-log-triage",
+  "goal": "Triage large log files and log directories using Recursive Language Model (RLM) decomposition: cluster errors…",
+  "family": "log",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-annual-budget",
+  "goal": "Builds the production cost budget for the year, with its variance, using the finance method.",
+  "family": "mfg",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-annual-production-plan",
+  "goal": "Drafts next year's production plan: volume, headcount and line plan.",
+  "family": "mfg",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-bom-change-review",
+  "goal": "Reviews bill of materials revisions each month: effective dates and the stock impact.",
+  "family": "mfg",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-capacity-plan",
+  "goal": "Compares line capacity with forecast demand each quarter.",
+  "family": "mfg",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-capex-review",
+  "goal": "Reviews equipment spend against plan each half-year, with the payback of each item.",
+  "family": "mfg",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-changeover-plan",
+  "goal": "Plans the steps and time for a changeover between products.",
+  "family": "mfg",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-daily-production-report",
+  "goal": "Reports output, yield, scrap and the day-on-day change for each line.",
+  "family": "mfg",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-downtime-log",
+  "goal": "Checks stop events on the line: time lost, the reason code and the owner.",
+  "family": "mfg",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-line-change-proposal",
+  "goal": "Drafts a business case for a line or process change: cost, effect and risks.",
+  "family": "mfg",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-line-improvement-review",
+  "goal": "Reviews last quarter's line improvement results and drafts the plan for next quarter.",
+  "family": "mfg",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-material-shortages",
+  "goal": "Lists the parts short against the production schedule, with the expected arrival.",
+  "family": "mfg",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-monthly-production-report",
+  "goal": "Reports monthly output, yield and on-time delivery, with the month-on-month change.",
+  "family": "mfg",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-mrp-plan",
+  "goal": "Checks the material requirements against the production schedule each two weeks.",
+  "family": "mfg",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-nonconformance-report",
+  "goal": "Records a nonconformance: what, where, how many, and containment.",
+  "family": "mfg",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-npi-checklist",
+  "goal": "Checks a new product introduction: tooling, trials and sign-off.",
+  "family": "mfg",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-root-cause-analysis",
+  "goal": "Finds the cause of a shop-floor defect or stop, using the 5-why or 8D method, with evidence.",
+  "family": "mfg",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-scrap-rework-cost",
+  "goal": "Calculates the cost of scrap and rework by line and cause each month.",
+  "family": "mfg",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-shift-handover",
+  "goal": "Records the machine state, open quality holds and open issues for the next shift.",
+  "family": "mfg",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-shift-output-log",
+  "goal": "Checks the shift output log against the target for each line, hour by hour.",
+  "family": "mfg",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-supplier-quality-review",
+  "goal": "Reviews supplier quality each quarter: defect rates and corrective requests against agreed limits.",
+  "family": "mfg",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-weekly-oee-report",
+  "goal": "Reports overall equipment effectiveness each week: availability, performance and quality, with the week-on-we…",
+  "family": "mfg",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-wip-tracking",
+  "goal": "Tracks work in progress by station: ageing, blockages and stock held.",
+  "family": "mfg",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-work-order-release",
+  "goal": "Checks a work order against materials, capacity and routing before release.",
+  "family": "mfg",
+  "tier": "premium",
+  "grade": "A-",
+  "design": true
+ },
+ {
+  "id": "rlm-mfg-ytd-production-report",
+  "goal": "Reports year-to-date output and quality against plan.",
+  "family": "mfg",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-migration-planner",
+  "goal": "Plan a framework, language runtime or major-version migration across a large codebase using Recursive Languag…",
+  "family": "migration",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-mkt-adhoc-triage",
+  "goal": "Intake, priority, owner and deadline for unplanned marketing requests.",
+  "family": "mkt",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-mkt-annual-plan",
+  "goal": "Campaign plan, channels and targets for next year.",
+  "family": "mkt",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-mkt-attribution-review",
+  "goal": "Checks the attribution model, its limits and what it can and cannot show.",
+  "family": "mkt",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-mkt-brand-health",
+  "goal": "Brand tracking results, aggregated and with the sample size stated.",
+  "family": "mkt",
+  "tier": "essentials",
+  "grade": "C",
+  "design": true
+ },
+ {
+  "id": "rlm-mkt-budget",
+  "goal": "Marketing budget build and variance, using the finance method.",
+  "family": "mkt",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-mkt-campaign-brief",
+  "goal": "Checks a campaign brief for the fields that make a campaign measurable: objective, audience, channels, measur…",
+  "family": "mkt",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-mkt-campaign-monitor",
+  "goal": "Daily check of live campaigns: spend pacing, performance and anomalies against plan, with the day-on-day chan…",
+  "family": "mkt",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-mkt-campaign-proposal",
+  "goal": "Business case for a campaign with cost, return and risks.",
+  "family": "mkt",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-mkt-compliance-review",
+  "goal": "Checklist of campaign claims, consent and channel rules, flagged for counsel.",
+  "family": "mkt",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-mkt-content-calendar",
+  "goal": "Scheduled content, late items and items waiting for approval.",
+  "family": "mkt",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-mkt-lead-quality",
+  "goal": "Lead-to-opportunity conversion and rejected leads, by source.",
+  "family": "mkt",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-mkt-monthly-report",
+  "goal": "Monthly marketing pack with the month-on-month change.",
+  "family": "mkt",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-mkt-quarterly-review",
+  "goal": "Review of last quarter's marketing results and the plan for next quarter.",
+  "family": "mkt",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-mkt-spend-reconcile",
+  "goal": "Marketing spend against budget and against supplier invoices.",
+  "family": "mkt",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-mkt-weekly-performance",
+  "goal": "Weekly leads, cost per lead and return by channel, with the week-on-week change.",
+  "family": "mkt",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-mkt-ytd-report",
+  "goal": "Year-to-date marketing results against plan.",
+  "family": "mkt",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-neg-annual-strategy",
+  "goal": "Sourcing and commercial strategy for next year, drawn from this year's results.",
+  "family": "neg",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-neg-budget-impact",
+  "goal": "Effect of negotiated terms on the budget, with the assumptions stated.",
+  "family": "neg",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-neg-contract-portfolio-review",
+  "goal": "Contracts ranked by value and risk, with the ones to reopen.",
+  "family": "neg",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-neg-contract-redline",
+  "goal": "Clause-by-clause commercial review of a contract, with the risk and the fallback position for each clause.",
+  "family": "neg",
+  "tier": "premium",
+  "grade": "A-",
+  "design": true
+ },
+ {
+  "id": "rlm-neg-contract-renewal-calendar",
+  "goal": "Contracts ending in the next 90 and 180 days, with notice dates.",
+  "family": "neg",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-neg-debrief",
+  "goal": "What was agreed, what was conceded and what to do differently, after a negotiation closes.",
+  "family": "neg",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-neg-offer-tracker",
+  "goal": "Each offer and counter-offer, with the concessions traded and what each side gave.",
+  "family": "neg",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-neg-prep-brief",
+  "goal": "Objectives, BATNA, walk-away point, likely concessions and the other side's interests before a negotiation.",
+  "family": "neg",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-neg-quarterly-plan",
+  "goal": "Negotiations to start or close next quarter, with priorities and owners.",
+  "family": "neg",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-neg-rfp-response",
+  "goal": "Structured response to a request for proposal, requirement by requirement.",
+  "family": "neg",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-neg-savings-tracker",
+  "goal": "Savings and value won against target by negotiation, with the month-on-month change.",
+  "family": "neg",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-neg-supplier-review",
+  "goal": "Supplier performance against contract terms for last quarter, with the issues to raise.",
+  "family": "neg",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-neg-term-sheet-review",
+  "goal": "Checks a term sheet against the agreed position and flags each term that differs.",
+  "family": "neg",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-neg-triage",
+  "goal": "Intake, priority, owner and deadline for unplanned negotiation requests.",
+  "family": "neg",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-neg-weekly-status",
+  "goal": "Open negotiations with stage, next step and the week-on-week change.",
+  "family": "neg",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-neg-ytd-savings-report",
+  "goal": "Year-to-date savings and value against target.",
+  "family": "neg",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-ops-annual-plan",
+  "goal": "Drafts next year's operations plan: service, resourcing and improvements.",
+  "family": "ops",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-ops-backlog-review",
+  "goal": "Reviews the ageing operations backlog each week: owners, age and what to clear next.",
+  "family": "ops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ops-budget-variance",
+  "goal": "Compares operations actuals with budget each month and explains the material variances.",
+  "family": "ops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ops-capacity-plan",
+  "goal": "Compares forecast demand with capacity each quarter and shows the gap.",
+  "family": "ops",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-ops-capacity-utilisation",
+  "goal": "Checks staff and resource use against planned capacity each week.",
+  "family": "ops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ops-change-request",
+  "goal": "Writes a change request with its impact, risk, approvals and rollback.",
+  "family": "ops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ops-continuity-plan",
+  "goal": "Checks the business continuity plan: critical processes, recovery times and owners.",
+  "family": "ops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ops-daily-dashboard",
+  "goal": "Reports daily operations volume, backlog and service level, with the day-on-day change.",
+  "family": "ops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ops-escalation-triage",
+  "goal": "Intake, priority, owner and deadline for unplanned operations escalations.",
+  "family": "ops",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-ops-exception-log",
+  "goal": "Records daily operations exceptions: missed service levels, escalations and workarounds used.",
+  "family": "ops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ops-kpi-scorecard",
+  "goal": "Reports each operations KPI against its target and band each month.",
+  "family": "ops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ops-monthly-report",
+  "goal": "Monthly operations pack with the month-on-month change.",
+  "family": "ops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ops-process-improvement-proposal",
+  "goal": "Drafts a business case for a process change: the problem, the cost, the expected effect and the risks.",
+  "family": "ops",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-ops-process-maturity-review",
+  "goal": "Checks which processes are documented, measured and owned, each half-year.",
+  "family": "ops",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-ops-quarterly-process-review",
+  "goal": "Reviews process results for last quarter and drafts the plan for next quarter.",
+  "family": "ops",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-ops-queue-monitor",
+  "goal": "Monitors internal work queues each hour and day: depth, age and service level breaches.",
+  "family": "ops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ops-risk-register",
+  "goal": "Keeps the operational risk register each quarter: risks, owners, ratings and mitigations.",
+  "family": "ops",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-ops-sop-writer",
+  "goal": "Checks a standard operating procedure for steps, owners and checks, and drafts the missing ones.",
+  "family": "ops",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-ops-unit-cost",
+  "goal": "Calculates the cost per unit of work each month and its trend.",
+  "family": "ops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ops-vendor-spend-review",
+  "goal": "Reviews spend by vendor each month against contract and budget.",
+  "family": "ops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ops-weekly-sla-report",
+  "goal": "Reports internal service level attainment each week, with the week-on-week change.",
+  "family": "ops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-ops-ytd-report",
+  "goal": "Reports year-to-date operations results against plan.",
+  "family": "ops",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-performance-review",
+  "goal": "Find performance risks in a large codebase using Recursive Language Model (RLM) decomposition: queries in loo…",
+  "family": "performance",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-pm-annual-budget",
+  "goal": "Builds the project budget for the year, with its variance, using the finance method.",
+  "family": "pm",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-pm-annual-portfolio-plan",
+  "goal": "Drafts next year's project portfolio with capacity and budget.",
+  "family": "pm",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-pm-budget-burn",
+  "goal": "Calculates planned value, earned value and actual cost each month, with the cost and schedule variance.",
+  "family": "pm",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-pm-change-request",
+  "goal": "Writes or checks a change request for its effect on scope, cost and date.",
+  "family": "pm",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-pm-lessons-learned",
+  "goal": "Records the lessons at project closeout, with owners for the follow-up.",
+  "family": "pm",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-pm-milestone-tracker",
+  "goal": "Tracks milestones each week: planned against forecast, slipped and at risk.",
+  "family": "pm",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-pm-monthly-project-report",
+  "goal": "Prepares the monthly steering report: status, budget, schedule and risks, with the month-on-month change.",
+  "family": "pm",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-pm-portfolio-prioritisation",
+  "goal": "Ranks projects by value, risk and cost each half-year, and proposes which to cut or pause.",
+  "family": "pm",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-pm-portfolio-review",
+  "goal": "Reviews portfolio results for last quarter and drafts the plan for next quarter.",
+  "family": "pm",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-pm-project-charter",
+  "goal": "Checks a project charter for purpose, scope, success measures, owner and constraints.",
+  "family": "pm",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-pm-project-proposal",
+  "goal": "Drafts a business case and plan for a new project.",
+  "family": "pm",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-pm-raid-log",
+  "goal": "Checks the risks, assumptions, issues and dependencies log daily, with owners and dates.",
+  "family": "pm",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-pm-requirements-spec",
+  "goal": "Checks requirements for acceptance criteria, a source and traceability.",
+  "family": "pm",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-pm-resource-plan",
+  "goal": "Plans the people and skills needed across the portfolio each quarter.",
+  "family": "pm",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-pm-retro-summary",
+  "goal": "Summarises the themes from retrospectives each quarter, with the actions taken.",
+  "family": "pm",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-pm-sprint-plan",
+  "goal": "Plans a sprint: its goal, scope, capacity and the items carried over.",
+  "family": "pm",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-pm-sprint-review-pack",
+  "goal": "Prepares the sprint review: the demo list, the outcomes and what changed.",
+  "family": "pm",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-pm-stakeholder-plan",
+  "goal": "Plans who needs what information, how often, and through which channel.",
+  "family": "pm",
+  "tier": "essentials",
+  "grade": "C",
+  "design": true
+ },
+ {
+  "id": "rlm-pm-standup-summary",
+  "goal": "Summarises the daily standup: progress, blockers and changes since yesterday.",
+  "family": "pm",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-pm-triage",
+  "goal": "Intake, priority, owner and deadline for unplanned project requests.",
+  "family": "pm",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-pm-weekly-status",
+  "goal": "Reports project status by workstream each week with RAG and the week-on-week change.",
+  "family": "pm",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-pm-ytd-project-report",
+  "goal": "Reports year-to-date project delivery and spend against plan.",
+  "family": "pm",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-privacy-review",
+  "goal": "Review a large codebase for personal data handling using Recursive Language Model (RLM) decomposition: where…",
+  "family": "privacy",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-qual-adhoc-triage",
+  "goal": "Intake, priority, owner and deadline for unplanned quality requests.",
+  "family": "qual",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-qual-annual-quality-plan",
+  "goal": "Drafts next year's quality plan: objectives, audits, resources and calibration schedule, from this year's res…",
+  "family": "qual",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-qual-audit-finding-response",
+  "goal": "Drafts the response to an audit finding: cause, action, evidence and due date for each finding.",
+  "family": "qual",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-qual-calibration-status",
+  "goal": "Checks measuring equipment against its calibration due dates, and flags equipment due or out of tolerance.",
+  "family": "qual",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-qual-capa-status",
+  "goal": "Reports corrective and preventive actions: open, overdue and not yet shown effective.",
+  "family": "qual",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-qual-certification-readiness",
+  "goal": "Gap check before an external quality certification audit: which clauses have evidence, and which do not.",
+  "family": "qual",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-qual-complaints-trend",
+  "goal": "Groups customer complaints by type and source, with the month-on-month trend.",
+  "family": "qual",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-qual-document-control",
+  "goal": "Checks controlled quality documents: review dates passed, obsolete versions in use, and missing approvals.",
+  "family": "qual",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-qual-internal-audit-schedule",
+  "goal": "Tracks the internal audit programme: audits due, done and overdue, and their coverage of the processes.",
+  "family": "qual",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-qual-management-review",
+  "goal": "Prepares the annual management review of the quality system: inputs, decisions and actions.",
+  "family": "qual",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-qual-management-review-input",
+  "goal": "Prepares the quarterly input to management review: results, trends and open actions from the last quarter.",
+  "family": "qual",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-qual-nonconformance-log",
+  "goal": "Logs new nonconformances with containment, owner and status, and flags the ones without containment.",
+  "family": "qual",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-qual-process-audit",
+  "goal": "Summarises process audit results: each process's controls checked, the findings, and the actions.",
+  "family": "qual",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-qual-quality-objectives",
+  "goal": "Checks quality objectives for a measure, a target, an owner and a method.",
+  "family": "qual",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-qual-quality-proposal",
+  "goal": "Drafts a business case for a quality improvement: the problem, the cost, the expected effect and the risks.",
+  "family": "qual",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-qual-supplier-performance",
+  "goal": "Summarises supplier quality over the quarter: defect rates, corrective requests and open supplier actions.",
+  "family": "qual",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-qual-ytd-quality-report",
+  "goal": "Reports year-to-date quality results against objectives.",
+  "family": "qual",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-refactor-planner",
+  "goal": "Architecture review and phased refactoring plan for a large repository using Recursive Language Model (RLM) d…",
+  "family": "refactor",
+  "tier": "premium",
+  "grade": "A-",
+  "design": true
+ },
+ {
+  "id": "rlm-release-notes",
+  "goal": "Write release notes from commits and merged pull requests since the last tag, grouped by impact (breaking cha…",
+  "family": "release",
+  "tier": "essentials",
+  "grade": "C",
+  "design": true
+ },
+ {
+  "id": "rlm-sales-activity-log",
+  "goal": "Checks that calls, meetings and emails are logged against deals each day.",
+  "family": "sales",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-sales-adhoc-triage",
+  "goal": "Intake, priority, owner and deadline for unplanned sales operations requests.",
+  "family": "sales",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-sales-annual-plan",
+  "goal": "Drafts next year's sales plan: targets, quota and hiring from this year's results.",
+  "family": "sales",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-sales-capacity-plan",
+  "goal": "Calculates the quota capacity: heads, ramp time and productivity.",
+  "family": "sales",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-sales-commission-check",
+  "goal": "Checks commission calculations against the plan rules each quarter.",
+  "family": "sales",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-sales-compensation-plan-review",
+  "goal": "Reviews the sales compensation plan each half-year: mix, accelerators and cost of sale.",
+  "family": "sales",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-sales-crm-requirements",
+  "goal": "Writes requirements for a CRM change, with acceptance criteria and traceability.",
+  "family": "sales",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-sales-deal-review",
+  "goal": "Reviews a large or unusual deal before it is closed: margin, terms and approvals.",
+  "family": "sales",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-sales-forecast-call-prep",
+  "goal": "Prepares the commit, best-case and pipeline figures for the weekly forecast call.",
+  "family": "sales",
+  "tier": "premium",
+  "grade": "A-",
+  "design": true
+ },
+ {
+  "id": "rlm-sales-monthly-results",
+  "goal": "Reports monthly bookings, revenue and win rate by team, with the month-on-month change.",
+  "family": "sales",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-sales-pipeline-hygiene",
+  "goal": "Checks the sales pipeline each day for stale deals, missing next steps and close dates in the past.",
+  "family": "sales",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-sales-pricing-request",
+  "goal": "Checks a discount or pricing exception against the approval path and the discount limits.",
+  "family": "sales",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-sales-proposal",
+  "goal": "Drafts a sales proposal: scope, price and a summary of terms.",
+  "family": "sales",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-sales-quarterly-review",
+  "goal": "Reviews last quarter's sales results against target and drafts next quarter's plan.",
+  "family": "sales",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-sales-quota-attainment",
+  "goal": "Reports quota attainment by person and territory each month.",
+  "family": "sales",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-sales-territory-plan",
+  "goal": "Checks territory coverage and account allocation each quarter.",
+  "family": "sales",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-sales-weekly-pipeline",
+  "goal": "Reports the sales pipeline by stage each week, with the movement since the last week.",
+  "family": "sales",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-sales-win-loss-analysis",
+  "goal": "Groups won and lost deals by the reasons given, each month.",
+  "family": "sales",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-sales-ytd-report",
+  "goal": "Reports year-to-date bookings and pipeline against target.",
+  "family": "sales",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-security-audit",
+  "goal": "Security audit of a large repository or folder using Recursive Language Model (RLM) decomposition.",
+  "family": "security",
+  "tier": "premium",
+  "grade": "A+",
+  "design": true
+ },
+ {
+  "id": "rlm-stack-auditor",
+  "goal": "Audit configuration files, Dockerfiles, Compose files, Kubernetes manifests and environment-variable schemas…",
+  "family": "stack",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-access-request",
+  "goal": "Checks an access request: the grant or removal, the approver and the least access needed.",
+  "family": "techops",
+  "tier": "premium",
+  "grade": "A-",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-access-review",
+  "goal": "Reviews user and privileged access against the roster each quarter.",
+  "family": "techops",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-annual-plan",
+  "goal": "Drafts next year's IT plan and resourcing from this year's records.",
+  "family": "techops",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-asset-reconcile",
+  "goal": "Reconciles the asset register each month against what is found on the network.",
+  "family": "techops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-backup-check",
+  "goal": "Checks backup jobs each day: success or failure, and the age of the last good copy.",
+  "family": "techops",
+  "tier": "premium",
+  "grade": "A",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-budget",
+  "goal": "Builds the IT budget with its variance, using the finance method.",
+  "family": "techops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-capacity-check",
+  "goal": "Checks disk, CPU, memory and network headroom each week, with the trend.",
+  "family": "techops",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-change-request",
+  "goal": "Writes an IT change request with its impact, risk, approvals and rollback.",
+  "family": "techops",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-change-review",
+  "goal": "Reviews the changes scheduled each fortnight, their risk and any failed changes.",
+  "family": "techops",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-decommission-checklist",
+  "goal": "Lists the steps to retire a system: data, access, licences and records.",
+  "family": "techops",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-dr-test",
+  "goal": "Records an infrastructure restore and failover test each quarter, with its result.",
+  "family": "techops",
+  "tier": "premium",
+  "grade": "A-",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-hardware-refresh-plan",
+  "goal": "Lists hardware reaching end of life and the replacement order each half-year.",
+  "family": "techops",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-it-proposal",
+  "goal": "Drafts a business case for an IT investment: cost, benefit, risk and the decision asked.",
+  "family": "techops",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-licence-renewal",
+  "goal": "Lists licence renewals in the coming year, with the cost and use of each.",
+  "family": "techops",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-licence-usage",
+  "goal": "Reports licences installed against licences used each month, with the cost of unused ones.",
+  "family": "techops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-monthly-report",
+  "goal": "Monthly IT service pack with the month-on-month change for each service.",
+  "family": "techops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-patch-compliance",
+  "goal": "Reports patch compliance by system group each month, against the patch policy.",
+  "family": "techops",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-patch-status",
+  "goal": "Reports the patch status of hosts each week against the target, with the exceptions.",
+  "family": "techops",
+  "tier": "pro",
+  "grade": "B+",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-service-health",
+  "goal": "Checks service and host status each day, with alerts and the day-on-day change.",
+  "family": "techops",
+  "tier": "premium",
+  "grade": "A-",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-system-requirements",
+  "goal": "Writes the requirements for a new system: users, data, integrations and security.",
+  "family": "techops",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-ticket-queue",
+  "goal": "Reports the open service desk tickets each day by priority, age and owner.",
+  "family": "techops",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-ticket-trend",
+  "goal": "Reports service desk ticket volume and categories each week, with the week-on-week change.",
+  "family": "techops",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-triage",
+  "goal": "Intake, priority, owner and deadline for unplanned IT requests.",
+  "family": "techops",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-vendor-review",
+  "goal": "Reviews vendor performance against the service level agreement each quarter.",
+  "family": "techops",
+  "tier": "pro",
+  "grade": "B-",
+  "design": true
+ },
+ {
+  "id": "rlm-techops-ytd-report",
+  "goal": "Reports year-to-date IT service levels and spend against plan.",
+  "family": "techops",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-test-gap-analysis",
+  "goal": "Find untested behaviour, weak assertions and risky code paths across a large codebase using Recursive Languag…",
+  "family": "test",
+  "tier": "premium",
+  "grade": "A",
+  "design": true
+ },
+ {
+  "id": "rlm-threat-model",
+  "goal": "Build a threat model for a system or a change using STRIDE: assets, data-flow diagram, trust boundaries, thre…",
+  "family": "threat",
+  "tier": "premium",
+  "grade": "A-",
+  "design": true
+ },
+ {
+  "id": "rlm-token-saver",
+  "goal": "Keep conversational replies short: direct answers, no filler or closing summaries, and diff-only code edits.",
+  "family": "token",
+  "tier": "essentials",
+  "grade": "C+",
+  "design": true
+ },
+ {
+  "id": "rlm-trust-layer-validator",
+  "goal": "Review changes to decentralized identity, verifiable credentials, JSON-LD contexts, credential schemas, agent…",
+  "family": "trust",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-web-app-platform",
+  "goal": "Review and build installable, offline-capable web apps and correct time and locale handling: web app manifest…",
+  "family": "web",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-web-built-in-ai",
+  "goal": "Review and build features that use on-device browser AI (prompt, summarize, translate, detect language) and p…",
+  "family": "web",
+  "tier": "essentials",
+  "grade": "C",
+  "design": true
+ },
+ {
+  "id": "rlm-web-client-security",
+  "goal": "Review and build browser-side security: passkeys with WebAuthn, content security policy, Trusted Types and HT…",
+  "family": "web",
+  "tier": "premium",
+  "grade": "A+",
+  "design": true
+ },
+ {
+  "id": "rlm-web-css-layout",
+  "goal": "Review and write modern CSS: container queries, :has(), cascade layers, intrinsic and fluid sizing, logical p…",
+  "family": "web",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-web-forms-autofill",
+  "goal": "Review and build web forms that browsers and password managers can fill: autocomplete tokens, input types, la…",
+  "family": "web",
+  "tier": "premium",
+  "grade": "A",
+  "design": true
+ },
+ {
+  "id": "rlm-web-performance",
+  "goal": "Review and improve front-end loading and responsiveness against Core Web Vitals (LCP, INP, CLS): resource pri…",
+  "family": "web",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ },
+ {
+  "id": "rlm-web-ui-components",
+  "goal": "Review and build interactive UI with platform features before custom JavaScript: dialogs, popovers, menus, ta…",
+  "family": "web",
+  "tier": "pro",
+  "grade": "B",
+  "design": true
+ }
+]
